@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Ploutos.AutoJobs.Models
+{
+    public class CommandResult
+    {
+        public CommandResult()
+        {
+            Code = 1;
+            Message = "Invalid Data";
+        }
+
+        public int Code { get; set; }
+
+        public string Message { get; set; }
+
+        public bool IsSuccessful => Code == 0;
+    }
+}
