@@ -22,6 +22,17 @@ namespace Ploutos.AutoJobs.Repository
             }
         }
 
+        public async Task<IEnumerable<T>> FetchData<T>(ICriteria criteria)
+        {
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
+            {
+                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
+                {
+                    return await multi.ReadAsync<T>();
+                }
+            }
+        }
+
         private CommandResult GetCommandResult(Hashtable hash)
         {
             var errCode = hash["errCode"];
