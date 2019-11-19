@@ -1,14 +1,13 @@
-﻿using Fanex.Data;
-using Fanex.Data.Repository;
-using Ploutos.AutoJobs.Models;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ploutos.AutoJobs.Repository
+﻿namespace Ploutos.AutoJobs.Repository
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using Ploutos.AutoJobs.Models;
+
     public class BaseRepository : IBaseRepository
     {
         public async Task<CommandResult> ExecuteNonQueryAsync(INonQueryCommand command)
