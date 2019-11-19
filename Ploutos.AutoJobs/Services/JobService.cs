@@ -1,9 +1,10 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
     using System;
-    using System.Globalization;
     using System.Threading.Tasks;
     using Fanex.Logging;
+    using Fanex.Logging.Extensions;
+    using Fanex.Logging.Extensions.Database;
     using Hangfire;
 
     public class JobService : IJobService
@@ -69,15 +70,12 @@
         
         private Task Logging(Exception exception)
         {
-            string message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}\n\rSource: {1}\n\rDomain: {2}\n\rTargetSite: {3}\n\rStackTrace: {4}",
-                    exception.Message,
-                    exception.Source,
-                    string.Empty,
-                    exception.TargetSite,
-                    exception.StackTrace);
-            return logger.ErrorAsync(message);
+            var logMessage = new LogMessage(exception.Message)
+                        .AddSection("Database Info", DatabaseInfoGetters.GetDbExceptionInfo(exception))
+                        .AddSection("Server Info", CommonInfoGetters.GetServerInfo())
+                        .AddSection("Exception Info", CommonInfoGetters.GetExceptionInfo(exception))
+                        .ToString();
+            return logger.ErrorAsync(logMessage);
         }
     }
 }

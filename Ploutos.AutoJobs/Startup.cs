@@ -8,8 +8,10 @@
     using Fanex.Data.MySql;
     using Fanex.Data.SqlServer;
     using Fanex.Logging;
+    using Fanex.Logging.Extensions;
+    using Fanex.Logging.Extensions.AspNetCore;
+    using Fanex.Logging.Extensions.Database;
     using Fanex.Logging.Sentry;
-
     using Hangfire;
     using Hangfire.MySql.Core;
     using Microsoft.AspNetCore.Authentication.Cookies;
@@ -20,8 +22,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
-    using ONEbook.UM.AspNetCore;
-    using ONEbook.UM.Configurations;
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
@@ -66,6 +66,10 @@
                 })
             });
 
+            ExceptionHandler
+                .UseConfig(new LoggingConfiguration())
+                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
+
             JsonConvert.DefaultSettings = () =>
             {
                 return new JsonSerializerSettings
@@ -100,10 +104,7 @@
 
             services.AddSingleton(Configuration);
             services.Configure<IdentifyModel>(Configuration.GetSection("HangfireAuthenticate"));
-           // services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-           // services.Configure<BotSettings>(Configuration.GetSection("ChatBotConfigs"));
             services.Configure<CronJob>(Configuration.GetSection("CronJob"));
-           // services.AddSingleton(new UMClientConfiguration().Initialize(Configuration));
             services.AddTransient<ILogger, Logger>();
             RegisterService(services);
             RegisterRepository(services);
@@ -160,7 +161,6 @@
 
             #endregion ONEbookUM
 
-            //services.AddSingleton<IBaseService, BaseService>();
             services.AddScoped<IIvorybetService, IvorybetService>();
             services.AddScoped<IOpal88Service, Opal88Service>();
             services.AddScoped<INova88Service, Nova88Service>();
@@ -170,9 +170,6 @@
 
         private static void RegisterRepository(IServiceCollection services)
         {
-            //services.AddSingleton<IDynamicRepository, DynamicRepository>();
-            //services.AddTransient<IBaseRepository, BaseRepository>();
-            //services.AddTransient<ISyncDataRepository, SyncDataRepository>();
         }
 
         private static void RegisterHangfire(IServiceCollection services, string connectionString)
