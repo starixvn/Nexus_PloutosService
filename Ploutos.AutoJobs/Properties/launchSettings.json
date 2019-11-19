@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Fanex.NCB.AutoJobs": {
+    "Ploutos.AutoJobs": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
