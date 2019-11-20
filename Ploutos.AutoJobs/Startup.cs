@@ -27,6 +27,7 @@
     using ONEbook.UM.Transport;
     using Ploutos.AutoJobs.App_Configs;
     using Ploutos.AutoJobs.Extensions;
+    using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services;
     using Sentry;
 
@@ -105,6 +106,7 @@
             services.AddSingleton(Configuration);
             services.Configure<IdentifyModel>(Configuration.GetSection("HangfireAuthenticate"));
             services.Configure<CronJob>(Configuration.GetSection("CronJob"));
+            services.Configure<ApiConfigs>(Configuration.GetSection("ApiConfigs"));
             services.AddTransient<ILogger, Logger>();
             RegisterService(services);
             RegisterRepository(services);

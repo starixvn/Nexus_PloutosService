@@ -1,6 +1,7 @@
 ﻿namespace Fanex.NCB.AutoJobs
 {
     using System;
+    using System.Data;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -9,12 +10,21 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.EventLog;
+    using Ploutos.AutoJobs.Criteria;
     using Ploutos.AutoJobs.Extensions;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Repository;
 
     public static class Program
     {
         public static void Main(string[] args)
         {
+            System.Console.WriteLine("123");
+            //System.Console.ReadKey();
+
+            
+
+
             var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
             if (isService)
@@ -29,6 +39,9 @@
             var host = builder.Build();
 
             host.RunAsCustomService(isService);
+
+
+           
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)

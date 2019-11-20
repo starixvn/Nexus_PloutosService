@@ -25,10 +25,7 @@
         {
             using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                using (IMultiResultReader multi = await db.QueryMultipleAsync(criteria).ConfigureAwait(false))
-                {
-                    return await multi.ReadAsync<T>();
-                }
+                return await db.QueryAsync<T>(criteria);
             }
         }
 

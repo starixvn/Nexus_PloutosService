@@ -9,4 +9,10 @@
   <Function Name="Sync Opal88">
     <Setting Key="NCB_OIC_SyncData" SpName="NCB_OIC_SyncData" DbName="ChatBot" Plain="0"></Setting>
   </Function>
+  <Function Name="Sync Test">
+    <Setting Key="Test_Table_Param" SpName="Test_Table_Param" DbName="DBOIC.bodb_OIC.bodbAdminNet" Plain="0"></Setting>
+  </Function>
+  <Function Name="Sync Data">
+    <Setting Key="NAP_Chatbot_GetDataToSync" SpName="NAP_Chatbot_GetDataToSync" DbName="DBOIC.bodb_OIC.bodbAdminNet" Plain="0"></Setting>
+  </Function>
 </Functions>
