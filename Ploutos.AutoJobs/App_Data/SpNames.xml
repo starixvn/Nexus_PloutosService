@@ -1,18 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Functions>  
-  <Function Name="Sync Nova88">
-    <Setting Key="NCB_OIC_SyncData" SpName="NCB_OIC_SyncData" DbName="ChatBot" Plain="0"></Setting>
-  </Function>
-  <Function Name="Sync Ivorybet">
-    <Setting Key="NCB_OIC_SyncData" SpName="NCB_OIC_SyncData" DbName="ChatBot" Plain="0"></Setting>
-  </Function>
-  <Function Name="Sync Opal88">
-    <Setting Key="NCB_OIC_SyncData" SpName="NCB_OIC_SyncData" DbName="ChatBot" Plain="0"></Setting>
-  </Function>
+<Functions>    
   <Function Name="Sync Test">
     <Setting Key="Test_Table_Param" SpName="Test_Table_Param" DbName="DBOIC.bodb_OIC.bodbAdminNet" Plain="0"></Setting>
   </Function>
   <Function Name="Sync Data">
-    <Setting Key="NAP_Chatbot_GetDataToSync" SpName="NAP_Chatbot_GetDataToSync" DbName="DBOIC.bodb_OIC.bodbAdminNet" Plain="0"></Setting>
+    <Setting Key="API_PlayerProfile_SelPush" SpName="API_PlayerProfile_SelPush" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="API_PlayerProfile_InsertLog" SpName="API_PlayerProfile_InsertLog" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="API_BetRecord_SelPush" SpName="API_BetRecord_SelPush" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="API_BetRecord_InsertLog" SpName="API_BetRecord_InsertLog" DbName="Ploutos" Plain="0"></Setting>
   </Function>
 </Functions>

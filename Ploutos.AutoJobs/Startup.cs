@@ -167,6 +167,9 @@
             services.AddScoped<IOpal88Service, Opal88Service>();
             services.AddScoped<INova88Service, Nova88Service>();
             services.AddScoped<IJobService, JobService>();
+            services.AddScoped<IWebClientService, WebClientService>();
+            services.AddScoped<IDataService, DataService>();
+            
             services.AddTransient<IRecurringJobManager, RecurringJobManager>();
         }
 

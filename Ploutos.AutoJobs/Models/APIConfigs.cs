@@ -12,5 +12,6 @@ namespace Ploutos.AutoJobs.Models
         public string SendBetUrl { get; set; }
         public string PloutosToken { get; set; }
         public string AffiliateToken { get; set; }
+        public int BatchSize { get; set; }
     }
 }

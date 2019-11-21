@@ -22,7 +22,7 @@ namespace Ploutos.AutoJobs.Services
         {
             webClient.BaseUrl = new Uri(domain);
             var request = new RestRequest(url, Method.POST);
-            request.AddHeader("Authorization", $"Bearer {token}");
+            request.AddHeader("x-api-key", token);
             request.AddJsonBody(parameters);
 
             return await webClient.ExecutePostTaskAsync(request);
