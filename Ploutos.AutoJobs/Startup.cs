@@ -28,7 +28,9 @@
     using Ploutos.AutoJobs.App_Configs;
     using Ploutos.AutoJobs.Extensions;
     using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Repository;
     using Ploutos.AutoJobs.Services;
+    using Ploutos.AutoJobs.Utils;
     using Sentry;
 
     public class Startup
@@ -169,12 +171,14 @@
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IWebClientService, WebClientService>();
             services.AddScoped<IDataService, DataService>();
-            
+            services.AddScoped<IUtil, Util>();
+
             services.AddTransient<IRecurringJobManager, RecurringJobManager>();
         }
 
         private static void RegisterRepository(IServiceCollection services)
         {
+            services.AddScoped<IBaseRepository, BaseRepository>();
         }
 
         private static void RegisterHangfire(IServiceCollection services, string connectionString)

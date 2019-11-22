@@ -6,12 +6,8 @@ namespace Ploutos.AutoJobs.Models
 {
     public class ApiConfigs
     {        
-        public string PloutosBaseDomain { get; set; }
-        public string AffiliateBaseDomain { get; set; }
-        public string RegisterPlayerUrl { get; set; }
-        public string SendBetUrl { get; set; }
-        public string PloutosToken { get; set; }
-        public string AffiliateToken { get; set; }
-        public int BatchSize { get; set; }
+        public BrandApiConfigs Opal88 { get; set; }
+        public BrandApiConfigs Nova88 { get; set; }
+        public BrandApiConfigs Ivorybet { get; set; }
     }
 }

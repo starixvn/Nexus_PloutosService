@@ -1,57 +1,90 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Ploutos.AutoJobs.Criteria;
 using Ploutos.AutoJobs.Models;
+using Ploutos.AutoJobs.Repository;
 
 namespace Ploutos.AutoJobs.Services
 {
     public class DataService : IDataService
     {
-        public async Task<List<BetTicket>> GetBetTickets(int batchSize)
+        private readonly IBaseRepository baseRepository;
+
+        public DataService(IBaseRepository baseRepository)
         {
-            var betTickets = new List<BetTicket>
+            this.baseRepository = baseRepository;
+        }
+
+        public async Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize)
+        {
+            var criteria = new GetBetTicketCriteria()
+            {
+                SiteName = siteName,
+                TotalRows = batchSize
+            };
+            var betTickets = await this.baseRepository.FetchData<BetTicket>(criteria);
+
+            return betTickets.ToList();
+            
+            var betTicketss = new List<BetTicket>
             {
                 FakeTiket(1351),
                 FakeTiket2(1351),
+                FakeTiket(1351),
+                FakeTiket2(1351)
                 //FakeTiket(1351),
                 //FakeTiket(1351),
                 //FakeTiket(1352)
             };
-
-            return betTickets;
+            //return betTickets;
         }
 
-        public async Task<List<PlayerProfile>> GetPlayerProfiles(int batchSize)
+        public async Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize)
         {
-            var playerProfiles = new List<PlayerProfile>();
+            var criteria = new GetPlayerProfileCriteria()
+            {
+                SiteName = siteName, 
+                TotalRows = batchSize
+            };
+            var playerProfiles = await this.baseRepository.FetchData<PlayerProfile>(criteria);            
 
-            for(var i = 0; i < 2; i++){
-                playerProfiles.Add(FakePlayer());
-            }
+            return playerProfiles.ToList();
+        }        
 
-            return playerProfiles;
+        public Task<CommandResult> UpdateBetTickets(List<UpdateBetTicket> betTickets)
+        {
+            DataTable data = new DataTable();
+            var criteria = new UpdateBetTicketCriteria()
+            {
+                BetTickets = data
+            };
+
+            return null;
         }
 
-        public Task<CommandResult> InsertBetTicketLog(InsertBetTicketLogCriteria criteria)
+        public Task<CommandResult> UpdatePlayerProfiles(List<UpdatePlayerProfile> playerProfiles)
         {
-            throw new NotImplementedException();
-        }
+            DataTable data = new DataTable();
+            var criteria = new UpdatePlayerProfileCriteria()
+            {
+                PlayerProfiles = data
+            };
 
-        public Task<CommandResult> InsertPlayerProfileLog(InsertPlayerProfileLogCriteria criteria)
-        {
-            throw new NotImplementedException();
+            return null;
         }
 
         private PlayerProfile FakePlayer()
         {
             return new PlayerProfile
             {
-                Username = "opal_test0002",
+                Username = "opal_test0004",
                 Password = "p@@wordstronger",
                 ConfirmPassword = "p@@wordstronger",
-                EmailAddress = "opal_test0002@opal_test246.com",
+                EmailAddress = "opal_test0004@opal_test246.com",
                 IPAddress = "0.0.0.1",
                 BrandCode = "Opal88",
                 LanguageCode = "EN",

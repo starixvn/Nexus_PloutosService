@@ -6,6 +6,7 @@
     using Fanex.Logging.Extensions;
     using Fanex.Logging.Extensions.Database;
     using Hangfire;
+    using Ploutos.AutoJobs.Utils;
 
     public class JobService : IJobService
     {
@@ -13,17 +14,21 @@
         private readonly IIvorybetService ivorybetService;
         private readonly IOpal88Service opal88Service;
         private readonly ILogger logger;
+        private readonly IUtil util;
+           
 
         public JobService(
             INova88Service nova88Service,
             IIvorybetService ivorybetService,
             IOpal88Service opal88Service,
-            ILogger logger)
+            ILogger logger,
+            IUtil util)
         {
             this.nova88Service = nova88Service;
             this.ivorybetService = ivorybetService;
             this.opal88Service = opal88Service;
             this.logger = logger;
+            this.util = util;
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
@@ -35,7 +40,7 @@
             }
             catch (Exception ex)
             {
-                await Logging(ex);
+                await logger.ErrorAsync(this.util.BuildLogMessage(ex));
                 throw;
             }
         }
@@ -49,7 +54,7 @@
             }
             catch (Exception ex)
             {
-                await Logging(ex);
+                await logger.ErrorAsync(this.util.BuildLogMessage(ex));
                 throw;
             }
         }
@@ -63,19 +68,9 @@
             }
             catch (Exception ex)
             {
-                await Logging(ex);
+                await logger.ErrorAsync(this.util.BuildLogMessage(ex));
                 throw;
             }
-        }
-        
-        private Task Logging(Exception exception)
-        {
-            var logMessage = new LogMessage(exception.Message)
-                        .AddSection("Database Info", DatabaseInfoGetters.GetDbExceptionInfo(exception))
-                        .AddSection("Server Info", CommonInfoGetters.GetServerInfo())
-                        .AddSection("Exception Info", CommonInfoGetters.GetExceptionInfo(exception))
-                        .ToString();
-            return logger.ErrorAsync(logMessage);
-        }
+        }        
     }
 }

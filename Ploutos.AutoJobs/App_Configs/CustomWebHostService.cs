@@ -20,6 +20,7 @@
         private readonly IOptionsMonitor<CronJob> cronJob;
         private readonly IRecurringJobManager recurringJob;
 
+
         public CustomWebHostService(IWebHost host) : base(host)
         {
             logger = host.Services.GetService<ILogger<CustomWebHostService>>();
@@ -51,9 +52,9 @@
            //     job => job.SyncIvorybet(),
            //     cronJob.CurrentValue.SyncIvorybet);
 
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88,
-                job => job.SyncOpal88(),
-                cronJob.CurrentValue.SyncOpal88);
+           // recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88,
+           //     job => job.SyncOpal88(),
+           //     cronJob.CurrentValue.SyncOpal88);
         }
 
         private static void RemoveCurrentHangfireServer()

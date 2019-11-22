@@ -6,6 +6,7 @@ namespace Ploutos.AutoJobs.Models
 {
     public class PlayerProfile
     {
+        public int CustId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }

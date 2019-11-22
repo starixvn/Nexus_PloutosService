@@ -1,67 +1,116 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
+    using Fanex.Logging;
     using Microsoft.Extensions.Options;
+    using Ploutos.AutoJobs.Constant;
     using Ploutos.AutoJobs.Criteria;
     using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Utils;
     using System;
     using System.Collections.Generic;
+    using System.Data;
     using System.Threading.Tasks;
 
     public class Opal88Service : IOpal88Service
     {
-        private readonly ApiConfigs apiConfigs;
+        private readonly BrandApiConfigs apiConfigs;
         private readonly IWebClientService webClientService;
         private readonly IDataService dataService;
+        private readonly ILogger logger;
+        private readonly IUtil util;
 
         public Opal88Service(IOptionsSnapshot<ApiConfigs> apiConfigs, 
             IWebClientService webClientService,
-            IDataService dataService)
+            IDataService dataService,
+            ILogger logger,
+            IUtil util)
         {
-            this.apiConfigs = apiConfigs.Value;
+            this.apiConfigs = apiConfigs.Value.Opal88;
             this.webClientService = webClientService;
             this.dataService = dataService;
+            this.logger = logger;
+            this.util = util;
         }
 
         public async Task PushData()
         {
-            //await PushPlayers();
+            await PushPlayers();
             await PushTickets();
         }
 
         private async Task PushPlayers()
         {
-            var playerProfiles = await this.dataService.GetPlayerProfiles(apiConfigs.BatchSize);
-
-            var start = DateTime.Now;
+            var playerProfiles = await this.dataService.GetPlayerProfiles(Constants.Opal88, apiConfigs.PlayerBatchSize);
+            List<UpdatePlayerProfile> updatePlayerProfiles = new List<UpdatePlayerProfile>();
 
             foreach(var profile in playerProfiles)
             {
-                var response = await webClientService.PostAsync<PlayerProfile>(
-                    apiConfigs.PloutosBaseDomain,
-                    apiConfigs.RegisterPlayerUrl,
-                    apiConfigs.PloutosToken,
-                    profile);
+                var updateProfile = new UpdatePlayerProfile(profile);
 
-                var criteria = new InsertPlayerProfileLogCriteria() {
-                    ResponeResult = response.Content
-                };
-                //await this.dataService.InsertPlayerProfileLog(criteria);
+                try
+                {
+                    var response = await webClientService.PostAsync<PlayerProfile>(
+                        apiConfigs.PloutosBaseDomain,
+                        apiConfigs.RegisterPlayerUrl,
+                        apiConfigs.PloutosToken,
+                        profile);
 
+                    var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
+                    updateProfile.ResponeResult = response.Content;
+                    updateProfile.IsError = !profileResponse.IsSuccess;
+                    updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
+                }
+                catch(Exception ex)
+                {
+                    var errorMsg = this.util.BuildLogMessage(ex);
+                    updateProfile.ResponeResult = errorMsg;
+                    await this.logger.ErrorAsync(errorMsg);
+                }
+
+                updatePlayerProfiles.Add(updateProfile);
             }
-
-            var timespan = (DateTime.Now - start).TotalSeconds;
+       
+            await this.dataService.UpdatePlayerProfiles(updatePlayerProfiles);
         }
 
         private async Task PushTickets()
         {
-            var betTickets = this.dataService.GetBetTickets(apiConfigs.BatchSize).Result;
-            var response = await webClientService.PostAsync<List<BetTicket>>(
-                    apiConfigs.PloutosBaseDomain,
-                    apiConfigs.SendBetUrl,
-                    apiConfigs.PloutosToken,
-                    betTickets);
-            var criteria = new InsertBetTicketLogCriteria();
-            //await this.dataService.InsertBetTicketLog(criteria);
+            var betTickets = await this.dataService.GetBetTickets(Constants.Opal88, apiConfigs.TicketBatchSize);
+            List<UpdateBetTicket> updateBetTickets = new List<UpdateBetTicket>();
+            foreach(var ticket in betTickets)
+            {
+                updateBetTickets.Add(new UpdateBetTicket(ticket));
+            }
+
+            try
+            {
+                var response = await webClientService.PostAsync<List<BetTicket>>(
+                        apiConfigs.PloutosBaseDomain,
+                        apiConfigs.SendBetUrl,
+                        apiConfigs.PloutosToken,
+                        betTickets);
+
+                var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
+
+                for(var i = 0; i < updateBetTickets.Count; i++)
+                {
+                    updateBetTickets[i].Error = ticketResponse.GetErrorMessage(i);
+                }
+
+                var content = response.Content;
+            }
+            catch(Exception ex)
+            {
+                var errorMsg = this.util.BuildLogMessage(ex);
+                foreach(var updateTicket in updateBetTickets)
+                {
+                    updateTicket.Error = errorMsg;
+                }
+                
+                await this.logger.ErrorAsync(errorMsg);
+            }
+
+            await this.dataService.UpdateBetTickets(updateBetTickets);
         }
     }
 }

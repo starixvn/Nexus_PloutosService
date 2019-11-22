@@ -2,6 +2,7 @@
 using Ploutos.AutoJobs.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,9 +10,9 @@ namespace Ploutos.AutoJobs.Services
 {
     public interface IDataService
     {
-        Task<List<PlayerProfile>> GetPlayerProfiles(int batchSize);
-        Task<CommandResult> InsertPlayerProfileLog(InsertPlayerProfileLogCriteria criteria);
-        Task<List<BetTicket>> GetBetTickets(int batchSize);
-        Task<CommandResult> InsertBetTicketLog(InsertBetTicketLogCriteria criteria);
+        Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize);
+        Task<CommandResult> UpdatePlayerProfiles(List<UpdatePlayerProfile> playerProfiles);
+        Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize);
+        Task<CommandResult> UpdateBetTickets(List<UpdateBetTicket> betTickets);
     }
 }

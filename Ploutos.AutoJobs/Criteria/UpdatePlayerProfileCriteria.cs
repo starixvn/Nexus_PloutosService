@@ -6,10 +6,10 @@ using System.Text;
 
 namespace Ploutos.AutoJobs.Criteria
 {
-    public class InsertBetTicketLogCriteria : CriteriaBase
+    public class UpdatePlayerProfileCriteria : CriteriaBase
     {
-        public DataTable BetRecords { get; set; }
-        public override string GetSettingKey() => "API_BetRecord_InsertLog";
+        public DataTable PlayerProfiles { get; set; }
+        public override string GetSettingKey() => "API_PlayerProfile_Update";        
         public override bool IsValid() => true;
     }
 }
