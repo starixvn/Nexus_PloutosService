@@ -1,11 +1,9 @@
-﻿using Ploutos.AutoJobs.Constant;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
+    using Ploutos.AutoJobs.Constant;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class TicketResponse
     {
         public string Status { get; set; }

@@ -1,13 +1,25 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
-    using System;
+    using Fanex.Logging;
+    using Microsoft.Extensions.Options;
+    using Ploutos.AutoJobs.Constant;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Utils;
     using System.Threading.Tasks;
 
-    public class IvorybetService : IIvorybetService
+    public class IvorybetService : SyncServiceBase, IIvorybetService
     {
+        public IvorybetService(IOptionsSnapshot<ApiConfigs> apiConfigs,
+            IWebClientService webClientService,
+            IDataService dataService,
+            ILogger logger,
+            IUtil util) : base(apiConfigs.Value.Ivorybet, webClientService, dataService, logger, util)
+        {
+        }
+
         public Task PushData()
         {
-            throw new NotImplementedException();
+            return base.PushData(Constants.Ivorybet);
         }
     }
 }

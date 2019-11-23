@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using Ploutos.AutoJobs.Models;
-using RestSharp;
-
-namespace Ploutos.AutoJobs.Services
+﻿namespace Ploutos.AutoJobs.Services
 {
+    using RestSharp;
+    using System;
+    using System.Text;
+    using System.Threading.Tasks;
+
     public class WebClientService : IWebClientService
     {
         private readonly IRestClient webClient;

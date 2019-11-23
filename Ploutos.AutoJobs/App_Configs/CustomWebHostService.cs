@@ -44,13 +44,13 @@
 
         public void RunHangfireJobs()
         {
-           // recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88,
-           //     job => job.SyncNova88(),
-           //     cronJob.CurrentValue.SyncNova88);
+            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88,
+                job => job.SyncNova88(),
+                cronJob.CurrentValue.SyncNova88);
 
-           // recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybet,
-           //     job => job.SyncIvorybet(),
-           //     cronJob.CurrentValue.SyncIvorybet);
+            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybet,
+                job => job.SyncIvorybet(),
+                cronJob.CurrentValue.SyncIvorybet);
 
             recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88,
                 job => job.SyncOpal88(),

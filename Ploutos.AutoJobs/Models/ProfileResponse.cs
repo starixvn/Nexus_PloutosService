@@ -1,10 +1,7 @@
-﻿using Ploutos.AutoJobs.Constant;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
+    using Ploutos.AutoJobs.Constant;
+
     public class ProfileResponse
     {
         public string Status { get; set; }

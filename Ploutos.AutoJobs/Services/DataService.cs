@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ploutos.AutoJobs.Criteria;
-using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Repository;
-
-namespace Ploutos.AutoJobs.Services
+﻿namespace Ploutos.AutoJobs.Services
 {
+    using Ploutos.AutoJobs.Criteria;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Repository;
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class DataService : IDataService
     {
         private readonly IBaseRepository baseRepository;
@@ -23,7 +22,7 @@ namespace Ploutos.AutoJobs.Services
         {
             var criteria = new GetBetTicketCriteria()
             {
-                SiteName = siteName,
+                BrandCode = siteName,
                 TotalRows = batchSize
             };
             var betTickets = await this.baseRepository.FetchData<BetTicket>(criteria);
@@ -35,7 +34,7 @@ namespace Ploutos.AutoJobs.Services
         {
             var criteria = new GetPlayerProfileCriteria()
             {
-                SiteName = siteName, 
+                BrandCode = siteName, 
                 TotalRows = batchSize
             };
             var playerProfiles = await this.baseRepository.FetchData<PlayerProfile>(criteria);            
@@ -63,13 +62,13 @@ namespace Ploutos.AutoJobs.Services
             foreach(var ticket in betTickets)
             {
                 data.Rows.Add(ticket.BetAmount, ticket.CurrencyCode, ticket.GameId, ticket.GamePlatformCode,
-                    ticket.GameType, ticket.IsError, ticket.LossAmount, ticket.PlayerCode, ticket.ResponeResult,
+                    ticket.GameType, ticket.IsError, ticket.LossAmount, ticket.PlayerCode, ticket.ResponseResult,
                     ticket.RoundId, ticket.SessionId, ticket.TransactionDate, ticket.TransactionNo, ticket.WinAmount);
             }
 
             var criteria = new UpdateBetTicketCriteria()
             {
-                SiteName = siteName,
+                BrandCode = siteName,
                 BetTicket = data
             };
 
@@ -89,7 +88,7 @@ namespace Ploutos.AutoJobs.Services
             data.Columns.Add("Password");
             data.Columns.Add("PlayerCode");
             data.Columns.Add("PlayerTypeCode");            
-            data.Columns.Add("ResponeResult");
+            data.Columns.Add("ResponseResult");
             data.Columns.Add("Username");
 
 
@@ -98,16 +97,16 @@ namespace Ploutos.AutoJobs.Services
                 data.Rows.Add(
                     profile.BrandCode, profile.CurrencyCode, profile.CustId, profile.EmailAddress, 
                     profile.IPAddress, profile.IsError, profile.LanguageCode, profile.Password,
-                    profile.PlayerCode, profile.PlayerTypeCode, profile.ResponeResult, profile.Username);
+                    profile.PlayerCode, profile.PlayerTypeCode, profile.ResponseResult, profile.Username);
             }
 
             var criteria = new UpdatePlayerProfileCriteria()
             {
-                SiteName = siteName,
+                BrandCode = siteName,
                 PlayerProfile = data
             };
 
-            return this.baseRepository.ExecuteNonQueryAsync(criteria);
+             return this.baseRepository.ExecuteNonQueryAsync(criteria);
         }
 
         private PlayerProfile FakePlayer()

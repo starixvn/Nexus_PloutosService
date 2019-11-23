@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
+    using System.Collections.Generic;
+
     public class ResponseMessage
     {
         public List<ResponseError> Errors { get; set; }

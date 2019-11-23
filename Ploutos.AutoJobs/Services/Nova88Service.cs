@@ -1,32 +1,25 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
-    using Ploutos.AutoJobs.Criteria;
+    using Fanex.Logging;
+    using Microsoft.Extensions.Options;
+    using Ploutos.AutoJobs.Constant;
     using Ploutos.AutoJobs.Models;
-    using Ploutos.AutoJobs.Repository;
-    using System;
-    using System.Data;
-    using System.Linq;
+    using Ploutos.AutoJobs.Utils;
     using System.Threading.Tasks;
 
-    public class Nova88Service : INova88Service
+    public class Nova88Service : SyncServiceBase, INova88Service
     {
+        public Nova88Service(IOptionsSnapshot<ApiConfigs> apiConfigs,
+            IWebClientService webClientService,
+            IDataService dataService,
+            ILogger logger,
+            IUtil util) : base(apiConfigs.Value.Nova88, webClientService, dataService, logger, util)
+        {
+        }
+
         public Task PushData()
         {
-            var inputData = new DataTable();
-            inputData.Columns.Add("LocationName");
-            inputData.Columns.Add("CostRate");
-            inputData.Rows.Add("ab", 1);
-            inputData.Rows.Add("cd", 3);
-
-            var criteria = new TestCriteria()
-            {
-                InputData = inputData
-            };
-
-            var repository = new BaseRepository();
-            var result = repository.FetchData<TestModel>(criteria).Result.ToList();
-
-            return null;
+            return base.PushData(Constants.Nova88);
         }
     }
 }

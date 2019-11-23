@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
     public class UpdatePlayerProfile
     {
@@ -29,7 +25,7 @@ namespace Ploutos.AutoJobs.Models
         public string LanguageCode { get; set; }
         public string CurrencyCode { get; set; }
         public string PlayerTypeCode { get; set; }
-        public string ResponeResult { get; set; }
+        public string ResponseResult { get; set; }
         public bool IsError { get; set; }
         public string PlayerCode { get; set; }
     }

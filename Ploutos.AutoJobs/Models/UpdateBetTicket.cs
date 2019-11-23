@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
+    using System;
+
     public class UpdateBetTicket
     {
         public UpdateBetTicket(BetTicket betTicket)
@@ -30,7 +28,7 @@ namespace Ploutos.AutoJobs.Models
         public bool IsError { get; set; }
         public double LossAmount { get; set; }
         public string PlayerCode { get; set; }
-        public string ResponeResult { get; set; }
+        public string ResponseResult { get; set; }
         public string RoundId { get; set; }
         public string SessionId { get; set; }        
         public DateTime TransactionDate { get; set; }

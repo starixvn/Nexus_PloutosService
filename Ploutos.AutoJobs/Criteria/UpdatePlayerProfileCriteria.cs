@@ -1,14 +1,11 @@
-﻿using Fanex.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Criteria
+﻿namespace Ploutos.AutoJobs.Criteria
 {
+    using Fanex.Data.Repository;
+    using System.Data;
+
     public class UpdatePlayerProfileCriteria : NonQueryCommand
     {
-        public string SiteName { get; set; }
+        public string BrandCode { get; set; }
         public DataTable PlayerProfile { get; set; }
         public override string GetSettingKey() => "API_PlayerProfile_Update";        
         public override bool IsValid() => true;

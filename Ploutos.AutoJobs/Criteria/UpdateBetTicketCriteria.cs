@@ -1,14 +1,11 @@
-﻿using Fanex.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Criteria
+﻿namespace Ploutos.AutoJobs.Criteria
 {
+    using Fanex.Data.Repository;
+    using System.Data;
+
     public class UpdateBetTicketCriteria : NonQueryCommand
     {
-        public string SiteName { get; set; }
+        public string BrandCode { get; set; }
         public DataTable BetTicket { get; set; }
         public int Error { get; set; }
         public string Message { get; set; }

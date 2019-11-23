@@ -4,8 +4,8 @@
     <Setting Key="Test_Table_Param" SpName="Test_Table_Param" DbName="DBOIC.bodb_OIC.bodbAdminNet" Plain="0"></Setting>
   </Function>
   <Function Name="Sync Data">
-    <Setting Key="API_PlayerProfile_SelPush" SpName="API_PlayerProfile_SelPush" DbName="Ploutos" Plain="0"></Setting>
-    <Setting Key="API_PlayerProfile_Update" SpName="API_PlayerProfile_Update" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="API_PlayerProfile_SelPush" SpName="API_PlayerProfile_SelPush_xtest" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="API_PlayerProfile_Update" SpName="API_PlayerProfile_Update_xtest" DbName="Ploutos" Plain="0"></Setting>
     <Setting Key="API_BetTicket_SelPush" SpName="API_BetTicket_SelPush" DbName="Ploutos" Plain="0"></Setting>
     <Setting Key="API_BetTicket_Update" SpName="API_BetTicket_Update" DbName="Ploutos" Plain="0"></Setting>
   </Function>

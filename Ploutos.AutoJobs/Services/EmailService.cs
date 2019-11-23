@@ -1,13 +1,9 @@
-﻿using Fanex.Logging;
-using Fanex.Logging.Extensions;
-using Fanex.Logging.Extensions.Database;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ploutos.AutoJobs.Services
+﻿namespace Ploutos.AutoJobs.Services
 {
+    using Fanex.Logging;
+    using System;
+    using System.Threading.Tasks;
+
     public class EmailService : IEmailService
     {
         private readonly ILogger logger;

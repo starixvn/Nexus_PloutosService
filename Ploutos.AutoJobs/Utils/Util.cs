@@ -1,13 +1,10 @@
-﻿using Fanex.Logging.Extensions;
-using Fanex.Logging.Extensions.Database;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ploutos.AutoJobs.Utils
+﻿namespace Ploutos.AutoJobs.Utils
 {
+    using Fanex.Logging.Extensions;
+    using Fanex.Logging.Extensions.Database;
+    using Newtonsoft.Json;
+    using System;
+
     public class Util : IUtil
     {
         public string BuildLogMessage(Exception exception)

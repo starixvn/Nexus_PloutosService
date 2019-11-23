@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
     public class BrandApiConfigs
     {
+        public bool IsEnabled { get; set; }
         public string PloutosBaseDomain { get; set; }
         public string AffiliateBaseDomain { get; set; }
         public string RegisterPlayerUrl { get; set; }
