@@ -4,14 +4,14 @@
     {
         public CommandResult()
         {
-            Code = 1;
+            Error = 1;
             Message = "Invalid Data";
         }
 
-        public int Code { get; set; }
+        public int Error { get; set; }
 
         public string Message { get; set; }
 
-        public bool IsSuccessful => Code == 0;
+        public bool IsSuccessful => Error == 0;
     }
 }

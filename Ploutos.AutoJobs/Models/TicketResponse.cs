@@ -14,6 +14,11 @@ namespace Ploutos.AutoJobs.Models
 
         public string GetErrorMessage(int index)
         {
+            if(Status == Constants.StatusSuccess)
+            {
+                return string.Empty;
+            }
+
             var errors = new List<string>();
             foreach (KeyValuePair<string, string[]> item in ModelState)
             {

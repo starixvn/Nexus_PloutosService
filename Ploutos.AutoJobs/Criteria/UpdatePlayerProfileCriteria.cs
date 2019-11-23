@@ -6,9 +6,10 @@ using System.Text;
 
 namespace Ploutos.AutoJobs.Criteria
 {
-    public class UpdatePlayerProfileCriteria : CriteriaBase
+    public class UpdatePlayerProfileCriteria : NonQueryCommand
     {
-        public DataTable PlayerProfiles { get; set; }
+        public string SiteName { get; set; }
+        public DataTable PlayerProfile { get; set; }
         public override string GetSettingKey() => "API_PlayerProfile_Update";        
         public override bool IsValid() => true;
     }

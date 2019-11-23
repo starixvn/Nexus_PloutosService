@@ -50,7 +50,7 @@
         {
             try
             {
-                await nova88Service.PushData();
+                //await nova88Service.PushData();
             }
             catch (Exception ex)
             {

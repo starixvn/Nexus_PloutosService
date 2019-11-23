@@ -34,7 +34,7 @@
 
         public async Task PushData()
         {
-            await PushPlayers();
+            //await PushPlayers();
             await PushTickets();
         }
 
@@ -70,7 +70,7 @@
                 updatePlayerProfiles.Add(updateProfile);
             }
        
-            await this.dataService.UpdatePlayerProfiles(updatePlayerProfiles);
+            await this.dataService.UpdatePlayerProfiles(Constants.Opal88, updatePlayerProfiles);
         }
 
         private async Task PushTickets()
@@ -94,23 +94,23 @@
 
                 for(var i = 0; i < updateBetTickets.Count; i++)
                 {
-                    updateBetTickets[i].Error = ticketResponse.GetErrorMessage(i);
+                    var errorMsg = ticketResponse.GetErrorMessage(i);
+                    updateBetTickets[i].IsError = !string.IsNullOrEmpty(errorMsg);
+                    updateBetTickets[i].ResponeResult = errorMsg;
                 }
-
-                var content = response.Content;
             }
             catch(Exception ex)
             {
                 var errorMsg = this.util.BuildLogMessage(ex);
                 foreach(var updateTicket in updateBetTickets)
                 {
-                    updateTicket.Error = errorMsg;
+                    updateTicket.ResponeResult = errorMsg;
                 }
                 
                 await this.logger.ErrorAsync(errorMsg);
             }
 
-            await this.dataService.UpdateBetTickets(updateBetTickets);
+            await this.dataService.UpdateBetTickets(Constants.Opal88, updateBetTickets);
         }
     }
 }

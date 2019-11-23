@@ -28,19 +28,7 @@ namespace Ploutos.AutoJobs.Services
             };
             var betTickets = await this.baseRepository.FetchData<BetTicket>(criteria);
 
-            return betTickets.ToList();
-            
-            var betTicketss = new List<BetTicket>
-            {
-                FakeTiket(1351),
-                FakeTiket2(1351),
-                FakeTiket(1351),
-                FakeTiket2(1351)
-                //FakeTiket(1351),
-                //FakeTiket(1351),
-                //FakeTiket(1352)
-            };
-            //return betTickets;
+            return betTickets.ToList();            
         }
 
         public async Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize)
@@ -55,26 +43,71 @@ namespace Ploutos.AutoJobs.Services
             return playerProfiles.ToList();
         }        
 
-        public Task<CommandResult> UpdateBetTickets(List<UpdateBetTicket> betTickets)
+        public Task<CommandResult> UpdateBetTickets(string siteName, List<UpdateBetTicket> betTickets)
         {
             DataTable data = new DataTable();
+            data.Columns.Add("BetAmount");
+            data.Columns.Add("CurrencyCode");
+            data.Columns.Add("GameId");
+            data.Columns.Add("GamePlatformCode");
+            data.Columns.Add("GameType");
+            data.Columns.Add("IsError");
+            data.Columns.Add("LossAmount");
+            data.Columns.Add("PlayerCode");
+            data.Columns.Add("ResponseResult");
+            data.Columns.Add("RoundId");
+            data.Columns.Add("SessionId");
+            data.Columns.Add("TransactionDate");
+            data.Columns.Add("TransactionNo");
+            data.Columns.Add("WinAmount");
+            foreach(var ticket in betTickets)
+            {
+                data.Rows.Add(ticket.BetAmount, ticket.CurrencyCode, ticket.GameId, ticket.GamePlatformCode,
+                    ticket.GameType, ticket.IsError, ticket.LossAmount, ticket.PlayerCode, ticket.ResponeResult,
+                    ticket.RoundId, ticket.SessionId, ticket.TransactionDate, ticket.TransactionNo, ticket.WinAmount);
+            }
+
             var criteria = new UpdateBetTicketCriteria()
             {
-                BetTickets = data
+                SiteName = siteName,
+                BetTicket = data
             };
 
-            return null;
+            return this.baseRepository.ExecuteNonQueryAsync(criteria);
         }
 
-        public Task<CommandResult> UpdatePlayerProfiles(List<UpdatePlayerProfile> playerProfiles)
+        public Task<CommandResult> UpdatePlayerProfiles(string siteName, List<UpdatePlayerProfile> playerProfiles)
         {
             DataTable data = new DataTable();
+            data.Columns.Add("BrandCode");
+            data.Columns.Add("CurrencyCode");
+            data.Columns.Add("CustId");
+            data.Columns.Add("EmailAddress");
+            data.Columns.Add("IPAddress");
+            data.Columns.Add("IsError");
+            data.Columns.Add("LanguageCode");
+            data.Columns.Add("Password");
+            data.Columns.Add("PlayerCode");
+            data.Columns.Add("PlayerTypeCode");            
+            data.Columns.Add("ResponeResult");
+            data.Columns.Add("Username");
+
+
+            foreach (var profile in playerProfiles)
+            {
+                data.Rows.Add(
+                    profile.BrandCode, profile.CurrencyCode, profile.CustId, profile.EmailAddress, 
+                    profile.IPAddress, profile.IsError, profile.LanguageCode, profile.Password,
+                    profile.PlayerCode, profile.PlayerTypeCode, profile.ResponeResult, profile.Username);
+            }
+
             var criteria = new UpdatePlayerProfileCriteria()
             {
-                PlayerProfiles = data
+                SiteName = siteName,
+                PlayerProfile = data
             };
 
-            return null;
+            return this.baseRepository.ExecuteNonQueryAsync(criteria);
         }
 
         private PlayerProfile FakePlayer()
@@ -83,7 +116,6 @@ namespace Ploutos.AutoJobs.Services
             {
                 Username = "opal_test0004",
                 Password = "p@@wordstronger",
-                ConfirmPassword = "p@@wordstronger",
                 EmailAddress = "opal_test0004@opal_test246.com",
                 IPAddress = "0.0.0.1",
                 BrandCode = "Opal88",
@@ -94,7 +126,7 @@ namespace Ploutos.AutoJobs.Services
             };
         }
 
-        private BetTicket FakeTiket(int transactionNo )
+        private BetTicket FakeTiket(string transactionNo )
         {
             return new BetTicket
             {
@@ -112,7 +144,7 @@ namespace Ploutos.AutoJobs.Services
             };
         }
 
-        private BetTicket FakeTiket2(int transactionNo)
+        private BetTicket FakeTiket2(string transactionNo)
         {
             return new BetTicket
             {

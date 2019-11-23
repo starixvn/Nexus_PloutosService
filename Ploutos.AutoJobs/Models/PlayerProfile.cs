@@ -9,7 +9,12 @@ namespace Ploutos.AutoJobs.Models
         public int CustId { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword {
+            get
+            {
+                return Password;
+            }
+        }
         public int MobileCountryCodeNumber { get; set; }
         public string MobileNumber { get; set; }
         public string EmailAddress { get; set; }

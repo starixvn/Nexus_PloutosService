@@ -31,12 +31,12 @@
 
         private CommandResult GetCommandResult(Hashtable hash)
         {
-            var errCode = hash["errCode"];
-            var errMsg = hash["errMsg"];
+            var errCode = hash["Error"];
+            var errMsg = hash["Message"];
 
             return new CommandResult
             {
-                Code = (errCode is DBNull) ? 0 : Convert.ToInt32(errCode),
+                Error = (errCode is DBNull) ? 0 : Convert.ToInt32(errCode),
                 Message = (errMsg is DBNull) ? string.Empty : Convert.ToString(errMsg)
             };
         }
