@@ -31,7 +31,7 @@
         protected virtual async Task PushData(string siteName)
         {
             await PushPlayers(siteName);
-            //await PushTickets(siteName);
+            await PushTickets(siteName);
         }
 
         private async Task PushPlayers(string siteName)

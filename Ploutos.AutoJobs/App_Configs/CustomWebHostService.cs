@@ -19,6 +19,7 @@
         private readonly ILogger logger;
         private readonly IOptionsMonitor<CronJob> cronJob;
         private readonly IRecurringJobManager recurringJob;
+        private readonly IBackgroundJobClient backgroundJobClient;
 
 
         public CustomWebHostService(IWebHost host) : base(host)
@@ -26,6 +27,7 @@
             logger = host.Services.GetService<ILogger<CustomWebHostService>>();
             cronJob = host.Services.GetService<IOptionsMonitor<CronJob>>();
             recurringJob = host.Services.GetService<IRecurringJobManager>();
+            backgroundJobClient = host.Services.GetService<IBackgroundJobClient>();
         }
 
         protected override void OnStarted()
@@ -44,17 +46,18 @@
 
         public void RunHangfireJobs()
         {
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88,
-                job => job.SyncNova88(),
-                cronJob.CurrentValue.SyncNova88);
+           // recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88,
+           //     job => job.SyncNova88(),
+           //     cronJob.CurrentValue.SyncNova88);
 
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybet,
-                job => job.SyncIvorybet(),
-                cronJob.CurrentValue.SyncIvorybet);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybet,
+           //     job => job.SyncIvorybet(),
+           //     cronJob.CurrentValue.SyncIvorybet);
 
             recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88,
                 job => job.SyncOpal88(),
                 cronJob.CurrentValue.SyncOpal88);
+           // backgroundJobClient.Enqueue<IJobService>(job => job.SyncOpal88());
         }
 
         private static void RemoveCurrentHangfireServer()
