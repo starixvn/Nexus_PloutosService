@@ -109,6 +109,7 @@
             services.Configure<IdentifyModel>(Configuration.GetSection("HangfireAuthenticate"));
             services.Configure<CronJob>(Configuration.GetSection("CronJob"));
             services.Configure<ApiConfigs>(Configuration.GetSection("ApiConfigs"));
+            services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
             services.AddTransient<ILogger, Logger>();
             RegisterService(services);
             RegisterRepository(services);
@@ -170,6 +171,7 @@
             services.AddScoped<INova88Service, Nova88Service>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IWebClientService, WebClientService>();
+            services.AddScoped<IBaseMailService, BaseMailService>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IUtil, Util>();
 

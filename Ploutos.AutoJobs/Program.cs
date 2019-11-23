@@ -40,8 +40,8 @@
 
             host.RunAsCustomService(isService);
 
+            System.Console.ReadKey();
 
-           
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)

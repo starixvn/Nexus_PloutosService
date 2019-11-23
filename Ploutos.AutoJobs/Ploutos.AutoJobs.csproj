@@ -61,6 +61,7 @@
     <PackageReference Include="Fanex.Logging.Sentry" Version="1.0.6" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.7" />
     <PackageReference Include="Hangfire.MySql.Core" Version="2.2.5" />
+    <PackageReference Include="MailKit" Version="2.4.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="2.2.0" />
@@ -104,5 +105,8 @@
     <None Update="Views\Auth\Login.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="EmailTemplates\" />
   </ItemGroup>
 </Project>
