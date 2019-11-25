@@ -5,6 +5,7 @@
     using Ploutos.AutoJobs.Utils;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class SyncServiceBase
@@ -37,35 +38,52 @@
         private async Task PushPlayers(string siteName)
         {
             var playerProfiles = await this.dataService.GetPlayerProfiles(siteName, apiConfigs.PlayerBatchSize);
+
+            var profileListBatches = playerProfiles
+                    .Select((s, i) => new { Value = s, Index = i })
+                    .GroupBy(x => x.Index / 5)
+                    .Select(grp => grp.Select(x => x.Value).ToArray())
+                    .ToList();
+
+            foreach(var batch in profileListBatches)
+            {
+                var tasks = new Task[batch.Count()];
+                for (int i = 0; i < batch.Count(); i++)
+                {
+                    tasks[i] = PushPlayer(batch[i], siteName);
+                }
+                await Task.WhenAll(tasks);
+            }
+        }
+
+        private async Task PushPlayer(PlayerProfile profile, string siteName)
+        {
             List<UpdatePlayerProfile> updatePlayerProfiles = new List<UpdatePlayerProfile>();
 
-            foreach (var profile in playerProfiles)
+            var updateProfile = new UpdatePlayerProfile(profile);
+
+            try
             {
-                var updateProfile = new UpdatePlayerProfile(profile);
+                var response = await webClientService.PostAsync<PlayerProfile>(
+                    apiConfigs.PloutosBaseDomain,
+                    apiConfigs.RegisterPlayerUrl,
+                    apiConfigs.PloutosToken,
+                    profile);
 
-                try
-                {
-                    var response = await webClientService.PostAsync<PlayerProfile>(
-                        apiConfigs.PloutosBaseDomain,
-                        apiConfigs.RegisterPlayerUrl,
-                        apiConfigs.PloutosToken,
-                        profile);
-
-                    var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
-                    updateProfile.ResponseResult = response.Content;
-                    updateProfile.IsError = !profileResponse.IsSuccess;
-                    updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;                    
-                }
-                catch (Exception ex)
-                {
-                    var errorMsg = this.util.BuildLogMessage(ex);
-                    updateProfile.ResponseResult = errorMsg;
-                    updateProfile.IsError = true;
-                    await this.logger.ErrorAsync(errorMsg);
-                }
-
-                updatePlayerProfiles.Add(updateProfile);
+                var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
+                updateProfile.ResponseResult = response.Content;
+                updateProfile.IsError = !profileResponse.IsSuccess;
+                updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
             }
+            catch (Exception ex)
+            {
+                var errorMsg = this.util.BuildLogMessage(ex);
+                updateProfile.ResponseResult = ex.Message;
+                updateProfile.IsError = true;
+                await this.logger.ErrorAsync(errorMsg);
+            }
+
+            updatePlayerProfiles.Add(updateProfile);
 
             var result = await this.dataService.UpdatePlayerProfiles(siteName, updatePlayerProfiles);
         }
@@ -101,7 +119,7 @@
                 var errorMsg = this.util.BuildLogMessage(ex);
                 foreach (var updateTicket in updateBetTickets)
                 {
-                    updateTicket.ResponseResult = errorMsg;
+                    updateTicket.ResponseResult = ex.Message;
                     updateTicket.IsError = true;
                 }
 

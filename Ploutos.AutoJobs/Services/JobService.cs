@@ -74,13 +74,13 @@
             {
                 try
                 {
-                    await opal88Service.PushData();
+                    await opal88Service.PushData();                    
                 }
                 catch (Exception ex)
                 {
                     await logger.ErrorAsync(this.util.BuildLogMessage(ex));
                     throw;
-                }
+                }               
             }
         }        
     }
