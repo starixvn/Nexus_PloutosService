@@ -105,12 +105,21 @@
         private async Task PushTickets(string siteName)
         {
             var betTickets = await this.dataService.GetBetTickets(siteName, apiConfigs.TicketBatchSize);
-            List<UpdateBetTicket> updateBetTickets = new List<UpdateBetTicket>();
-            foreach (var ticket in betTickets)
-            {
-                updateBetTickets.Add(new UpdateBetTicket(ticket));
-            }
+            var betTicketBatches = betTickets
+                    .Select((s, i) => new { Value = s, Index = i })
+                    .GroupBy(x => x.Index / 100)
+                    .Select(grp => grp.Select(x => x.Value).ToList())
+                    .ToList();
 
+            foreach(var batch in betTicketBatches)
+            {
+                await PushTicketBatch(siteName, batch);
+            }
+        }
+
+        private async Task PushTicketBatch(string siteName, List<BetTicket> betTickets)
+        {
+            List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
             var pushTime = DateTime.Now;
             var responseTime = DateTime.Now;
@@ -145,7 +154,7 @@
                         updateBetTickets[i].ResponseResult = errorMsg;
                     }
                 }
-                
+
             }
             catch (Exception ex)
             {
