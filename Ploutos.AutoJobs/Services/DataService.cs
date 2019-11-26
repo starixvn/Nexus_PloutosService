@@ -32,6 +32,7 @@
 
         public async Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize)
         {
+            
             var criteria = new GetPlayerProfileCriteria()
             {
                 BrandCode = siteName, 
@@ -42,7 +43,8 @@
             return playerProfiles.ToList();
         }        
 
-        public Task<CommandResult> UpdateBetTickets(string siteName, List<UpdateBetTicket> betTickets)
+        public Task<CommandResult> UpdateBetTickets(string siteName, DateTime pushTime, DateTime responseTime,
+            string responseResult, List<UpdateBetTicket> betTickets)
         {
             DataTable data = new DataTable();
             data.Columns.Add("BetAmount");
@@ -54,8 +56,6 @@
             data.Columns.Add("LossAmount");
             data.Columns.Add("PlayerCode");
             data.Columns.Add("ResponseResult");
-            data.Columns.Add("RoundId");
-            data.Columns.Add("SessionId");
             data.Columns.Add("TransactionDate");
             data.Columns.Add("TransactionNo");
             data.Columns.Add("WinAmount");
@@ -63,12 +63,15 @@
             {
                 data.Rows.Add(ticket.BetAmount, ticket.CurrencyCode, ticket.GameId, ticket.GamePlatformCode,
                     ticket.GameType, ticket.IsError, ticket.LossAmount, ticket.PlayerCode, ticket.ResponseResult,
-                    ticket.RoundId, ticket.SessionId, ticket.TransactionDate, ticket.TransactionNo, ticket.WinAmount);
+                    ticket.TransactionDate, ticket.TransactionNo, ticket.WinAmount);
             }
 
             var criteria = new UpdateBetTicketCriteria()
             {
                 BrandCode = siteName,
+                PushTime = pushTime,
+                ResponseTime = responseTime,
+                ResponseResult = responseResult,
                 BetTicket = data
             };
 
@@ -87,8 +90,10 @@
             data.Columns.Add("LanguageCode");
             data.Columns.Add("Password");
             data.Columns.Add("PlayerCode");
-            data.Columns.Add("PlayerTypeCode");            
+            data.Columns.Add("PlayerTypeCode");
+            data.Columns.Add("PushTime");
             data.Columns.Add("ResponseResult");
+            data.Columns.Add("ResponseTime");
             data.Columns.Add("Username");
 
 
@@ -97,7 +102,8 @@
                 data.Rows.Add(
                     profile.BrandCode, profile.CurrencyCode, profile.CustId, profile.EmailAddress, 
                     profile.IPAddress, profile.IsError, profile.LanguageCode, profile.Password,
-                    profile.PlayerCode, profile.PlayerTypeCode, profile.ResponseResult, profile.Username);
+                    profile.PlayerCode, profile.PlayerTypeCode, 
+                    profile.PushTime, profile.ResponseResult, profile.ResponseTime, profile.Username);
             }
 
             var criteria = new UpdatePlayerProfileCriteria()
@@ -130,16 +136,14 @@
             return new BetTicket
             {
                 GamePlatformCode = "SB",
-                SessionId = "strongpassword",
-                RoundId = "HCM",
                 GameId = "SB01",
                 GameType = 1,
                 TransactionDate = DateTime.Parse("2019-01-01"),
                 TransactionNo = transactionNo,
-                PlayerCode = "OPAL0191511441",
-                BetAmount = 100,
+                PlayerCode = "OPA1926111112265",
+                BetAmount = 1122,
                 WinAmount = 0,
-                LossAmount = 100
+                LossAmount = 1122
             };
         }
 
@@ -147,15 +151,15 @@
         {
             return new BetTicket
             {
-                RoundId = "HCM",
+                GamePlatformCode = "xx",
                 GameId = "SB01",
                 GameType = 1,
                 TransactionDate = DateTime.Parse("2019-01-01"),
                 TransactionNo = transactionNo,
-                PlayerCode = "OPAL0191511441",
-                BetAmount = 100,
+                PlayerCode = "OPA1926111112265xx",
+                BetAmount = 1133,
                 WinAmount = 0,
-                LossAmount = 100
+                LossAmount = 1133
             };
         }
     }

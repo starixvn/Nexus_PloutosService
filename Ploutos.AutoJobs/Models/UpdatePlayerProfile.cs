@@ -1,4 +1,6 @@
-﻿namespace Ploutos.AutoJobs.Models
+﻿using System;
+
+namespace Ploutos.AutoJobs.Models
 {
     public class UpdatePlayerProfile
     {
@@ -28,5 +30,7 @@
         public string ResponseResult { get; set; }
         public bool IsError { get; set; }
         public string PlayerCode { get; set; }
+        public DateTime PushTime { get; set; }
+        public DateTime ResponseTime { get; set; }
     }
 }

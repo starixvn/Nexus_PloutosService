@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
     using System.Threading.Tasks;
 
     public class SyncServiceBase
@@ -41,7 +42,7 @@
 
             var profileListBatches = playerProfiles
                     .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / 5)
+                    .GroupBy(x => x.Index / 2)
                     .Select(grp => grp.Select(x => x.Value).ToArray())
                     .ToList();
 
@@ -62,18 +63,29 @@
 
             var updateProfile = new UpdatePlayerProfile(profile);
 
+            var pushTime = DateTime.Now;
+            var responseTime = DateTime.Now;
             try
-            {
+            {   
                 var response = await webClientService.PostAsync<PlayerProfile>(
                     apiConfigs.PloutosBaseDomain,
                     apiConfigs.RegisterPlayerUrl,
                     apiConfigs.PloutosToken,
                     profile);
+                responseTime = DateTime.Now;
 
-                var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
-                updateProfile.ResponseResult = response.Content;
-                updateProfile.IsError = !profileResponse.IsSuccess;
-                updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    updateProfile.ResponseResult = response.Content;
+                    updateProfile.IsError = true;
+                }
+                else
+                {
+                    var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
+                    updateProfile.ResponseResult = response.Content;
+                    updateProfile.IsError = !profileResponse.IsSuccess;
+                    updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
+                }   
             }
             catch (Exception ex)
             {
@@ -82,6 +94,8 @@
                 updateProfile.IsError = true;
                 await this.logger.ErrorAsync(errorMsg);
             }
+            updateProfile.PushTime = pushTime;
+            updateProfile.ResponseTime = responseTime;
 
             updatePlayerProfiles.Add(updateProfile);
 
@@ -97,6 +111,9 @@
                 updateBetTickets.Add(new UpdateBetTicket(ticket));
             }
 
+            var responseResult = string.Empty;
+            var pushTime = DateTime.Now;
+            var responseTime = DateTime.Now;
             try
             {
                 var response = await webClientService.PostAsync<List<BetTicket>>(
@@ -104,15 +121,31 @@
                         apiConfigs.SendBetUrl,
                         apiConfigs.PloutosToken,
                         betTickets);
+                responseResult = response.Content;
+                responseTime = DateTime.Now;
 
-                var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
-
-                for (var i = 0; i < updateBetTickets.Count; i++)
+                if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
-                    var errorMsg = ticketResponse.GetErrorMessage(i);
-                    updateBetTickets[i].IsError = !string.IsNullOrEmpty(errorMsg);
-                    updateBetTickets[i].ResponseResult = errorMsg;
+                    var ticketResponse = this.util.ConvertJsonResponse<TicketResponseBadRequest>(response.Content);
+
+                    for (var i = 0; i < updateBetTickets.Count; i++)
+                    {
+                        var errorMsg = ticketResponse.GetErrorMessage(i);
+                        updateBetTickets[i].IsError = true;
+                        updateBetTickets[i].ResponseResult = errorMsg;
+                    }
                 }
+                else
+                {
+                    var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
+                    for (var i = 0; i < updateBetTickets.Count; i++)
+                    {
+                        var errorMsg = ticketResponse.GetErrorMessage(updateBetTickets[i].TransactionNo);
+                        updateBetTickets[i].IsError = !string.IsNullOrEmpty(errorMsg);
+                        updateBetTickets[i].ResponseResult = errorMsg;
+                    }
+                }
+                
             }
             catch (Exception ex)
             {
@@ -126,7 +159,7 @@
                 await this.logger.ErrorAsync(errorMsg);
             }
 
-            await this.dataService.UpdateBetTickets(siteName, updateBetTickets);
+            await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
         }
     }
 }

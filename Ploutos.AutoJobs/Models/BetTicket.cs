@@ -5,8 +5,6 @@
     public class BetTicket
     {
         public string GamePlatformCode { get; set; }
-        public string SessionId { get; set; }
-        public string RoundId { get; set; }
         public string GameId { get; set; }
         public int GameType { get; set; }
         public DateTime TransactionDate { get; set; }

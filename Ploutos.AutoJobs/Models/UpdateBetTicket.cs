@@ -13,8 +13,6 @@
             GameType = betTicket.GameType;
             LossAmount = betTicket.LossAmount;
             PlayerCode = betTicket.PlayerCode;
-            RoundId = betTicket.RoundId;
-            SessionId = betTicket.SessionId;
             TransactionDate = betTicket.TransactionDate;
             TransactionNo = betTicket.TransactionNo;
             WinAmount = betTicket.WinAmount;
@@ -29,8 +27,6 @@
         public double LossAmount { get; set; }
         public string PlayerCode { get; set; }
         public string ResponseResult { get; set; }
-        public string RoundId { get; set; }
-        public string SessionId { get; set; }        
         public DateTime TransactionDate { get; set; }
         public string TransactionNo { get; set; }
         public double WinAmount { get; set; }        
