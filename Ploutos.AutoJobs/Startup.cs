@@ -109,6 +109,7 @@
             services.Configure<IdentifyModel>(Configuration.GetSection("HangfireAuthenticate"));
             services.Configure<CronJob>(Configuration.GetSection("CronJob"));
             services.Configure<ApiConfigs>(Configuration.GetSection("ApiConfigs"));
+            services.Configure<ProxySettings>(Configuration.GetSection("ProxySettings"));
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
             services.AddTransient<ILogger, Logger>();
             RegisterService(services);

@@ -59,10 +59,7 @@
 
         private async Task PushPlayer(PlayerProfile profile, string siteName)
         {
-            List<UpdatePlayerProfile> updatePlayerProfiles = new List<UpdatePlayerProfile>();
-
             var updateProfile = new UpdatePlayerProfile(profile);
-
             var pushTime = DateTime.Now;
             var responseTime = DateTime.Now;
             try
@@ -73,33 +70,34 @@
                     apiConfigs.PloutosToken,
                     profile);
                 responseTime = DateTime.Now;
-
-                if (response.StatusCode == HttpStatusCode.BadRequest)
+                
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
+                    updateProfile.ResponseResult = response.Content;
+                    updateProfile.IsError = !profileResponse.IsSuccess;
+                    updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
+                }
+                else if (response.StatusCode == HttpStatusCode.BadRequest)
                 {
                     updateProfile.ResponseResult = response.Content;
                     updateProfile.IsError = true;
                 }
                 else
                 {
-                    var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
-                    updateProfile.ResponseResult = response.Content;
-                    updateProfile.IsError = !profileResponse.IsSuccess;
-                    updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
-                }   
+                    throw new Exception(response.ErrorMessage);
+                }
             }
             catch (Exception ex)
             {
-                var errorMsg = this.util.BuildLogMessage(ex);
                 updateProfile.ResponseResult = ex.Message;
                 updateProfile.IsError = true;
-                await this.logger.ErrorAsync(errorMsg);
+                await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
             }
             updateProfile.PushTime = pushTime;
             updateProfile.ResponseTime = responseTime;
 
-            updatePlayerProfiles.Add(updateProfile);
-
-            var result = await this.dataService.UpdatePlayerProfiles(siteName, updatePlayerProfiles);
+            await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
         }
 
         private async Task PushTickets(string siteName)
@@ -133,18 +131,7 @@
                 responseResult = response.Content;
                 responseTime = DateTime.Now;
 
-                if (response.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    var ticketResponse = this.util.ConvertJsonResponse<TicketResponseBadRequest>(response.Content);
-
-                    for (var i = 0; i < updateBetTickets.Count; i++)
-                    {
-                        var errorMsg = ticketResponse.GetErrorMessage(i);
-                        updateBetTickets[i].IsError = true;
-                        updateBetTickets[i].ResponseResult = errorMsg;
-                    }
-                }
-                else
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
                     for (var i = 0; i < updateBetTickets.Count; i++)
@@ -154,18 +141,32 @@
                         updateBetTickets[i].ResponseResult = errorMsg;
                     }
                 }
+                else if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var ticketResponse = this.util.ConvertJsonResponse<TicketResponseBadRequest>(response.Content);
 
+                    for (var i = 0; i < updateBetTickets.Count; i++)
+                    {
+                        var errorMsg = ticketResponse.GetErrorMessage(i);
+                        updateBetTickets[i].IsError = true;
+                        updateBetTickets[i].ResponseResult = errorMsg;
+                    }
+                }               
+                else
+                {
+                    responseResult = response.ErrorMessage;
+                    throw new Exception(response.ErrorMessage);                    
+                }
             }
             catch (Exception ex)
             {
-                var errorMsg = this.util.BuildLogMessage(ex);
                 foreach (var updateTicket in updateBetTickets)
                 {
-                    updateTicket.ResponseResult = ex.Message;
+                    updateTicket.ResponseResult = string.Empty;
                     updateTicket.IsError = true;
                 }
 
-                await this.logger.ErrorAsync(errorMsg);
+                await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
             }
 
             await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
