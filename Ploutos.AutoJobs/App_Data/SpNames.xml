@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Functions>    
-  <Function Name="Sync Test">
-    <Setting Key="Test_Table_Param" SpName="Test_Table_Param" DbName="DBOIC.bodb_OIC.bodbAdminNet" Plain="0"></Setting>
-  </Function>
+<Functions>     
   <Function Name="Sync Data">
     <Setting Key="Plo_API_PlayerProfile_SelPush" SpName="Plo_API_PlayerProfile_SelPush" DbName="Ploutos" Plain="0"></Setting>
     <Setting Key="Plo_API_PlayerProfile_Update" SpName="Plo_API_PlayerProfile_Update" DbName="Ploutos" Plain="0"></Setting>
