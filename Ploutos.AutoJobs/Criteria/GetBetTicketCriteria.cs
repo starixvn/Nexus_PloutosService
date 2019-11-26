@@ -6,7 +6,7 @@
     {
         public string BrandCode { get; set; }
         public int TotalRows { get; set; }
-        public override string GetSettingKey() => "API_BetTicket_SelPush";
+        public override string GetSettingKey() => "Plo_API_BetTicket_SelPush";
         public override bool IsValid() => true;
     }
 }
