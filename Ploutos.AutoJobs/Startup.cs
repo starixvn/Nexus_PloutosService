@@ -22,6 +22,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
+    using ONEbook.UM.AspNetCore;
+    using ONEbook.UM.Configurations;
     using ONEbook.UM.Helpers;
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
@@ -112,6 +114,7 @@
             services.Configure<ProxySettings>(Configuration.GetSection("ProxySettings"));
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
             services.AddTransient<ILogger, Logger>();
+            services.AddSingleton(new UMClientConfiguration().Initialize(Configuration));
             RegisterService(services);
             RegisterRepository(services);
 

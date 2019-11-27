@@ -4,6 +4,7 @@
     using Hangfire;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
+    using ONEbook.UM.Services;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Utils;
     using System;
@@ -18,6 +19,7 @@
         private readonly IOpal88Service opal88Service;
         private readonly ILogger logger;
         private readonly IUtil util;
+        private readonly IMaintenanceService maintenanceService;
 
         public JobService(
             IOptionsSnapshot<ApiConfigs> apiConfigs,
@@ -25,7 +27,8 @@
             IIvorybetService ivorybetService,
             IOpal88Service opal88Service,
             ILogger logger,
-            IUtil util)
+            IUtil util,
+            IMaintenanceService maintenanceService)
         {
             this.apiConfigs = apiConfigs;
             this.nova88Service = nova88Service;
@@ -33,12 +36,14 @@
             this.opal88Service = opal88Service;
             this.logger = logger;
             this.util = util;
+            this.maintenanceService = maintenanceService;
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task SyncIvorybet()
         {
-            if (apiConfigs.Value.Ivorybet.IsEnabled)
+            bool isMaintenance = await maintenanceService.IsUnderMaintenanceAsync();
+            if (apiConfigs.Value.Ivorybet.IsEnabled && !isMaintenance)
             {
                 try
                 {
@@ -55,7 +60,8 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task SyncNova88()
         {
-            if (apiConfigs.Value.Nova88.IsEnabled)
+            bool isMaintenance = await maintenanceService.IsUnderMaintenanceAsync();
+            if (apiConfigs.Value.Nova88.IsEnabled && !isMaintenance)
             {
                 try
                 {
@@ -72,7 +78,8 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task SyncOpal88()
         {
-           if (apiConfigs.Value.Opal88.IsEnabled)
+            bool isMaintenance = await maintenanceService.IsUnderMaintenanceAsync();
+            if (apiConfigs.Value.Opal88.IsEnabled && !isMaintenance)
             {
                 try
                 {
