@@ -96,7 +96,7 @@
                 }
                 else
                 {
-                    throw new Exception(response.ErrorMessage);
+                    throw new Exception(response.ErrorMessage ?? response.Content);
                 }
             }
             catch (Exception ex)
@@ -174,12 +174,12 @@
                 }               
                 else
                 {
-                    responseResult = response.ErrorMessage;
-                    throw new Exception(response.ErrorMessage);                    
+                    throw new Exception(response.ErrorMessage ?? response.Content);                    
                 }
             }
             catch (Exception ex)
             {
+                responseResult = ex.Message;
                 foreach (var updateTicket in updateBetTickets)
                 {
                     updateTicket.ResponseResult = string.Empty;
