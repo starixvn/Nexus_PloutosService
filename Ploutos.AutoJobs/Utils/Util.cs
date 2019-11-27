@@ -20,5 +20,10 @@
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
+
+        public DateTime GetCurrentTimeAtGMTMinus4()
+        {
+            return DateTime.Now.ToUniversalTime().AddHours(-4);
+        }
     }
 }

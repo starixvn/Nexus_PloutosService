@@ -71,8 +71,8 @@
         private async Task<bool> PushPlayer(PlayerProfile profile, string siteName)
         {
             var updateProfile = new UpdatePlayerProfile(profile);
-            var pushTime = DateTime.Now;
-            var responseTime = DateTime.Now;
+            var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
+            var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {   
                 var response = await webClientService.PostAsync<PlayerProfile>(
@@ -80,8 +80,8 @@
                     apiConfigs.RegisterPlayerUrl,
                     apiConfigs.PloutosToken,
                     profile);
-                responseTime = DateTime.Now;
-                
+                responseTime = this.util.GetCurrentTimeAtGMTMinus4();
+
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
@@ -139,8 +139,8 @@
         {
             List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
-            var pushTime = DateTime.Now;
-            var responseTime = DateTime.Now;
+            var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
+            var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
                 var response = await webClientService.PostAsync<List<BetTicket>>(
@@ -149,7 +149,7 @@
                         apiConfigs.PloutosToken,
                         betTickets);
                 responseResult = response.Content;
-                responseTime = DateTime.Now;
+                responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {

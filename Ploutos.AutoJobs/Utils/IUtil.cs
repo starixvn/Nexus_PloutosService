@@ -10,5 +10,7 @@ namespace Ploutos.AutoJobs.Utils
         string BuildLogMessage(Exception exception);
 
         T ConvertJsonResponse<T>(string json);
+
+        DateTime GetCurrentTimeAtGMTMinus4();
     }
 }
