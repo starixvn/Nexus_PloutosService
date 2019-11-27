@@ -2,10 +2,12 @@
 {
     using Fanex.Logging;
     using Hangfire;
+    using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Utils;
     using System;
+    using System.IO;
     using System.Threading.Tasks;
 
     public class JobService : IJobService
@@ -15,7 +17,7 @@
         private readonly IIvorybetService ivorybetService;
         private readonly IOpal88Service opal88Service;
         private readonly ILogger logger;
-        private readonly IUtil util;        
+        private readonly IUtil util;
 
         public JobService(
             IOptionsSnapshot<ApiConfigs> apiConfigs,
@@ -70,7 +72,7 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task SyncOpal88()
         {
-            if (apiConfigs.Value.Opal88.IsEnabled)
+           if (apiConfigs.Value.Opal88.IsEnabled)
             {
                 try
                 {

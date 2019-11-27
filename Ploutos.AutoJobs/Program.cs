@@ -10,6 +10,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.EventLog;
+    using NLog.Web;
     using Ploutos.AutoJobs.Criteria;
     using Ploutos.AutoJobs.Extensions;
     using Ploutos.AutoJobs.Models;
@@ -19,29 +20,36 @@
     {
         public static void Main(string[] args)
         {
-            System.Console.WriteLine("123");
-            //System.Console.ReadKey();
+            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
-            
-
-
-            var isService = !(Debugger.IsAttached || args.Contains("--console"));
-
-            if (isService)
+            try
             {
-                var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
-                var pathToContentRoot = Path.GetDirectoryName(pathToExe);
-                Directory.SetCurrentDirectory(pathToContentRoot);
+                logger.Log(NLog.LogLevel.Warn, "Start Service");
+                var isService = !(Debugger.IsAttached || args.Contains("--console"));
+
+                if (isService)
+                {
+                    var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
+                    var pathToContentRoot = Path.GetDirectoryName(pathToExe);
+                    Directory.SetCurrentDirectory(pathToContentRoot);
+                }
+
+                var builder = CreateWebHostBuilder(args.Where(arg => arg != "--console").ToArray());
+
+                var host = builder.Build();
+
+                host.RunAsCustomService(isService);
             }
-
-            var builder = CreateWebHostBuilder(args.Where(arg => arg != "--console").ToArray());
-
-            var host = builder.Build();
-
-            host.RunAsCustomService(isService);
-
-            System.Console.ReadKey();
-
+            catch(Exception ex)
+            {
+                logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception!");
+                throw;
+            }
+            finally
+            {
+                logger.Log(NLog.LogLevel.Warn, "Stop Service");
+                NLog.LogManager.Shutdown();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
@@ -65,7 +73,8 @@
                .UseConfiguration(configuration)
                .UseEnvironment(evn)
                .UseStartup<Startup>()
-               .UseUrls($"http://0.0.0.0:{configuration["Port"]}");
+               .UseUrls($"http://0.0.0.0:{configuration["Port"]}")
+               .UseNLog();
         }
     }
 }

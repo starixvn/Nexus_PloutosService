@@ -16,6 +16,7 @@
         private readonly IDataService dataService;
         private readonly ILogger logger;
         private readonly IUtil util;
+        private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
 
         public SyncServiceBase(BrandApiConfigs apiConfigs,
             IWebClientService webClientService,
@@ -28,6 +29,7 @@
             this.dataService = dataService;
             this.logger = logger;
             this.util = util;
+            
         }
 
         protected virtual async Task PushData(string siteName)
@@ -38,26 +40,35 @@
 
         private async Task PushPlayers(string siteName)
         {
-            var playerProfiles = await this.dataService.GetPlayerProfiles(siteName, apiConfigs.PlayerBatchSize);
+            fileLogger.Warn(string.Format("Start Push Players for {0}", siteName));
 
+            var playerProfiles = await this.dataService.GetPlayerProfiles(siteName, apiConfigs.PlayerBatchSize);
             var profileListBatches = playerProfiles
                     .Select((s, i) => new { Value = s, Index = i })
                     .GroupBy(x => x.Index / 2)
                     .Select(grp => grp.Select(x => x.Value).ToArray())
                     .ToList();
 
+            var successCount = 0;
+            var failedCount = 0;
             foreach(var batch in profileListBatches)
             {
-                var tasks = new Task[batch.Count()];
+                var tasks = new Task<bool>[batch.Count()];
                 for (int i = 0; i < batch.Count(); i++)
                 {
                     tasks[i] = PushPlayer(batch[i], siteName);
                 }
-                await Task.WhenAll(tasks);
+
+                var results = await Task.WhenAll(tasks);
+                successCount += results.Count(r => r);
+                failedCount += results.Count(r => !r);
             }
+
+            fileLogger.Warn(string.Format("Finish Push Players for {0}, total: {1}, success: {2}, failed: {3}", 
+                siteName, playerProfiles.Count, successCount, failedCount));
         }
 
-        private async Task PushPlayer(PlayerProfile profile, string siteName)
+        private async Task<bool> PushPlayer(PlayerProfile profile, string siteName)
         {
             var updateProfile = new UpdatePlayerProfile(profile);
             var pushTime = DateTime.Now;
@@ -98,10 +109,14 @@
             updateProfile.ResponseTime = responseTime;
 
             await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
+
+            return !updateProfile.IsError;
         }
 
         private async Task PushTickets(string siteName)
         {
+            fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
+
             var betTickets = await this.dataService.GetBetTickets(siteName, apiConfigs.TicketBatchSize);
             var betTicketBatches = betTickets
                     .Select((s, i) => new { Value = s, Index = i })
@@ -109,13 +124,18 @@
                     .Select(grp => grp.Select(x => x.Value).ToList())
                     .ToList();
 
+            var successCount = 0;
             foreach(var batch in betTicketBatches)
             {
-                await PushTicketBatch(siteName, batch);
+                var batchResult = await PushTicketBatch(siteName, batch);
+                successCount += batchResult;
             }
+
+            fileLogger.Warn(string.Format("Finish Push Tickets for {0}, total: {1}, success: {2}, failed: {3}",
+                siteName, betTickets.Count, successCount, betTickets.Count - successCount));
         }
 
-        private async Task PushTicketBatch(string siteName, List<BetTicket> betTickets)
+        private async Task<int> PushTicketBatch(string siteName, List<BetTicket> betTickets)
         {
             List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
@@ -170,6 +190,8 @@
             }
 
             await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
+
+            return updateBetTickets.Count(t => !t.IsError);
         }
     }
 }

@@ -143,7 +143,8 @@
                 PlayerCode = "OPA1926111112265",
                 BetAmount = 1122,
                 WinAmount = 0,
-                LossAmount = 1122
+                LossAmount = 1122,
+                CurrencyCode = "USD"
             };
         }
 
@@ -159,7 +160,8 @@
                 PlayerCode = "OPA1926111112265xx",
                 BetAmount = 1133,
                 WinAmount = 0,
-                LossAmount = 1133
+                LossAmount = 1133,
+                CurrencyCode = "USD"
             };
         }
     }
