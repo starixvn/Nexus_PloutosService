@@ -83,7 +83,7 @@
             {
                 try
                 {
-                    await opal88Service.PushData();                    
+                    await opal88Service.PushData();
                 }
                 catch (Exception ex)
                 {

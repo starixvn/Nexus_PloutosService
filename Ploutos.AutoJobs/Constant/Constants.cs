@@ -8,7 +8,7 @@ namespace Ploutos.AutoJobs.Constant
     {
         public const string Opal88 = "Opal88";
         public const string Nova88 = "Nova88";
-        public const string Ivorybet = "Ivorybet";
+        public const string Ivorybet = "Ivorysport";
         public const string StatusSuccess = "SUCCESS";
     }
 }
