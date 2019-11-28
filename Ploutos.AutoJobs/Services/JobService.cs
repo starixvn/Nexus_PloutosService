@@ -42,8 +42,8 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task SyncIvorybet()
         {
-            bool isMaintenance = await maintenanceService.IsUnderMaintenanceAsync();
-            if (apiConfigs.Value.Ivorybet.IsEnabled && !isMaintenance)
+            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
+            if (apiConfigs.Value.Ivorybet.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
             {
                 try
                 {
@@ -60,8 +60,8 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task SyncNova88()
         {
-            bool isMaintenance = await maintenanceService.IsUnderMaintenanceAsync();
-            if (apiConfigs.Value.Nova88.IsEnabled && !isMaintenance)
+            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
+            if (apiConfigs.Value.Nova88.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
             {
                 try
                 {
@@ -78,8 +78,8 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task SyncOpal88()
         {
-            bool isMaintenance = await maintenanceService.IsUnderMaintenanceAsync();
-            if (apiConfigs.Value.Opal88.IsEnabled && !isMaintenance)
+            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
+            if (apiConfigs.Value.Opal88.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
             {
                 try
                 {

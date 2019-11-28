@@ -19,7 +19,7 @@
 
         public Task PushData()
         {
-            return base.PushData(Constants.Ivorybet);
+            return base.PushData(Constants.Ivorysport);
         }
     }
 }
