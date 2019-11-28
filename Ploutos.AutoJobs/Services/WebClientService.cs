@@ -10,7 +10,7 @@
 
     public class WebClientService : IWebClientService
     {
-        private readonly IRestClient webClient;        
+        private readonly IRestClient webClient;
 
         public WebClientService(IOptionsSnapshot<ProxySettings> proxySettings)
         {

@@ -23,7 +23,7 @@
 
         public DateTime GetCurrentTimeAtGMTMinus4()
         {
-            return DateTime.Now.ToUniversalTime().AddHours(-4);
+            return DateTime.UtcNow.AddHours(-4);
         }
     }
 }
