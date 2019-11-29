@@ -117,8 +117,14 @@
         {
             fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
 
-            var betTickets = await this.dataService.GetBetTickets(siteName, apiConfigs.TicketBatchSize);
-            var betTicketBatches = betTickets
+            var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketBatchSize);
+
+            var newBetTickets = betTickets.Select(t => {
+                t.TransactionDate = t.TransactionDate.ToUniversalTime();
+                return t;
+            }).ToList();
+
+            var betTicketBatches = newBetTickets
                     .Select((s, i) => new { Value = s, Index = i })
                     .GroupBy(x => x.Index / 100)
                     .Select(grp => grp.Select(x => x.Value).ToList())
@@ -171,10 +177,10 @@
                         updateBetTickets[i].IsError = true;
                         updateBetTickets[i].ResponseResult = errorMsg;
                     }
-                }               
+                }
                 else
                 {
-                    throw new Exception(response.ErrorMessage ?? response.Content);                    
+                    throw new Exception(response.ErrorMessage ?? response.Content);
                 }
             }
             catch (Exception ex)

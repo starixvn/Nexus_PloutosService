@@ -27,7 +27,7 @@
             };
             var betTickets = await this.baseRepository.FetchData<BetTicket>(criteria);
 
-            return betTickets.ToList();            
+            return betTickets.ToList();
         }
 
         public async Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize)
