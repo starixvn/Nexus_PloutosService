@@ -120,7 +120,7 @@
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketBatchSize);
 
             var newBetTickets = betTickets.Select(t => {
-                t.TransactionDate = t.TransactionDate.ToUniversalTime();
+                t.TransactionDate = t.TransactionDate.AddHours(-4);
                 return t;
             }).ToList();
 
