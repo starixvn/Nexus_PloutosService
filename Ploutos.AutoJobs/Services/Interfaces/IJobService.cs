@@ -4,10 +4,11 @@
 
     public interface IJobService
     {
-        Task SyncNova88();
-
-        Task SyncIvorybet();
-
-        Task SyncOpal88();
+        Task SyncOpal88Player();
+        Task SyncOpal88Ticket();
+        Task SyncNova88Player();
+        Task SyncNova88Ticket();
+        Task SyncIvorybetPlayer();
+        Task SyncIvorybetTicket();
     }
 }

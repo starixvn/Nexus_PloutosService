@@ -32,6 +32,7 @@
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Repository;
     using Ploutos.AutoJobs.Services;
+    using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.AutoJobs.Utils;
     using Sentry;
 
@@ -170,9 +171,12 @@
 
             #endregion ONEbookUM
 
-            services.AddScoped<IIvorybetService, IvorybetService>();
-            services.AddScoped<IOpal88Service, Opal88Service>();
-            services.AddScoped<INova88Service, Nova88Service>();
+            services.AddScoped<IOpal88PlayerService, Opal88PlayerService>();
+            services.AddScoped<IOpal88TicketService, Opal88TicketService>();
+            services.AddScoped<INova88PlayerService, Nova88PlayerService>();
+            services.AddScoped<INova88TicketService, Nova88TicketService>();
+            services.AddScoped<IIvorybetPlayerService, IvorybetPlayerService>();
+            services.AddScoped<IIvorybetTicketService, IvorybetTicketService>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IWebClientService, WebClientService>();
             services.AddScoped<IBaseMailService, BaseMailService>();

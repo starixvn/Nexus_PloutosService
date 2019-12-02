@@ -61,29 +61,56 @@ namespace Ploutos.AutoJobs.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sync Ivorybet.
+        ///   Looks up a localized string similar to Sync Ivorybet Player.
         /// </summary>
-        internal static string Job_SyncIvorybet {
+        internal static string Job_SyncIvorybetPlayer {
             get {
-                return ResourceManager.GetString("Job_SyncIvorybet", resourceCulture);
+                return ResourceManager.GetString("Job_SyncIvorybetPlayer", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sync Nova88.
+        ///   Looks up a localized string similar to Sync Ivorybet Ticket.
         /// </summary>
-        internal static string Job_SyncNova88 {
+        internal static string Job_SyncIvorybetTicket {
             get {
-                return ResourceManager.GetString("Job_SyncNova88", resourceCulture);
+                return ResourceManager.GetString("Job_SyncIvorybetTicket", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sync Opal88.
+        ///   Looks up a localized string similar to Sync Nova88 Player.
         /// </summary>
-        internal static string Job_SyncOpal88 {
+        internal static string Job_SyncNova88Player {
             get {
-                return ResourceManager.GetString("Job_SyncOpal88", resourceCulture);
+                return ResourceManager.GetString("Job_SyncNova88Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync Nova88 Ticket.
+        /// </summary>
+        internal static string Job_SyncNova88Ticket {
+            get {
+                return ResourceManager.GetString("Job_SyncNova88Ticket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync Opal88 Player.
+        /// </summary>
+        internal static string Job_SyncOpal88Player {
+            get {
+                return ResourceManager.GetString("Job_SyncOpal88Player", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync Opal88 Ticket.
+        /// </summary>
+        internal static string Job_SyncOpal88Ticket {
+            get {
+                return ResourceManager.GetString("Job_SyncOpal88Ticket", resourceCulture);
             }
         }
         

@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Job_SyncIvorybet" xml:space="preserve">
-    <value>Sync Ivorybet</value>
+  <data name="Job_SyncIvorybetPlayer" xml:space="preserve">
+    <value>Sync Ivorybet Player</value>
   </data>
-  <data name="Job_SyncNova88" xml:space="preserve">
-    <value>Sync Nova88</value>
+  <data name="Job_SyncIvorybetTicket" xml:space="preserve">
+    <value>Sync Ivorybet Ticket</value>
   </data>
-  <data name="Job_SyncOpal88" xml:space="preserve">
-    <value>Sync Opal88</value>
+  <data name="Job_SyncNova88Player" xml:space="preserve">
+    <value>Sync Nova88 Player</value>
+  </data>
+  <data name="Job_SyncNova88Ticket" xml:space="preserve">
+    <value>Sync Nova88 Ticket</value>
+  </data>
+  <data name="Job_SyncOpal88Player" xml:space="preserve">
+    <value>Sync Opal88 Player</value>
+  </data>
+  <data name="Job_SyncOpal88Ticket" xml:space="preserve">
+    <value>Sync Opal88 Ticket</value>
   </data>
   <data name="Log_OnStartedService" xml:space="preserve">
     <value>Nap Chatbot Service started &amp; initialize auto jobs at {0}.</value>

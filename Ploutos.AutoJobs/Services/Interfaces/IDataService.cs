@@ -1,13 +1,10 @@
-﻿using Ploutos.AutoJobs.Criteria;
-using Ploutos.AutoJobs.Models;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ploutos.AutoJobs.Services
+﻿namespace Ploutos.AutoJobs.Services
 {
+    using Ploutos.AutoJobs.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IDataService
     {
         Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize);
