@@ -126,7 +126,7 @@
 
             var betTicketBatches = newBetTickets
                     .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / 100)
+                    .GroupBy(x => x.Index / 50)
                     .Select(grp => grp.Select(x => x.Value).ToList())
                     .ToList();
 
