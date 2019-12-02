@@ -28,6 +28,7 @@
     <None Remove="appsettings.Production.json" />
     <None Remove="appsettings.UAT.json" />
     <None Remove="App_Data\SpNames.xml" />
+    <None Remove="Views\Auth\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="appsettings.Development.json">
@@ -46,6 +47,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Auth\Login.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -108,9 +112,6 @@
   <ItemGroup>
     <None Update="nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Views\Auth\Login.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>
