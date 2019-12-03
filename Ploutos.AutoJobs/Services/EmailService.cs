@@ -1,8 +1,8 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
-    using Fanex.Logging;
     using System;
     using System.Threading.Tasks;
+    using Fanex.Logging;
 
     public class EmailService : IEmailService
     {
@@ -16,6 +16,6 @@
         public async Task SendMail(string sitename, string subject, string body, string errorMessage, string url, string receiver)
         {
             throw new NotImplementedException();
-        }        
+        }
     }
 }

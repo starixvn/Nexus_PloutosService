@@ -1,5 +1,7 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
+    using System;
+    using System.Threading.Tasks;
     using Fanex.Logging;
     using Hangfire;
     using Microsoft.Extensions.Options;
@@ -7,8 +9,6 @@
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.AutoJobs.Utils;
-    using System;
-    using System.Threading.Tasks;
 
     public class JobService : IJobService
     {

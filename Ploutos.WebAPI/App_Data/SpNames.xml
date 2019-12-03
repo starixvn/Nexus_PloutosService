@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Player">
+    <Setting Key="Player_GetUserAccountNumberByUsername" SpName="Player_GetUserAccountNumberByUsername" DbName="blueberrydb" Plain="0">
+    </Setting>
+  </Function>
+</Functions>

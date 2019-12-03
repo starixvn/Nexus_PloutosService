@@ -1,7 +1,7 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
-    using RestSharp;
     using System.Threading.Tasks;
+    using RestSharp;
 
     public interface IWebClientService
     {

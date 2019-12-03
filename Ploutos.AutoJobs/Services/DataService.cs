@@ -1,13 +1,13 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
-    using Ploutos.AutoJobs.Criteria;
-    using Ploutos.AutoJobs.Models;
-    using Ploutos.AutoJobs.Repository;
     using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Linq;
     using System.Threading.Tasks;
+    using Ploutos.AutoJobs.Criteria;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Repository;
 
     public class DataService : IDataService
     {
@@ -32,16 +32,15 @@
 
         public async Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize)
         {
-            
             var criteria = new GetPlayerProfileCriteria()
             {
-                BrandCode = siteName, 
+                BrandCode = siteName,
                 TotalRows = batchSize
             };
-            var playerProfiles = await this.baseRepository.FetchData<PlayerProfile>(criteria);            
+            var playerProfiles = await this.baseRepository.FetchData<PlayerProfile>(criteria);
 
             return playerProfiles.ToList();
-        }        
+        }
 
         public Task<CommandResult> UpdateBetTickets(string siteName, DateTime pushTime, DateTime responseTime,
             string responseResult, List<UpdateBetTicket> betTickets)
@@ -59,7 +58,7 @@
             data.Columns.Add("TransactionDate");
             data.Columns.Add("TransactionNo");
             data.Columns.Add("WinAmount");
-            foreach(var ticket in betTickets)
+            foreach (var ticket in betTickets)
             {
                 data.Rows.Add(ticket.BetAmount, ticket.CurrencyCode, ticket.GameId, ticket.GamePlatformCode,
                     ticket.GameType, ticket.IsError, ticket.LossAmount, ticket.PlayerCode, ticket.ResponseResult,
@@ -96,13 +95,12 @@
             data.Columns.Add("ResponseTime");
             data.Columns.Add("Username");
 
-
             foreach (var profile in playerProfiles)
             {
                 data.Rows.Add(
-                    profile.BrandCode, profile.CurrencyCode, profile.CustId, profile.EmailAddress, 
+                    profile.BrandCode, profile.CurrencyCode, profile.CustId, profile.EmailAddress,
                     profile.IPAddress, profile.IsError, profile.LanguageCode, profile.Password,
-                    profile.PlayerCode, profile.PlayerTypeCode, 
+                    profile.PlayerCode, profile.PlayerTypeCode,
                     profile.PushTime, profile.ResponseResult, profile.ResponseTime, profile.Username);
             }
 
@@ -112,7 +110,7 @@
                 PlayerProfile = data
             };
 
-             return this.baseRepository.ExecuteNonQueryAsync(criteria);
+            return this.baseRepository.ExecuteNonQueryAsync(criteria);
         }
 
         private PlayerProfile FakePlayer()
@@ -131,7 +129,7 @@
             };
         }
 
-        private BetTicket FakeTiket(string transactionNo )
+        private BetTicket FakeTiket(string transactionNo)
         {
             return new BetTicket
             {

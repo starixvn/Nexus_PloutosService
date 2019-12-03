@@ -1,12 +1,12 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
-    using Microsoft.Extensions.Options;
-    using Ploutos.AutoJobs.Models;
-    using RestSharp;
     using System;
     using System.Net;
     using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Options;
+    using Ploutos.AutoJobs.Models;
+    using RestSharp;
 
     public class WebClientService : IWebClientService
     {

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ploutos.AutoJobs.Utils
+﻿namespace Ploutos.AutoJobs.Utils
 {
+    using System;
+
     public interface IUtil
     {
         string BuildLogMessage(Exception exception);

@@ -1,7 +1,6 @@
 ﻿namespace Fanex.NCB.AutoJobs
 {
     using System;
-    using System.Data;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
@@ -11,16 +10,13 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.EventLog;
     using NLog.Web;
-    using Ploutos.AutoJobs.Criteria;
     using Ploutos.AutoJobs.Extensions;
-    using Ploutos.AutoJobs.Models;
-    using Ploutos.AutoJobs.Repository;
 
     public static class Program
     {
         public static void Main(string[] args)
         {
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
             try
             {
@@ -40,7 +36,7 @@
 
                 host.RunAsCustomService(isService);
             }
-            catch(Exception ex)
+            catch
             {
                 logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception!");
                 throw;
