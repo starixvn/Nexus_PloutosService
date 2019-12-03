@@ -1,13 +1,13 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
+    using System.Threading.Tasks;
     using Fanex.Logging;
     using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.AutoJobs.Utils;
-    using System.Threading.Tasks;
 
-    class Opal88TicketService : SyncTicketBase, IOpal88TicketService
+    internal class Opal88TicketService : SyncTicketBase, IOpal88TicketService
     {
         public Opal88TicketService(IOptionsSnapshot<ApiConfigs> apiConfigs,
            IWebClientService webClientService,
@@ -20,6 +20,6 @@
         Task IOpal88TicketService.PushTickets()
         {
             return base.PushTickets();
-        }      
+        }
     }
 }
