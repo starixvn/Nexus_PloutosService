@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
 
     public class SyncPlayerBase
@@ -36,10 +37,10 @@
             var siteName = this.apiConfigs.BrandName;
             fileLogger.Warn(string.Format("Start Push Players for {0}", siteName));
 
-            var playerProfiles = await this.dataService.GetPlayerProfiles(siteName, apiConfigs.PlayerConfigs.SyncBatchSize);
+            var playerProfiles = await this.dataService.GetPlayerProfiles(siteName, apiConfigs.PlayerConfigs.QueryBatchSize);
             var profileListBatches = playerProfiles
                     .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / 2)
+                    .GroupBy(x => x.Index / apiConfigs.PlayerConfigs.SyncBatchSize)
                     .Select(grp => grp.Select(x => x.Value).ToArray())
                     .ToList();
 
@@ -66,7 +67,6 @@
         {
             var updateProfile = new UpdatePlayerProfile(profile);
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
-            var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
                 var response = await webClientService.PostAsync<PlayerProfile>(
@@ -74,7 +74,6 @@
                     apiConfigs.PlayerConfigs.Url,
                     apiConfigs.PloutosToken,
                     profile);
-                responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -90,7 +89,7 @@
                 }
                 else
                 {
-                    throw new Exception(response.ErrorMessage ?? response.Content);
+                    throw new HttpRequestException(response.ErrorMessage ?? response.Content);
                 }
             }
             catch (Exception ex)
@@ -100,7 +99,7 @@
                 await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
             }
             updateProfile.PushTime = pushTime;
-            updateProfile.ResponseTime = responseTime;
+            updateProfile.ResponseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
             await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
 

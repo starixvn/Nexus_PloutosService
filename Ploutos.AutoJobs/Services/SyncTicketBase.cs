@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Net.Http;
     using System.Threading.Tasks;
 
     public class SyncTicketBase
@@ -36,7 +37,7 @@
             var siteName = this.apiConfigs.BrandName;
             fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
 
-            var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.SyncBatchSize);
+            var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
 
             var newBetTickets = betTickets.Select(t => {
                 t.TransactionDate = t.TransactionDate.AddHours(-4);
@@ -45,7 +46,7 @@
 
             var betTicketBatches = newBetTickets
                     .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / 50)
+                    .GroupBy(x => x.Index / apiConfigs.TicketConfigs.SyncBatchSize)
                     .Select(grp => grp.Select(x => x.Value).ToList())
                     .ToList();
 
@@ -64,8 +65,7 @@
         {
             List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
-            var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
-            var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
+            var pushTime = this.util.GetCurrentTimeAtGMTMinus4();            
             try
             {
                 var response = await webClientService.PostAsync<List<BetTicket>>(
@@ -74,7 +74,6 @@
                         apiConfigs.PloutosToken,
                         betTickets);
                 responseResult = response.Content;
-                responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -99,7 +98,7 @@
                 }
                 else
                 {
-                    throw new Exception(response.ErrorMessage ?? response.Content);
+                    throw new HttpRequestException(response.ErrorMessage ?? response.Content);
                 }
             }
             catch (Exception ex)
@@ -113,6 +112,7 @@
 
                 await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
             }
+            var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
             await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
 

@@ -65,7 +65,7 @@
                 cronJob.CurrentValue.SyncIvorybetPlayer);
             recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybetTicket,
                 job => job.SyncIvorybetTicket(),
-                cronJob.CurrentValue.SyncIvorybetTicket);
+               cronJob.CurrentValue.SyncIvorybetTicket);
         }
 
         private static void RemoveCurrentHangfireServer()

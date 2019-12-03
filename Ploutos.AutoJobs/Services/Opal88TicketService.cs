@@ -19,7 +19,7 @@
 
         Task IOpal88TicketService.PushTickets()
         {
-            throw new System.NotImplementedException();
+            return base.PushTickets();
         }      
     }
 }
