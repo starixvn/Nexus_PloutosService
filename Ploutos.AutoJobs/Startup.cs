@@ -171,6 +171,7 @@
 
             #endregion ONEbookUM
 
+            services.AddScoped<IJobRunningChecker, JobRunningChecker>();
             services.AddScoped<IOpal88PlayerService, Opal88PlayerService>();
             services.AddScoped<IOpal88TicketService, Opal88TicketService>();
             services.AddScoped<INova88PlayerService, Nova88PlayerService>();
@@ -188,6 +189,7 @@
 
         private static void RegisterRepository(IServiceCollection services)
         {
+            services.AddSingleton<IRedisRepository, RedisRepository>();
             services.AddScoped<IBaseRepository, BaseRepository>();
         }
 

@@ -6,6 +6,7 @@
     using Hangfire;
     using Microsoft.Extensions.Options;
     using ONEbook.UM.Services;
+    using Ploutos.AutoJobs.Constant;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.AutoJobs.Utils;
@@ -22,6 +23,8 @@
         private readonly ILogger logger;
         private readonly IUtil util;
         private readonly IMaintenanceService maintenanceService;
+        private readonly IJobRunningChecker jobRunningChecker;
+        private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
 
         public JobService(
             IOptionsSnapshot<ApiConfigs> apiConfigs,            
@@ -33,7 +36,8 @@
             INova88PlayerService nova88PlayerService,
             INova88TicketService nova88TicketService,
             IIvorybetPlayerService ivorybetPlayerService,
-            IIvorybetTicketService ivorybetTicketService)
+            IIvorybetTicketService ivorybetTicketService,
+            IJobRunningChecker jobRunningChecker)
         {
             this.apiConfigs = apiConfigs;            
             this.logger = logger;
@@ -45,113 +49,68 @@
             this.nova88TicketService = nova88TicketService;
             this.ivorybetPlayerService = ivorybetPlayerService;
             this.ivorybetTicketService = ivorybetTicketService;
+            this.jobRunningChecker = jobRunningChecker;
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-        public async Task SyncOpal88Player()
+        public Task SyncOpal88Player()
         {
-            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            if (apiConfigs.Value.Opal88.PlayerConfigs.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
-            {
-                try
-                {
-                    await opal88PlayerService.PushPlayers();
-                }
-                catch (Exception ex)
-                {
-                    await logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                    throw;
-                }
-            }
+            return SyncJob(apiConfigs.Value.Opal88.PlayerConfigs.IsEnabled, Constants.SyncOpal88Player, () => opal88PlayerService.PushPlayers());
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-        public async Task SyncOpal88Ticket()
+        public Task SyncOpal88Ticket()
         {
-            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            if (apiConfigs.Value.Opal88.TicketConfigs.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
-            {
-                try
-                {
-                    await opal88TicketService.PushTickets();
-                }
-                catch (Exception ex)
-                {
-                    await logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                    throw;
-                }
-            }
+            return SyncJob(apiConfigs.Value.Opal88.TicketConfigs.IsEnabled, Constants.SyncOpal88Ticket, () => opal88TicketService.PushTickets());
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-        public async Task SyncNova88Player()
+        public Task SyncNova88Player()
         {
-            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            if (apiConfigs.Value.Nova88.PlayerConfigs.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
-            {
-                try
-                {
-                    await nova88PlayerService.PushPlayers();
-                }
-                catch (Exception ex)
-                {
-                    await logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                    throw;
-                }
-            }
+            return SyncJob(apiConfigs.Value.Nova88.PlayerConfigs.IsEnabled, Constants.SyncNova88Player, () => nova88PlayerService.PushPlayers());
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-        public async Task SyncNova88Ticket()
+        public Task SyncNova88Ticket()
         {
-            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            if (apiConfigs.Value.Nova88.TicketConfigs.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
-            {
-                try
-                {
-                    await nova88TicketService.PushTickets();
-                }
-                catch (Exception ex)
-                {
-                    await logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                    throw;
-                }
-            }
+            return SyncJob(apiConfigs.Value.Nova88.TicketConfigs.IsEnabled, Constants.SyncNova88Ticket, () => nova88TicketService.PushTickets());
         }        
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-        public async Task SyncIvorybetPlayer()
+        public Task SyncIvorybetPlayer()
+        {
+            return SyncJob(apiConfigs.Value.Ivorybet.PlayerConfigs.IsEnabled, Constants.SyncIvorybetPlayer, () => ivorybetPlayerService.PushPlayers());           
+        }
+
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        public Task SyncIvorybetTicket()
+        {
+            return SyncJob(apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled, Constants.SyncIvorybetTicket, () => ivorybetTicketService.PushTickets());
+        }
+
+        private async Task SyncJob(bool isEnabled, string jobName, Action fn)
         {
             var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            if (apiConfigs.Value.Ivorybet.PlayerConfigs.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
+            var isRunning = await jobRunningChecker.IsRunning(jobName);
+            if (isEnabled && !maintanceTime.IsUnderMaintenanceTime && !isRunning)
             {
                 try
                 {
-                    await ivorybetPlayerService.PushPlayers();
+                    await jobRunningChecker.MarkRunning(jobName);
+                    fn();
+                    await jobRunningChecker.ClearRunning(jobName);
                 }
                 catch (Exception ex)
                 {
+                    await jobRunningChecker.ClearRunning(jobName);
                     await logger.ErrorAsync(this.util.BuildLogMessage(ex));
                     throw;
                 }
             }
-        }
 
-        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-        public async Task SyncIvorybetTicket()
-        {
-            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            if (apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled && !maintanceTime.IsUnderMaintenanceTime)
+            if (isRunning)
             {
-                try
-                {
-                    await ivorybetTicketService.PushTickets();
-                }
-                catch (Exception ex)
-                {
-                    await logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                    throw;
-                }
+                fileLogger.Warn(string.Format("Another job is running for {0}, Skipped", jobName));
             }
         }
     }
