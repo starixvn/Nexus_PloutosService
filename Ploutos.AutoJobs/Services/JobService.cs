@@ -55,40 +55,40 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncOpal88Player()
         {
-            return SyncJob(apiConfigs.Value.Opal88.PlayerConfigs.IsEnabled, Constants.SyncOpal88Player, () => opal88PlayerService.PushPlayers());
+            return SyncJob(apiConfigs.Value.Opal88.PlayerConfigs.IsEnabled, Constants.SyncOpal88Player, opal88PlayerService.PushPlayers);
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncOpal88Ticket()
         {
-            return SyncJob(apiConfigs.Value.Opal88.TicketConfigs.IsEnabled, Constants.SyncOpal88Ticket, () => opal88TicketService.PushTickets());
+            return SyncJob(apiConfigs.Value.Opal88.TicketConfigs.IsEnabled, Constants.SyncOpal88Ticket, opal88TicketService.PushTickets);
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncNova88Player()
         {
-            return SyncJob(apiConfigs.Value.Nova88.PlayerConfigs.IsEnabled, Constants.SyncNova88Player, () => nova88PlayerService.PushPlayers());
+            return SyncJob(apiConfigs.Value.Nova88.PlayerConfigs.IsEnabled, Constants.SyncNova88Player, nova88PlayerService.PushPlayers);
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncNova88Ticket()
         {
-            return SyncJob(apiConfigs.Value.Nova88.TicketConfigs.IsEnabled, Constants.SyncNova88Ticket, () => nova88TicketService.PushTickets());
+            return SyncJob(apiConfigs.Value.Nova88.TicketConfigs.IsEnabled, Constants.SyncNova88Ticket, nova88TicketService.PushTickets);
         }        
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncIvorybetPlayer()
         {
-            return SyncJob(apiConfigs.Value.Ivorybet.PlayerConfigs.IsEnabled, Constants.SyncIvorybetPlayer, () => ivorybetPlayerService.PushPlayers());           
+            return SyncJob(apiConfigs.Value.Ivorybet.PlayerConfigs.IsEnabled, Constants.SyncIvorybetPlayer, ivorybetPlayerService.PushPlayers);           
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncIvorybetTicket()
         {
-            return SyncJob(apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled, Constants.SyncIvorybetTicket, () => ivorybetTicketService.PushTickets());
+            return SyncJob(apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled, Constants.SyncIvorybetTicket, ivorybetTicketService.PushTickets);
         }
 
-        private async Task SyncJob(bool isEnabled, string jobName, Action fn)
+        private async Task SyncJob(bool isEnabled, string jobName, Func<Task> fn)
         {
             var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
             var isRunning = await jobRunningChecker.IsRunning(jobName);
@@ -97,7 +97,7 @@
                 try
                 {
                     await jobRunningChecker.MarkRunning(jobName);
-                    fn();
+                    await fn();
                     await jobRunningChecker.ClearRunning(jobName);
                 }
                 catch (Exception ex)
