@@ -137,7 +137,7 @@
                         var dataResponse = await webClientService.GetAsync(
                             supportApiConfigs.Value.Domain, supportApiConfigs.Value.GetUserAccountNoUrl, token, parameters);
 
-                        if(dataResponse.StatusCode == HttpStatusCode.OK)
+                        if(dataResponse.StatusCode == HttpStatusCode.OK && dataResponse.Content != "null")
                         {
                             var playerCode = dataResponse.Content.Replace("\"", "");
                             profileResponse.Status = Constants.StatusSuccess;
