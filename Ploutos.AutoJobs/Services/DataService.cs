@@ -112,55 +112,5 @@
 
             return this.baseRepository.ExecuteNonQueryAsync(criteria);
         }
-
-        private PlayerProfile FakePlayer()
-        {
-            return new PlayerProfile
-            {
-                Username = "opal_test0004",
-                Password = "p@@wordstronger",
-                EmailAddress = "opal_test0004@opal_test246.com",
-                IPAddress = "0.0.0.1",
-                BrandCode = "Opal88",
-                LanguageCode = "EN",
-                CurrencyCode = "CNY",
-                MobileCountryCodeNumber = 84,
-                PlayerTypeCode = "Real"
-            };
-        }
-
-        private BetTicket FakeTiket(string transactionNo)
-        {
-            return new BetTicket
-            {
-                GamePlatformCode = "SB",
-                GameId = "SB01",
-                GameType = 1,
-                TransactionDate = DateTime.Parse("2019-01-01"),
-                TransactionNo = transactionNo,
-                PlayerCode = "OPA1926111112265",
-                BetAmount = 1122,
-                WinAmount = 0,
-                LossAmount = 1122,
-                CurrencyCode = "USD"
-            };
-        }
-
-        private BetTicket FakeTiket2(string transactionNo)
-        {
-            return new BetTicket
-            {
-                GamePlatformCode = "xx",
-                GameId = "SB01",
-                GameType = 1,
-                TransactionDate = DateTime.Parse("2019-01-01"),
-                TransactionNo = transactionNo,
-                PlayerCode = "OPA1926111112265xx",
-                BetAmount = 1133,
-                WinAmount = 0,
-                LossAmount = 1133,
-                CurrencyCode = "USD"
-            };
-        }
     }
 }

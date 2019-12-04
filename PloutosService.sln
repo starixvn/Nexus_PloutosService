@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.AutoJobs", "Ploutos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.WebAPI", "Ploutos.WebAPI\Ploutos.WebAPI.csproj", "{C6E61570-1801-42D6-8F9B-10C094A406B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{B008EFA9-0B53-4C1C-A07E-377C7370690C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.AutoJobs.Tests", "Ploutos.AutoJobs.Tests\Ploutos.AutoJobs.Tests.csproj", "{2B85CAF5-0DFC-43EA-95A9-1E303D8D9899}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,9 +25,16 @@ Global
 		{C6E61570-1801-42D6-8F9B-10C094A406B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6E61570-1801-42D6-8F9B-10C094A406B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6E61570-1801-42D6-8F9B-10C094A406B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B85CAF5-0DFC-43EA-95A9-1E303D8D9899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B85CAF5-0DFC-43EA-95A9-1E303D8D9899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B85CAF5-0DFC-43EA-95A9-1E303D8D9899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B85CAF5-0DFC-43EA-95A9-1E303D8D9899}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2B85CAF5-0DFC-43EA-95A9-1E303D8D9899} = {B008EFA9-0B53-4C1C-A07E-377C7370690C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {505A5203-82A2-414E-B729-9E37E348FA93}

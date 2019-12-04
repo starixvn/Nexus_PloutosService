@@ -181,7 +181,6 @@
             services.AddScoped<IIvorybetTicketService, IvorybetTicketService>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IWebClientService, WebClientService>();
-            services.AddScoped<IBaseMailService, BaseMailService>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IUtil, Util>();
 
