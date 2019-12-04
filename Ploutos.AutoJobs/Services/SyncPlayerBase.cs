@@ -1,6 +1,7 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
     using Fanex.Logging;
+    using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Utils;
     using System;
@@ -9,6 +10,8 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using RestSharp;
+    using Ploutos.AutoJobs.Constant;
 
     public class SyncPlayerBase
     {
@@ -18,18 +21,21 @@
         private readonly ILogger logger;
         private readonly IUtil util;
         private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
+        private readonly IOptionsSnapshot<PloutosSupportApiConfigs> supportApiConfigs;
 
         public SyncPlayerBase(BrandApiConfigs apiConfigs,
             IWebClientService webClientService,
             IDataService dataService,
             ILogger logger,
-            IUtil util)
+            IUtil util,
+            IOptionsSnapshot<PloutosSupportApiConfigs> supportApiConfigs)
         {
             this.apiConfigs = apiConfigs;
             this.webClientService = webClientService;
             this.dataService = dataService;
             this.logger = logger;
             this.util = util;
+            this.supportApiConfigs = supportApiConfigs;
         }
         
         protected virtual async Task PushPlayers()
@@ -78,6 +84,7 @@
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
+                    profileResponse = await UpdateResponseFromSupportAPI(profileResponse, updateProfile.Username);
                     updateProfile.ResponseResult = response.Content;
                     updateProfile.IsError = !profileResponse.IsSuccess;
                     updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
@@ -104,6 +111,47 @@
             await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
 
             return !updateProfile.IsError;
+        }
+
+        private async Task<ProfileResponse> UpdateResponseFromSupportAPI(ProfileResponse profileResponse, string userName)
+        {
+            if(!profileResponse.IsSuccess && 
+                profileResponse.Messages.Errors.Count > 0 &&
+                profileResponse.Messages.Errors[0].Code == "USER-ERROR-10002" &&
+                profileResponse.Messages.Errors[0].Description == "Username already in use.")
+            {
+                try
+                {
+                    var authObj = new SupportApiAuthObj
+                    {
+                        username = supportApiConfigs.Value.AppCredentialId,
+                        password = supportApiConfigs.Value.AppCredentialPassword
+                    };
+                    var authResponse = await webClientService.PostAsync<SupportApiAuthObj>(
+                        supportApiConfigs.Value.Domain, supportApiConfigs.Value.AuthUrl, string.Empty, authObj);
+
+                    if(authResponse.StatusCode == HttpStatusCode.OK)
+                    {
+                        var token = authResponse.Content.Replace("\"","");
+                        var parameters = new List<Parameter> { new Parameter { Name = "username", Value = userName }};
+                        var dataResponse = await webClientService.GetAsync(
+                            supportApiConfigs.Value.Domain, supportApiConfigs.Value.GetUserAccountNoUrl, token, parameters);
+
+                        if(dataResponse.StatusCode == HttpStatusCode.OK)
+                        {
+                            var playerCode = dataResponse.Content.Replace("\"", "");
+                            profileResponse.Status = Constants.StatusSuccess;
+                            profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
+                }
+            }
+
+            return profileResponse;
         }
     }
 }

@@ -113,6 +113,7 @@
             services.Configure<CronJob>(Configuration.GetSection("CronJob"));
             services.Configure<ApiConfigs>(Configuration.GetSection("ApiConfigs"));
             services.Configure<ProxySettings>(Configuration.GetSection("ProxySettings"));
+            services.Configure<PloutosSupportApiConfigs>(Configuration.GetSection("PloutosSupportApiConfigs"));            
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
             services.AddTransient<ILogger, Logger>();
             services.AddSingleton(new UMClientConfiguration().Initialize(Configuration));
