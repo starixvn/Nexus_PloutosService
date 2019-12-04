@@ -32,7 +32,7 @@ namespace Ploutos.AutoJobs.Services
             return redisRepository.Set(GetKey(jobName), FALSE);
         }
 
-        private string GetKey(string jobName)
+        private static string GetKey(string jobName)
         {
             return string.Format("{0}:{1}", NAME_SPACE, jobName);
         }             

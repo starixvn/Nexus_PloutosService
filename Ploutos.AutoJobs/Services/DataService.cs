@@ -20,7 +20,7 @@
 
         public async Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize)
         {
-            var criteria = new GetBetTicketCriteria()
+            var criteria = new GetBetTicketCriteria
             {
                 BrandCode = siteName,
                 TotalRows = batchSize
@@ -32,7 +32,7 @@
 
         public async Task<List<PlayerProfile>> GetPlayerProfiles(string siteName, int batchSize)
         {
-            var criteria = new GetPlayerProfileCriteria()
+            var criteria = new GetPlayerProfileCriteria
             {
                 BrandCode = siteName,
                 TotalRows = batchSize
@@ -65,7 +65,7 @@
                     ticket.TransactionDate, ticket.TransactionNo, ticket.WinAmount);
             }
 
-            var criteria = new UpdateBetTicketCriteria()
+            var criteria = new UpdateBetTicketCriteria
             {
                 BrandCode = siteName,
                 PushTime = pushTime,
@@ -104,7 +104,7 @@
                     profile.PushTime, profile.ResponseResult, profile.ResponseTime, profile.Username);
             }
 
-            var criteria = new UpdatePlayerProfileCriteria()
+            var criteria = new UpdatePlayerProfileCriteria
             {
                 BrandCode = siteName,
                 PlayerProfile = data

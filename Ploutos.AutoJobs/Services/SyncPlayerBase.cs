@@ -122,27 +122,24 @@
             {
                 try
                 {
-                    var authObj = new SupportApiAuthObj
-                    {
-                        username = supportApiConfigs.Value.AppCredentialId,
-                        password = supportApiConfigs.Value.AppCredentialPassword
-                    };
-                    var authResponse = await webClientService.PostAsync<SupportApiAuthObj>(
-                        supportApiConfigs.Value.Domain, supportApiConfigs.Value.AuthUrl, string.Empty, authObj);
+                    var token = await GetTokenFromSupportAPI();
+                    var parameters = new List<Parameter> { new Parameter { Name = "username", Value = userName } };
+                    var dataResponse = await webClientService.GetAsync(
+                        supportApiConfigs.Value.Domain, supportApiConfigs.Value.GetUserAccountNoUrl, token, parameters);
 
-                    if(authResponse.StatusCode == HttpStatusCode.OK)
+                    if (dataResponse.StatusCode == HttpStatusCode.OK && dataResponse.Content != "null")
                     {
-                        var token = authResponse.Content.Replace("\"","");
-                        var parameters = new List<Parameter> { new Parameter { Name = "username", Value = userName }};
-                        var dataResponse = await webClientService.GetAsync(
-                            supportApiConfigs.Value.Domain, supportApiConfigs.Value.GetUserAccountNoUrl, token, parameters);
-
-                        if(dataResponse.StatusCode == HttpStatusCode.OK && dataResponse.Content != "null")
-                        {
-                            var playerCode = dataResponse.Content.Replace("\"", "");
-                            profileResponse.Status = Constants.StatusSuccess;
-                            profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
-                        }
+                        var playerCode = dataResponse.Content.Replace("\"", "");
+                        profileResponse.Status = Constants.StatusSuccess;
+                        profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
+                    }
+                    else if(dataResponse.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new HttpRequestException("Unauthorized");
+                    }
+                    else
+                    {
+                        throw new HttpRequestException(dataResponse.ErrorMessage ?? dataResponse.Content);
                     }
                 }
                 catch (Exception ex)
@@ -152,6 +149,25 @@
             }
 
             return profileResponse;
+        }
+
+        private async Task<string> GetTokenFromSupportAPI()
+        {
+            var authObj = new SupportApiAuthObj
+            {
+                username = supportApiConfigs.Value.AppCredentialId,
+                password = supportApiConfigs.Value.AppCredentialPassword
+            };
+            var authResponse = await webClientService.PostAsync<SupportApiAuthObj>(
+                supportApiConfigs.Value.Domain, supportApiConfigs.Value.AuthUrl, string.Empty, authObj);
+
+            if (authResponse.StatusCode == HttpStatusCode.OK)
+            {
+                var token = authResponse.Content.Replace("\"", "");
+                return token;
+            }
+
+            return null;
         }
     }
 }

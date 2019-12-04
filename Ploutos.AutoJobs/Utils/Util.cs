@@ -3,6 +3,7 @@
     using Fanex.Logging.Extensions;
     using Fanex.Logging.Extensions.Database;
     using Newtonsoft.Json;
+    using Ploutos.AutoJobs.Constant;
     using System;
 
     public class Util : IUtil
@@ -23,7 +24,7 @@
 
         public DateTime GetCurrentTimeAtGMTMinus4()
         {
-            return DateTime.UtcNow.AddHours(-4);
+            return DateTime.UtcNow.AddHours(Constants.GmtMinus4);
         }
     }
 }

@@ -19,7 +19,6 @@
         private readonly ILogger logger;
         private readonly IOptionsMonitor<CronJob> cronJob;
         private readonly IRecurringJobManager recurringJob;
-        private readonly IBackgroundJobClient backgroundJobClient;
 
 
         public CustomWebHostService(IWebHost host) : base(host)
@@ -27,7 +26,6 @@
             logger = host.Services.GetService<ILogger<CustomWebHostService>>();
             cronJob = host.Services.GetService<IOptionsMonitor<CronJob>>();
             recurringJob = host.Services.GetService<IRecurringJobManager>();
-            backgroundJobClient = host.Services.GetService<IBackgroundJobClient>();
         }
 
         protected override void OnStarted()
