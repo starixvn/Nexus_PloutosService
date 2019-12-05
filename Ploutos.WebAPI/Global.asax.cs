@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Web.Configuration;
     using System.Web.Http;
+    using System.Web.Routing;
     using Fanex.Data;
     using Fanex.Data.MySql;
 
@@ -11,6 +12,7 @@
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             var connectionString = WebConfigurationManager.ConnectionStrings["blueberrydb"].ConnectionString;
             var providerName = WebConfigurationManager.ConnectionStrings["blueberrydb"].ProviderName;
