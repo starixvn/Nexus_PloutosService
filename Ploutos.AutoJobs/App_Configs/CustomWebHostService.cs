@@ -35,6 +35,12 @@
             base.OnStarted();
         }
 
+        protected override void OnStopped()
+        {
+            logger.LogInformation(string.Format("Service Stopped at {0}", DateTime.Now));
+            base.OnStopped();
+        }
+
         protected override void OnStopping()
         {
             logger.LogInformation(string.Format(Resources.Log_OnStoppingService, DateTime.Now));
