@@ -21,21 +21,18 @@
         private readonly ILogger logger;
         private readonly IUtil util;
         private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
-        private readonly IOptionsSnapshot<PloutosSupportApiConfigs> supportApiConfigs;
 
         public SyncPlayerBase(BrandApiConfigs apiConfigs,
             IWebClientService webClientService,
             IDataService dataService,
             ILogger logger,
-            IUtil util,
-            IOptionsSnapshot<PloutosSupportApiConfigs> supportApiConfigs)
+            IUtil util)
         {
             this.apiConfigs = apiConfigs;
             this.webClientService = webClientService;
             this.dataService = dataService;
             this.logger = logger;
             this.util = util;
-            this.supportApiConfigs = supportApiConfigs;
         }
         
         protected virtual async Task PushPlayers()
@@ -125,7 +122,7 @@
                     var token = await GetTokenFromSupportAPI();
                     var parameters = new List<Parameter> { new Parameter { Name = "username", Value = userName } };
                     var dataResponse = await webClientService.GetAsync(
-                        supportApiConfigs.Value.Domain, supportApiConfigs.Value.GetUserAccountNoUrl, token, parameters);
+                        apiConfigs.SupportApiConfigs.Domain, apiConfigs.SupportApiConfigs.GetUserAccountNoUrl, token, parameters);
 
                     if (dataResponse.StatusCode == HttpStatusCode.OK && dataResponse.Content != "null")
                     {
@@ -155,11 +152,11 @@
         {
             var authObj = new SupportApiAuthObj
             {
-                username = supportApiConfigs.Value.AppCredentialId,
-                password = supportApiConfigs.Value.AppCredentialPassword
+                username = apiConfigs.SupportApiConfigs.AppCredentialId,
+                password = apiConfigs.SupportApiConfigs.AppCredentialPassword
             };
             var authResponse = await webClientService.PostAsync<SupportApiAuthObj>(
-                supportApiConfigs.Value.Domain, supportApiConfigs.Value.AuthUrl, string.Empty, authObj);
+                apiConfigs.SupportApiConfigs.Domain, apiConfigs.SupportApiConfigs.AuthUrl, string.Empty, authObj);
 
             if (authResponse.StatusCode == HttpStatusCode.OK)
             {

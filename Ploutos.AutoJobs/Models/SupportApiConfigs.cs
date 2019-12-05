@@ -1,6 +1,6 @@
 ﻿namespace Ploutos.AutoJobs.Models
 {
-    public class PloutosSupportApiConfigs
+    public class SupportApiConfigs
     {
         public string AppCredentialId { get; set; }
         public string AppCredentialPassword { get; set; }

@@ -13,9 +13,8 @@
            IWebClientService webClientService,
            IDataService dataService,
            ILogger logger,
-           IUtil util,
-           IOptionsSnapshot<PloutosSupportApiConfigs> supportApiConfigs) 
-            : base(apiConfigs.Value.Opal88, webClientService, dataService, logger, util, supportApiConfigs)
+           IUtil util) 
+            : base(apiConfigs.Value.Opal88, webClientService, dataService, logger, util)
         {
         }      
 

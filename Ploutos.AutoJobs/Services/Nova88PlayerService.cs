@@ -13,9 +13,8 @@
           IWebClientService webClientService,
           IDataService dataService,
           ILogger logger,
-          IUtil util,
-          IOptionsSnapshot<PloutosSupportApiConfigs> supportApiConfigs) 
-            : base(apiConfigs.Value.Nova88, webClientService, dataService, logger, util, supportApiConfigs)
+          IUtil util) 
+            : base(apiConfigs.Value.Nova88, webClientService, dataService, logger, util)
         {
         }
 

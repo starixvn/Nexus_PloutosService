@@ -7,5 +7,6 @@
         public string PloutosToken { get; set; }
         public UrlApiConfig PlayerConfigs { get; set; }
         public UrlApiConfig TicketConfigs { get; set; }
+        public SupportApiConfigs SupportApiConfigs { get; set; }
     }
 }

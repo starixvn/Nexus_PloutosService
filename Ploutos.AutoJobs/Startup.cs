@@ -113,7 +113,6 @@
             services.Configure<CronJob>(Configuration.GetSection("CronJob"));
             services.Configure<ApiConfigs>(Configuration.GetSection("ApiConfigs"));
             services.Configure<ProxySettings>(Configuration.GetSection("ProxySettings"));
-            services.Configure<PloutosSupportApiConfigs>(Configuration.GetSection("PloutosSupportApiConfigs"));            
             services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
             services.AddTransient<ILogger, Logger>();
             services.AddSingleton(new UMClientConfiguration().Initialize(Configuration));
@@ -172,7 +171,6 @@
 
             #endregion ONEbookUM
 
-            services.AddScoped<IJobRunningChecker, JobRunningChecker>();
             services.AddScoped<IOpal88PlayerService, Opal88PlayerService>();
             services.AddScoped<IOpal88TicketService, Opal88TicketService>();
             services.AddScoped<INova88PlayerService, Nova88PlayerService>();
@@ -185,6 +183,7 @@
             services.AddScoped<IUtil, Util>();
 
             services.AddTransient<IRecurringJobManager, RecurringJobManager>();
+            services.AddTransient<IJobRunningChecker, JobRunningChecker>();
         }
 
         private static void RegisterRepository(IServiceCollection services)
