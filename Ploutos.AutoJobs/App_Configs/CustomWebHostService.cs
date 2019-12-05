@@ -11,6 +11,7 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Services;
+    using Ploutos.AutoJobs.Services.Interfaces;
     using Resources;
 
     [DesignerCategory("Code")]
@@ -19,17 +20,19 @@
         private readonly ILogger logger;
         private readonly IOptionsMonitor<CronJob> cronJob;
         private readonly IRecurringJobManager recurringJob;
-
+        private readonly IJobRunningChecker jobRunningChecker;
 
         public CustomWebHostService(IWebHost host) : base(host)
         {
             logger = host.Services.GetService<ILogger<CustomWebHostService>>();
             cronJob = host.Services.GetService<IOptionsMonitor<CronJob>>();
             recurringJob = host.Services.GetService<IRecurringJobManager>();
+            jobRunningChecker = host.Services.GetService<IJobRunningChecker>();
         }
 
         protected override void OnStarted()
         {
+            jobRunningChecker.ClearAllRunning();
             logger.LogInformation(string.Format(Resources.Log_OnStartedService, DateTime.Now));
             RunHangfireJobs();
             base.OnStarted();

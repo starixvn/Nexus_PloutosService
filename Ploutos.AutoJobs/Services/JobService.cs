@@ -19,7 +19,7 @@
         private readonly INova88PlayerService nova88PlayerService;
         private readonly INova88TicketService nova88TicketService;
         private readonly IIvorybetPlayerService ivorybetPlayerService;
-        private readonly IIvorybetTicketService ivorybetTicketService;        
+        private readonly IIvorybetTicketService ivorybetTicketService;
         private readonly ILogger logger;
         private readonly IUtil util;
         private readonly IMaintenanceService maintenanceService;
@@ -27,7 +27,7 @@
         private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
 
         public JobService(
-            IOptionsSnapshot<ApiConfigs> apiConfigs,            
+            IOptionsSnapshot<ApiConfigs> apiConfigs,
             ILogger logger,
             IUtil util,
             IMaintenanceService maintenanceService,
@@ -39,7 +39,7 @@
             IIvorybetTicketService ivorybetTicketService,
             IJobRunningChecker jobRunningChecker)
         {
-            this.apiConfigs = apiConfigs;            
+            this.apiConfigs = apiConfigs;
             this.logger = logger;
             this.util = util;
             this.maintenanceService = maintenanceService;
@@ -79,7 +79,7 @@
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncIvorybetPlayer()
         {
-            return SyncJob(apiConfigs.Value.Ivorybet.PlayerConfigs.IsEnabled, Constants.SyncIvorybetPlayer, ivorybetPlayerService.PushPlayers);           
+            return SyncJob(apiConfigs.Value.Ivorybet.PlayerConfigs.IsEnabled, Constants.SyncIvorybetPlayer, ivorybetPlayerService.PushPlayers);
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
@@ -90,27 +90,29 @@
 
         private async Task SyncJob(bool isEnabled, string jobName, Func<Task> fn)
         {
-            var maintanceTime = await maintenanceService.GetUnderMaintenanceTimeAsync();
-            var isRunning = await jobRunningChecker.IsRunning(jobName);
-            if (isEnabled && !maintanceTime.IsUnderMaintenanceTime && !isRunning)
+            if (isEnabled && !(await maintenanceService.GetUnderMaintenanceTimeAsync()).IsUnderMaintenanceTime)
             {
-                try
+                var isRunning = await jobRunningChecker.IsRunning(jobName);
+                if (!isRunning)
                 {
-                    await jobRunningChecker.MarkRunning(jobName);
-                    await fn();
-                    await jobRunningChecker.ClearRunning(jobName);
+                    try
+                    {
+                        await jobRunningChecker.MarkRunning(jobName);
+                        await fn();
+                        await jobRunningChecker.ClearRunning(jobName);
+                    }
+                    catch (Exception ex)
+                    {
+                        await jobRunningChecker.ClearRunning(jobName);
+                        await logger.ErrorAsync(util.BuildLogMessage(ex));
+                        throw;
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    await jobRunningChecker.ClearRunning(jobName);
-                    await logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                    throw;
+                    fileLogger.Warn(string.Format("Another job is running for {0}, Skipped", jobName));
                 }
-            }
 
-            if (isRunning)
-            {
-                fileLogger.Warn(string.Format("Another job is running for {0}, Skipped", jobName));
             }
         }
     }

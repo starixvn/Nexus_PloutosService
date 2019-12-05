@@ -1,9 +1,10 @@
-﻿using Ploutos.AutoJobs.Repository;
-using Ploutos.AutoJobs.Services.Interfaces;
-using System.Threading.Tasks;
-
-namespace Ploutos.AutoJobs.Services
+﻿namespace Ploutos.AutoJobs.Services
 {
+    using Ploutos.AutoJobs.Constant;
+    using Ploutos.AutoJobs.Repository;
+    using Ploutos.AutoJobs.Services.Interfaces;
+    using System.Threading.Tasks;
+
     public class JobRunningChecker : IJobRunningChecker
     {
         private readonly IRedisRepository redisRepository;
@@ -22,19 +23,29 @@ namespace Ploutos.AutoJobs.Services
             return value == TRUE;
         }
 
-        public Task MarkRunning(string jobName)
+        public async Task MarkRunning(string jobName)
         {
-            return redisRepository.Set(GetKey(jobName), TRUE);
+            await redisRepository.Set(GetKey(jobName), TRUE);
         }
 
-        public Task ClearRunning(string jobName)
+        public async Task ClearRunning(string jobName)
         {
-            return redisRepository.Set(GetKey(jobName), FALSE);
+            await redisRepository.Set(GetKey(jobName), FALSE);
         }
 
         private static string GetKey(string jobName)
         {
             return string.Format("{0}:{1}", NAME_SPACE, jobName);
-        }             
+        }
+
+        public async Task ClearAllRunning()
+        {
+            await redisRepository.Set(GetKey(Constants.SyncOpal88Player), FALSE);
+            await redisRepository.Set(GetKey(Constants.SyncOpal88Ticket), FALSE);
+            await redisRepository.Set(GetKey(Constants.SyncNova88Player), FALSE);
+            await redisRepository.Set(GetKey(Constants.SyncNova88Ticket), FALSE);
+            await redisRepository.Set(GetKey(Constants.SyncIvorybetPlayer), FALSE);
+            await redisRepository.Set(GetKey(Constants.SyncIvorybetTicket), FALSE);
+        }
     }
 }
