@@ -245,8 +245,8 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Web.Pro.Nova88config" />
-    <None Include="Web.Pro.Ivorysport.config" />
-    <None Include="Web.Pro.Opal88.config" />
+    <Content Include="Web.Pro.Ivorysport.config" />
+    <Content Include="Web.Pro.Opal88.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

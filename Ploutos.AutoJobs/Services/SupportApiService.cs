@@ -39,11 +39,14 @@
                     var dataResponse = await webClientService.GetAsync(
                         supportApiConfigs.Domain, supportApiConfigs.GetUserAccountNoUrl, token, parameters);
 
-                    if (dataResponse.StatusCode == HttpStatusCode.OK && dataResponse.Content != "null")
+                    if (dataResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        var playerCode = dataResponse.Content.Replace("\"", "");
-                        profileResponse.Status = Constants.StatusSuccess;
-                        profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
+                        if (!string.IsNullOrWhiteSpace(dataResponse.Content))
+                        {
+                            var playerCode = dataResponse.Content.Replace("\"", "");
+                            profileResponse.Status = Constants.StatusSuccess;
+                            profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
+                        }
                     }
                     else if (dataResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
