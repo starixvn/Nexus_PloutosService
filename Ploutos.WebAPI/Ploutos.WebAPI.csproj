@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Criteria\Player\GetUserAccountNumberByUsername.cs" />
     <Compile Include="Filters\AddChallengeOnUnauthorizedResult.cs" />
     <Compile Include="Filters\AuthenticationFailureResult.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Services\Interfaces\IBaseService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
     <Compile Include="Services\PlayerService.cs" />
+    <Compile Include="Services\WriteLogToFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\SpNames.xml">
@@ -216,6 +218,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Compile Include="Models\AppSettings.cs" />
+    <Content Include="logs\log.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

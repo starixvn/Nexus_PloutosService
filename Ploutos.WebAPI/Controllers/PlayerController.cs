@@ -1,5 +1,6 @@
 ﻿namespace Ploutos.WebAPI.Controllers
 {
+    using System;
     using System.Threading.Tasks;
     using System.Web.Http;
     using Ploutos.WebAPI.Filters;
@@ -24,7 +25,35 @@
         [HttpGet]
         public async Task<string> GetUserAccountNo(string username)
         {
-            return await playerService.GetUserAccountNoByUsername(username);
+            string result = string.Empty;
+            try
+            {
+                result = await playerService.GetUserAccountNoByUsername(username);
+                WriteLogToFile.Writelog(result);
+            }
+            catch (Exception ex)
+            {
+                WriteLogToFile.Writelog(ex.Message);
+                return ex.Message;
+            }
+            return result;
+        }
+
+        [HttpGet]
+        public string Test(string username)
+        {
+            string result = string.Empty;
+            try
+            {
+                result = "Test";
+                WriteLogToFile.Writelog(result);
+            }
+            catch (Exception ex)
+            {
+                WriteLogToFile.Writelog(ex.Message);
+                return ex.Message;
+            }
+            return result;
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿namespace Ploutos.WebAPI
 {
+    using System;
     using System.Collections.Generic;
     using System.Web.Configuration;
     using System.Web.Http;
     using System.Web.Routing;
     using Fanex.Data;
     using Fanex.Data.MySql;
+    using Ploutos.WebAPI.Services;
 
     public class WebApiApplication : System.Web.HttpApplication
     {
@@ -26,6 +28,12 @@
                 .WithMySql()
                 .UseDefaultDbSettingProvider("~/App_Data", true)
                 .Run();
+        }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+            WriteLogToFile.Writelog(ex.Message);
         }
     }
 }
