@@ -13,8 +13,9 @@
          IWebClientService webClientService,
          IDataService dataService,
          ILogger logger,
-         IUtil util) 
-            : base(apiConfigs.Value.Ivorybet, webClientService, dataService, logger, util)
+         IUtil util,
+         ISupportApiService supportApiService) 
+            : base(apiConfigs.Value.Ivorybet, webClientService, dataService, logger, util, supportApiService)
         {
         }
 

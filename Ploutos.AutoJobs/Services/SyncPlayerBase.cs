@@ -1,8 +1,8 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
     using Fanex.Logging;
-    using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.AutoJobs.Utils;
     using System;
     using System.Collections.Generic;
@@ -10,8 +10,6 @@
     using System.Net;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using RestSharp;
-    using Ploutos.AutoJobs.Constant;
 
     public class SyncPlayerBase
     {
@@ -20,22 +18,25 @@
         private readonly IDataService dataService;
         private readonly ILogger logger;
         private readonly IUtil util;
+        private readonly ISupportApiService supportApiService;
         private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
 
         public SyncPlayerBase(BrandApiConfigs apiConfigs,
             IWebClientService webClientService,
             IDataService dataService,
             ILogger logger,
-            IUtil util)
+            IUtil util,
+            ISupportApiService supportApiService)
         {
             this.apiConfigs = apiConfigs;
             this.webClientService = webClientService;
             this.dataService = dataService;
             this.logger = logger;
             this.util = util;
+            this.supportApiService = supportApiService;
         }
         
-        protected virtual async Task PushPlayers()
+        public virtual async Task PushPlayers()
         {
             var siteName = this.apiConfigs.BrandName;
             fileLogger.Warn(string.Format("Start Push Players for {0}", siteName));
@@ -81,7 +82,7 @@
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
-                    profileResponse = await UpdateResponseFromSupportAPI(profileResponse, updateProfile.Username);
+                    profileResponse = await this.supportApiService.UpdateResponseFromSupportAPI(profileResponse, updateProfile.Username, apiConfigs.SupportApiConfigs);
                     updateProfile.ResponseResult = response.Content;
                     updateProfile.IsError = !profileResponse.IsSuccess;
                     updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
@@ -108,63 +109,6 @@
             await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
 
             return !updateProfile.IsError;
-        }
-
-        private async Task<ProfileResponse> UpdateResponseFromSupportAPI(ProfileResponse profileResponse, string userName)
-        {
-            if(!profileResponse.IsSuccess && 
-                profileResponse.Messages.Errors.Count > 0 &&
-                profileResponse.Messages.Errors[0].Code == "USER-ERROR-10002" &&
-                profileResponse.Messages.Errors[0].Description == "Username already in use.")
-            {
-                try
-                {
-                    var token = await GetTokenFromSupportAPI();
-                    var parameters = new List<Parameter> { new Parameter { Name = "username", Value = userName } };
-                    var dataResponse = await webClientService.GetAsync(
-                        apiConfigs.SupportApiConfigs.Domain, apiConfigs.SupportApiConfigs.GetUserAccountNoUrl, token, parameters);
-
-                    if (dataResponse.StatusCode == HttpStatusCode.OK && dataResponse.Content != "null")
-                    {
-                        var playerCode = dataResponse.Content.Replace("\"", "");
-                        profileResponse.Status = Constants.StatusSuccess;
-                        profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
-                    }
-                    else if(dataResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        throw new HttpRequestException("Unauthorized");
-                    }
-                    else
-                    {
-                        throw new HttpRequestException(dataResponse.ErrorMessage ?? dataResponse.Content);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                }
-            }
-
-            return profileResponse;
-        }
-
-        private async Task<string> GetTokenFromSupportAPI()
-        {
-            var authObj = new SupportApiAuthObj
-            {
-                username = apiConfigs.SupportApiConfigs.AppCredentialId,
-                password = apiConfigs.SupportApiConfigs.AppCredentialPassword
-            };
-            var authResponse = await webClientService.PostAsync<SupportApiAuthObj>(
-                apiConfigs.SupportApiConfigs.Domain, apiConfigs.SupportApiConfigs.AuthUrl, string.Empty, authObj);
-
-            if (authResponse.StatusCode == HttpStatusCode.OK)
-            {
-                var token = authResponse.Content.Replace("\"", "");
-                return token;
-            }
-
-            return null;
         }
     }
 }

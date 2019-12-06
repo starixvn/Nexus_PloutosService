@@ -171,6 +171,7 @@
 
             #endregion ONEbookUM
 
+            services.AddScoped<ISupportApiService, SupportApiService>();
             services.AddScoped<IOpal88PlayerService, Opal88PlayerService>();
             services.AddScoped<IOpal88TicketService, Opal88TicketService>();
             services.AddScoped<INova88PlayerService, Nova88PlayerService>();

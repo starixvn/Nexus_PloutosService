@@ -32,7 +32,7 @@
             this.util = util;
         }
 
-        protected virtual async Task PushTickets()
+        public virtual async Task PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
             fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
