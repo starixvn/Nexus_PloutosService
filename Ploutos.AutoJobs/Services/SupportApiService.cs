@@ -41,12 +41,7 @@
 
                     if (dataResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        if (!string.IsNullOrWhiteSpace(dataResponse.Content))
-                        {
-                            var playerCode = dataResponse.Content.Replace("\"", "");
-                            profileResponse.Status = Constants.StatusSuccess;
-                            profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
-                        }
+                        UpdateProfileResponse(profileResponse, dataResponse.Content);                       
                     }
                     else if (dataResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {
@@ -64,6 +59,16 @@
             }
 
             return profileResponse;
+        }
+
+        private void UpdateProfileResponse(ProfileResponse profileResponse, string responseContent)
+        {
+            if (!string.IsNullOrWhiteSpace(responseContent))
+            {
+                var playerCode = responseContent.Replace("\"", "");
+                profileResponse.Status = Constants.StatusSuccess;
+                profileResponse.Data = new ProfileResponseData { PlayerAccountNumber = playerCode };
+            }
         }
 
         private async Task<string> GetTokenFromSupportAPI(SupportApiConfigs supportApiConfigs)

@@ -7,7 +7,7 @@
     using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.AutoJobs.Utils;
 
-    internal class Opal88TicketService : SyncTicketBase, IOpal88TicketService
+    public class Opal88TicketService : SyncTicketBase, IOpal88TicketService
     {
         public Opal88TicketService(IOptionsSnapshot<ApiConfigs> apiConfigs,
            IWebClientService webClientService,
