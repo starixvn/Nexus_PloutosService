@@ -8,10 +8,6 @@
 
     public class AuthController : ApiController
     {
-        public AuthController()
-        {
-        }
-
         [AllowAnonymous]
         [HttpPost]
         public string GetToken([FromBody]JObject data)
@@ -27,7 +23,7 @@
             return token;
         }
 
-        private bool IsValidCredential(string username, string password)
+        private static bool IsValidCredential(string username, string password)
         {
             return username.Equals(AppSettings.AppCredentialId, StringComparison.InvariantCultureIgnoreCase)
                 && password.Equals(AppSettings.AppCredentialPassword, StringComparison.InvariantCultureIgnoreCase);

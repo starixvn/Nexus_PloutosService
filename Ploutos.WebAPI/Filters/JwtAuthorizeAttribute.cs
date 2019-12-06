@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using System.Web.Http.Filters;
 
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Delegate)]
     public class JwtAuthorizeAttribute : Attribute, IAuthenticationFilter
     {
         public string Realm { get; set; }
@@ -20,7 +21,9 @@
             var authorization = request.Headers.Authorization;
 
             if (authorization == null || authorization.Scheme != "Bearer")
+            {
                 return;
+            }
 
             if (string.IsNullOrEmpty(authorization.Parameter))
             {
@@ -54,22 +57,23 @@
             var simplePrinciple = JwtManager.GetPrincipal(token);
             var identity = simplePrinciple?.Identity as ClaimsIdentity;
 
-            if (identity == null)
+            if (identity == null || !identity.IsAuthenticated)
+            {
                 return false;
-
-            if (!identity.IsAuthenticated)
-                return false;
+            }
 
             var usernameClaim = identity.FindFirst(ClaimTypes.Name);
             username = usernameClaim?.Value;
 
             if (string.IsNullOrEmpty(username))
+            {
                 return false;
+            }
 
             return true;
         }
 
-        protected Task<IPrincipal> AuthenticateJwtToken(string token)
+        protected static Task<IPrincipal> AuthenticateJwtToken(string token)
         {
             if (ValidateToken(token, out string username))
             {
@@ -92,7 +96,9 @@
             string parameter = null;
 
             if (!string.IsNullOrEmpty(Realm))
+            {
                 parameter = "realm=\"" + Realm + "\"";
+            }
 
             context.ChallengeWith("Bearer", parameter);
         }

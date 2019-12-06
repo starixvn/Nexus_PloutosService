@@ -41,11 +41,13 @@
                 var jwtToken = tokenHandler.ReadToken(token);
 
                 if (jwtToken == null)
+                {
                     return null;
+                }
 
                 var symmetricKey = Encoding.ASCII.GetBytes(AppSettings.Secret);
 
-                var validationParameters = new TokenValidationParameters()
+                var validationParameters = new TokenValidationParameters
                 {
                     RequireExpirationTime = true,
                     ValidateIssuer = false,
