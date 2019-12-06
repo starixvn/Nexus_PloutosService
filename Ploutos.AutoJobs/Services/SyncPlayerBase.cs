@@ -1,6 +1,7 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
     using Fanex.Logging;
+    using Newtonsoft.Json;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.AutoJobs.Utils;
@@ -83,7 +84,7 @@
                 {
                     var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
                     profileResponse = await this.supportApiService.UpdateResponseFromSupportAPI(profileResponse, updateProfile.Username, apiConfigs.SupportApiConfigs);
-                    updateProfile.ResponseResult = response.Content;
+                    updateProfile.ResponseResult = JsonConvert.SerializeObject(profileResponse);
                     updateProfile.IsError = !profileResponse.IsSuccess;
                     updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
                 }

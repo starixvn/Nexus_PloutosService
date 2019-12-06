@@ -1,5 +1,6 @@
 ﻿using Fanex.Logging;
 using FluentAssertions;
+using Newtonsoft.Json;
 using NSubstitute;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services;
@@ -73,7 +74,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             // Assert
             updateProfiles[0].IsError.Should().Be(!profileResponse.IsSuccess);
             updateProfiles[0].PlayerCode.Should().Be(profileResponse.Data.PlayerAccountNumber);
-            updateProfiles[0].ResponseResult.Should().Be(restResponse.Content);
+            updateProfiles[0].ResponseResult.Should().Be(JsonConvert.SerializeObject(profileResponse));
         }
 
         [Fact]
