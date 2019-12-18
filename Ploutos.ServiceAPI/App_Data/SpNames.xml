@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Player Profile">
+    <Setting Key="Plo_PlayerProfile_Insert" SpName="Plo_PlayerProfile_Insert" DbName="Ploutos" Plain="0" />
+  </Function>
+</Functions>
