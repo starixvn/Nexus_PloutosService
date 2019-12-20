@@ -10,5 +10,8 @@
         Task SyncNova88Ticket();
         Task SyncIvorybetPlayer();
         Task SyncIvorybetTicket();
+        Task SyncOpal88TicketBySupportApi();
+        Task SyncNova88TicketBySupportApi();
+        Task SyncIvorybetTicketBySupportApi();
     }
 }

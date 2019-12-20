@@ -1,0 +1,13 @@
+﻿using Fanex.Data.Repository;
+
+namespace Ploutos.WebAPI.Criteria.Ticket
+{
+    public class InsertBetTicketsCriteria : NonQueryCommand
+    {
+        public string BetTickets { get; set; }
+        public int Error { get; set; }
+        public string Message { get; set; }
+        public override string GetSettingKey() => "Ticket_InsertTickets";
+        public override bool IsValid() => true;
+    }
+}

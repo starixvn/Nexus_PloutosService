@@ -9,6 +9,9 @@
         public const string SyncNova88Ticket = "SyncNova88Ticket";
         public const string SyncIvorybetPlayer = "SyncIvorybetPlayer";
         public const string SyncIvorybetTicket = "SyncIvorybetTicket";
+        public const string SyncOpal88TicketBySupportApi = "SyncOpal88TicketBySupportApi";
+        public const string SyncNova88TicketBySupportApi = "SyncNova88TicketBySupportApi";
+        public const string SyncIvorybetTicketBySupportApi = "SyncIvorybetTicketBySupportApi";
         public const int GmtMinus4 = -4;
     }
 }

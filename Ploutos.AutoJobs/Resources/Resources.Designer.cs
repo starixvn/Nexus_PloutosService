@@ -79,6 +79,15 @@ namespace Ploutos.AutoJobs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sync Ivorybet Ticket By Support Api.
+        /// </summary>
+        internal static string Job_SyncIvorybetTicketBySupportApi {
+            get {
+                return ResourceManager.GetString("Job_SyncIvorybetTicketBySupportApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sync Nova88 Player.
         /// </summary>
         internal static string Job_SyncNova88Player {
@@ -97,6 +106,15 @@ namespace Ploutos.AutoJobs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sync Nova88 Ticket By Support Api.
+        /// </summary>
+        internal static string Job_SyncNova88TicketBySupportApi {
+            get {
+                return ResourceManager.GetString("Job_SyncNova88TicketBySupportApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sync Opal88 Player.
         /// </summary>
         internal static string Job_SyncOpal88Player {
@@ -111,6 +129,15 @@ namespace Ploutos.AutoJobs.Resources {
         internal static string Job_SyncOpal88Ticket {
             get {
                 return ResourceManager.GetString("Job_SyncOpal88Ticket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync Opal88 Ticket By Support Api.
+        /// </summary>
+        internal static string Job_SyncOpal88TicketBySupportApi {
+            get {
+                return ResourceManager.GetString("Job_SyncOpal88TicketBySupportApi", resourceCulture);
             }
         }
         

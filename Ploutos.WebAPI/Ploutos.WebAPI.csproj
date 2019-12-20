@@ -193,7 +193,9 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Criteria\Player\GetUserAccountNumberByUsername.cs" />
+    <Compile Include="Criteria\Ticket\InsertBetTicketsCriteria.cs" />
     <Compile Include="Filters\AddChallengeOnUnauthorizedResult.cs" />
     <Compile Include="Filters\AuthenticationFailureResult.cs" />
     <Compile Include="Filters\HttpAuthenticationChallengeContextExtensions.cs" />
@@ -202,14 +204,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BetTicket.cs" />
     <Compile Include="Models\CommandResult.cs" />
+    <Compile Include="Models\TicketResponse.cs" />
+    <Compile Include="Models\TicketResponseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\Interfaces\IBaseService.cs" />
     <Compile Include="Services\Interfaces\IPlayerService.cs" />
+    <Compile Include="Services\Interfaces\ITicketService.cs" />
     <Compile Include="Services\PlayerService.cs" />
+    <Compile Include="Services\TicketService.cs" />
     <Compile Include="Services\WriteLogToFile.cs" />
   </ItemGroup>
   <ItemGroup>

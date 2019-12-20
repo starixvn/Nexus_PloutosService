@@ -25,6 +25,9 @@ namespace Ploutos.AutoJobs.Tests.Services
         private readonly INova88TicketService nova88TicketService;
         private readonly IIvorybetPlayerService ivorybetPlayerService;
         private readonly IIvorybetTicketService ivorybetTicketService;
+        private readonly IOpal88TicketBySupportApiService opal88TicketBySupportApiService;
+        private readonly INova88TicketBySupportApiService nova88TicketBySupportApiService;
+        private readonly IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService;
         private readonly ILogger logger;
         private readonly IUtil util;
         private readonly IMaintenanceService maintenanceService;
@@ -39,6 +42,9 @@ namespace Ploutos.AutoJobs.Tests.Services
             nova88TicketService = Substitute.For<INova88TicketService>();
             ivorybetPlayerService = Substitute.For<IIvorybetPlayerService>();
             ivorybetTicketService = Substitute.For<IIvorybetTicketService>();
+            opal88TicketBySupportApiService = Substitute.For<IOpal88TicketBySupportApiService>();
+            nova88TicketBySupportApiService = Substitute.For<INova88TicketBySupportApiService>();
+            ivorybetTicketBySupportApiService = Substitute.For<IIvorybetTicketBySupportApiService>();
             logger = Substitute.For<ILogger>();
             util = Substitute.For<IUtil>();
             maintenanceService = Substitute.For<IMaintenanceService>();
@@ -76,6 +82,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act
@@ -118,6 +127,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
             jobRunningChecker.IsRunning(Constant.Constants.SyncOpal88Player).Returns(true);
 
@@ -161,6 +173,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act
@@ -203,6 +218,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act
@@ -245,6 +263,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
             var errors = "";
             util.BuildLogMessage(Arg.Any<Exception>()).Returns(errors);
@@ -294,6 +315,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act
@@ -336,6 +360,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act
@@ -378,6 +405,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act
@@ -420,6 +450,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act
@@ -462,6 +495,9 @@ namespace Ploutos.AutoJobs.Tests.Services
                 nova88TicketService,
                 ivorybetPlayerService,
                 ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
             // Act

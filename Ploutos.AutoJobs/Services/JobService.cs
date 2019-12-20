@@ -17,10 +17,13 @@
         private readonly IOptionsSnapshot<ApiConfigs> apiConfigs;
         private readonly IOpal88PlayerService opal88PlayerService;
         private readonly IOpal88TicketService opal88TicketService;
+        private readonly IOpal88TicketBySupportApiService opal88TicketBySupportApiService;
         private readonly INova88PlayerService nova88PlayerService;
         private readonly INova88TicketService nova88TicketService;
+        private readonly INova88TicketBySupportApiService nova88TicketBySupportApiService;
         private readonly IIvorybetPlayerService ivorybetPlayerService;
         private readonly IIvorybetTicketService ivorybetTicketService;
+        private readonly IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService;
         private readonly ILogger logger;
         private readonly IUtil util;
         private readonly IMaintenanceService maintenanceService;
@@ -38,6 +41,9 @@
             INova88TicketService nova88TicketService,
             IIvorybetPlayerService ivorybetPlayerService,
             IIvorybetTicketService ivorybetTicketService,
+            IOpal88TicketBySupportApiService opal88TicketBySupportApiService,
+            INova88TicketBySupportApiService nova88TicketBySupportApiService,
+            IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService,
             IJobRunningChecker jobRunningChecker)
         {
             this.apiConfigs = apiConfigs;
@@ -50,6 +56,9 @@
             this.nova88TicketService = nova88TicketService;
             this.ivorybetPlayerService = ivorybetPlayerService;
             this.ivorybetTicketService = ivorybetTicketService;
+            this.opal88TicketBySupportApiService = opal88TicketBySupportApiService;
+            this.nova88TicketBySupportApiService = nova88TicketBySupportApiService;
+            this.ivorybetTicketBySupportApiService = ivorybetTicketBySupportApiService;
             this.jobRunningChecker = jobRunningChecker;
         }
 
@@ -66,6 +75,13 @@
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        public Task SyncOpal88TicketBySupportApi()
+        {
+            return SyncJob(!apiConfigs.Value.Opal88.TicketConfigs.IsEnabled && apiConfigs.Value.Opal88.SupportTicketConfigs.IsEnabled, 
+                Constants.SyncOpal88TicketBySupportApi, opal88TicketBySupportApiService.PushTickets);
+        }
+
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncNova88Player()
         {
             return SyncJob(apiConfigs.Value.Nova88.PlayerConfigs.IsEnabled, Constants.SyncNova88Player, nova88PlayerService.PushPlayers);
@@ -75,7 +91,14 @@
         public Task SyncNova88Ticket()
         {
             return SyncJob(apiConfigs.Value.Nova88.TicketConfigs.IsEnabled, Constants.SyncNova88Ticket, nova88TicketService.PushTickets);
-        }        
+        }
+
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        public Task SyncNova88TicketBySupportApi()
+        {
+            return SyncJob(!apiConfigs.Value.Nova88.TicketConfigs.IsEnabled && apiConfigs.Value.Nova88.SupportTicketConfigs.IsEnabled, 
+                Constants.SyncNova88TicketBySupportApi, nova88TicketBySupportApiService.PushTickets);
+        }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public Task SyncIvorybetPlayer()
@@ -87,6 +110,13 @@
         public Task SyncIvorybetTicket()
         {
             return SyncJob(apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled, Constants.SyncIvorybetTicket, ivorybetTicketService.PushTickets);
+        }
+
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        public Task SyncIvorybetTicketBySupportApi()
+        {
+            return SyncJob(!apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled && apiConfigs.Value.Ivorybet.SupportTicketConfigs.IsEnabled, 
+                Constants.SyncIvorybetTicketBySupportApi, ivorybetTicketBySupportApiService.PushTickets);
         }
 
         private async Task SyncJob(bool isEnabled, string jobName, Func<Task> fn)

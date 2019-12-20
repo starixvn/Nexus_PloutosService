@@ -53,26 +53,35 @@
 
         public void RunHangfireJobs()
         {
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88Player,
-                job => job.SyncOpal88Player(),
-                cronJob.CurrentValue.SyncOpal88Player);
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88Ticket,
-                job => job.SyncOpal88Ticket(),
-                cronJob.CurrentValue.SyncOpal88Ticket);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88Player,
+            //    job => job.SyncOpal88Player(),
+            //    cronJob.CurrentValue.SyncOpal88Player);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88Ticket,
+            //    job => job.SyncOpal88Ticket(),
+            //    cronJob.CurrentValue.SyncOpal88Ticket);
+            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncOpal88TicketBySupportApi,
+                job => job.SyncOpal88TicketBySupportApi(),
+                cronJob.CurrentValue.SyncOpal88TicketBySupportApi);
 
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88Player,
-                job => job.SyncNova88Player(),
-                cronJob.CurrentValue.SyncNova88Player);
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88Ticket,
-                job => job.SyncNova88Ticket(),
-                cronJob.CurrentValue.SyncNova88Ticket);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88Player,
+            //    job => job.SyncNova88Player(),
+            //    cronJob.CurrentValue.SyncNova88Player);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88Ticket,
+            //    job => job.SyncNova88Ticket(),
+            //    cronJob.CurrentValue.SyncNova88Ticket);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncNova88TicketBySupportApi,
+            //    job => job.SyncNova88TicketBySupportApi(),
+            //    cronJob.CurrentValue.SyncNova88TicketBySupportApi);
 
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybetPlayer,
-                job => job.SyncIvorybetPlayer(),
-                cronJob.CurrentValue.SyncIvorybetPlayer);
-            recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybetTicket,
-                job => job.SyncIvorybetTicket(),
-               cronJob.CurrentValue.SyncIvorybetTicket);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybetPlayer,
+            //    job => job.SyncIvorybetPlayer(),
+            //    cronJob.CurrentValue.SyncIvorybetPlayer);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybetTicket,
+            //    job => job.SyncIvorybetTicket(),
+            //   cronJob.CurrentValue.SyncIvorybetTicket);
+            //recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybetTicketBySupportApi,
+            //    job => job.SyncIvorybetTicketBySupportApi(),
+            //   cronJob.CurrentValue.SyncIvorybetTicketBySupportApi);
         }
 
         private static void RemoveCurrentHangfireServer()

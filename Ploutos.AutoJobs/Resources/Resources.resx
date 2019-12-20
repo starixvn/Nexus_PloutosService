@@ -123,17 +123,26 @@
   <data name="Job_SyncIvorybetTicket" xml:space="preserve">
     <value>Sync Ivorybet Ticket</value>
   </data>
+  <data name="Job_SyncIvorybetTicketBySupportApi" xml:space="preserve">
+    <value>Sync Ivorybet Ticket By Support Api</value>
+  </data>
   <data name="Job_SyncNova88Player" xml:space="preserve">
     <value>Sync Nova88 Player</value>
   </data>
   <data name="Job_SyncNova88Ticket" xml:space="preserve">
     <value>Sync Nova88 Ticket</value>
   </data>
+  <data name="Job_SyncNova88TicketBySupportApi" xml:space="preserve">
+    <value>Sync Nova88 Ticket By Support Api</value>
+  </data>
   <data name="Job_SyncOpal88Player" xml:space="preserve">
     <value>Sync Opal88 Player</value>
   </data>
   <data name="Job_SyncOpal88Ticket" xml:space="preserve">
     <value>Sync Opal88 Ticket</value>
+  </data>
+  <data name="Job_SyncOpal88TicketBySupportApi" xml:space="preserve">
+    <value>Sync Opal88 Ticket By Support Api</value>
   </data>
   <data name="Log_OnStartedService" xml:space="preserve">
     <value>Nap Chatbot Service started &amp; initialize auto jobs at {0}.</value>
