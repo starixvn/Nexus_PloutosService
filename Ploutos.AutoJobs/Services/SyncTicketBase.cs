@@ -51,11 +51,23 @@
                     .Select(grp => grp.Select(x => x.Value).ToList())
                     .ToList();
 
+            var betTicketParallelBatches = betTicketBatches
+                    .Select((s, i) => new { Value = s, Index = i })
+                    .GroupBy(x => x.Index / apiConfigs.TicketConfigs.SyncParallelSize)
+                    .Select(grp => grp.Select(x => x.Value).ToList())
+                    .ToList();
+
             var successCount = 0;
-            foreach (var batch in betTicketBatches)
+            foreach (var batch in betTicketParallelBatches)
             {
-                var batchResult = await PushTicketBatch(siteName, batch);
-                successCount += batchResult;
+                var tasks = new Task<int>[batch.Count];
+                for (int i = 0; i < batch.Count; i++)
+                {
+                    tasks[i] = PushTicketBatch(siteName, batch[i]);
+                }
+
+                var results = await Task.WhenAll(tasks);
+                successCount += results.Sum(r => r);
             }
 
             fileLogger.Warn(string.Format("Finish Push Tickets for {0}, total: {1}, success: {2}, failed: {3}",

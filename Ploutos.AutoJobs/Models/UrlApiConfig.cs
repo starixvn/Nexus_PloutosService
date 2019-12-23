@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
     public class UrlApiConfig
     {
@@ -10,5 +6,6 @@ namespace Ploutos.AutoJobs.Models
         public string Url { get; set; }
         public int QueryBatchSize { get; set; }
         public int SyncBatchSize { get; set; }
+        public int SyncParallelSize { get; set; }
     }
 }
