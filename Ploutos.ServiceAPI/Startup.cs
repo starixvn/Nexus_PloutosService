@@ -105,6 +105,7 @@
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             app.UseAuthentication();
             app.UseMiddleware<TokenProviderMiddleware>();
             app.UseMvc();
