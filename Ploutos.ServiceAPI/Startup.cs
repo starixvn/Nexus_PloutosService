@@ -19,7 +19,6 @@
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using Ploutos.ServiceAPI.Models;
-    using Ploutos.ServiceAPI.Provider;
     using Ploutos.ServiceAPI.Repositories;
     using Ploutos.ServiceAPI.Services;
     using Sentry;
@@ -92,7 +91,7 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -107,7 +106,6 @@
             app.UseHttpsRedirection();
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             app.UseAuthentication();
-            app.UseMiddleware<TokenProviderMiddleware>();
             app.UseMvc();
         }
     }
