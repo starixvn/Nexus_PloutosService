@@ -19,7 +19,6 @@
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using Ploutos.ServiceAPI.Models;
-    using Ploutos.ServiceAPI.Repositories;
     using Ploutos.ServiceAPI.Services;
     using Sentry;
 
@@ -85,7 +84,6 @@
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // DI
-            services.AddScoped<IBaseRepository, BaseRepository>();
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddScoped<IPlayerProfileService, PlayerProfileService>();
         }
