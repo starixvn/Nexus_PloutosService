@@ -1,7 +1,9 @@
 ﻿namespace Ploutos.ServiceAPI.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -14,22 +16,6 @@
     public class PlayerProfileController : Controller
     {
         private readonly IPlayerProfileService playerProfileService;
-        
-        private readonly string InvalidMessage1 = "The {0} must be have characters long greater than zero and less than {1}.";
-        private readonly string InvalidMessage2 = "The {0} must be have characters long greater than {1} and less than {2}.";
-        private readonly int MaxLengthBrandCode = 20;
-        private readonly int MaxLengthCurrencyCode = 10;
-        private readonly int MaxLengthEmailAddress = 50;
-        private readonly int MaxLengthIPAddress = 15;
-        private readonly int MinLengthIPAddress = 7;
-        private readonly int MaxLengthLanguageCode = 10;
-        private readonly int MinLengthLanguageCode = 2;
-        private readonly int MaxLengthPassword = 30;
-        private readonly int MinLengthPassword = 6;
-        private readonly int MaxLengthMobileCountryCode = 20;
-        private readonly int MaxLengthMobileNumber = 16;
-        private readonly int MinLengthMobileNumber = 7;
-        private readonly int MaxLengthUsername = 30;
 
         public PlayerProfileController(IPlayerProfileService playerProfileService)
         {
@@ -39,117 +25,63 @@
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]IList<PlayerProfile> playerProfiles)
         {
-            var inValidPlayers = GetInValidPlayerProfiles(playerProfiles);
-            var validPlayers = playerProfiles.Where(t => !inValidPlayers.Any(x => x.Username.Equals(t.Username)));
-            var playerErrorResponeResults = await playerProfileService.InsertPlayerProfileAsync(validPlayers.ToList());
-            inValidPlayers = inValidPlayers.Union(playerErrorResponeResults).ToList();
-
-            foreach (var player in validPlayers)
+            var validateResult = ValidatePlayerProfiles(playerProfiles);
+            IList<PlayerResponseResult> playerResponseResults = await playerProfileService.InsertPlayerProfileAsync(validateResult.Item1);
+            List<PlayerResponseResult> invalidProfiles = validateResult.Item2 as List<PlayerResponseResult>;
+            invalidProfiles.AddRange(playerResponseResults.GroupBy(x => x.Username).Select(x => new PlayerResponseResult
             {
-                if (!inValidPlayers.Any(t => t.Username.Equals(player.Username)))
-                {
-                    playerErrorResponeResults.Add(
-                        new PlayerResponeResult
-                        {
-                            Username = player.Username,
-                            ErrorCode = 0,
-                            ErrorMessage = string.Empty
-                        });
-                }
-            }
+                Username = x.Key,
+                ErrorMessage = string.Join("; ", x.Select(t => t.ErrorMessage))
+            }));
 
-            return Json(inValidPlayers);
+            return Json(invalidProfiles);
         }
 
-        private IList<PlayerResponeResult> GetInValidPlayerProfiles(IList<PlayerProfile> playerProfiles)
+        private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
-            var players = new List<PlayerResponeResult>();
+            IList<PlayerProfile> validProfiles = new List<PlayerProfile>();
+            var invalidProfiles = new List<PlayerResponseResult>();
             foreach (var playerProfile in playerProfiles)
             {
-                playerProfile.Username = playerProfile.Username ?? string.Empty;
-                var playerValidateResult = ValidatePlayerProfile(playerProfile);
-                if (!playerValidateResult.IsSucessfull)
+                PlayerResponseResult validateResult = ValidatePlayerProfile(playerProfile);
+                if (!validateResult.IsSucessfull)
                 {
-                    players.Add(playerValidateResult);
+                    invalidProfiles.Add(validateResult);
+                }
+                else
+                {
+                    validProfiles.Add(playerProfile);
                 }
             }
 
-            return players;
+            return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
         }
 
-        private PlayerResponeResult ValidatePlayerProfile(PlayerProfile playerProfile)
+        private PlayerResponseResult ValidatePlayerProfile(PlayerProfile playerProfile)
         {
-            var playerResponse = new PlayerResponeResult();
-            if (string.IsNullOrWhiteSpace(playerProfile.Username) || playerProfile.Username.Length > MaxLengthUsername)
+            PropertyInfo[] properties = typeof(PlayerProfile).GetProperties();
+            List<string> failures = new List<string>();
+            var playerResponse = new PlayerResponseResult();
+            foreach (PropertyInfo property in properties)
             {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage1, "UserName", MaxLengthUsername);
+                var rules = Array.ConvertAll(
+                    property.GetCustomAttributes(typeof(IValidationRule<PlayerProfile>), true),
+                    item => (IValidationRule<PlayerProfile>)item);
+                failures.AddRange(rules.Select(r => r.Validate(playerProfile)).Where(f => !string.IsNullOrWhiteSpace(f)));
             }
-            else if (string.IsNullOrWhiteSpace(playerProfile.Username2) || playerProfile.Username2.Length > MaxLengthUsername)
+
+            if (failures.Any())
             {
                 playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage1, "UserName2", MaxLengthUsername);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.BrandCode) || playerProfile.BrandCode.Length > MaxLengthBrandCode)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage1, "BrandCode", MaxLengthBrandCode);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.EmailAddress) || playerProfile.EmailAddress.Length > MaxLengthEmailAddress)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage1, "EmailAddress", MaxLengthEmailAddress);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.CurrencyCode) || playerProfile.CurrencyCode.Length > MaxLengthCurrencyCode)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage1, "CurrencyCode", MaxLengthCurrencyCode);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.MobileCountryCode) || playerProfile.MobileCountryCode.Length > MaxLengthMobileCountryCode)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage1, "MobileCountryCode", MaxLengthMobileCountryCode);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.MobileNumber)
-                || playerProfile.MobileNumber.Length > MaxLengthMobileNumber
-                || playerProfile.MobileNumber.Length < MinLengthMobileNumber)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage2, "MobileNumber", MinLengthMobileNumber, MaxLengthMobileNumber);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.IPAddress) 
-                || playerProfile.IPAddress.Length < MinLengthIPAddress
-                || playerProfile.IPAddress.Length > MaxLengthIPAddress)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage2, "IPAddress", MinLengthIPAddress, MaxLengthIPAddress);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.LanguageCode)
-                || playerProfile.LanguageCode.Length > MaxLengthLanguageCode
-                || playerProfile.LanguageCode.Length < MinLengthLanguageCode)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage2, "LanguageCode", MinLengthLanguageCode, MaxLengthLanguageCode);
-            }
-            else if (string.IsNullOrWhiteSpace(playerProfile.Password)
-                || playerProfile.Password.Length > MaxLengthLanguageCode
-                || playerProfile.Password.Length < MinLengthLanguageCode)
-            {
-                playerResponse.Username = playerProfile.Username;
-                playerResponse.ErrorCode = 100;
-                playerResponse.ErrorMessage = string.Format(InvalidMessage2, "Password", MinLengthPassword, MaxLengthPassword);
+                playerResponse.ErrorMessage = string.Join(";", failures);
             }
 
             return playerResponse;
         }
+    }
+
+    internal interface IValidationRule<in T>
+    {
+        string Validate(T input);
     }
 }

@@ -1,9 +1,15 @@
 ﻿namespace Ploutos.ServiceAPI
 {
+    using System.Collections.Generic;
     using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Fanex.Data.SqlServer;
+    using Fanex.Logging;
+    using Fanex.Logging.Extensions;
+    using Fanex.Logging.Extensions.AspNetCore;
+    using Fanex.Logging.Extensions.Database;
+    using Fanex.Logging.Sentry;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -16,6 +22,7 @@
     using Ploutos.ServiceAPI.Provider;
     using Ploutos.ServiceAPI.Repositories;
     using Ploutos.ServiceAPI.Services;
+    using Sentry;
 
     public class Startup
     {
@@ -45,6 +52,20 @@
                 .WithSqlServer()
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
+
+            LogManager
+                .SetDefaultLogCategory(Configuration.GetSection("LogCategory").Value)
+                .Use(new List<ILogEngine>
+                {
+                    new SentryLogging(new SentryEngineOptions
+                    {
+                        Dsn = new Dsn(Configuration.GetSection("SentryEngineOptions:Dsn").Value)
+                    })
+                });
+
+            ExceptionHandler
+                .UseConfig(new LoggingConfiguration())
+                .UseGetDbExceptionInfo(DatabaseInfoGetters.GetDbExceptionInfo);
 
             var tokenProviderOptions = services.BuildServiceProvider().GetService<IOptionsMonitor<TokenProviderOptions>>().CurrentValue;
             services.AddAuthentication(x =>
