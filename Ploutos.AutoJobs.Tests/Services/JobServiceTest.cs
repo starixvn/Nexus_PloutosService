@@ -1,21 +1,19 @@
-﻿using Fanex.Logging;
-using Microsoft.Extensions.Options;
-using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using ONEbook.UM.Models;
-using ONEbook.UM.Services;
-using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Services;
-using Ploutos.AutoJobs.Services.Interfaces;
-using Ploutos.AutoJobs.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Ploutos.AutoJobs.Tests.Services
+﻿namespace Ploutos.AutoJobs.Tests.Services
 {
+    using System;
+    using System.Threading.Tasks;
+    using Fanex.Logging;
+    using Microsoft.Extensions.Options;
+    using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
+    using ONEbook.UM.Models;
+    using ONEbook.UM.Services;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Services;
+    using Ploutos.AutoJobs.Services.Interfaces;
+    using Ploutos.AutoJobs.Utils;
+    using Xunit;
+
     public class JobServiceTest
     {
         private readonly IOptionsSnapshot<ApiConfigs> apiConfigs;
@@ -55,7 +53,8 @@ namespace Ploutos.AutoJobs.Tests.Services
         public async Task SyncOpal88Player_WhenCalled_SyncOpal88Player()
         {
             // Arrange
-            var configs = new ApiConfigs {
+            var configs = new ApiConfigs
+            {
                 Opal88 = new BrandApiConfigs
                 {
                     PlayerConfigs = new UrlApiConfig
@@ -65,7 +64,8 @@ namespace Ploutos.AutoJobs.Tests.Services
                 }
             };
 
-            var maintenanceTime = new UnderMaintenanceTime() {
+            var maintenanceTime = new UnderMaintenanceTime()
+            {
                 IsUnderMaintenanceTime = false
             };
             maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
@@ -276,7 +276,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             {
                 await service.SyncOpal88Player();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await logger.Received().ErrorAsync(errors);
             }

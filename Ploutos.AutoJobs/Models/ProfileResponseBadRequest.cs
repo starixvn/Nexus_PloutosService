@@ -9,7 +9,7 @@
         public Dictionary<string, string[]> ModelState { get; set; }
 
         public string GetErrorMessage()
-        {          
+        {
             var errors = new List<string>();
             foreach (KeyValuePair<string, string[]> item in ModelState)
             {

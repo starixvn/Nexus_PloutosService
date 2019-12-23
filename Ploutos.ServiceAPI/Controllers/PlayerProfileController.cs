@@ -37,7 +37,7 @@
             return Json(invalidProfiles);
         }
 
-        private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
+        private static Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
             IList<PlayerProfile> validProfiles = new List<PlayerProfile>();
             var invalidProfiles = new List<PlayerResponseResult>();
@@ -57,7 +57,7 @@
             return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
         }
 
-        private PlayerResponseResult ValidatePlayerProfile(PlayerProfile playerProfile)
+        private static PlayerResponseResult ValidatePlayerProfile(PlayerProfile playerProfile)
         {
             PropertyInfo[] properties = typeof(PlayerProfile).GetProperties();
             List<string> failures = new List<string>();
