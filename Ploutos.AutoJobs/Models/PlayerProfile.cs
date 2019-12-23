@@ -27,6 +27,6 @@
         public string AffiliateCode { get; set; }
         public string Platform { get; set; }
         public string SrcUrl { get; set; }
-        public string Countrycode { get; set; }        
+        public string Countrycode { get; set; }
     }
 }

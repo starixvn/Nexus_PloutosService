@@ -1,27 +1,30 @@
 ﻿namespace Ploutos.ServiceAPI.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
     using System.Threading.Tasks;
+    using Fanex.Data.Repository;
     using Ploutos.ServiceAPI.Criteria;
     using Ploutos.ServiceAPI.Models;
     using Ploutos.ServiceAPI.Repositories;
+    using System.Linq;
 
     public interface IPlayerProfileService
     {
-        Task<CommandResult> InsertPlayerProfileAsync(IEnumerable<PlayerProfile> playerProfiles);
+        Task<IList<PlayerResponeResult>> InsertPlayerProfileAsync(IList<PlayerProfile> playerProfiles);
     }
 
     public class PlayerProfileService : IPlayerProfileService
     {
-        private readonly IBaseRepository baseRepository;
+        private readonly IDynamicRepository dynamicRepository;
 
-        public PlayerProfileService(IBaseRepository baseRepository)
+        public PlayerProfileService(IDynamicRepository dynamicRepository)
         {
-            this.baseRepository = baseRepository;
+            this.dynamicRepository = dynamicRepository;
         }
 
-        public async Task<CommandResult> InsertPlayerProfileAsync(IEnumerable<PlayerProfile> playerProfiles)
+        public async Task<IList<PlayerResponeResult>> InsertPlayerProfileAsync(IList<PlayerProfile> playerProfiles)
         {
             var datatable = new DataTable();
             datatable.Columns.Add("BrandCode");
@@ -33,29 +36,26 @@
             datatable.Columns.Add("MobileCountryCode");
             datatable.Columns.Add("MobileNumber");
             datatable.Columns.Add("Password");
-            datatable.Columns.Add("PushTime");
-            datatable.Columns.Add("ResponseResult");
-            datatable.Columns.Add("ResponseTime");
+            datatable.Columns.Add("PlayerTypeCode");
             datatable.Columns.Add("Username");
             datatable.Columns.Add("Username2");
+            
 
             foreach (var profile in playerProfiles)
             {
                 datatable.Rows.Add(
-                    profile.BrandCode,
-                    profile.CurrencyCode,
-                    profile.EmailAddress,
-                    profile.IPAddress,
+                    profile.BrandCode ?? string.Empty,
+                    profile.CurrencyCode ?? string.Empty,
+                    profile.EmailAddress ?? string.Empty,
+                    profile.IPAddress ?? string.Empty,
                     profile.IsDeposit,
-                    profile.LanguageCode,
-                    profile.MobileCountryCode,
-                    profile.MobileNumber,
-                    profile.Password,
-                    profile.PushTime,
-                    profile.ResponseResult,
-                    profile.ResponseTime,
-                    profile.Username,
-                    profile.Username2);
+                    profile.LanguageCode ?? string.Empty,
+                    profile.MobileCountryCode ?? string.Empty,
+                    profile.MobileNumber ?? string.Empty,
+                    profile.Password ?? string.Empty,
+                    profile.PlayerTypeCode,
+                    profile.Username ?? string.Empty,
+                    profile.Username2 ?? string.Empty);
             }
 
             var criteria = new InsertPlayerProfileCriteria
@@ -63,7 +63,8 @@
                 PlayerProfile = datatable
             };
 
-            return await baseRepository.ExecuteNonQueryAsync(criteria);
+            var playerResponeResults = await dynamicRepository.FetchAsync<PlayerResponeResult>(criteria).ConfigureAwait(false);
+            return playerResponeResults.ToList();
         }
     }
 }

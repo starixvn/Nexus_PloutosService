@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using Fanex.Data;
+    using Fanex.Data.Repository;
     using Fanex.Data.SqlServer;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
@@ -65,6 +66,7 @@
 
             // DI
             services.AddScoped<IBaseRepository, BaseRepository>();
+            services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddScoped<IPlayerProfileService, PlayerProfileService>();
         }
 
