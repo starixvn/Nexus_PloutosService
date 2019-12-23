@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+#pragma warning disable S109 // Magic numbers should not be used
     public class PlayerProfile
     {
         private const string RequiredErrorMessage = "{0} is required!";

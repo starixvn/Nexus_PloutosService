@@ -41,18 +41,18 @@
             foreach (var profile in playerProfiles)
             {
                 datatable.Rows.Add(
-                    profile.BrandCode ?? string.Empty,
-                    profile.CurrencyCode ?? string.Empty,
-                    profile.EmailAddress ?? string.Empty,
-                    profile.IPAddress ?? string.Empty,
+                    profile.BrandCode,
+                    profile.CurrencyCode,
+                    profile.EmailAddress,
+                    profile.IPAddress,
                     profile.IsDeposit,
-                    profile.LanguageCode ?? string.Empty,
-                    profile.MobileCountryCode ?? string.Empty,
-                    profile.MobileNumber ?? string.Empty,
-                    profile.Password ?? string.Empty,
+                    profile.LanguageCode,
+                    profile.MobileCountryCode,
+                    profile.MobileNumber,
+                    profile.Password,
                     profile.PlayerTypeCode,
-                    profile.Username ?? string.Empty,
-                    profile.Username2 ?? string.Empty);
+                    profile.Username,
+                    profile.Username2);
             }
 
             var criteria = new InsertPlayerProfileCriteria
