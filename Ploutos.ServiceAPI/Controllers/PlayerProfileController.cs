@@ -37,6 +37,7 @@
                 .Select(x => new PlayerResponseResult
                 {
                     Username = x.Key,
+                    ErrorCode = 1,
                     ErrorMessage = string.Join("; ", x.Select(t => t.ErrorMessage))
                 }));
 
