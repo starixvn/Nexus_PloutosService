@@ -61,9 +61,11 @@
             foreach (var batch in betTicketParallelBatches)
             {
                 var tasks = new Task<int>[batch.Count];
+                string domainName;
                 for (int i = 0; i < batch.Count; i++)
                 {
-                    tasks[i] = PushTicketBatch(siteName, batch[i]);
+                    domainName = i % 2 == 0 ? apiConfigs.PloutosBaseDomain : apiConfigs.PloutosBackupDomain;
+                    tasks[i] = PushTicketBatch(siteName, domainName, batch[i]);
                 }
 
                 var results = await Task.WhenAll(tasks);
@@ -74,7 +76,7 @@
                 siteName, betTickets.Count, successCount, betTickets.Count - successCount));
         }
 
-        private async Task<int> PushTicketBatch(string siteName, List<BetTicket> betTickets)
+        private async Task<int> PushTicketBatch(string siteName, string domainName, List<BetTicket> betTickets)
         {
             List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
@@ -82,7 +84,7 @@
             try
             {
                 var response = await webClientService.PostAsync<List<BetTicket>>(
-                        apiConfigs.PloutosBaseDomain,
+                        domainName,
                         apiConfigs.TicketConfigs.Url,
                         apiConfigs.PloutosToken,
                         betTickets);
