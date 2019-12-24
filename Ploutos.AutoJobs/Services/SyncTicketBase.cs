@@ -64,7 +64,7 @@
                 string domainName;
                 for (int i = 0; i < batch.Count; i++)
                 {
-                    domainName = i % 2 == 0 ? apiConfigs.PloutosBaseDomain : apiConfigs.PloutosBackupDomain;
+                    domainName = GetDomainName(i);
                     tasks[i] = PushTicketBatch(siteName, domainName, batch[i]);
                 }
 
@@ -74,6 +74,26 @@
 
             fileLogger.Warn(string.Format("Finish Push Tickets for {0}, total: {1}, success: {2}, failed: {3}",
                 siteName, betTickets.Count, successCount, betTickets.Count - successCount));
+        }
+
+        private string GetDomainName(int indexOfBatch)
+        {
+            string domainName;
+            if (indexOfBatch % 3 == 0)
+            {
+                domainName = apiConfigs.PloutosBaseDomain1;
+
+            }
+            else if (indexOfBatch % 3 == 1)
+            {
+                domainName = apiConfigs.PloutosBaseDomain2;
+            }
+            else
+            {
+                domainName = apiConfigs.PloutosBaseDomain3;
+            }
+
+            return domainName;
         }
 
         private async Task<int> PushTicketBatch(string siteName, string domainName, List<BetTicket> betTickets)
