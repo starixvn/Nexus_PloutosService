@@ -5,11 +5,11 @@
 
     public class TicketResponse
     {
-        public List<TicketResponseData> Errors { get; set; }
+        public List<TicketResponseData> Data { get; set; }
 
         public string GetErrorMessage(string TransactionNo)
         {
-            var errors = Errors.Where(t => t.TransactionNo == TransactionNo).Select(t => t.ErroMessage);
+            var errors = Data.Where(t => t.TransactionNo == TransactionNo).Select(t => t.ErroMessage);
             return string.Join(",", errors);
         }
     }

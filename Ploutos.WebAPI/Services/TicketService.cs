@@ -50,10 +50,10 @@ namespace Ploutos.WebAPI.Services
                 }
             }
 
-            return new TicketResponse { Errors = errors };
+            return new TicketResponse { Data = errors };
         }
 
-        private void UpdateTicketData(BetTicket ticket)
+        private static void UpdateTicketData(BetTicket ticket)
         {
             ticket.CreatedById = "9cabbc12-e688-47ca-ae5d-2c8ebdc5cd38";
             ticket.ModifiedById = "9cabbc12-e688-47ca-ae5d-2c8ebdc5cd38";
@@ -62,7 +62,7 @@ namespace Ploutos.WebAPI.Services
             ticket.TransactionDate = DateTime.Parse(ticket.TransactionDate).ToString("yyyy-MM-dd HH:mm:ss");
         }
 
-        private string ValidateTicket(BetTicket ticket, TicketSettingData settings, List<string> existingTransactionNoList)
+        private static string ValidateTicket(BetTicket ticket, TicketSettingData settings, List<string> existingTransactionNoList)
         {
             var result = string.Empty;
             if (!settings.GamePlatformCodeList.Contains(ticket.GamePlatformCode))
@@ -80,6 +80,10 @@ namespace Ploutos.WebAPI.Services
             else if (existingTransactionNoList.Contains(ticket.TransactionNo))
             {
                 result = "TransactionNo error";
+            }
+            else
+            {
+                // Do nothing
             }
 
             return result;
