@@ -3,12 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
+    using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Ploutos.ServiceAPI.Models;
     using Ploutos.ServiceAPI.Services;
+    using Ploutos.ServiceAPI.ViewModels;
 
     [Route("api/[controller]")]
     [Authorize]
@@ -23,8 +24,12 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]IList<PlayerProfile> playerProfiles)
+        public async Task<IActionResult> Post(IList<PlayerProfileViewModel> model)
         {
+            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<PlayerProfileViewModel, PlayerProfile>());
+            var mapper = new Mapper(configuration);
+            IList<PlayerProfile> playerProfiles = mapper.Map<IList<PlayerProfileViewModel>, IList<PlayerProfile>>(model);
+
             var validateResult = ValidatePlayerProfiles(playerProfiles);
             IList<PlayerResponseResult> playerResponseResults = await playerProfileService.InsertPlayerProfileAsync(validateResult.Item1);
             List<PlayerResponseResult> invalidProfiles = validateResult.Item2 as List<PlayerResponseResult>;
@@ -37,7 +42,7 @@
             return Json(invalidProfiles);
         }
 
-        private static Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
+        private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
             IList<PlayerProfile> validProfiles = new List<PlayerProfile>();
             var invalidProfiles = new List<PlayerResponseResult>();
@@ -57,31 +62,21 @@
             return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
         }
 
-        private static PlayerResponseResult ValidatePlayerProfile(PlayerProfile playerProfile)
+        private PlayerResponseResult ValidatePlayerProfile(PlayerProfile playerProfile)
         {
-            PropertyInfo[] properties = typeof(PlayerProfile).GetProperties();
-            List<string> failures = new List<string>();
             var playerResponse = new PlayerResponseResult();
-            foreach (PropertyInfo property in properties)
-            {
-                var rules = Array.ConvertAll(
-                    property.GetCustomAttributes(typeof(IValidationRule<PlayerProfile>), true),
-                    item => (IValidationRule<PlayerProfile>)item);
-                failures.AddRange(rules.Select(r => r.Validate(playerProfile)).Where(f => !string.IsNullOrWhiteSpace(f)));
-            }
+            TryValidateModel(playerProfile);
 
-            if (failures.Any())
+            if (!ModelState.IsValid)
             {
+                List<string> failures = ModelState.Values.SelectMany(e => e.Errors).Select(gh => gh.ErrorMessage).ToList();
+
                 playerResponse.Username = playerProfile.Username;
+                playerResponse.ErrorCode = 1;
                 playerResponse.ErrorMessage = string.Join(";", failures);
             }
 
             return playerResponse;
         }
-    }
-
-    internal interface IValidationRule<in T>
-    {
-        string Validate(T input);
     }
 }

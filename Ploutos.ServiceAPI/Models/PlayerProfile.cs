@@ -7,7 +7,7 @@
     {
         private const string RequiredErrorMessage = "{0} is required!";
         private const string MaxLengthErrorMessage = "{0} must not over {1} characters long.";
-        private const string MinMaxLengthErrorMessage = "{0} must be between {1} and {2} characters long.";
+        private const string MinMaxLengthErrorMessage = "{0} must be between {2} and {1} characters long.";
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(20, ErrorMessage = MaxLengthErrorMessage)]

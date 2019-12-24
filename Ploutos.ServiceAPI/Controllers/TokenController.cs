@@ -27,7 +27,7 @@
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Post([FromBody]LoginModel login)
+        public IActionResult Post(LoginModel login)
         {
             if (login == null
                 || !_identityConfigs.Username.Equals(login.Username)
