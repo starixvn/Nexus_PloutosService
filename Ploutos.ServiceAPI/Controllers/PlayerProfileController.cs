@@ -65,6 +65,7 @@
         private PlayerResponseResult ValidatePlayerProfile(PlayerProfile playerProfile)
         {
             var playerResponse = new PlayerResponseResult();
+            ModelState.Clear();
             TryValidateModel(playerProfile);
 
             if (!ModelState.IsValid)
