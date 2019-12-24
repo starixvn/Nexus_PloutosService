@@ -75,7 +75,7 @@
             try
             {
                 var response = await webClientService.PostAsync<PlayerProfile>(
-                    apiConfigs.PloutosBaseDomain,
+                    apiConfigs.PloutosBaseDomain1,
                     apiConfigs.PlayerConfigs.Url,
                     apiConfigs.PloutosToken,
                     profile);

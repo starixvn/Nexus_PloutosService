@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.AutoJobs.Models
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class TicketResponse
     {
         public string Status { get; set; }
