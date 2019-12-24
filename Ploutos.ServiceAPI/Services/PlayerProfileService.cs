@@ -60,8 +60,8 @@
                 PlayerProfile = datatable
             };
 
-            var playerResponeResults = await dynamicRepository.FetchAsync<PlayerResponseResult>(criteria);
-            return playerResponeResults.ToList();
+            var playerResponseResults = await dynamicRepository.FetchAsync<PlayerResponseResult>(criteria);
+            return playerResponseResults.ToList();
         }
     }
 }
