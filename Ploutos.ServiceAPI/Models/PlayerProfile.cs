@@ -5,7 +5,7 @@
 #pragma warning disable S109 // Magic numbers should not be used
     public class PlayerProfile
     {
-        private const string RequiredErrorMessage = "{0} is required!";
+        private const string RequiredErrorMessage = "{0} is required.";
         private const string MaxLengthErrorMessage = "{0} must not over {1} characters long.";
         private const string MinMaxLengthErrorMessage = "{0} must be between {2} and {1} characters long.";
 

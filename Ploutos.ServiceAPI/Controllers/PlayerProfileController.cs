@@ -33,20 +33,41 @@
             var validateResult = ValidatePlayerProfiles(playerProfiles);
             IList<PlayerResponseResult> playerResponseResults = await playerProfileService.InsertPlayerProfileAsync(validateResult.Item1);
             List<PlayerResponseResult> invalidProfiles = validateResult.Item2 as List<PlayerResponseResult>;
-            invalidProfiles.AddRange(playerResponseResults.GroupBy(x => x.Username).Select(x => new PlayerResponseResult
-            {
-                Username = x.Key,
-                ErrorMessage = string.Join("; ", x.Select(t => t.ErrorMessage))
-            }));
+            invalidProfiles.AddRange(playerResponseResults.GroupBy(x => x.Username)
+                .Select(x => new PlayerResponseResult
+                {
+                    Username = x.Key,
+                    ErrorMessage = string.Join("; ", x.Select(t => t.ErrorMessage))
+                }));
 
             return Json(invalidProfiles);
         }
 
+        private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> CheckDuplicatePlayerProfiles(IList<PlayerProfile> playerProfiles)
+        {
+            var invalidProfiles = new List<PlayerResponseResult>();
+            var duplicates = playerProfiles.GroupBy(x => x.Username).Where(g => g.Count() > 1).Select(g => g.Key);
+
+            if (duplicates.Any())
+            {
+                invalidProfiles.Add(new PlayerResponseResult
+                {
+                    Username = duplicates.First(),
+                    ErrorCode = 1,
+                    ErrorMessage = "Duplicate username."
+                });
+            }
+
+            IList<PlayerProfile> validProfiles = playerProfiles.Where(x => !duplicates.Any(t => t == x.Username)).ToList();
+            return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
+        }
+
         private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
+            var duplicateResult = CheckDuplicatePlayerProfiles(playerProfiles);
             IList<PlayerProfile> validProfiles = new List<PlayerProfile>();
-            var invalidProfiles = new List<PlayerResponseResult>();
-            foreach (var playerProfile in playerProfiles)
+            List<PlayerResponseResult> invalidProfiles = duplicateResult.Item2 as List<PlayerResponseResult>;
+            foreach (var playerProfile in duplicateResult.Item1)
             {
                 PlayerResponseResult validateResult = ValidatePlayerProfile(playerProfile);
                 if (!validateResult.IsSucessfull)
