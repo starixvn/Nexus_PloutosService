@@ -7,7 +7,7 @@ namespace Ploutos.WebAPI.Criteria.Ticket
         public string BetTickets { get; set; }
         public int Error { get; set; }
         public string Message { get; set; }
-        public override string GetSettingKey() => "Ticket_InsertTickets";
+        public override string GetSettingKey() => "SupportApi_BetTicketsIns";
         public override bool IsValid() => true;
     }
 }

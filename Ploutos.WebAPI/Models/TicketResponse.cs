@@ -4,7 +4,6 @@ namespace Ploutos.WebAPI.Models
 {
     public class TicketResponse
     {
-        public string Status { get; set; }
-        public List<TicketResponseData> Data { get; set; }
+        public List<TicketResponseData> Errors { get; set; }
     }
 }

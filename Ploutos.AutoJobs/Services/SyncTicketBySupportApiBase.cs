@@ -35,7 +35,7 @@ namespace Ploutos.AutoJobs.Services
         public virtual async Task PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
-            fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
+            fileLogger.Warn(string.Format("Start Push Tickets By Support Api for {0}", siteName));
 
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.SupportTicketConfigs.QueryBatchSize);
 
@@ -58,7 +58,7 @@ namespace Ploutos.AutoJobs.Services
                 successCount += batchResult;
             }
 
-            fileLogger.Warn(string.Format("Finish Push Tickets for {0}, total: {1}, success: {2}, failed: {3}",
+            fileLogger.Warn(string.Format("Finish Push Tickets By Support Api for {0}, total: {1}, success: {2}, failed: {3}",
                 siteName, betTickets.Count, successCount, betTickets.Count - successCount));
         }
 

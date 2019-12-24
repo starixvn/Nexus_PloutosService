@@ -5,6 +5,8 @@
     </Setting>
   </Function>
   <Function Name="Ticket">
-    <Setting Key="Ticket_InsertTickets" SpName="Ticket_InsertTickets" DbName="blueberrydb" Plain="0"/>
+    <Setting Key="SupportApi_SettingsInfoSel" SpName="SupportApi_SettingsInfoSel" DbName="blueberrydb" Plain="0"/>
+    <Setting Key="SupportApi_BetTicketsInfoSel" SpName="SupportApi_BetTicketsInfoSel" DbName="blueberrydb" Plain="0"/>
+    <Setting Key="SupportApi_BetTicketsIns" SpName="SupportApi_BetTicketsIns" DbName="blueberrydb" Plain="0"/>    
   </Function>
 </Functions>
