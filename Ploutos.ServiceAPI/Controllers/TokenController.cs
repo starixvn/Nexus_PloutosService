@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,9 @@
         [HttpPost]
         public IActionResult Post([FromBody]LoginModel login)
         {
-            if (!login.Username.Equals(_identityConfigs.Username) || !login.Password.Equals(_identityConfigs.Password))
+            if (login == null
+                || !_identityConfigs.Username.Equals(login.Username)
+                || !_identityConfigs.Password.Equals(login.Password))
             {
                 return BadRequest("Invalid username or password.");
             }
@@ -45,10 +48,12 @@
                 signingCredentials: _options.SigningCredentials);
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var response = new
+            var response = new TokenAccess
             {
-                access_token = encodedJwt,
-                expires_in = $"{_options.Expiration} minutes"
+                Token = encodedJwt,
+                ExpiresIn = _options.Expiration,
+                Issued = jwt.ValidFrom.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture),
+                Expires = jwt.ValidTo.ToString("ddd, dd MMM yyyy HH:mm:ss 'GMT'", CultureInfo.InvariantCulture)
             };
 
             return Json(response);
