@@ -7,6 +7,7 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Options;
     using Ploutos.ServiceAPI.Models;
     using Ploutos.ServiceAPI.Services;
     using Ploutos.ServiceAPI.ViewModels;
@@ -16,10 +17,14 @@
     [ApiController]
     public class PlayerProfileController : Controller
     {
+        private readonly ApiConfigs apiConfigs;
         private readonly IPlayerProfileService playerProfileService;
 
-        public PlayerProfileController(IPlayerProfileService playerProfileService)
+        public PlayerProfileController(
+            IOptionsMonitor<ApiConfigs> apiConfigs,
+            IPlayerProfileService playerProfileService)
         {
+            this.apiConfigs = apiConfigs.CurrentValue;
             this.playerProfileService = playerProfileService;
         }
 
@@ -47,22 +52,69 @@
 
         private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> CheckDuplicatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
-            var invalidProfiles = new List<PlayerResponseResult>();
+            var invalidProfiles = CheckDuplicateUsername(playerProfiles) as List<PlayerResponseResult>;
+            invalidProfiles.AddRange(CheckDuplicateUsername2(playerProfiles));
+            invalidProfiles.AddRange(CheckDuplicateEmailAddress(playerProfiles));
+            invalidProfiles.AddRange(CheckBrandCode(playerProfiles));
+            invalidProfiles = invalidProfiles.GroupBy(x => x.Username).Select(x => new PlayerResponseResult
+            {
+                Username = x.Key,
+                ErrorCode = 1,
+                ErrorMessage = string.Join(" ", x.Select(t => t.ErrorMessage))
+            }).ToList();
+
+            IList<PlayerProfile> validProfiles = playerProfiles.Where(x => !invalidProfiles.Any(t => t.Username == x.Username)).ToList();
+            return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
+        }
+
+        private IList<PlayerResponseResult> CheckDuplicateUsername(IList<PlayerProfile> playerProfiles)
+        {
             IEnumerable<string> duplicates = playerProfiles.Where(x => !string.IsNullOrWhiteSpace(x.Username)).GroupBy(x => x.Username)
                 .Where(g => g.Count() > 1).Select(g => g.Key);
-
-            if (duplicates.Any())
-            {
-                invalidProfiles.Add(new PlayerResponseResult
+            return playerProfiles.Where(x => duplicates.Any(t => t == x.Username))
+                .Select(x => new PlayerResponseResult
                 {
-                    Username = duplicates.First(),
+                    Username = x.Username,
                     ErrorCode = 1,
-                    ErrorMessage = "Duplicate username."
-                });
-            }
+                    ErrorMessage = "Duplicate Username."
+                }).ToList();
+        }
 
-            IList<PlayerProfile> validProfiles = playerProfiles.Where(x => !duplicates.Any(t => t == x.Username)).ToList();
-            return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
+        private IList<PlayerResponseResult> CheckDuplicateUsername2(IList<PlayerProfile> playerProfiles)
+        {
+            IEnumerable<string> duplicates = playerProfiles.Where(x => !string.IsNullOrWhiteSpace(x.Username2)).GroupBy(x => x.Username2)
+                .Where(g => g.Count() > 1).Select(g => g.Key);
+            return playerProfiles.Where(x => duplicates.Any(t => t == x.Username2))
+                .Select(x => new PlayerResponseResult
+                {
+                    Username = x.Username,
+                    ErrorCode = 1,
+                    ErrorMessage = "Duplicate Username2."
+                }).ToList();
+        }
+
+        private IList<PlayerResponseResult> CheckDuplicateEmailAddress(IList<PlayerProfile> playerProfiles)
+        {
+            IEnumerable<string> duplicates = playerProfiles.Where(x => !string.IsNullOrWhiteSpace(x.EmailAddress)).GroupBy(x => x.EmailAddress)
+                .Where(g => g.Count() > 1).Select(g => g.Key);
+            return playerProfiles.Where(x => duplicates.Any(t => t == x.EmailAddress))
+                .Select(x => new PlayerResponseResult
+                {
+                    Username = x.Username,
+                    ErrorCode = 1,
+                    ErrorMessage = "Duplicate EmailAddress."
+                }).ToList();
+        }
+
+        private IList<PlayerResponseResult> CheckBrandCode(IList<PlayerProfile> playerProfiles)
+        {
+            return playerProfiles.Where(x => !apiConfigs.BrandCodes.Any(t => t.Equals(x.BrandCode, StringComparison.CurrentCultureIgnoreCase)))
+                .Select(x => new PlayerResponseResult
+                {
+                    Username = x.Username,
+                    ErrorCode = 1,
+                    ErrorMessage = "BrandCode is invalid."
+                }).ToList();
         }
 
         private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
