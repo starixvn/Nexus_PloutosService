@@ -30,24 +30,26 @@
             var mapper = new Mapper(configuration);
             IList<PlayerProfile> playerProfiles = mapper.Map<IList<PlayerProfileViewModel>, IList<PlayerProfile>>(model);
 
-            var validateResult = ValidatePlayerProfiles(playerProfiles);
-            IList<PlayerResponseResult> playerResponseResults = await playerProfileService.InsertPlayerProfileAsync(validateResult.Item1);
-            List<PlayerResponseResult> invalidProfiles = validateResult.Item2 as List<PlayerResponseResult>;
-            invalidProfiles.AddRange(playerResponseResults.GroupBy(x => x.Username)
+            Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> validateResult = ValidatePlayerProfiles(playerProfiles);
+            var playerResponseResults = await playerProfileService.InsertPlayerProfileAsync(validateResult.Item1) as List<PlayerResponseResult>;
+
+            playerResponseResults.AddRange(validateResult.Item2);
+            playerResponseResults.AddRange(validateResult.Item1.Where(x => !playerResponseResults.Any(t => t.Username == x.Username))
                 .Select(x => new PlayerResponseResult
                 {
-                    Username = x.Key,
-                    ErrorCode = 1,
-                    ErrorMessage = string.Join("; ", x.Select(t => t.ErrorMessage))
+                    Username = x.Username,
+                    ErrorCode = 0,
+                    ErrorMessage = string.Empty
                 }));
 
-            return Json(invalidProfiles);
+            return Json(playerResponseResults);
         }
 
         private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> CheckDuplicatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
             var invalidProfiles = new List<PlayerResponseResult>();
-            var duplicates = playerProfiles.GroupBy(x => x.Username).Where(g => g.Count() > 1).Select(g => g.Key);
+            IEnumerable<string> duplicates = playerProfiles.Where(x => !string.IsNullOrWhiteSpace(x.Username)).GroupBy(x => x.Username)
+                .Where(g => g.Count() > 1).Select(g => g.Key);
 
             if (duplicates.Any())
             {
@@ -65,7 +67,7 @@
 
         private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
-            var duplicateResult = CheckDuplicatePlayerProfiles(playerProfiles);
+            Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> duplicateResult = CheckDuplicatePlayerProfiles(playerProfiles);
             IList<PlayerProfile> validProfiles = new List<PlayerProfile>();
             List<PlayerResponseResult> invalidProfiles = duplicateResult.Item2 as List<PlayerResponseResult>;
             foreach (var playerProfile in duplicateResult.Item1)
@@ -96,7 +98,7 @@
 
                 playerResponse.Username = playerProfile.Username;
                 playerResponse.ErrorCode = 1;
-                playerResponse.ErrorMessage = string.Join(";", failures);
+                playerResponse.ErrorMessage = string.Join(" ", failures);
             }
 
             return playerResponse;
