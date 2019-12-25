@@ -22,7 +22,7 @@ namespace Ploutos.WebAPI.Services
 
         public async Task<TicketResponse> InsertTickets(List<BetTicket> betTickets)
         {
-            var ticketData = await ticketRepository.GetTicketData();
+            var ticketData = await ticketRepository.GetDuplicateTicketData(betTickets);
             var ticketSettings = await ticketRepository.GetTicketSettings();
 
             var insertTickets = new List<BetTicket>();
@@ -42,6 +42,7 @@ namespace Ploutos.WebAPI.Services
             }
 
             var result = await ticketRepository.InserBetTickets(insertTickets);
+
             if (!result.IsSuccessful)
             {
                 foreach(var ticket in insertTickets)
@@ -78,7 +79,7 @@ namespace Ploutos.WebAPI.Services
                 result = "PlayerCode error";
             }
             else if (existingTransactionNoList.Contains(ticket.TransactionNo))
-            {
+             {
                 result = "TransactionNo error";
             }
             else

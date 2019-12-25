@@ -197,8 +197,8 @@
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Criteria\Player\GetUserAccountNumberByUsername.cs" />
+    <Compile Include="Criteria\Ticket\GetDuplicateTicketDataCriteria.cs" />
     <Compile Include="Criteria\Ticket\GetTicketSettingCriteria.cs" />
-    <Compile Include="Criteria\Ticket\GetTicketDataCriteria.cs" />
     <Compile Include="Criteria\Ticket\InsertBetTicketsCriteria.cs" />
     <Compile Include="Filters\AddChallengeOnUnauthorizedResult.cs" />
     <Compile Include="Filters\AuthenticationFailureResult.cs" />

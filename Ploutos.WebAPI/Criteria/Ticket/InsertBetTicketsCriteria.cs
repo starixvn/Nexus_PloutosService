@@ -4,7 +4,7 @@ namespace Ploutos.WebAPI.Criteria.Ticket
 {
     public class InsertBetTicketsCriteria : NonQueryCommand
     {
-        public string BetTickets { get; set; }
+        public string InsertCommand { get; set; }
         public int Error { get; set; }
         public string Message { get; set; }
         public override string GetSettingKey() => "SupportApi_BetTicketsIns";

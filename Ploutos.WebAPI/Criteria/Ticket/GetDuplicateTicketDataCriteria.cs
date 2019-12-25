@@ -1,16 +1,14 @@
 ﻿using Fanex.Data.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Ploutos.WebAPI.Criteria.Ticket
 {
-    public class GetTicketDataCriteria : CriteriaBase
+    public class GetDuplicateTicketDataCriteria : CriteriaBase
     {
+        public string TransactionNoList { get; set; }
+
         public override string GetSettingKey()
         {
-            return "SupportApi_BetTicketsInfoSel";
+            return "SupportApi_BetTicketsDupSel";
         }
 
         public override bool IsValid()
