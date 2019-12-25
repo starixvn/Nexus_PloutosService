@@ -14,5 +14,6 @@
         public int? PlayerTypeCode { get; set; }
         public string Username { get; set; }
         public string Username2 { get; set; }
+        public string CountryCode { get; set; }
     }
 }

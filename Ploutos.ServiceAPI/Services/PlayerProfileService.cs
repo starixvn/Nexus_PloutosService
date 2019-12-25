@@ -24,8 +24,14 @@
 
         public async Task<IList<PlayerResponseResult>> InsertPlayerProfileAsync(IList<PlayerProfile> playerProfiles)
         {
+            if (!playerProfiles.Any())
+            {
+                return new List<PlayerResponseResult>();
+            }
+
             var datatable = new DataTable();
             datatable.Columns.Add("BrandCode");
+            datatable.Columns.Add("CountryCode");
             datatable.Columns.Add("CurrencyCode");
             datatable.Columns.Add("EmailAddress");
             datatable.Columns.Add("IPAddress");
@@ -42,6 +48,7 @@
             {
                 datatable.Rows.Add(
                     profile.BrandCode,
+                    profile.CountryCode,
                     profile.CurrencyCode,
                     profile.EmailAddress,
                     profile.IPAddress,

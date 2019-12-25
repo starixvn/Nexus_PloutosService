@@ -14,7 +14,7 @@
         public string BrandCode { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [StringLength(5, ErrorMessage = MaxLengthErrorMessage)]
+        [StringLength(5, MinimumLength = 3, ErrorMessage = MinMaxLengthErrorMessage)]
         public string CurrencyCode { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
@@ -54,5 +54,9 @@
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(30, ErrorMessage = MaxLengthErrorMessage)]
         public string Username2 { get; set; }
+
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [StringLength(5, MinimumLength = 2, ErrorMessage = MinMaxLengthErrorMessage)]
+        public string CountryCode { get; set; }
     }
 }
