@@ -11,7 +11,7 @@
         public string MobileCountryCode { get; set; }
         public string MobileNumber { get; set; }
         public string Password { get; set; }
-        public int PlayerTypeCode { get; set; }
+        public int? PlayerTypeCode { get; set; }
         public string Username { get; set; }
         public string Username2 { get; set; }
     }

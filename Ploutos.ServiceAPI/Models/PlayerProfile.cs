@@ -19,6 +19,7 @@
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(50, ErrorMessage = MaxLengthErrorMessage)]
+        [EmailAddress(ErrorMessage = "{0} is invalid.")]
         public string EmailAddress { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
@@ -43,7 +44,8 @@
         [StringLength(30, MinimumLength = 6, ErrorMessage = MinMaxLengthErrorMessage)]
         public string Password { get; set; }
 
-        public int PlayerTypeCode { get; set; }
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        public int? PlayerTypeCode { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(30, ErrorMessage = MaxLengthErrorMessage)]
