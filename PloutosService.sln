@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.AutoJobs.Tests", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.ServiceAPI", "Ploutos.ServiceAPI\Ploutos.ServiceAPI.csproj", "{AD0C5AEE-B4B3-4E20-8808-DA3C39403E08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.ServiceAPI.UnitTests", "Ploutos.ServiceAPI.UnitTests\Ploutos.ServiceAPI.UnitTests.csproj", "{FA5F6E8D-CBF9-44DA-8F33-83871C073054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.ServiceAPI.UnitTests", "Ploutos.ServiceAPI.UnitTests\Ploutos.ServiceAPI.UnitTests.csproj", "{FA5F6E8D-CBF9-44DA-8F33-83871C073054}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
