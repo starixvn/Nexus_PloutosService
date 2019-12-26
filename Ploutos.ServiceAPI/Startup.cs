@@ -85,6 +85,7 @@
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // DI
+            services.AddScoped<ILogger, Logger>();
             services.AddScoped<IDynamicRepository, DynamicRepository>();
             services.AddScoped<IPlayerProfileService, PlayerProfileService>();
         }

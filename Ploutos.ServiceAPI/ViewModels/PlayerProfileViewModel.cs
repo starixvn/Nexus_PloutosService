@@ -6,7 +6,7 @@
         public string CurrencyCode { get; set; }
         public string EmailAddress { get; set; }
         public string IPAddress { get; set; }
-        public bool IsDeposit { get; set; }
+        public bool? IsDeposit { get; set; }
         public string LanguageCode { get; set; }
         public string MobileCountryCode { get; set; }
         public string MobileNumber { get; set; }

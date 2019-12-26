@@ -26,7 +26,8 @@
         [StringLength(15, MinimumLength = 7, ErrorMessage = MinMaxLengthErrorMessage)]
         public string IPAddress { get; set; }
 
-        public bool IsDeposit { get; set; }
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        public bool? IsDeposit { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(5, MinimumLength = 2, ErrorMessage = MinMaxLengthErrorMessage)]

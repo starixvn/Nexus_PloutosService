@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
+    using Fanex.Logging;
     using Ploutos.ServiceAPI.Criteria;
     using Ploutos.ServiceAPI.Models;
 
@@ -15,16 +16,20 @@
 
     public class PlayerProfileService : IPlayerProfileService
     {
+        private readonly ILogger logger;
         private readonly IDynamicRepository dynamicRepository;
 
-        public PlayerProfileService(IDynamicRepository dynamicRepository)
+        public PlayerProfileService(
+            ILogger logger,
+            IDynamicRepository dynamicRepository)
         {
+            this.logger = logger;
             this.dynamicRepository = dynamicRepository;
         }
 
         public async Task<IList<PlayerResponseResult>> InsertPlayerProfileAsync(IList<PlayerProfile> playerProfiles)
         {
-            if (!playerProfiles.Any())
+            if (playerProfiles == null || !playerProfiles.Any())
             {
                 return new List<PlayerResponseResult>();
             }
@@ -66,8 +71,15 @@
             {
                 PlayerProfile = datatable
             };
-
             var playerResponseResults = await dynamicRepository.FetchAsync<PlayerResponseResult>(criteria);
+
+            short[] errorCodes = new short[] { 1001, 1002, 1003 };
+            if(errorCodes.Any(x => x == criteria.Error))
+            {
+                var message = string.Format("SP: {0}\n\rError: {1}\n\rMessage: {2}", "Plo_PlayerProfile_Insert", criteria.Error, criteria.Message);
+                await logger.ErrorAsync(message);
+            }
+
             return playerResponseResults.ToList();
         }
     }
