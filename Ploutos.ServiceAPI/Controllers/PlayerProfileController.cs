@@ -48,6 +48,7 @@
             );
             var mapper = new Mapper(configuration);
             IList<PlayerProfile> playerProfiles = mapper.Map<IList<PlayerProfileViewModel>, IList<PlayerProfile>>(model);
+            AutoIncreaseRowIndex(playerProfiles);
 
             Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> validateResult = ValidatePlayerProfiles(playerProfiles);
             var playerResponseResults = await playerProfileService.InsertPlayerProfileAsync(validateResult.Item1) as List<PlayerResponseResult>;
@@ -64,20 +65,21 @@
             return Json(playerResponseResults);
         }
 
-        private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> CheckDuplicatePlayerProfiles(IList<PlayerProfile> playerProfiles)
+        private static void AutoIncreaseRowIndex(IList<PlayerProfile> playerProfiles)
+        {
+            int index = 1;
+            foreach (var playerProfile in playerProfiles)
+            {
+                playerProfile.RowIndex = index++;
+            }
+        }
+
+        private IList<PlayerResponseResult> CheckDuplicatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
             var invalidProfiles = CheckDuplicateUsername(playerProfiles) as List<PlayerResponseResult>;
             invalidProfiles.AddRange(CheckDuplicateUsername2(playerProfiles));
             invalidProfiles.AddRange(CheckDuplicateEmailAddress(playerProfiles));
-            invalidProfiles = invalidProfiles.GroupBy(x => x.Username).Select(x => new PlayerResponseResult
-            {
-                Username = x.Key,
-                ErrorCode = 1,
-                ErrorMessage = string.Join(" ", x.Select(t => t.ErrorMessage))
-            }).ToList();
-
-            IList<PlayerProfile> validProfiles = playerProfiles.Where(x => !invalidProfiles.Any(t => t.Username == x.Username)).ToList();
-            return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
+            return invalidProfiles;
         }
 
         private IList<PlayerResponseResult> CheckDuplicateUsername(IList<PlayerProfile> playerProfiles)
@@ -87,6 +89,7 @@
             return playerProfiles.Where(x => duplicates.Any(t => t == x.Username))
                 .Select(x => new PlayerResponseResult
                 {
+                    RowIndex = x.RowIndex,
                     Username = x.Username,
                     ErrorCode = 1,
                     ErrorMessage = "Duplicate Username."
@@ -100,6 +103,7 @@
             return playerProfiles.Where(x => duplicates.Any(t => t == x.Username2))
                 .Select(x => new PlayerResponseResult
                 {
+                    RowIndex = x.RowIndex,
                     Username = x.Username,
                     ErrorCode = 1,
                     ErrorMessage = "Duplicate Username2."
@@ -113,6 +117,7 @@
             return playerProfiles.Where(x => duplicates.Any(t => t == x.EmailAddress))
                 .Select(x => new PlayerResponseResult
                 {
+                    RowIndex = x.RowIndex,
                     Username = x.Username,
                     ErrorCode = 1,
                     ErrorMessage = "Duplicate EmailAddress."
@@ -121,30 +126,39 @@
 
         private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
-            Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> duplicateResult = CheckDuplicatePlayerProfiles(playerProfiles);
-            IList<PlayerProfile> validProfiles = new List<PlayerProfile>();
-            List<PlayerResponseResult> invalidProfiles = duplicateResult.Item2 as List<PlayerResponseResult>;
-            foreach (var playerProfile in duplicateResult.Item1)
+            var validProfiles = new List<PlayerProfile>();
+            var invalidProfiles = CheckDuplicatePlayerProfiles(playerProfiles);
+            foreach (var playerProfile in playerProfiles)
             {
                 PlayerResponseResult validateResult = ValidatePlayerProfile(playerProfile);
                 if (!validateResult.IsSucessfull)
                 {
                     invalidProfiles.Add(validateResult);
                 }
-                else if (!apiConfigs.BrandCodes.Any(t => t.Equals(playerProfile.BrandCode, StringComparison.CurrentCultureIgnoreCase)))
+
+                if (!apiConfigs.BrandCodes.Any(t => t.Equals(playerProfile.BrandCode, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     invalidProfiles.Add(new PlayerResponseResult
                     {
+                        RowIndex = playerProfile.RowIndex,
                         Username = playerProfile.Username,
                         ErrorCode = 1,
                         ErrorMessage = "BrandCode is invalid."
                     });
                 }
-                else
+
+                if (!invalidProfiles.Any(x => x.RowIndex == playerProfile.RowIndex))
                 {
                     validProfiles.Add(playerProfile);
                 }
             }
+
+            invalidProfiles = invalidProfiles.GroupBy(x => new { x.RowIndex, x.Username }).Select(x => new PlayerResponseResult
+            {
+                Username = x.Key.Username,
+                ErrorCode = 1,
+                ErrorMessage = string.Join(" ", x.Select(t => t.ErrorMessage))
+            }).ToList();
 
             return new Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>>(validProfiles, invalidProfiles);
         }
@@ -159,6 +173,7 @@
             {
                 List<string> failures = ModelState.Values.SelectMany(e => e.Errors).Select(gh => gh.ErrorMessage).ToList();
 
+                playerResponse.RowIndex = playerProfile.RowIndex;
                 playerResponse.Username = playerProfile.Username;
                 playerResponse.ErrorCode = 1;
                 playerResponse.ErrorMessage = string.Join(" ", failures);

@@ -9,6 +9,8 @@
         private const string MaxLengthErrorMessage = "{0} must not over {1} characters long.";
         private const string MinMaxLengthErrorMessage = "{0} must be between {2} and {1} characters long.";
 
+        public int RowIndex { get; set; }
+
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(20, ErrorMessage = MaxLengthErrorMessage)]
         public string BrandCode { get; set; }
