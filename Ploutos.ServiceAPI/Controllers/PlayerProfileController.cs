@@ -136,7 +136,8 @@
                     invalidProfiles.Add(validateResult);
                 }
 
-                if (!apiConfigs.BrandCodes.Any(t => t.Equals(playerProfile.BrandCode, StringComparison.CurrentCultureIgnoreCase)))
+                if (!string.IsNullOrWhiteSpace(playerProfile.BrandCode)
+                    && !apiConfigs.BrandCodes.Any(t => t.Equals(playerProfile.BrandCode, StringComparison.CurrentCultureIgnoreCase)))
                 {
                     invalidProfiles.Add(new PlayerResponseResult
                     {
