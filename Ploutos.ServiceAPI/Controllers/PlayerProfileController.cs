@@ -69,7 +69,6 @@
             var invalidProfiles = CheckDuplicateUsername(playerProfiles) as List<PlayerResponseResult>;
             invalidProfiles.AddRange(CheckDuplicateUsername2(playerProfiles));
             invalidProfiles.AddRange(CheckDuplicateEmailAddress(playerProfiles));
-            invalidProfiles.AddRange(CheckBrandCode(playerProfiles));
             invalidProfiles = invalidProfiles.GroupBy(x => x.Username).Select(x => new PlayerResponseResult
             {
                 Username = x.Key,
@@ -120,17 +119,6 @@
                 }).ToList();
         }
 
-        private IList<PlayerResponseResult> CheckBrandCode(IList<PlayerProfile> playerProfiles)
-        {
-            return playerProfiles.Where(x => !apiConfigs.BrandCodes.Any(t => t.Equals(x.BrandCode, StringComparison.CurrentCultureIgnoreCase)))
-                .Select(x => new PlayerResponseResult
-                {
-                    Username = x.Username,
-                    ErrorCode = 1,
-                    ErrorMessage = "BrandCode is invalid."
-                }).ToList();
-        }
-
         private Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> ValidatePlayerProfiles(IList<PlayerProfile> playerProfiles)
         {
             Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> duplicateResult = CheckDuplicatePlayerProfiles(playerProfiles);
@@ -142,6 +130,15 @@
                 if (!validateResult.IsSucessfull)
                 {
                     invalidProfiles.Add(validateResult);
+                }
+                else if (!apiConfigs.BrandCodes.Any(t => t.Equals(playerProfile.BrandCode, StringComparison.CurrentCultureIgnoreCase)))
+                {
+                    invalidProfiles.Add(new PlayerResponseResult
+                    {
+                        Username = playerProfile.Username,
+                        ErrorCode = 1,
+                        ErrorMessage = "BrandCode is invalid."
+                    });
                 }
                 else
                 {
