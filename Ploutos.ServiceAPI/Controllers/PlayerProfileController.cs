@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
+    using Ploutos.ServiceAPI.Extensions;
     using Ploutos.ServiceAPI.Models;
     using Ploutos.ServiceAPI.Services;
     using Ploutos.ServiceAPI.ViewModels;
@@ -31,7 +32,20 @@
         [HttpPost]
         public async Task<IActionResult> Post(IList<PlayerProfileViewModel> model)
         {
-            var configuration = new MapperConfiguration(cfg => cfg.CreateMap<PlayerProfileViewModel, PlayerProfile>());
+            var configuration = new MapperConfiguration(
+                cfg => cfg.CreateMap<PlayerProfileViewModel, PlayerProfile>()
+                    .ForMember(x => x.BrandCode, opt => opt.MapFrom(y => y.BrandCode.NullSafeTrim()))
+                    .ForMember(x => x.CountryCode, opt => opt.MapFrom(y => y.CountryCode.NullSafeTrim()))
+                    .ForMember(x => x.CurrencyCode, opt => opt.MapFrom(y => y.CurrencyCode.NullSafeTrim()))
+                    .ForMember(x => x.EmailAddress, opt => opt.MapFrom(y => y.EmailAddress.NullSafeTrim()))
+                    .ForMember(x => x.IPAddress, opt => opt.MapFrom(y => y.IPAddress.NullSafeTrim()))
+                    .ForMember(x => x.LanguageCode, opt => opt.MapFrom(y => y.LanguageCode.NullSafeTrim()))
+                    .ForMember(x => x.MobileCountryCode, opt => opt.MapFrom(y => y.MobileCountryCode.NullSafeTrim()))
+                    .ForMember(x => x.MobileNumber, opt => opt.MapFrom(y => y.MobileNumber.NullSafeTrim()))
+                    .ForMember(x => x.Password, opt => opt.MapFrom(y => y.Password.NullSafeTrim()))
+                    .ForMember(x => x.Username, opt => opt.MapFrom(y => y.Username.NullSafeTrim()))
+                    .ForMember(x => x.Username2, opt => opt.MapFrom(y => y.Username2.NullSafeTrim()))
+            );
             var mapper = new Mapper(configuration);
             IList<PlayerProfile> playerProfiles = mapper.Map<IList<PlayerProfileViewModel>, IList<PlayerProfile>>(model);
 
