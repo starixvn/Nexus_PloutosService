@@ -11,7 +11,7 @@
 
     public class TokenControllerTests
     {
-        private readonly IdentityConfigs identityConfigs = new IdentityConfigs
+        private readonly Credentials credentials = new Credentials
         {
             Username = "aenfJVK95Xu2Znh8",
             Password = "app2!@#$%"
@@ -55,8 +55,8 @@
             // Arrange
             var login = new LoginModel
             {
-                Username = identityConfigs.Username,
-                Password = identityConfigs.Password
+                Username = credentials.Username,
+                Password = credentials.Password
             };
             var controller = GetTokenController();
 
@@ -71,9 +71,9 @@
 
         private TokenController GetTokenController()
         {
-            var configs = Substitute.For<IOptionsMonitor<IdentityConfigs>>();
+            var configs = Substitute.For<IOptionsMonitor<Credentials>>();
             var tokenOptions = Substitute.For<IOptionsMonitor<TokenProviderOptions>>();
-            configs.CurrentValue.Returns(identityConfigs);
+            configs.CurrentValue.Returns(credentials);
             tokenOptions.CurrentValue.Returns(tokenProviderOptions);
 
             return new TokenController(configs, tokenOptions);

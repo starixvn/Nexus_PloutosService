@@ -14,14 +14,14 @@
     [ApiController]
     public class TokenController : Controller
     {
-        private readonly IdentityConfigs _identityConfigs;
+        private readonly Credentials _credentials;
         private readonly TokenProviderOptions _options;
 
         public TokenController(
-            IOptionsMonitor<IdentityConfigs> identityConfigs,
+            IOptionsMonitor<Credentials> credentials,
             IOptionsMonitor<TokenProviderOptions> options)
         {
-            _identityConfigs = identityConfigs.CurrentValue;
+            _credentials = credentials.CurrentValue;
             _options = options.CurrentValue;
         }
 
@@ -30,15 +30,15 @@
         public IActionResult Post(LoginModel login)
         {
             if (login == null
-                || !_identityConfigs.Username.Equals(login.Username)
-                || !_identityConfigs.Password.Equals(login.Password))
+                || !_credentials.Username.Equals(login.Username)
+                || !_credentials.Password.Equals(login.Password))
             {
                 return BadRequest("Invalid username or password.");
             }
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, _identityConfigs.Username, null, ClaimsIdentity.DefaultIssuer, "Provider")
+                new Claim(ClaimTypes.NameIdentifier, _credentials.Username, null, ClaimsIdentity.DefaultIssuer, "Provider")
             };
             var now = DateTime.UtcNow;
             var jwt = new JwtSecurityToken(

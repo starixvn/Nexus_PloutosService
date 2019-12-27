@@ -35,7 +35,7 @@
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<TokenProviderOptions>(options => Configuration.GetSection("TokenProviderOptions").Bind(options));
-            services.Configure<IdentityConfigs>(options => Configuration.GetSection("IdentityConfigs").Bind(options));
+            services.Configure<Credentials>(options => Configuration.GetSection("Credentials").Bind(options));
             services.Configure<ApiConfigs>(options => Configuration.GetSection("ApiConfigs").Bind(options));
 
             var connections = Configuration.GetSection("ConnectionStrings")
@@ -78,7 +78,8 @@
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = tokenProviderOptions.SigningKey,
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    ValidateLifetime = true
                 };
             });
 
