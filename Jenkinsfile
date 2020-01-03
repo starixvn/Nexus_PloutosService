@@ -17,7 +17,7 @@ pipeline {
     stage('Build') {
       steps {
         script{
-          pipelineLib.beginSonarQubeForMsBuild("PLOUTOSSERVICE", "PLOUTOSSERVICE", "/d:sonar.cs.opencover.reportsPaths=%WORKSPACE%\\coverage.xml /d:sonar.cs.xunit.reportsPaths=%WORKSPACE%\\UnitTest.xml")
+          pipelineLib.beginSonarQubeForMsBuild("PLOUTOSSERVICE", "PLOUTOSSERVICE", "/d:sonar.cs.opencover.reportsPaths=%WORKSPACE%\\coverage.xml /d:sonar.cs.vstest.reportsPaths=%WORKSPACE%\\UnitTest.trx")
 
           pipelineLib.restoreNuget()
 
@@ -26,10 +26,10 @@ pipeline {
       }
     }
 	
-	stage("Test"){
+	stage("Unit Test"){
       steps{
         script{
-          pipelineLib.xUnitForNetFramework()
+          pipelineLib.xUnitForNetCore()
         }
       }
     }
@@ -57,8 +57,7 @@ pipeline {
     always{
       archiveArtifacts "*.xml,*.email"
       step([$class: 'ACIPluginPublisher', name: '*.xml', shownOnProjectPage: false])
-	  cobertura coberturaReportFile: "cobertura.xml", onlyStable: false
-      xunit thresholds: [failed(failureNewThreshold: '1', failureThreshold: '1')], tools: [xUnitDotNet(deleteOutputFiles: true, failIfNotNew: true, pattern: 'UnitTest.xml', skipNoTestFiles: false, stopProcessingIfError: true)]
+	  mstest failOnError: false
     }
 
     unsuccessful{
