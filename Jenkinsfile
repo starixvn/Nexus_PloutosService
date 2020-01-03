@@ -17,7 +17,7 @@ pipeline {
     stage('Build') {
       steps {
         script{
-          pipelineLib.beginSonarQubeForMsBuild("PLOUTOSSERVICE", "PLOUTOSSERVICE", "/d:sonar.cs.opencover.reportsPaths=%WORKSPACE%\\coverage.xml /d:sonar.cs.vstest.reportsPaths=%WORKSPACE%\\UnitTest.trx")
+          pipelineLib.beginSonarQubeForMsBuild("PLOUTOSSERVICE", "PLOUTOSSERVICE", "/d:sonar.cs.opencover.reportsPaths=\"${WORKSPACE}\\CoverageReports\\*.xml\" /d:sonar.cs.vstest.reportsPaths=\"${WORKSPACE}\\TestResults\\*.trx\"")
 
           pipelineLib.restoreNuget()
 
@@ -48,18 +48,16 @@ pipeline {
               pipelineLib.generateSonarQubeReport("PLOUTOSSERVICE")
             }
           }
+		  
+		  archiveArtifacts "*.xml,*.email"
+		  step([$class: 'ACIPluginPublisher', name: '*.xml', shownOnProjectPage: false])
+		  mstest failOnError: false
         }
       }
     }
   }
 
   post{
-    always{
-      archiveArtifacts "*.xml,*.email"
-      step([$class: 'ACIPluginPublisher', name: '*.xml', shownOnProjectPage: false])
-	  mstest failOnError: false
-    }
-
     unsuccessful{
       emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'quinn.vo@starixsoft.com,scofield.huynh@starixsoft.com,tim.trinh@starixsoft.com'
     }
