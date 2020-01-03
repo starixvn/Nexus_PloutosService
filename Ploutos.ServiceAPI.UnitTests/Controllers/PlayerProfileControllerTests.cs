@@ -42,7 +42,11 @@
             var jsonResult = Assert.IsType<JsonResult>(result);
             var actual = Assert.IsAssignableFrom<IList<PlayerResponseResult>>(jsonResult.Value);
             Assert.Equal(model.Count, actual.Count);
-            Assert.All(actual, x => { Assert.Equal("timtrinh", x.Username); Assert.Equal("Duplicate Username.", x.ErrorMessage); });
+            Assert.All(actual, x =>
+            {
+                Assert.Equal("timtrinh", x.Username);
+                Assert.Equal("Duplicate Username.", x.ErrorMessage);
+            });
         }
 
         [Fact]
@@ -71,8 +75,16 @@
             var actual = Assert.IsAssignableFrom<IList<PlayerResponseResult>>(jsonResult.Value);
             Assert.Equal(model.Count, actual.Count);
             Assert.Collection(actual,
-                x => { Assert.Equal("timxxxtrinh", x.Username); Assert.Equal("Duplicate Username2.", x.ErrorMessage); },
-                x => { Assert.Equal("timxxxxtrinh", x.Username); Assert.Equal("Duplicate Username2.", x.ErrorMessage); });
+                x =>
+                {
+                    Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("Duplicate Username2.", x.ErrorMessage);
+                },
+                x =>
+                {
+                    Assert.Equal("timxxxxtrinh", x.Username);
+                    Assert.Equal("Duplicate Username2.", x.ErrorMessage);
+                });
         }
 
         [Fact]
@@ -101,8 +113,16 @@
             var actual = Assert.IsAssignableFrom<IList<PlayerResponseResult>>(jsonResult.Value);
             Assert.Equal(model.Count, actual.Count);
             Assert.Collection(actual,
-                x => { Assert.Equal("timxxxtrinh", x.Username); Assert.Equal("Duplicate EmailAddress.", x.ErrorMessage); },
-                x => { Assert.Equal("timxxxxtrinh", x.Username); Assert.Equal("Duplicate EmailAddress.", x.ErrorMessage); });
+                x =>
+                {
+                    Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("Duplicate EmailAddress.", x.ErrorMessage);
+                },
+                x =>
+                {
+                    Assert.Equal("timxxxxtrinh", x.Username);
+                    Assert.Equal("Duplicate EmailAddress.", x.ErrorMessage);
+                });
         }
 
         [Fact]
@@ -131,8 +151,16 @@
             var actual = Assert.IsAssignableFrom<IList<PlayerResponseResult>>(jsonResult.Value);
             Assert.Equal(model.Count, actual.Count);
             Assert.Collection(actual,
-                x => { Assert.Equal("timxxxtrinh", x.Username); Assert.Equal("BrandCode is invalid.", x.ErrorMessage); },
-                x => { Assert.Equal("timxxxxtrinh", x.Username); Assert.Empty(x.ErrorMessage); });
+                x =>
+                {
+                    Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("BrandCode is invalid.", x.ErrorMessage);
+                },
+                x =>
+                {
+                    Assert.Equal("timxxxxtrinh", x.Username);
+                    Assert.Empty(x.ErrorMessage);
+                });
         }
 
         [Fact]
