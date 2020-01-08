@@ -56,12 +56,13 @@ namespace Ploutos.WebAPI.Services
 
         private static void UpdateTicketData(BetTicket ticket)
         {
+            const string dateFormat = "yyyy-MM-dd HH:mm:ss";
             ticket.CreatedById = "9cabbc12-e688-47ca-ae5d-2c8ebdc5cd38";
             ticket.ModifiedById = "9cabbc12-e688-47ca-ae5d-2c8ebdc5cd38";
-            ticket.DateCreated = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            ticket.DateModified = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            ticket.TransactionDate = DateTime.Parse(ticket.TransactionDate).ToString("yyyy-MM-dd HH:mm:ss");
-            ticket.SettlementDate = DateTime.Parse(ticket.SettlementDate).ToString("yyyy-MM-dd HH:mm:ss");
+            ticket.DateCreated = DateTime.Now.ToString(dateFormat);
+            ticket.DateModified = DateTime.Now.ToString(dateFormat);
+            ticket.TransactionDate = DateTime.Parse(ticket.TransactionDate).ToString(dateFormat);
+            ticket.SettlementDate = DateTime.Parse(ticket.SettlementDate).ToString(dateFormat);
         }
 
         private static string ValidateTicket(BetTicket ticket, TicketSettingData settings, List<string> existingTransactionNoList)
