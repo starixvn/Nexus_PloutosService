@@ -8,6 +8,7 @@
         public string GameId { get; set; }
         public int GameType { get; set; }
         public DateTime TransactionDate { get; set; }
+        public DateTime SettlementDate { get; set; }
         public string TransactionNo { get; set; }
         public string PlayerCode { get; set; }
         public double BetAmount { get; set; }

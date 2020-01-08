@@ -61,6 +61,7 @@ namespace Ploutos.WebAPI.Services
             ticket.DateCreated = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             ticket.DateModified = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             ticket.TransactionDate = DateTime.Parse(ticket.TransactionDate).ToString("yyyy-MM-dd HH:mm:ss");
+            ticket.SettlementDate = DateTime.Parse(ticket.SettlementDate).ToString("yyyy-MM-dd HH:mm:ss");
         }
 
         private static string ValidateTicket(BetTicket ticket, TicketSettingData settings, List<string> existingTransactionNoList)

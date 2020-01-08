@@ -8,6 +8,7 @@ namespace Ploutos.WebAPI.Models
         public string GameId { get; set; }
         public int GameType { get; set; }
         public string TransactionDate { get; set; }
+        public string SettlementDate { get; set; }
         public string TransactionNo { get; set; }
         public string PlayerCode { get; set; }
         public double BetAmount { get; set; }

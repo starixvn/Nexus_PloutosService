@@ -26,16 +26,16 @@ namespace Ploutos.WebAPI.Repositories
         public async Task<CommandResult> InserBetTickets(List<BetTicket> betTickets)
         {
             var sb = new List<string>();
-            const string insertCommand = @"INSERT INTO Betlogs(GameId, GamePlatformCode, GameType" + 
-                ", LossAmount, WinAmount, BetAmount, PlayerCode, TransactionDate" + 
+            const string insertCommand = @"INSERT INTO Betlogs(GameId, GamePlatformCode, GameType" +
+                ", LossAmount, WinAmount, BetAmount, PlayerCode, TransactionDate, SettlementDate" + 
                 ", TransactionNo, CreatedById, ModifiedById, DateCreated, DateModified) VALUES ";            
             foreach (var ticket in betTickets)
             {
-                sb.Add(string.Format(@"('{0}','{1}',{2},{3},{4},{5},'{6}','{7}','{8}','{9}','{10}','{11}','{12}')",
+                sb.Add(string.Format(@"('{0}','{1}',{2},{3},{4},{5},'{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}')",
                     ticket.GameId, ticket.GamePlatformCode, ticket.GameType,
                     ticket.LossAmount, ticket.WinAmount, ticket.BetAmount,
                     ticket.PlayerCode, 
-                    ticket.TransactionDate, ticket.TransactionNo, ticket.CreatedById,
+                    ticket.TransactionDate, ticket.SettlementDate, ticket.TransactionNo, ticket.CreatedById,
                     ticket.ModifiedById, ticket.DateCreated, ticket.DateModified));                
             }            
 
