@@ -12,6 +12,7 @@
 
     public class SyncTicketBase
     {
+        private readonly int 
         private readonly BrandApiConfigs apiConfigs;
         private readonly IWebClientService webClientService;
         private readonly IDataService dataService;
@@ -79,12 +80,12 @@
         private string GetDomainName(int indexOfBatch)
         {
             string domainName;
-            if (indexOfBatch % 3 == 0)
+            if (indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize == 0)
             {
                 domainName = apiConfigs.PloutosBaseDomain1;
 
             }
-            else if (indexOfBatch % 3 == 1)
+            else if (((indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize) - 1) == 0)
             {
                 domainName = apiConfigs.PloutosBaseDomain2;
             }
