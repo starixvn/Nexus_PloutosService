@@ -12,7 +12,6 @@
 
     public class SyncTicketBase
     {
-        private readonly int 
         private readonly BrandApiConfigs apiConfigs;
         private readonly IWebClientService webClientService;
         private readonly IDataService dataService;
@@ -83,7 +82,6 @@
             if (indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize == 0)
             {
                 domainName = apiConfigs.PloutosBaseDomain1;
-
             }
             else if (((indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize) - 1) == 0)
             {
