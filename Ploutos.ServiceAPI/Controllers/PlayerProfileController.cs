@@ -58,6 +58,7 @@
                 .Select(x => new PlayerResponseResult
                 {
                     Username = x.Username,
+                    Username2 = x.Username2,
                     ErrorCode = 0,
                     ErrorMessage = string.Empty
                 }));
@@ -91,6 +92,7 @@
                 {
                     RowIndex = x.RowIndex,
                     Username = x.Username,
+                    Username2 = x.Username2,
                     ErrorCode = 1,
                     ErrorMessage = "Duplicate Username."
                 }).ToList();
@@ -105,6 +107,7 @@
                 {
                     RowIndex = x.RowIndex,
                     Username = x.Username,
+                    Username2 = x.Username2,
                     ErrorCode = 1,
                     ErrorMessage = "Duplicate Username2."
                 }).ToList();
@@ -119,6 +122,7 @@
                 {
                     RowIndex = x.RowIndex,
                     Username = x.Username,
+                    Username2 = x.Username2,
                     ErrorCode = 1,
                     ErrorMessage = "Duplicate EmailAddress."
                 }).ToList();
@@ -143,6 +147,7 @@
                     {
                         RowIndex = playerProfile.RowIndex,
                         Username = playerProfile.Username,
+                        Username2 = playerProfile.Username2,
                         ErrorCode = 1,
                         ErrorMessage = "BrandCode is invalid."
                     });
@@ -157,6 +162,7 @@
             invalidProfiles = invalidProfiles.GroupBy(x => new { x.RowIndex, x.Username }).Select(x => new PlayerResponseResult
             {
                 Username = x.Key.Username,
+                Username2 = x.FirstOrDefault()?.Username2,
                 ErrorCode = 1,
                 ErrorMessage = string.Join(" ", x.Select(t => t.ErrorMessage))
             }).ToList();
@@ -176,6 +182,7 @@
 
                 playerResponse.RowIndex = playerProfile.RowIndex;
                 playerResponse.Username = playerProfile.Username;
+                playerResponse.Username2 = playerProfile.Username2;
                 playerResponse.ErrorCode = 1;
                 playerResponse.ErrorMessage = string.Join(" ", failures);
             }

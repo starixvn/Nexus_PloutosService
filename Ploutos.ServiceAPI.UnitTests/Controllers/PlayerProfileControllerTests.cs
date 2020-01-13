@@ -23,8 +23,8 @@
             // Arrange
             var model = new List<PlayerProfileViewModel>
             {
-                new PlayerProfileViewModel { Username = "timtrinh" },
-                new PlayerProfileViewModel { Username = "timtrinh" }
+                new PlayerProfileViewModel { Username = "timxxxtrinh", Username2 = "timtrinh1" },
+                new PlayerProfileViewModel { Username = "timxxxtrinh", Username2 = "timtrinh2" }
             };
             var controller = GetPlayerProfileController();
             var objectValidator = Substitute.For<IObjectModelValidator>();
@@ -42,11 +42,19 @@
             var jsonResult = Assert.IsType<JsonResult>(result);
             var actual = Assert.IsAssignableFrom<IList<PlayerResponseResult>>(jsonResult.Value);
             Assert.Equal(model.Count, actual.Count);
-            Assert.All(actual, x =>
-            {
-                Assert.Equal("timtrinh", x.Username);
-                Assert.Equal("Duplicate Username.", x.ErrorMessage);
-            });
+            Assert.Collection(actual,
+                x =>
+                {
+                    Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh1", x.Username2);
+                    Assert.Equal("Duplicate Username.", x.ErrorMessage);
+                },
+                x =>
+                {
+                    Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh2", x.Username2);
+                    Assert.Equal("Duplicate Username.", x.ErrorMessage);
+                });
         }
 
         [Fact]
@@ -78,11 +86,13 @@
                 x =>
                 {
                     Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh", x.Username2);
                     Assert.Equal("Duplicate Username2.", x.ErrorMessage);
                 },
                 x =>
                 {
                     Assert.Equal("timxxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh", x.Username2);
                     Assert.Equal("Duplicate Username2.", x.ErrorMessage);
                 });
         }
@@ -93,8 +103,8 @@
             // Arrange
             var model = new List<PlayerProfileViewModel>
             {
-                new PlayerProfileViewModel { Username = "timxxxtrinh", EmailAddress = "tim.trinh@starixsoft.com" },
-                new PlayerProfileViewModel { Username = "timxxxxtrinh", EmailAddress = "tim.trinh@starixsoft.com" }
+                new PlayerProfileViewModel { Username = "timxxxtrinh", Username2 = "timtrinh1", EmailAddress = "tim.trinh@starixsoft.com" },
+                new PlayerProfileViewModel { Username = "timxxxxtrinh", Username2 = "timtrinh2", EmailAddress = "tim.trinh@starixsoft.com" }
             };
             var controller = GetPlayerProfileController();
             var objectValidator = Substitute.For<IObjectModelValidator>();
@@ -116,11 +126,13 @@
                 x =>
                 {
                     Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh1", x.Username2);
                     Assert.Equal("Duplicate EmailAddress.", x.ErrorMessage);
                 },
                 x =>
                 {
                     Assert.Equal("timxxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh2", x.Username2);
                     Assert.Equal("Duplicate EmailAddress.", x.ErrorMessage);
                 });
         }
@@ -131,8 +143,8 @@
             // Arrange
             var model = new List<PlayerProfileViewModel>
             {
-                new PlayerProfileViewModel { Username = "timxxxtrinh", BrandCode = "12a" },
-                new PlayerProfileViewModel { Username = "timxxxxtrinh", EmailAddress = "12bet" }
+                new PlayerProfileViewModel { Username = "timxxxtrinh", Username2 = "timtrinh1", BrandCode = "12a" },
+                new PlayerProfileViewModel { Username = "timxxxxtrinh", Username2 = "timtrinh2", EmailAddress = "12bet" }
             };
             var controller = GetPlayerProfileController();
             var objectValidator = Substitute.For<IObjectModelValidator>();
@@ -154,11 +166,13 @@
                 x =>
                 {
                     Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh1", x.Username2);
                     Assert.Equal("BrandCode is invalid.", x.ErrorMessage);
                 },
                 x =>
                 {
                     Assert.Equal("timxxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh2", x.Username2);
                     Assert.Empty(x.ErrorMessage);
                 });
         }
@@ -195,6 +209,7 @@
             Assert.Collection(actual, x =>
                 {
                     Assert.Null(x.Username);
+                    Assert.Null(x.Username2);
                     Assert.Contains("Username is required.", x.ErrorMessage);
                     Assert.Contains("Username2 is required.", x.ErrorMessage);
                     Assert.Contains("BrandCode is required.", x.ErrorMessage);
