@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx" default-autowire="constructor">
+
+
+
+
+  <object id="PTAbstractService" type="Playtech.Api.src.implementations.PTAbstractService, Playtech.Api.Service" abstract="true">
+    <property name="ConnectionTimeout" value="3600000"/>
+  </object>
+
+  <object id="PTGameService" type="Playtech.Api.src.implementations.PTGameService, Playtech.Api" parent="PTAbstractService">
+    <property name="WalletService" ref="WalletService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <!--<property name="WalletManager" ref="WalletManager"/>-->
+    <property name="PTFundTransferHistoryService" ref="PTFundTransferHistoryService"/>
+  </object>
+
+  <object id="PTPlayerService" type="Playtech.Api.src.implementations.PTPlayerService, Playtech.Api" parent="PTAbstractService">
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="PTGameService" ref="PTGameService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>    
+  </object>
+
+  <object id="PTLogManager" type="Playtech.Api.src.implementations.PTLogManager, Playtech.Api" parent="PTAbstractService">
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="WebRequestUtils" ref="WebRequestUtils"/>
+    <property name="PTBetHistoryService" ref="PTBetHistoryService"/>
+    <property name="PTBetLogService" ref="PTBetLogService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>    
+    <property name="BetLogsLatestFetchService" ref="BetLogsLatestFetchService" />
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    
+    <property name="LocalXmlFilePath" value="Files\PT\CSVLOGS"/>
+    <property name="LocalXmlProcessedFilePath" value="Files\PT\PROCESSED_CSVLOGS"/>
+    <property name="IsWebAppPath" value="True"/>    
+
+    <property name="FtpUtils" ref="FtpUtils"/>
+    <!--<property name="FtpUserName" value="pandora"/>
+    <property name="FtpPassword" value="P@ssw0rd"/>
+    <property name="FtpUri" value="ftp://appxysbridge.com"/>-->
+    
+    <property name="FtpUserName" value="FtpUser"/>
+    <property name="FtpPassword" value="P@ssw0rd"/>
+    <property name="FtpUri" value="ftp://prod.beachheadsolutionsinc.com"/>
+
+    <property name="FtpUserNameDestination" value="pandora"/>
+    <property name="FtpPasswordDestination" value="P@ssw0rd"/>
+    <property name="FtpUriDestination" value="ftp://prod.beachheadsolutionsinc.com"/>
+    
+  </object>
+
+
+
+  <tx:attribute-driven/>
+
+</objects>

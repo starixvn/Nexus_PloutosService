@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+
+  <object name="AbstractMvcController" type="blueberry.controllers.Mvc.AbstractMvcController" abstract="true">
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+  </object>
+
+  <object name="AbstractMaintenanceMvcController" type="blueberry.controllers.Mvc.AbstractMaintenanceMvcController" abstract="true">    
+  </object>
+
+  <object type="blueberry.controllers.Mvc.AccountController" singleton="false">
+    <property name="MerchantService" ref="MerchantService"></property>
+  </object>
+
+  <object type="blueberry.controllers.Mvc.UserManagementController" parent="AbstractMvcController" singleton="false">
+    <property name="MerchantService" ref="MerchantService"></property>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"></property>
+  </object>
+
+  <object type="blueberry.controllers.Mvc.TestController" parent="AbstractMvcController" singleton="false">
+  </object>
+
+  <object type="blueberry.controllers.Mvc.OneWorksController" parent="AbstractMvcController" singleton="false">
+    <property name="OneWorksManager" ref="OneWorksManager"></property>
+    <property name="OneWorksService" ref="OneWorksService"></property>  
+  </object>
+
+
+  <object type="blueberry.controllers.Mvc.BackgroundTaskController" parent="AbstractMaintenanceMvcController" singleton="false">
+    <property name="BaseService" ref="BackgroundTaskScheduleService"/>
+    <property name="JobManager" ref="JobManager"/>    
+  </object>
+
+  <object type="blueberry.controllers.Mvc.FetcGameBetController"  singleton="false">
+    <property name="GameManager" ref="GameManager"/>
+    <property name="PushUserFingerPrintService" ref="PushUserFingerPrintService"/>
+    <property name="AsianGamingLogManager" ref="AsianGamingLogManager"/>
+    <property name="PTLogManager" ref="PTLogManager"/>
+  </object>
+
+  <object type="blueberry.controllers.Mvc.PlayerTransactionController" singleton="false">
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="WalletAdjustmentMemoService" ref="WalletAdjustmentMemoService"/>
+    <property name="HubConnectionService" ref="HubConnectionService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="FraudRiskLevelService" ref="FraudRiskLevelService"/>
+    <property name="StateProvinceService" ref="StateProvinceService"/>
+    <property name="WithdrawalLevelService" ref="WithdrawalLevelService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="GameWalletBalanceManager" ref="GameWalletBalanceManager"/>
+    <property name="RollbasePlayerRegistration" ref="RollbasePlayerRegistration"/>
+    <property name="PushDataService" ref="PushDataService"/>
+    <property name="TtgFundTransferService" ref="TtgFundTransferService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="GameManager" ref="GameManager"/>
+    <property name="AGTransferRecordService" ref="AGTransferRecordService"/>
+    <property name="OWFundTransferService" ref="OWFundTransferService"/>
+    <property name="AGFundTransferService" ref="AGFundTransferService"/>
+    <property name="TtgBalanceRequestService" ref="TtgBalanceRequestService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="TgpTransactionService" ref="TgpTransactionService"/>
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>
+    <property name="PlayerFingerPrintHitService" ref="PlayerFingerPrintHitService"/>
+    <property name="TgpCancelledTransactionService" ref="TgpCancelledTransactionService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="SafePayDepositService" ref="SafePayDepositService"/>
+    <property name="PaymentGatewayBankService" ref="PaymentGatewayBankService"/>
+    <property name="DaddyPayBankService" ref="DaddyPayBankService"/>
+    <property name="WalletDepositAuditService" ref="WalletDepositAuditService"/>
+    <property name="PushUserFingerPrintService" ref="PushUserFingerPrintService"/>
+    <property name="PlayerRebateService" ref="PlayerRebateService"/>
+    
+  </object>
+
+
+  <object type="blueberry.controllers.Mvc.AppConfigurationController" singleton="false">
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>
+    <property name="DaddyPayService" ref="DaddyPayService"/>
+  </object>
+
+  <object type="blueberry.controllers.Mvc.ProductController" singleton="false">
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+  </object>
+
+  <object type="blueberry.controllers.Mvc.PlayerBetSummaryController" singleton="false">
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+  </object>
+
+  <object type="blueberry.controllers.Mvc.DaddyPayDepositController" singleton="false">
+    <property name="PaymentGatewayApiManager" ref="PaymentGatewayApiManager"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>    
+  </object>
+
+  <object type="blueberry.controllers.Mvc.ReportController" singleton="false">
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="WalletAdjustmentMemoService" ref="WalletAdjustmentMemoService"/>
+    <property name="AGTransferRecordService" ref="AGTransferRecordService"/>
+    <property name="OWFundTransferService" ref="OWFundTransferService"/>
+    <property name="AGFundTransferService" ref="AGFundTransferService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>
+    <property name="PlayerFingerPrintHitService" ref="PlayerFingerPrintHitService"/>
+    <property name="DashboardService" ref="DashboardService"/>    
+  </object>
+
+  <object type="blueberry.controllers.Mvc.TestRPNController" singleton="false">
+    <property name="RpnDepositRequestService" ref="RpnDepositRequestService"/>
+    <property name="RpnDepositResponseService" ref="RpnDepositResponseService"/>
+  </object>
+
+  <object type="blueberry.controllers.Mvc.AffiliateController" singleton="false">
+    <property name="AffiliateService" ref="AffiliateService"/>    
+  </object>
+
+  <object type="blueberry.controllers.Mvc.BonusController" singleton="false">
+    <property name="BonusService" ref="BonusService"/>
+  </object>
+
+
+
+  <object type="blueberry.controllers.Mvc.DaddyPayBankController" parent="AbstractMaintenanceMvcController" singleton="false">
+    <property name="BaseService" ref="DaddyPayBankService"/>    
+  </object>
+
+  <object type="blueberry.controllers.Mvc.PaymentGatewayBankController" parent="AbstractMaintenanceMvcController" singleton="false">
+    <property name="BaseService" ref="PaymentGatewayBankService"/>
+  </object>
+
+</objects>

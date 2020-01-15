@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+
+
+
+  <object name="Nexmo" type="blueberry.notification.manager.src.OnlineMessaging.Nexmo, blueberry.notification.manager" >
+    <property name="APIKey" value="68f61713"/>
+    <property name="SecretKey" value="d9d47f56f16efa72"/>
+    <property name="Url" value="https://rest.nexmo.com/sms/json"/>
+  </object>
+
+  <object name="ResetNotificationService" type="blueberry.notification.manager.src.Services.Implementations.ResetNotificationService, blueberry.notification.manager" >
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="Nexmo" ref="Nexmo"/>    
+    <property name="PlayerResetCodeService" ref="PlayerResetCodeService"/>
+    <property name="MailInBlueService" ref="MailInBlueService"/>
+    <property name="EnableSsl" value="true"/>
+    <property name="SenderEmail" value="pandora.integration@gmail.com"/>
+    <property name="SenderEmailPassword" value="p@nd0ra123"/>
+    <property name="SmtpPort" value="587"/>
+    <property name="SmtpAddress" value="smtp.gmail.com"/>
+    <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+    <property name="BrandMarketService" ref="BrandMarketService"/>
+    <property name="BrandMarketEmailNotificationSetupService" ref="BrandMarketEmailNotificationSetupService"/>        
+  </object>
+
+  <object name="SignupNotificationService" type="blueberry.notification.manager.src.Services.Implementations.SignupNotificationService, blueberry.notification.manager" >    
+    <property name="EnableSsl" value="true"/>
+    <property name="SenderEmail" value="pandora.integration@gmail.com"/>
+    <property name="SenderEmailPassword" value="p@nd0ra123"/>
+    <property name="SmtpPort" value="587"/>
+    <property name="SmtpAddress" value="smtp.gmail.com"/>
+    <property name="Nexmo" ref="Nexmo"/>
+    <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+  </object>
+
+  <object name="PlayerDepositNotification" type="blueberry.notification.manager.src.Services.Implementations.PlayerDepositNotification, blueberry.notification.manager" >
+    <property name="EnableSsl" value="true"/>
+    <property name="SenderEmail" value="pandora.integration@gmail.com"/>
+    <property name="SenderEmailPassword" value="p@nd0ra123"/>
+    <property name="SmtpPort" value="587"/>
+    <property name="SmtpAddress" value="smtp.gmail.com"/>
+    <property name="Nexmo" ref="Nexmo"/>
+    <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+  </object>
+
+  <object name="PlayerWithdrawalNotification" type="blueberry.notification.manager.src.Services.Implementations.PlayerWithdrawalNotification, blueberry.notification.manager" >
+    <property name="EnableSsl" value="true"/>
+    <property name="SenderEmail" value="pandora.integration@gmail.com"/>
+    <property name="SenderEmailPassword" value="p@nd0ra123"/>
+    <property name="SmtpPort" value="587"/>
+    <property name="SmtpAddress" value="smtp.gmail.com"/>
+    <property name="Nexmo" ref="Nexmo"/>
+    <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+  </object>
+
+  <object name="MailInBlueService" type="blueberry.notification.manager.src.Services.Implementations.MailInBlueService, blueberry.notification.manager" >
+    <property name="APIKey" value="WvXcsaLMUbHDIfd9"/>
+    <property name="RegisterEmailTemplateId" value="2"/>
+    <property name="WelcomeEmailVerificationTemplateId" value="3"/>
+    <property name="WelcomeCompleteEmailTemplateId" value="4"/>
+    <property name="ProcessingDepositEmailTemplateId" value="5"/>
+    <property name="FailedDepositEmailTemplateId" value="6"/>
+    <property name="SuccesDepositEmailTemplateId" value="7"/>
+    <property name="WithdrawReceievedEmailTemplateId" value="8"/>
+    <property name="WithdrawDeclinedEmailTemplateId" value="9"/>
+    <property name="WithdrawApprovedEmailTemplateId" value="10"/>
+    
+    <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="EmailTemplateService" ref="EmailTemplateService"/>
+  </object>
+  
+    <object name="EmailBlastStatusMonitoringService" type="blueberry.notification.manager.src.Services.Implementations.EmailBlastStatusMonitoringService, blueberry.notification.manager" >
+      <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+      <property name="EmailTemplateService" ref="EmailTemplateService"/>
+      <property name="MailInBlueService" ref="MailInBlueService"/>
+      <property name="EmailBlastService" ref="EmailBlastService"/>
+      <property name="EmailBlastMonitoringService" ref="EmailBlastMonitoringService"/>
+    </object>
+    
+
+
+  
+
+</objects>

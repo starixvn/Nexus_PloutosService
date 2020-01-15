@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+
+  
+  <object name="SafePayService" type="SafePay.Api.src.Implementations.SafePayService, SafePay.Api">    
+    <!--PROD-->
+    <!--<property name="SafePayUrl" value="http://www.safepaychannel.com:8080/diy/demo/message.jsp"/>
+    <property name="Key" value="1fabb704a4c5b9ab4323ed64ceda18ca"/>
+    <property name="UserID" value="2440577550999921"/>-->
+    <property name="SafePayBankAccountCode" value="SFBA"/>
+    <property name="CURRENT_USER_USED" value="OR171031463069"/>
+  </object>
+
+  <!--<object name="DaddyPayDepositManager" type="DaddyPay.Api.src.Implementations.DaddyPayDepositManager, DaddyPay.Api">
+    <property name="DaddyPayDepositService" ref="DaddyPayDepositService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="SystemUserManager" ref="SystemUserManager"/>
+  </object>-->
+
+
+</objects>

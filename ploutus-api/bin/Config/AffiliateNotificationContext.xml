@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database" default-autowire="constructor"
+         xmlns:tx="http://www.springframework.net/tx"><!--API AUTHENTICATION HANDLER-->
+
+
+  <object name="AffiliateMailService" type="blueberry.notification.manager.src.Services.Implementations.AffiliateMailService, blueberry.notification.manager" >
+    <!--test email template id: 23-->
+    <property name="APIKey" value="WvXcsaLMUbHDIfd9"/>
+    <property name="RegisterEmailTemplateId" value="25"/>
+    <property name="RegistrationApprovalEmailTemplateId" value="23"/>
+    <property name="WithdrawalRequestEmailTemplateId" value="26"/>
+    <property name="WithdrawalApprovedEmailTemplateId" value="27"/>
+    <property name="FundTransferEmailTemplateId" value="28"/>
+    <property name="CommissionApprovedEmailTemplateId" value="29"/>
+    <property name="ChangePasswordEmailTemplateId" value="30"/>
+    <property name="OneWeekNoSignInEmailTemplateId" value="32"/>
+    <property name="PlayerCountReminderEmailTemplateId" value="33"/>
+    <property name="AccountDetailUpdateEmailTemplateId" value="34"/>
+    <property name="AccountClosureEmailTemplateId" value="34"/>
+    <property name="ForgotPasswordEmailTemplateId" value="31"/>
+  </object>
+
+
+</objects>

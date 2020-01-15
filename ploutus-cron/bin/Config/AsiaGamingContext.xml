@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+  <object name="AsiaGamingAbstractService" type="AsiaGaming.Api.src.Implementations.AbstractService" abstract="true">
+    <property name="ConnectionTimeout" value="3600000"/>
+  </object>
+
+  <object name="AGDataEncryption" type="AsiaGaming.Api.src.Encryption.DataEncryption">
+    <property name="DataEncryptionKey" value="ZOEC3aSO"/>
+    <property name="DataMD5EncryptionKey" value="Y7dtiCn3V9E9"/>
+  </object>
+
+  <object id="AsianGamingService" type="AsiaGaming.Api.src.Implementations.AsianGamingService, AsiaGaming.Api" parent="AsiaGamingAbstractService">
+    <property name="DataEncryption" ref="AGDataEncryption"/>
+    <property name="WebRequestUtils" ref="WebRequestUtils"/>        
+    
+    <property name="AsianGamingApiAddress" value="http://gi.prod.beachheadsolutionsinc.com:81/doBusiness.do?"/>
+    <property name="AsianGamingGiForwardGameAddress" value="http://gci.prod.beachheadsolutionsinc.com:81/forwardGame.do?"/>
+    <property name="AsianGamingGciForwardGameAddress" value="http://gci.prod.beachheadsolutionsinc.com:81/forwardGame.do?"/>
+
+
+    <!--OLD APPXYSBRIDGE    
+    <property name="AsianGamingApiAddress" value="http://gi.appxysbridge.com:81/doBusiness.do?"/>
+    <property name="AsianGamingGiForwardGameAddress" value="http://gi.appxysbridge.com:81/forwardGame.do?"/>    
+    <property name="AsianGamingGciForwardGameAddress" value="http://gci.appxysbridge.com:81/forwardGame.do?"/>-->
+    <!--<property name="CAgent" value="L05_AG"/>-->
+    
+    <property name="CAgent" value="L05_AGIN"/>
+  </object>
+
+
+  <object id="AsianGamingLogManager" type="AsiaGaming.Api.src.Implementations.AsianGamingLogManager, AsiaGaming.Api" parent="AsiaGamingAbstractService">
+    
+    <property name="LocalXmlFilePath" value="Files\AG\XMLLOGS"/>
+    <property name="LocalXmlProcessedFilePath" value="Files\AG\PROCESSED_XMLLOGS"/>
+    <property name="LocalXmlProcessedFileBackupPath" value="Files\AG\PROCESSED_XMLLOGS\BACKUP"/>
+    <property name="LocalXmlReprocessFilePath" value="Files\AG\REPROCESS_XMLLOGS"/>
+    <property name="IsWebAppPath" value="True"/>
+    
+
+    <!--<property name="LocalXmlFilePath" value="D:\xml\INBOUND"/>
+    <property name="LocalXmlProcessedFilePath" value="D:\xml\PROCESSED"/>
+    <property name="LocalXmlProcessedFileBackupPath" value="D:\xml\BACKUP"/>-->
+    
+
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="AGTransferRecordService" ref="AGTransferRecordService"/>
+    <property name="AGBetRecordService" ref="AGBetRecordService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="FtpUtils" ref="FtpUtils"/>
+    <property name="FtpUserName" value="L05.Winfast"/>
+    <property name="FtpPassword" value="nar!86!NhJ"/>
+    <property name="FtpUri" value="ftp://xml.agingames.com"/>
+    <property name="CoverageDatecount" value="2"/>
+  </object>
+  
+  
+  
+
+
+</objects>

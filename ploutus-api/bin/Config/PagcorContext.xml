@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx" default-autowire="constructor">
+
+
+
+  <object name="WebRequestUtils" type="blueberry.utils.src.WebUtils.WebRequestUtils, blueberry.utils">
+    <property name="ConnectionTimeout" value="3600000"/>
+  </object>
+
+  <object name="PagcorCredentials" type="Pagcor.Api.src.constants.PagcorCredentials, Pagcor.Api">    
+  </object>
+
+  <object name="PagcorUrlRegistry" type="Pagcor.Api.src.constants.PagcorUrlRegistry, Pagcor.Api">    
+  </object>
+
+  <object id="PagcorDataSendManager" type="Pagcor.Api.src.implementations.PagcorDataSendManager, Pagcor.Api" >
+    <property name="PagcorBatchService" ref="PagcorBatchService" />
+    <property name="WebRequestUtils" ref="WebRequestUtils" />
+    <property name="PagcorUrlRegistry" ref="PagcorUrlRegistry" />
+    <property name="PagcorCredentials" ref="PagcorCredentials" />
+
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService" />
+    <property name="PlayerProfileService" ref="PlayerProfileService" />
+    <property name="PlayerBetService" ref="PlayerBetService" />
+    <property name="WalletWinService" ref="WalletWinService" />
+    <property name="WalletLossService" ref="WalletLossService" />
+
+    <property name="GamePlatformService" ref ="GamePlatformService" />
+  </object>
+  
+   
+        
+</objects>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database" default-autowire="constructor"
+         xmlns:tx="http://www.springframework.net/tx">
+  <!--API AUTHENTICATION HANDLER-->
+
+
+  <object id="TgpPlayService" type="TgpPlay.Api.src.Services.Implementations.TgpPlayService, TgpPlay.Api" >
+    <property name="PlayerTokens" >
+      <list element-type="TgpPlay.Api.src.Models.PlayerToken, TgpPlay.Api"/>
+    </property>
+    <property name="BrandTokens" >
+      <list element-type="TgpPlay.Api.src.Models.SecurityToken, TgpPlay.Api"/>
+    </property>    
+    <property name="GamePlatformOAuthCredentialService" ref="GamePlatformOAuthCredentialService" />    
+  </object>
+
+
+  <object id="TgpPlayWalletService" type="TgpPlay.Api.src.Services.Implementations.TgpPlayWalletService, TgpPlay.Api" >
+    <property name="WalletService" ref="WalletService" />
+    <property name="TgpTransactionService" ref="TgpTransactionService" />
+    <property name="TgpCancelledTransactionService" ref="TgpCancelledTransactionService" />
+    <property name="UserTokenService" ref="UserTokenService" />
+
+    <property name="GamePlatformService" ref="GamePlatformService" />
+    <property name="GamePlatformProductService" ref="GamePlatformProductService" />
+    <property name="PlayerBetService" ref="PlayerBetService" />
+    <property name="WalletLossService" ref="WalletLossService" />
+    <property name="WalletWinService" ref="WalletWinService" />
+    <property name="WalletLedgerService" ref="WalletLedgerService" />
+  </object>
+
+</objects>

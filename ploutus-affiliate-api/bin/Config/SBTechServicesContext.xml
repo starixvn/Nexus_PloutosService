@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx" default-autowire="constructor">
+
+
+
+
+  <object id="SBTechAbstractService" type="SBTech.Api.src.implementations.SBTechAbstractService, SBTech.Api" abstract="true">
+    <property name="ConnectionTimeout" value="3600000"/>
+  </object>
+
+  <object id="SBTechGameService" type="SBTech.Api.src.implementations.SBTechGameService, SBTech.Api" parent="SBTechAbstractService">
+
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="SBTechDebitCreditHistoryService" ref="SBTechDebitCreditHistoryService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    
+
+  </object>
+
+  <object id="SBTechLogService" type="SBTech.Api.src.implementations.SBTechLogService, SBTech.Api" parent="SBTechAbstractService">
+    <property name ="SBTechSportsBookBetLogsService" ref ="SBTechSportsBookBetLogsService"/>
+    <property name ="SBTechLiveCasinoBetLogsService" ref ="SBTechLiveCasinoBetLogsService"/>
+    <property name ="SBTechSlotBetLogsService" ref ="SBTechSlotBetLogsService"/>
+    <property name ="BetLogsLatestFetchService" ref ="BetLogsLatestFetchService"/>
+    
+  </object>
+
+  <tx:attribute-driven/>
+
+</objects>

@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database">
+
+
+
+
+  <object name="AbstractDao" type="blueberry.dao.src.Implementations.AbstractDao, blueberry.dao" abstract="true">
+    <property name="SessionFactory" ref="NHibernateSessionFactory"/>
+  </object>
+
+  <object name="PersonDao" type="blueberry.dao.src.Implementations.PersonDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AffiliateDao" type="blueberry.dao.src.Implementations.AffiliateDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="UserTokenDao" type="blueberry.dao.src.Implementations.UserTokenDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerRegistrationDao" type="blueberry.dao.src.Implementations.PlayerRegistrationDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerProfileDao" type="blueberry.dao.src.Implementations.PlayerProfileDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="StateProvinceDao" type="blueberry.dao.src.Implementations.StateProvinceDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="VipLevelDao" type="blueberry.dao.src.Implementations.VipLevelDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PaymentRiskLevelDao" type="blueberry.dao.src.Implementations.PaymentRiskLevelDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PaymentMethodDao" type="blueberry.dao.src.Implementations.PaymentMethodDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BankDao" type="blueberry.dao.src.Implementations.BankDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BankAccountDao" type="blueberry.dao.src.Implementations.BankAccountDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="UniqueDepositAmountRuleDao" type="blueberry.dao.src.Implementations.UniqueDepositAmountRuleDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="FraudRiskLevelDao" type="blueberry.dao.src.Implementations.FraudRiskLevelDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="IMPlatformDao" type="blueberry.dao.src.Implementations.IMPlatformDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SecurityQuestionDao" type="blueberry.dao.src.Implementations.SecurityQuestionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletDao" type="blueberry.dao.src.Implementations.WalletDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletDepositDao" type="blueberry.dao.src.Implementations.WalletDepositDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="UniqueDepositAmountDao" type="blueberry.dao.src.Implementations.UniqueDepositAmountDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="MerchantDao" type="blueberry.dao.src.Implementations.MerchantDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="CountryDao" type="blueberry.dao.src.Implementations.CountryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="CountryPaymentMethodDao" type="blueberry.dao.src.Implementations.CountryPaymentMethodDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletWithdrawalDao" type="blueberry.dao.src.Implementations.WalletWithdrawalDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletWinDao" type="blueberry.dao.src.Implementations.WalletWinDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletLossDao" type="blueberry.dao.src.Implementations.WalletLossDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GamePlatformDao" type="blueberry.dao.src.Implementations.GamePlatformDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GamePlatformProductDao" type="blueberry.dao.src.Implementations.GamePlatformProductDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BrandDao" type="blueberry.dao.src.Implementations.BrandDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerBankAccountDao" type="blueberry.dao.src.Implementations.PlayerBankAccountDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerBetDao" type="blueberry.dao.src.Implementations.PlayerBetDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WageringFulfilmentDao" type="blueberry.dao.src.Implementations.WageringFulfilmentDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletAdjustmentMemoDao" type="blueberry.dao.src.Implementations.WalletAdjustmentMemoDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BankAccountPaymentMethodDao" type="blueberry.dao.src.Implementations.BankAccountPaymentMethodDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GDGameBetsDao" type="blueberry.dao.src.Implementations.GDGameBetsDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GDGameBetTransactionDao" type="blueberry.dao.src.Implementations.GDGameBetTransactionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GDGameBetResultDao" type="blueberry.dao.src.Implementations.GDGameBetResultDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GDCancelledGameBetsDao" type="blueberry.dao.src.Implementations.GDCancelledGameBetsDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GDGameBetDetailDao" type="blueberry.dao.src.Implementations.GDGameBetDetailDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GDBetHistoryCasinoDao" type="blueberry.dao.src.Implementations.GDBetHistoryCasinoDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GDBetHistoryRNGDao" type="blueberry.dao.src.Implementations.GDBetHistoryRNGDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AGTransferRecordDao" type="blueberry.dao.src.Implementations.AGTransferRecordDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AGBetRecordDao" type="blueberry.dao.src.Implementations.AGBetRecordDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="OWCasinoBetLogDao" type="blueberry.dao.src.Implementations.OWCasinoBetLogDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="OWSportsBetLogDao" type="blueberry.dao.src.Implementations.OWSportsBetLogDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerResetCodeDao" type="blueberry.dao.src.Implementations.PlayerResetCodeDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BackgroundTaskScheduleDao" type="blueberry.dao.src.Implementations.BackgroundTaskScheduleDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TriggerRollbaseProcessDao" type="blueberry.dao.src.Implementations.TriggerRollbaseProcessDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+
+  <object name="PTFundTransferHistoryDao" type="blueberry.dao.src.Implementations.PTFundTransferHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PTBetHistoryDao" type="blueberry.dao.src.Implementations.PTBetHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PTBetLogDao" type="blueberry.dao.src.Implementations.PTBetLogDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BSBetResultHistoryDao" type="blueberry.dao.src.Implementations.BSBetResultHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BSRefundBetHistoryDao" type="blueberry.dao.src.Implementations.BSRefundBetHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BSBonusReleaseDao" type="blueberry.dao.src.Implementations.BSBonusReleaseDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BSBonusWinDao" type="blueberry.dao.src.Implementations.BSBonusWinDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BonusDao" type="blueberry.dao.src.Implementations.BonusDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BandWordDao" type="blueberry.dao.src.Implementations.BandWordDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="NotificationDao" type="blueberry.dao.src.Implementations.NotificationDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TransactionNumberSetupDao" type="blueberry.dao.src.Implementations.TransactionNumberSetupDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="DaddyPayBankDao" type="blueberry.dao.src.Implementations.DaddyPayBankDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WithdrawalLevelDao" type="blueberry.dao.src.Implementations.WithdrawalLevelDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="DaddyPayDepositDao" type="blueberry.dao.src.Implementations.DaddyPayDepositDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="DaddypayExceptionWithdrawApplyDao" type="blueberry.dao.src.Implementations.DaddypayExceptionWithdrawApplyDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerAccessLogDao" type="blueberry.dao.src.Implementations.PlayerAccessLogDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerNotificationDao" type="blueberry.dao.src.Implementations.PlayerNotificationDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="HubConnectionDao" type="blueberry.dao.src.Implementations.HubConnectionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AgentDao" type="blueberry.dao.src.Implementations.AgentDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SubAgentDao" type="blueberry.dao.src.Implementations.SubAgentDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletFundTransferDao" type="blueberry.dao.src.Implementations.WalletFundTransferDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletDepositAuditDao" type="blueberry.dao.src.Implementations.WalletDepositAuditDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletComputedBalanceDao" type="blueberry.dao.src.Implementations.WalletComputedBalanceDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AgentSubAgentUserDao" type="blueberry.dao.src.Implementations.AgentSubAgentUserDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="ABBetHistoryDao" type="blueberry.dao.src.Implementations.ABBetHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="ABSettleHistoryDao" type="blueberry.dao.src.Implementations.ABSettleHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SafePayBankDao" type="blueberry.dao.src.Implementations.SafePayBankDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SafePayDepositDao" type="blueberry.dao.src.Implementations.SafePayDepositDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SafePayDepositResponseDao" type="blueberry.dao.src.Implementations.SafePayDepositResponseDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PaymentGatewayBankDao" type="blueberry.dao.src.Implementations.PaymentGatewayBankDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BGPlayerSessionDao" type="blueberry.dao.src.Implementations.BGPlayerSessionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BGGameEventsDao" type="blueberry.dao.src.Implementations.BGGameEventsDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerSugestedBonusDao" type="blueberry.dao.src.Implementations.PlayerSugestedBonusDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TtgFundTransferDao" type="blueberry.dao.src.Implementations.TtgFundTransferDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerFingerPrintDao" type="blueberry.dao.src.Implementations.PlayerFingerPrintDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerFingerPrintHitDao" type="blueberry.dao.src.Implementations.PlayerFingerPrintHitDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="OWFundTransferDao" type="blueberry.dao.src.Implementations.OWFundTransferDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AGFundTransferDao" type="blueberry.dao.src.Implementations.AGFundTransferDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TtgBalanceRequestDao" type="blueberry.dao.src.Implementations.TtgBalanceRequestDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WalletLedgerDao" type="blueberry.dao.src.Implementations.WalletLedgerDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AffiliateEarningPlanDao" type="blueberry.dao.src.Implementations.AffiliateEarningPlanDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+  
+  <object name="AffiliateCommisionDao" type="blueberry.dao.src.Implementations.AffiliateCommisionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AffiliateTransactionDao" type="blueberry.dao.src.Implementations.AffiliateTransactionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+  
+  <object name="CampaignDetailDao" type="blueberry.dao.src.Implementations.CampaignDetailDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="CampaignDetailLevelDao" type="blueberry.dao.src.Implementations.CampaignDetailLevelDao, blueberry.dao" parent="AbstractDao" >
+  
+  </object>
+
+  <object name="CustomerTicketDao" type="blueberry.dao.src.Implementations.CustomerTicketDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GamePlatformOAuthCredentialDao" type="blueberry.dao.src.Implementations.GamePlatformOAuthCredentialDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TgpTransactionDao" type="blueberry.dao.src.Implementations.TgpTransactionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TgpCancelledTransactionDao" type="blueberry.dao.src.Implementations.TgpCancelledTransactionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="HGFundTransferHistoryDao" type="blueberry.dao.src.Implementations.HGFundTransferHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="NotificationMessageLogDao" type="blueberry.dao.src.Implementations.NotificationMessageLogDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="HGBetLogsDao" type="blueberry.dao.src.Implementations.HGBetLogsDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BetLogsLatestFetchDao" type="blueberry.dao.src.Implementations.BetLogsLatestFetchDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SBTechDebitCreditHistoryDao" type="blueberry.dao.src.Implementations.SBTechDebitCreditHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SBTechSportsBookBetLogsDao" type="blueberry.dao.src.Implementations.SBTechSportsBookBetLogsDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+  
+  <object name="SBTechLiveCasinoBetLogsDao" type="blueberry.dao.src.Implementations.SBTechLiveCasinoBetLogsDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SBTechSlotBetLogsDao" type="blueberry.dao.src.Implementations.SBTechSlotBetLogsDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="RpnDepositRequestDao" type="blueberry.dao.src.Implementations.RpnDepositRequestDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="RpnDepositResponseDao" type="blueberry.dao.src.Implementations.RpnDepositResponseDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+  
+  <object name="PlayerProviderLockingDao" type="blueberry.dao.src.Implementations.PlayerProviderLockingDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+
+  <object name="GameBetLimitSettingDao" type="blueberry.dao.src.Implementations.GameBetLimitSettingDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GameBetLimitLevelDao" type="blueberry.dao.src.Implementations.GameBetLimitLevelDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="SDpayDepositDao" type="blueberry.dao.src.Implementations.SDpayDepositDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="OfflineWechatDepositDao" type="blueberry.dao.src.Implementations.OfflineWechatDepositDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="RebateDao" type="blueberry.dao.src.Implementations.RebateDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="RebateDetailDao" type="blueberry.dao.src.Implementations.RebateDetailDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="CurrencyDao" type="blueberry.dao.src.Implementations.CurrencyDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GamePlatformSupportedCurrencyDao" type="blueberry.dao.src.Implementations.GamePlatformSupportedCurrencyDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="LanguageDao" type="blueberry.dao.src.Implementations.LanguageDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GamePlatformSupportedLanguageDao" type="blueberry.dao.src.Implementations.GamePlatformSupportedLanguageDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PaywaloDepositDao" type="blueberry.dao.src.Implementations.PaywaloDepositDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerRebateDao" type="blueberry.dao.src.Implementations.PlayerRebateDao, blueberry.dao" parent="AbstractDao" >
+  </object>  
+
+  <object name="PlayerRebateDetailDao" type="blueberry.dao.src.Implementations.PlayerRebateDetailDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerRebateQueueDao" type="blueberry.dao.src.Implementations.PlayerRebateQueueDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AffiliateCommissionDetailDao" type="blueberry.dao.src.Implementations.AffiliateCommissionDetailDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BrandMarketDao" type="blueberry.dao.src.Implementations.BrandMarketDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BrandMarketEmailNotificationSetupDao" type="blueberry.dao.src.Implementations.BrandMarketEmailNotificationSetupDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TransactionTypeDao" type="blueberry.dao.src.Implementations.TransactionTypeDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="WorkstepDao" type="blueberry.dao.src.Implementations.WorkstepDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TransactionTypeWorkstepDao" type="blueberry.dao.src.Implementations.TransactionTypeWorkstepDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TransactionTypeWorkstepApproverDao" type="blueberry.dao.src.Implementations.TransactionTypeWorkstepApproverDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TransactionDao" type="blueberry.dao.src.Implementations.TransactionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TransactionWorkstepDao" type="blueberry.dao.src.Implementations.TransactionWorkstepDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="CommentDao" type="blueberry.dao.src.Implementations.CommentDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="TransactionGrabDao" type="blueberry.dao.src.Implementations.TransactionGrabDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PagcorBatchDao" type="blueberry.dao.src.Implementations.PagcorBatchDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerNoteCategoryDao" type="blueberry.dao.src.Implementations.PlayerNoteCategoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerNoteTypeDao" type="blueberry.dao.src.Implementations.PlayerNoteTypeDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AffiliateTrackingLinkDao" type="blueberry.dao.src.Implementations.AffiliateTrackingLinkDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerNoteDao" type="blueberry.dao.src.Implementations.PlayerNoteDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="RecordViewedDao" type="blueberry.dao.src.Implementations.RecordViewedDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+  
+
+  <object name="PlayerDocumentDao" type="blueberry.dao.src.Implementations.PlayerDocumentDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AuditTrailDao" type="blueberry.dao.src.Implementations.AuditTrailDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PaymentGatewayDao" type="blueberry.dao.src.Implementations.PaymentGatewayDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+    <object name="EmailTemplateDao" type="blueberry.dao.src.Implementations.EmailTemplateDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="BetlogDao" type="blueberry.dao.src.Implementations.BetlogDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="EmailBlastDao" type="blueberry.dao.src.Implementations.EmailBlastDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="EmailBlastMonitoringDao" type="blueberry.dao.src.Implementations.EmailBlastMonitoringDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="OnlineBankTypeDao" type="blueberry.dao.src.Implementations.OnlineBankTypeDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="OnlineBankDao" type="blueberry.dao.src.Implementations.OnlineBankDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="OnlineBankSupportedCurrencyDao" type="blueberry.dao.src.Implementations.OnlineBankSupportedCurrencyDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AthenaGameTransactionDao" type="blueberry.dao.src.Implementations.AthenaGameTransactionDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="MessageDao" type="blueberry.dao.src.Implementations.MessageDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerMessageDao" type="blueberry.dao.src.Implementations.PlayerMessageDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="PlayerMessageSeenHistoryDao" type="blueberry.dao.src.Implementations.PlayerMessageSeenHistoryDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="RewardDao" type="blueberry.dao.src.Implementations.RewardDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AffiliateRewardDao" type="blueberry.dao.src.Implementations.AffiliateRewardDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="AffiliateRewardDetailDao" type="blueberry.dao.src.Implementations.AffiliateRewardDetailDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+
+  <object name="GamePlatformBetLogDao" type="blueberry.dao.src.Implementations.GamePlatformBetLogDao, blueberry.dao" parent="AbstractDao" >     
+  </object>
+
+  <object name="GameOperatorDao" type="blueberry.dao.src.Implementations.GameOperatorDao, blueberry.dao" parent="AbstractDao" >
+  </object>
+  
+</objects>

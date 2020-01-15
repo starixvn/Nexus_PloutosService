@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx" default-autowire="constructor">
+
+
+
+
+  <object id="AbstractService" type="Playtech.Api.src.implementations.AbstractService, BetSoft.Api.Service" abstract="true">
+    <!--<property name="ConnectionTimeout" value="3600000"/>-->
+  </object>
+
+  <object id="BSGameService" type="BetSoft.Api.src.implementations.BSGameService, BetSoft.Api" parent="AbstractService">
+    
+    
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="BSBetResultHistoryService" ref="BSBetResultHistoryService"/>
+    <property name="BSBonusReleaseService" ref="BSBonusReleaseService"/>
+    <property name="BSBonusWinService" ref="BSBonusWinService"/>
+    <property name="BSRefundBetHistoryService" ref="BSRefundBetHistoryService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    
+  </object>
+
+
+  <tx:attribute-driven/>
+
+</objects>

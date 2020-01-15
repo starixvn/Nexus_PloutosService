@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+
+  
+  <object name="DaddyPayService" type="DaddyPay.Api.src.Implementations.DaddyPayService, DaddyPay.Api">
+
+    <property name="TerminalId" value="1"/>
+    
+    <!--UAT-->
+    <!--<property name="Config" value="123qwe"/>
+    <property name="CompanyUser" value="123qwe"/>
+    <property name="CompanyId" value="71"/>
+    <property name="DaddyPayUrl" value="http://52.69.65.224/Mownecum_2_API_Live/Deposit?format=json"/>-->    
+    <!--PROD-->    
+    <!--
+    <property name="Config" value="or8820160913A@PwD#"/>
+    <property name="CompanyUser" value="123qwe"/>
+    <property name="CompanyId" value="58"/>
+    <property name="DaddyPayUrl" value="http://www.dppay100c.com/mownecum_api/Deposit?format=json"/>-->
+    
+    
+        
+  </object>
+
+  <object name="DaddyPayDepositManager" type="DaddyPay.Api.src.Implementations.DaddyPayDepositManager, DaddyPay.Api">
+    <property name="DaddyPayDepositService" ref="DaddyPayDepositService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="SystemUserManager" ref="SystemUserManager"/>
+  </object>
+
+
+</objects>

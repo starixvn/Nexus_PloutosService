@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+
+  <object name="BlueberryCommonService" type="blueberry.service.src.Implementations.BlueberryCommonService, blueberry.service" >
+    <property name="CountryService" ref="CountryService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="Countries">
+      <dictionary key-type="string" value-type="string">
+        <entry key="AF" value="Afghanistan"/>        
+      </dictionary>
+    </property>
+    <property name="Currencies">
+      <dictionary key-type="string" value-type="string">
+        <entry key="AED" value="AED"/>    
+        <entry key="AFN" value="AFN"/>
+        <entry key="ALL" value="ALL"/>
+        <entry key="AMD" value="AMD"/>
+        <entry key="ANG" value="ANG"/>
+        <entry key="AOA" value="AOA"/>
+        <entry key="ARS" value="ARS"/>
+        <entry key="AUD" value="AUD"/>
+        <entry key="AWG" value="AWG"/>
+        <entry key="AZN" value="AZN"/>
+        <entry key="BAM" value="BAM"/>
+        <entry key="BBD" value="BBD"/>
+        <entry key="BDT" value="BDT"/>
+        <entry key="BGN" value="BGN"/>
+        <entry key="BHD" value="BHD"/>
+        <entry key="BIF" value="BIF"/>
+        <entry key="BMD" value="BMD"/>
+        <entry key="BND" value="BND"/>
+        <entry key="BOB BOV" value="BOB BOV"/>
+        <entry key="BRL" value="BRL"/>
+        <entry key="BSD" value="BSD"/>
+        <entry key="BWP" value="BWP"/>
+        <entry key="BYR" value="BYR"/>
+        <entry key="BZD" value="BZD"/>
+        <entry key="CAD" value="CAD"/>
+        <entry key="CDF" value="CDF"/>
+        <entry key="CHF" value="CHF"/>
+        <entry key="CLP CLF" value="CLP CLF"/>
+        <entry key="CNY" value="CNY"/>
+        <entry key="COP COU" value="COP COU"/>
+        <entry key="CRC" value="CRC"/>
+        <entry key="CUP CUC" value="CUP CUC"/>
+        <entry key="CVE" value="CVE"/>
+        <entry key="CZK" value="CZK"/>
+        <entry key="DJF" value="DJF"/>
+        <entry key="DKK" value="DKK"/>
+        <entry key="DOP" value="DOP"/>
+        <entry key="DZD" value="DZD"/>
+        <entry key="EEK" value="EEK"/>
+        <entry key="EGP" value="EGP"/>
+        <entry key="ERN" value="ERN"/>
+        <entry key="ETB" value="ETB"/>
+        <entry key="EUR" value="EUR"/>
+        <entry key="FJD" value="FJD"/>
+        <entry key="FKP" value="FKP"/>
+        <entry key="GBP" value="GBP"/>
+        <entry key="GEL" value="GEL"/>
+        <entry key="GHS" value="GHS"/>
+        <entry key="GIP" value="GIP"/>
+        <entry key="GMD" value="GMD"/>
+        <entry key="GNF" value="GNF"/>
+        <entry key="GTQ" value="GTQ"/>
+        <entry key="GYD" value="GYD"/>
+        <entry key="HKD" value="HKD"/>
+        <entry key="HNL" value="HNL"/>
+        <entry key="HRK" value="HRK"/>
+        <entry key="HTG USD" value="HTG USD"/>
+        <entry key="HUF" value="HUF"/>
+        <entry key="IDR" value="IDR"/>
+        <entry key="ILS" value="ILS"/>
+        <entry key="INR" value="INR"/>
+        <entry key="INR BTN" value="INR BTN"/>
+        <entry key="IQD" value="IQD"/>
+        <entry key="IRR" value="IRR"/>
+        <entry key="ISK" value="ISK"/>
+        <entry key="JMD" value="JMD"/>
+        <entry key="JOD" value="JOD"/>
+        <entry key="JPY" value="JPY"/>
+        <entry key="KES" value="KES"/>
+        <entry key="KGS" value="KGS"/>
+        <entry key="KHR" value="KHR"/>
+        <entry key="KMF" value="KMF"/>
+        <entry key="KPW" value="KPW"/>
+        <entry key="KRW" value="KRW"/>
+        <entry key="KWD" value="KWD"/>
+        <entry key="KYD" value="KYD"/>
+        <entry key="KZT" value="KZT"/>
+        <entry key="LAK" value="LAK"/>
+        <entry key="LBP" value="LBP"/>
+        <entry key="LKR" value="LKR"/>
+        <entry key="LRD" value="LRD"/>
+        <entry key="LTL" value="LTL"/>
+        <entry key="LVL" value="LVL"/>
+        <entry key="LYD" value="LYD"/>
+        <entry key="MAD" value="MAD"/>
+        <entry key="MDL" value="MDL"/>
+        <entry key="MGA" value="MGA"/>
+        <entry key="MKD" value="MKD"/>
+        <entry key="MMK" value="MMK"/>
+        <entry key="MNT" value="MNT"/>
+        <entry key="MOP" value="MOP"/>
+        <entry key="MRO" value="MRO"/>
+        <entry key="MUR" value="MUR"/>
+        <entry key="MVR" value="MVR"/>
+        <entry key="MWK" value="MWK"/>
+        <entry key="MXN MXV" value="MXN MXV"/>
+        <entry key="MYR" value="MYR"/>
+        <entry key="MZN" value="MZN"/>
+        <entry key="NGN" value="NGN"/>
+        <entry key="NIO" value="NIO"/>
+        <entry key="NOK" value="NOK"/>
+        <entry key="NPR" value="NPR"/>
+        <entry key="NZD" value="NZD"/>
+        <entry key="OMR" value="OMR"/>
+        <entry key="PAB USD" value="PAB USD"/>
+        <entry key="PEN" value="PEN"/>
+        <entry key="PGK" value="PGK"/>
+        <entry key="PHP" value="PHP"/>
+        <entry key="PKR" value="PKR"/>
+        <entry key="PLN" value="PLN"/>
+        <entry key="PYG" value="PYG"/>
+        <entry key="QAR" value="QAR"/>
+        <entry key="RON" value="RON"/>
+        <entry key="RSD" value="RSD"/>
+        <entry key="RUB" value="RUB"/>
+        <entry key="RWF" value="RWF"/>
+        <entry key="SAR" value="SAR"/>
+        <entry key="SBD" value="SBD"/>
+        <entry key="SCR" value="SCR"/>
+        <entry key="SDG" value="SDG"/>
+        <entry key="SEK" value="SEK"/>
+        <entry key="SGD" value="SGD"/>
+        <entry key="SHP" value="SHP"/>
+        <entry key="SLL" value="SLL"/>
+        <entry key="SOS" value="SOS"/>
+        <entry key="SRD" value="SRD"/>
+        <entry key="STD" value="STD"/>
+        <entry key="SVC USD" value="SVC USD"/>
+        <entry key="SYP" value="SYP"/>
+        <entry key="SZL" value="SZL"/>
+        <entry key="THB" value="THB"/>
+        <entry key="TJS" value="TJS"/>
+        <entry key="TMT" value="TMT"/>
+        <entry key="TND" value="TND"/>
+        <entry key="TOP" value="TOP"/>
+        <entry key="TRY" value="TRY"/>
+        <entry key="TTD" value="TTD"/>
+        <entry key="TWD" value="TWD"/>
+        <entry key="TZS" value="TZS"/>
+        <entry key="UAH" value="UAH"/>
+        <entry key="UGX" value="UGX"/>
+        <entry key="USD" value="USD"/>
+        <entry key="UYU UYI" value="UYU UYI"/>
+        <entry key="UZS" value="UZS"/>
+        <entry key="VEF" value="VEF"/>
+        <entry key="VND" value="VND"/>
+        <entry key="VUV" value="VUV"/>
+        <entry key="WST" value="WST"/>
+        <entry key="XAF" value="XAF"/>
+        <entry key="XAG" value="XAG"/>
+        <entry key="XAU" value="XAU"/>
+        <entry key="XBA" value="XBA"/>
+        <entry key="XBB" value="XBB"/>
+        <entry key="XBC" value="XBC"/>
+        <entry key="XBD" value="XBD"/>
+        <entry key="XCD" value="XCD"/>
+        <entry key="XDR" value="XDR"/>
+        <entry key="XFU" value="XFU"/>
+        <entry key="XOF" value="XOF"/>
+        <entry key="XPD" value="XPD"/>
+        <entry key="XPF" value="XPF"/>
+        <entry key="XPT" value="XPT"/>
+        <entry key="XTS" value="XTS"/>
+        <entry key="YER" value="YER"/>
+        <entry key="ZAR" value="ZAR"/>
+        <entry key="ZAR LSL" value="ZAR LSL"/>
+        <entry key="ZAR NAD" value="ZAR NAD"/>
+        <entry key="ZMK" value="ZMK"/>
+        <entry key="ZWL" value="ZWL"/>
+      </dictionary>
+    </property>
+  </object>
+ 
+  
+  
+  
+
+
+
+</objects>

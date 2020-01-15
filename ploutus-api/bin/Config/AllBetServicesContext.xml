@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx" default-autowire="constructor">
+
+
+
+
+  <object id="ABAbstractService" type="Allbet.Api.src.implementations.ABAbstractService, Allbet.Api" abstract="true">    
+      <property name="ConnectionTimeout" value="3600000"/>  
+  </object>
+
+  <object id="AllBetGameService" type="Allbet.Api.src.implementations.AllBetGameService, Allbet.Api" parent="ABAbstractService">
+
+
+    <property name="WalletService" ref="WalletService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="ABBetHistoryService" ref="ABBetHistoryService"/>
+    <property name="ABSettleHistoryService" ref="ABSettleHistoryService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>    
+    
+
+  </object>
+
+
+  <tx:attribute-driven/>
+
+</objects>

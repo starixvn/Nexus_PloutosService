@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database" default-autowire="constructor">
+
+
+  <!--API AUTHENTICATION HANDLER-->
+ 
+  <object id="PloutusClientManager" name="PloutusClientManager" type="PloutusClient.Api.src.implementations.PloutusClientManager, PloutusClient.Api">
+    <property name="WalletDepositService" ref="WalletDepositService"/>        
+  </object>
+  
+
+
+</objects>

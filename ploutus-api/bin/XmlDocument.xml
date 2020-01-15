@@ -1,0 +1,3704 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>blueberry</name>
+    </assembly>
+    <members>
+        <member name="M:blueberry.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+                
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,blueberry.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:blueberry.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:blueberry.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:blueberry.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:blueberry.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:blueberry.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:blueberry.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:blueberry.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:blueberry.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:blueberry.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,blueberry.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,blueberry.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(blueberry.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:blueberry.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},blueberry.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:blueberry.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:blueberry.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleKey.#ctor(blueberry.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:blueberry.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,blueberry.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:blueberry.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:blueberry.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:blueberry.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:blueberry.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:blueberry.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:blueberry.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:blueberry.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameOperatorController.Create(blueberry.common.src.Criteria.GameOperatorCriteria)">
+            <summary>
+            <returns>
+            Create GameOperator Record/s
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameOperatorController.Update(blueberry.common.src.Criteria.GameOperatorCriteria)">
+            <summary>
+            <returns>
+            UDATE GameOperator Record/s
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameOperatorController.GetById(blueberry.common.src.Criteria.IdCriteria)">
+            <summary>
+            <returns>
+            GET GameOperator Record
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameOperatorController.GetAll">
+            <summary>
+            <returns>
+            GET GameOperator Records
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetController.SendBets(System.Collections.Generic.IList{blueberry.common.src.Criteria.v1.BetlogCriteria})">
+            <summary>
+            <returns>
+            Receive Client's Bet Records. - Ploutus
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetController.ProcessBets(System.Collections.Generic.IList{blueberry.core.src.Models.Betlog})">
+            <summary>
+            <returns>
+            Process Bet logs. Should be executed by CRON job - Ploutus
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetController.ProcessAthenaGameTransaction">
+            <summary>
+            <returns>
+            ProcessAthenaGameTransaction. Should be executed by CRON job - Ploutus
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BrandController.CreateBrand(blueberry.common.src.Criteria.BrandCriteria)">
+            <summary>
+            <returns>
+            Inserts Brand.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BrandController.GenerateAuthorization(blueberry.common.src.Criteria.GenerateAuthorizationCriteria)">
+            <summary>
+            <returns>
+            creates client/brand authorization
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.UpdateStatus(blueberry.common.src.Criteria.PlayerMessageUpdateStatusCriteria)">
+            <summary>
+            <returns>
+            Update Player Message Status .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.GetAllById(System.Int64,System.Boolean)">
+            <summary>
+            <returns>
+            Get All Player Message By Id .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.GetAll">
+            <summary>
+            <returns>
+            Get All Player Messages .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.GetAllByMessageId(System.Int64)">
+            <summary>
+            <returns>
+            Get All Player Messages ByMessageId .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.GetAllByPlayerId(System.Int64)">
+            <summary>
+            <returns>
+            Get All Player Messages PlayerId .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.GetAllByUserName(System.String)">
+            <summary>
+            <returns>
+            Get All Player Messages By UserName.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.GetAllByUserNameAndStatuses(blueberry.common.src.Criteria.PlayerMessageGetCriteria)">
+            <summary>
+            <returns>
+            Get All Player Messages By UserName and Statuses.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerMessageController.GetAllByStatus(blueberry.core.src.Enums.MessageStatus)">
+            <summary>
+            <returns>
+            Get All Player Messages By status .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.Create(blueberry.common.src.Criteria.MessageCreateCriteria)">
+            <summary>
+            <returns>
+            Create Message Record.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.Update(blueberry.common.src.Criteria.MessageUpdateCriteria)">
+            <summary>
+            <returns>
+            Update Message Record.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.GetById(System.Int64)">
+            <summary>
+            <returns>
+            Get Message Record By Id.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.UpdateStatus(blueberry.common.src.Criteria.MessageUpdateStatusCriteria)">
+            <summary>
+            <returns>
+            Update Message Status .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.GetAll">
+            <summary>
+            <returns>
+            Get All Messages .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.GetAllByPlayerId(System.Int64)">
+            <summary>
+            <returns>
+            Get All Messages By Player Profile Id .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.GetAllByUserName(System.String)">
+            <summary>
+            <returns>
+            Get All Messages By UserName.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.GetAllMessageSeenHistoryByPlayerMessageId(System.Int64)">
+            <summary>
+            <returns>
+            Get All Message SeenHistory By Message Id .
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.MessageController.CreateMessageSeenHistory(blueberry.common.src.Criteria.MessageSeenHistoryCriteria)">
+            <summary>
+            <returns>
+            Create Message Seen History. This will be called after loading the Message view page at the back office.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController">
+            <summary>
+            <returns>
+            OnlineBankTypeController.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController.OnlineBankService">
+            <summary>
+            <returns>
+            OnlineBankService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController.OnlineBankSupportedCurrencyService">
+            <summary>
+            <returns>
+            OnlineBankSupportedCurrencyService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController.CurrencyService">
+            <summary>
+            <returns>
+            CurrencyService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController.CreateOnlineBankSupportedCurrency(blueberry.common.src.Criteria.OnlineBankSupportedCurrencyCriteria)">
+            <summary>
+            <returns>
+            Create Online BankType.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController.UpdateOnlineBankSupportedCurrency(blueberry.common.src.Criteria.OnlineBankSupportedCurrencyCriteria)">
+            <summary>
+            <returns>
+            Update Online BankType.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController.GetOnlineBankTypeList">
+            <summary>
+            <returns>
+            Get Online BankType List
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankSupportedCurrencyController.GetOnlineBankSupportedCurrency(System.Int64)">
+            <summary>
+            <returns>
+            Get OnlineBankType Detail
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:blueberry.Controllers.Api.OnlineBankController">
+            <summary>
+            <returns>
+            Online Bank.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankController.OnlineBankService">
+            <summary>
+            <returns>
+            OnlineBankService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankController.OnlineBankTypeService">
+            <summary>
+            <returns>
+            OnlineBankTypeService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankController.BrandService">
+            <summary>
+            <returns>
+            BrandService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankController.CreateOnlineBank(blueberry.common.src.Criteria.OnlineBankCriteria)">
+            <summary>
+            <returns>
+            Create Online BankType.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankController.UpdateOnlineBank(blueberry.common.src.Criteria.OnlineBankCriteria)">
+            <summary>
+            <returns>
+            Update Online Bank.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankController.GetOnlineBankList">
+            <summary>
+            <returns>
+            Get Online BankType List
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankController.GetOnlineBank(System.Int64)">
+            <summary>
+            <returns>
+            Get OnlineBankType Detail
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:blueberry.Controllers.Api.OnlineBankTypeController">
+            <summary>
+            <returns>
+            OnlineBankTypeController.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankTypeController.OnlineBankTypeService">
+            <summary>
+            <returns>
+            OnlineBankTypeService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.OnlineBankTypeController.BrandService">
+            <summary>
+            <returns>
+            BrandService
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankTypeController.CreateOnlineBankType(blueberry.common.src.Criteria.OnlineBankTypeCriteria)">
+            <summary>
+            <returns>
+            Create Online BankType.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankTypeController.UpdateOnlineBankType(blueberry.common.src.Criteria.OnlineBankTypeCriteria)">
+            <summary>
+            <returns>
+            Update Online BankType.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankTypeController.GetOnlineBankTypeList">
+            <summary>
+            <returns>
+            Get Online BankType List
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineBankTypeController.GetOnlineBankType(System.Int64)">
+            <summary>
+            <returns>
+            Get OnlineBankType Detail
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineWithdrawalController.OnlineWithdrawalCallback(blueberry.common.src.Criteria.v1.OnlineWithdrawalCallbackUrlCriteria)">
+            <summary>
+            <returns>
+            Callback url for Ploutus - Online Withdrawal.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:blueberry.Controllers.Api.EmailBlastController.EmailTemplateService">
+            <summary>
+            <returns>
+            EmailTemplateService
+            </returns>       
+            </summary>
+        </member>
+        <member name="P:blueberry.Controllers.Api.EmailBlastController.EmailBlastService">
+            <summary>
+            <returns>
+            EmailBlastService
+            </returns>       
+            </summary>
+        </member>
+        <member name="P:blueberry.Controllers.Api.EmailBlastController.EmailBlastMonitoringService">
+            <summary>
+            <returns>
+            EmailBlastMonitoringService
+            </returns>       
+            </summary>
+        </member>
+        <member name="P:blueberry.Controllers.Api.EmailBlastController.MailInBlueService">
+            <summary>
+            <returns>
+            MailInBlueService
+            </returns>       
+            </summary>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailBlastController.CreateEmailBlast(blueberry.common.src.Criteria.EmailBlastCriteria)">
+            <summary>
+            <returns>
+            Create Email Blast.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailBlastController.UpdateEmailBlast(blueberry.common.src.Criteria.EmailBlastCriteria)">
+            <summary>
+            <returns>
+            Update Email Blast.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailBlastController.GetEmailBlastList">
+            <summary>
+            <returns>
+            Get Email Blast List
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailBlastController.GetEmailBlastListDetail(System.Int64)">
+            <summary>
+            <returns>
+            Get Email Blast List Detail with Completed Status
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailBlastController.GetEmailBlast(System.Int64)">
+            <summary>
+            <returns>
+            Get Email Blast Detail
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailBlastController.SendEmailInBlue(blueberry.common.src.Criteria.IdCriteria)">
+            <summary>
+            <returns>
+            Send Email Blast
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailBlastController.GetEmailBlastStatus(blueberry.common.src.Criteria.IdCriteria)">
+            <summary>
+            <returns>
+            Get Email Blast Status
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewaySetupController.CreatePaymentGatewaySetup(blueberry.common.src.Criteria.PaymentGatewayCriteria)">
+            <summary>
+            <returns>
+            Inserts PaymentGateway Setup.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewaySetupController.UpdatePaymentGatewaySetup(blueberry.common.src.Criteria.PaymentGatewayCriteria)">
+            <summary>
+            <returns>
+            Updates Payment Gateway Setup.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewaySetupController.DeletePaymentGatewaySetup(System.Int64)">
+            <summary>
+            <returns>
+            Delete PaymentGateway.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewaySetupController.PaymentGatewaySetupList">
+            <summary>
+            <returns>
+            Get PaymentGateway List
+            </returns>       
+            
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewaySetupController.GetPaymentGatewaySetup(System.Int64)">
+            <summary>
+            <returns>
+            Get PaymentGateway By Id
+            </returns>       
+            
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailTemplateController.CreateEmailTemplate(blueberry.common.src.Criteria.EmailTemplateCriteria)">
+            <summary>
+            <returns>
+            Create Email Template.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailTemplateController.UpdateEmailTemplate(blueberry.common.src.Criteria.EmailTemplateCriteria)">
+            <summary>
+            <returns>
+            Update Email Template.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailTemplateController.DeleteEmailTemplate(System.Int64)">
+            <summary>
+            <returns>
+            Delete Email Template.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailTemplateController.GetEmailTemplateList">
+            <summary>
+            <returns>
+            Get Email Templates List
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailTemplateController.GetEmailTemplate(System.Int64)">
+            <summary>
+            <returns>
+            Get Email Templates
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.EmailTemplateController.SendEmailInBlue(blueberry.common.src.Criteria.EmailCriteria)">
+            <summary>
+            <returns>
+            Send Email
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OfflineDepositController.OfflineWechatDeposit(blueberry.common.src.Criteria.OfflineWechatDepositCriteria)">
+            <summary>
+            <returns>
+            Deposit using Third Party
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PagcorController.Authorize(Pagcor.Api.src.models.parameters.PagcorAuthorizeParameter)">
+            <summary>
+            <returns>
+            Get Authorization from Pagcor
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:blueberry.Controllers.Api.PagcorController.SendGameRecords(System.String)">
+            <summary>
+            <returns>
+            Send Game Records
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:blueberry.Controllers.Api.PagcorController.ProcessPagcorGameRecords(System.String)">
+            <summary>
+            <returns>
+            Send Game Records
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.OnlineWechatDeposit(blueberry.common.src.Criteria.AmountCriteria)">
+            <summary>
+            <returns>
+            Paywalo Online Deposit using WECHAT
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.LinePayDeposit(blueberry.common.src.Criteria.PaywaloLinePayDepositCriteria)">
+            <summary>
+            <returns>
+            Paywalo Online Deposit using LINEPAY
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.OfflineDeposit(blueberry.common.src.Criteria.PaywaloOfflineDepositCriteria)">
+            <summary>
+            <returns>
+            Paywalo Offline Deposit
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.OfflineWithdrawal(blueberry.common.src.Criteria.PaywaloOfflineWithdrawalCriteria)">
+            <summary>
+            <returns>
+            Paywalo Offline Withdrawal
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.VenusPointDeposit(blueberry.common.src.Criteria.PaywaloVenusPointDepositCriteria)">
+            <summary>
+            <returns>
+            Paywalo Venus Point Deposit
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.VenusPointWithdrawal(blueberry.common.src.Criteria.PaywaloVenusPointWithdrawalCriteria)">
+            <summary>
+            <returns>
+            Paywalo Venus Point Withdrawal
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.PaywaloOnlineDeposit(blueberry.common.src.Criteria.PaywaloOnlineDepositCriteria)">
+            <summary>
+            <returns>
+            Paywalo Online Deposit
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.OnlineWithdrawal(blueberry.common.src.Criteria.PaywaloOnlineWithdrawalCriteria)">
+            <summary>
+            <returns>
+            Paywalo Online Withdrawal
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.PaywaloOnlineBankList">
+            <summary>
+            <returns>
+            Paywalo Online Bank List
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.PaywaloChinaUnionPay(blueberry.common.src.Criteria.PaywaloChinaUnionPayCriteria)">
+            <summary>
+            <returns>
+            Paywalo China Union Pay
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaywaloController.PaywaloOfflineBankList">
+            <summary>
+            <returns>
+            Paywalo Offline Bank List
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SetupController.TransactionType(blueberry.common.src.Criteria.TransactionTypeCriteria)">
+            <summary>
+            <returns>
+            Transaction Type Insert Update.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SetupController.Workstep(blueberry.common.src.Criteria.WorkstepCriteria)">
+            <summary>
+            <returns>
+            WorkStep Insert Update.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SetupController.TransactionTypeWorkstep(blueberry.common.src.Criteria.TransactionTypeWorkstepCriteria)">
+            <summary>
+            <returns>
+            Transaction Type Workstep Insert Update.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SetupController.TransactionTypeWorkstepApprover(blueberry.common.src.Criteria.TransactionTypeWorkstepApproverCriteria)">
+            <summary>
+            <returns>
+            Transaction Type Workstep Approver Insert Update.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SDPayController.Deposit(SDPay.Api.src.models.parameters.DepositParameter)">
+            <summary>
+            <returns>
+            SDPay Deposit - Online
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.PlayerLogin(SBTech.Api.src.models.parameters.SBTechCreateMemberParameter)">
+            <summary>
+            <returns>
+            This API is used to Create Member to SBTEch
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.LoginMember(SBTech.Api.src.models.parameters.SBTechLoginParameter)">
+            <summary>
+            <returns>
+            This API is used to Login Member to SBTech
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.LaunchGame(SBTech.Api.src.models.parameters.SBTechLaunchGameParameter)">
+            <summary>
+            <returns>
+            This API is used to Get the GameLaunch URL
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.LaunchGamePerGameType(SBTech.Api.src.models.parameters.SBTechLaunchGameParameter)">
+            <summary>
+            <returns>
+            This API is used to  Get the GameLaunch URL Per Game Type
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.GetMemberBalance(SBTech.Api.src.models.parameters.SBTechGetMemberBalanceParameter)">
+            <summary>
+            <returns>
+            This API is used to Get Player Balance
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.CreditBalance(SBTech.Api.src.models.parameters.SBTechCreditBalanceParameter)">
+            <summary>
+            <returns>
+            This API is used to Transfer In Fund To SBTech
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.DebitBalance(SBTech.Api.src.models.parameters.SBTechDebitBalanceParameter)">
+            <summary>
+            <returns>
+            This API is used to Transfer Out Fund
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.CheckFundTransferStatus(SBTech.Api.src.models.parameters.SBTechCheckFundTransferStatusParameter)">
+            <summary>
+            <returns>
+            This API is used to Check Fund Transfer Status
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.GetSBTechReportSportsBook(SBTech.Api.src.models.parameters.SBTechGetSBTechReportSportsBookParameter)">
+            <summary>
+            <returns>
+            This API is used to Get SBTECH SportsBook BetlogDetails 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.GetLiveCasinoReport(SBTech.Api.src.models.parameters.SBTechGetLiveCasinoReportsParameter)">
+            <summary>
+            <returns>
+            This API is used to Get SBTECH LIVECASINO BetlogDetails 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SBTechController.GetSlotReport(SBTech.Api.src.models.parameters.SBTechGetSlotReportParameter)">
+            <summary>
+            <returns>
+            This API is used to Get SBTECH Slots BetlogDetails 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.HGController.PlayerLogin(HG.Api.src.models.parameters.HGLoginParameter)">
+            <summary>
+            <returns>
+            This API is used to Login Player to HG to get session ID
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.HGController.OpenGameLobby(HG.Api.src.models.parameters.HGOpenGameLobbyParameter)">
+            <summary>
+            <returns>
+            This API is used to Open Game Lobby
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.HGController.OpenGameLobbyMobile(HG.Api.src.models.parameters.HGOpenGameLobbyMobileParameter)">
+            <summary>
+            <returns>
+            This API is used to Open Game Lobby Mobile
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.HGController.GetBalance">
+            <summary>
+            <returns>
+            This API is used to Get Player Balance
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.HGController.FundTransfer">
+            <summary>
+            <returns>
+            This API is used to Transfer Fund
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.HGController.GetAllbetdetails(HG.Api.src.models.parameters.HGGetLogDetailsParameter)">
+            <summary>
+            <returns>
+            This API is used to Get HG BetlogDetails
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.HGController.GetAllBetDetailsPerTimeInterval(HG.Api.src.models.parameters.HGGetLogDetailsPerTimeIntervalParameter)">
+            <summary>
+            <returns>
+            This API is used to Get HG BetlogDetails Per Time Interval
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BoomingGamesController.CreateSession(BoomingGames.Api.src.models.parameters.CreateSessionParameter)">
+            <summary>
+            <returns>
+            This API is used to Create Session
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BoomingGamesController.GameEvents(BoomingGames.Api.src.models.parameters.GameEventsParameter)">
+            <summary>
+            <returns>
+            This API is used to Get Bet and Result
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BoomingGamesController.GameEvents2(BoomingGames.Api.src.models.parameters.GameEventsParameter)">
+            <summary>
+            <returns>
+            This API is used to Get Bet and Result - Rollback Callback purpose
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BoomingGamesController.TerminateSession(BoomingGames.Api.src.models.parameters.TerminateSessionParameter)">
+            <summary>
+            <returns>
+            This API is used to Terminate Session Proactively
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BoomingGamesController.UpdateBalance(BoomingGames.Api.src.models.parameters.UpdateBalanceParameter)">
+            <summary>
+            <returns>
+            This API is used to Get Bet and Result
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AllBetController.VerifyToken(Allbet.Api.src.models.parameters.VerifyTokenAllParameter)">
+            <summary>
+            <returns>
+            This API is used to Verify Token
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AllBetController.GetBalance(Allbet.Api.src.models.parameters.GetBalanceAllParameter)">
+            <summary>
+            <returns>
+            This API is used to Get Balance
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AllBetController.Bet(Allbet.Api.src.models.parameters.BetAllParameter)">
+            <summary>
+            <returns>
+            This API is used to record Bets
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AllBetController.Settle(Allbet.Api.src.models.parameters.SettleAllParameter)">
+            <summary>
+            <returns>
+            This API is used to record Settle 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AllBetController.TokenForwardGame(Allbet.Api.src.models.parameters.TokenForwardGameParameter)">
+            <summary>
+            <returns>
+            This API is get Game URL from Game Platform 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AllBetController.CreateClient(Allbet.Api.src.models.parameters.CreateClientParameter)">
+            <summary>
+            <returns>
+            This API is Create client to Game Platform 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AllBetController.QueryHandicap">
+            <summary>
+            <returns>
+            This API is Query Handicap from Game Platform 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameManagerController.CheckOrCreateAccount">
+            <summary>
+            <returns>
+            Check or create player game account in Game Platforms
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameManagerController.GetGameUrl(blueberry.common.src.Criteria.GetGameUrlCriteria)">
+            <summary>        
+            Get Game Url redirection. >GamePlatform(0=GD, 1=AG, 2=OW, 3=PT, 4=BS, 5=BG, 6=TTG, 7=MG, 8=PRAGPLAY) for Game Type Code see game provider documentation
+            </summary>
+            <param name="criteria"></param>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameManagerController.ProcessLogs(blueberry.common.src.Criteria.ProcessGameLogCriteria)">
+            <summary>
+            <returns>
+            Check or create player game account in Game Platforms
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameManagerController.GetSportsBookUrl(blueberry.common.src.Criteria.GetGameUrlCriteria)">
+            <summary>        
+            Get Game Url redirection. >GamePlatform(0=GD, 1=AG, 2=OW)
+            </summary>
+            <param name="criteria">GamePlatform(0=GD, 1=AG, 2=OW)</param>        
+        </member>
+        <member name="M:blueberry.Controllers.Api.GameManagerController.GetGameForwardUrl(System.String)">
+            <summary>        
+            Get Game Forward Url redirection. This will be used to send game url request to client game integration service.
+            </summary>
+            <param name="criteria"></param>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OneWorksController.CheckUserBalance">
+            <summary>
+            <returns>
+            Check player wallet balances.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OneWorksController.TransferFund(blueberry.common.src.Criteria.OwFundTransferCriteria)">
+            <summary>
+            <returns>
+            Transcfer fund from your wallet to One Works Wallet.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OneWorksController.GetPlayerUrls">
+            <summary>
+            <returns>
+            Get Player Urls (Player Site, Live Casino, RNG Casino).
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.DaddyPayController.GetDaddyPayThirdPartyBank">
+            <summary>
+            <returns>
+            Get Third Party Banks
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.DaddyPayController.DaddyPayDepositTenPay(blueberry.common.src.Criteria.AmountCriteria)">
+            <summary>
+            <returns>
+            Deposit using TENPAY
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.DaddyPayController.DaddyPayDepositWeChat(blueberry.common.src.Criteria.AmountCriteria)">
+            <summary>
+            <returns>
+            Deposit using WECHAT
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.DaddyPayController.DaddyPayDepositThirdParty(blueberry.common.src.Criteria.DaddyPayThirdPartyDepositCriteria)">
+            <summary>
+            <returns>
+            Deposit using Third Party
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineDepositController.GetOnlineDepositThirdPartyBanks">
+            <summary>
+            <returns>
+            Get Third Party Banks
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineDepositController.GetOnlineDepositThirdPartyBanksByTransactionType(blueberry.core.src.Enums.BankTransactionType,System.Boolean)">
+            <summary>
+            <returns>
+            Get Third Party Banks By TransactionType
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineDepositController.DepositThirdPartyBank(blueberry.common.src.Criteria.OnlineDepositCriteria)">
+            <summary>
+            <returns>
+            Deposit using Third Party
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineDepositController.Deposit(blueberry.common.src.Criteria.WalletOnlineDepositCriteria)">
+            <summary>
+            <returns>
+            Ploutus Online Deposit API.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.OnlineDepositController.OnlineDepositCallback(blueberry.common.src.Criteria.v1.OnlineDepositCallbackUrlCriteria)">
+            <summary>
+            <returns>
+            Callback url for Ploutus - Online Deposit.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.DaddyPayReturn(System.String,blueberry.common.src.Criteria.DaddyPayCallBackCriteria)">
+            <summary>
+            <returns>
+            Callback url for daddy pay.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.SafePayCallback(blueberry.common.src.Criteria.SafePayCallbackCriteria)">
+            <summary>
+            <returns>
+            Callback url for safe pay.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.SDPayCallback(SDPay.Api.src.models.parameters.DepositResponseParameter)">
+            <summary>
+            <returns>
+            Callback url for SD pay.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloWeChatCallback(Paywalo.Api.src.models.parameters.PaywaloWechatPayCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo Wechat.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloLinePayCallback(Paywalo.Api.src.models.parameters.PaywaloLinePayCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo LINEPAY.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloOfflineCallback(Paywalo.Api.src.models.parameters.PaywaloOfflineCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo OFFLINE.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloOfflineWithdrawalCallback(Paywalo.Api.src.models.parameters.PaywaloOfflineWithdrawalCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo OFFLINE WITHDRAWAL.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloVenusPointCallback(Paywalo.Api.src.models.parameters.PaywaloVenusPointDepositCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo VENUS POINT DEPOSIT.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloVenusPointWithdrawalCallback(Paywalo.Api.src.models.parameters.PaywaloVenusPointWithdrawalCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo VENUS POINT WITHDRAWAL.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloOnlineDepositCallback(Paywalo.Api.src.models.parameters.PaywaloOnlineDepositCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo ONLINE DEPOSIT.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloOnlineWithdrawalCallback(Paywalo.Api.src.models.parameters.PaywaloOnlineWithdrawalCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo ONLINE WITHDRAWAL.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PaymentGatewayController.PaywaloChinaUnionPayCallback(Paywalo.Api.src.models.parameters.PaywaloChinaUnionPayCallbackParameter)">
+            <summary>
+            <returns>
+            Callback url for Paywalo CHINA UNION PAY.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.UpdateProfile(blueberry.common.src.Criteria.PlayerProfileCriteria)">
+            <summary>
+            <returns>
+            Update player profile, returns updated player profile.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.GetPlayerProfile(System.String)">
+            <summary>
+            <returns>
+            Get user's player profile.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.MyProfile">
+            <summary>
+            <returns>
+            Get user's player profile provided Token Key.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.PlayerNotifications">
+            <summary>
+            <returns>
+            Get player notifications.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.UpdatePlayerNotifications(blueberry.common.src.Criteria.UpdatePlayerNotificationsCriteria)">
+            <summary>
+            <returns>
+            Update player notifications.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.UpdatePlayerNotification(blueberry.common.src.Criteria.UpdatePlayerNotificationCriteria)">
+            <summary>
+            <returns>
+            Update player notification.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.CreateBankAccount(blueberry.common.src.Criteria.PlayerBankAccountNewCriteria)">
+            <summary>
+            <returns>
+            Create player bank account.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.UpdateBankAccount(blueberry.common.src.Criteria.PlayerBankAccountUpdateCriteria)">
+            <summary>
+            <returns>
+            Update player bank account.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.UpdatePlayerBankAccountFromRB(blueberry.common.src.Criteria.IdCriteria)">
+            <summary>
+            <returns>
+            Update player bank account from back office.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.GetBankAccount(System.Int64)">
+            <summary>
+            <returns>
+            Get bank account by id.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.UnlockAccount(blueberry.common.src.Criteria.UnlockAccountCriteria)">
+            <summary>
+            <returns>
+            Unlock user account.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.UpdateAccountStatus(blueberry.common.src.Criteria.UpdateAccountStatusCriteria)">
+            <summary>
+            <returns>
+            Update Player Account Status
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.GetPlayerCommonInfo">
+            <summary>
+            <returns>
+            Get player common account information
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.SendResetPasswordCode(blueberry.common.src.Criteria.SendResetPasswordCodeCriteria)">
+            <summary>
+            <returns>
+            Send reset password code
+            </returns>       
+            
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ResetPasswordByCode(blueberry.common.src.Criteria.ResetPasswordByCodeCriteria)">
+            <summary>
+            <returns>
+            Reset password code
+            </returns>       
+            
+            </summary>
+            <returns></returns>                
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ResetPasswordByCodeV1(blueberry.common.src.Criteria.ResetPasswordByCodeCriteria)">
+            <summary>
+            <returns>
+            Reset password code
+            </returns>       
+            
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ResetPasswordByCodeSecutiryAnswer(blueberry.common.src.Criteria.ResetPasswordByCodeSecutiryAnswerCriteria)">
+            <summary>
+            <returns>
+            Reset password code and security answer.
+            </returns>       
+            
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.SendEmailResetCode(blueberry.common.src.Criteria.SendResetEmailCodeCriteria)">
+            <summary>
+            <returns>
+            Send reset email code
+            </returns>       
+            
+            </summary>
+            <returns></returns>       
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.SendMobileResetCode(blueberry.common.src.Criteria.SendResetMobileCodeCriteria)">
+            <summary>
+            <returns>
+            Send reset mobile code
+            </returns>       
+            
+            </summary>
+            <returns></returns>       
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ResetEmailByCode(blueberry.common.src.Criteria.ResetEmailByCodeCriteria)">
+            <summary>
+            <returns>
+            Reset email by code
+            </returns>       
+            
+            </summary>
+            <returns></returns>       
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ResetMobileByCode(blueberry.common.src.Criteria.ResetMobileByCodeCriteria)">
+            <summary>
+            <returns>
+            Reset mobile by code
+            </returns>       
+            
+            </summary>
+            <returns></returns>       
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.GetUserSecurityQuestion(blueberry.common.src.Criteria.UserCriteria)">
+            <summary>
+            <returns>
+            Get user security question
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.SendResetPasswordCodeWithSecurityQuestion(blueberry.common.src.Criteria.SendResetPasswordCodeWithSecurityAnswerCriteria)">
+            <summary>
+            <returns>
+            Reset mobile code
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.GetChangePasswordInfo(blueberry.common.src.Criteria.UserCriteria)">
+            <summary>
+            <returns>
+            Get user security question
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ResetPasswordFromBackOffice(blueberry.common.src.Criteria.SendResetPasswordCodeFromBackOfficeCriteria)">
+            <summary>
+            <returns>
+            Reset Password from Back Office
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.GenerateResetPasswordCodeFromBackOffice(blueberry.common.src.Criteria.SendResetPasswordCodeFromBackOfficeCriteria)">
+            <summary>
+            <returns>
+            Generate Reset Password Code From Back Office
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ValidateEmail(blueberry.common.src.Criteria.ValidateEmailCriteria)">
+            <summary>
+            <returns>
+            Validate Email API
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ValidateMobile(blueberry.common.src.Criteria.ValidateMobileCriteria)">
+            <summary>
+            <returns>
+            Validate Mobile API
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ValidateSpecialCharacter(blueberry.common.src.Criteria.ValidateSpecialCharacterCriteria)">
+            <summary>
+            <returns>
+            Validate Special Character API
+            </returns>       
+            
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.GetSuggestedBonus">
+            <summary>
+            <returns>
+            Get suggested bonus/campaign
+            </returns>
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.HideSuggestedBonus(System.String)">
+            <summary>
+            <returns>
+            Hide suggested bonus
+            </returns>
+            </summary>
+            <returns></returns>               
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.SetPlayerAffiliateCode(blueberry.common.src.Criteria.SetPlayerAffiliateCriteria)">
+            <summary>
+            <returns>
+            Set Player Affiliate
+            </returns>
+            </summary>
+            <returns></returns>      
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.SetPlayerSignUpCode(blueberry.common.src.Criteria.SetPlayerSignUpCodeCriteria)">
+            <summary>
+            <returns>
+            Set Player SignUp Bonus Code
+            </returns>
+            </summary>
+            <returns></returns>      
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerAccountController.ResetPlayerPasswordByBackOfficeAdmin(System.String)">
+            <summary>
+            <returns>
+            Reset Player Password By Back Office Admin
+            </returns>
+            </summary>
+            <returns></returns>      
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetCountries">
+            <summary>
+            <returns>
+            Get list of country.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetCurrencies">
+            <summary>
+            <returns>
+            Get list of currency.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.CreateStateProvince(blueberry.common.src.Criteria.CreateStateProvinceCriteria)">
+            <summary>
+            <returns>
+            Create State/Province.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.UpdateStateProvince(blueberry.common.src.Criteria.UpdateStateProvinceCriteria)">
+            <summary>
+            <returns>
+            Update State/Province.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.DeleteStateProvince(System.Int64)">
+            <summary>
+            <returns>
+            Delete State/Province.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetStateProviceByCountry(System.String)">
+            <summary>
+            <returns>
+            Get State/Province by country.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetIMs">
+            <summary>
+            <returns>
+            Get list of Instant Messengers.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetSecurityQuestions">
+            <summary>
+            <returns>
+            Get list of security questions.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetSecurityQuestions(System.String)">
+            <summary>
+            <returns>
+            Get list of security questions.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetGamePlatforms">
+            <summary>
+            <returns>
+            Get list of security questions.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetGamePlatformProduct">
+            <summary>
+            <returns>
+            Get list of security questions.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetGamePlatformProductByTypeResultList(System.String)">
+            <summary>
+            <returns>
+            Get list of Game Types.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetGamePlatformProductList(blueberry.common.src.Criteria.GetGamePlatformProductCriteria)">
+            <summary>
+            <returns>
+            Get list of Game Types.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetCurrenciesForWebsite">
+            <summary>
+            <returns>
+            Get list of currency for Website.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetOnlineBankTypeList(System.String)">
+            <summary>
+            <returns>
+            Get Online BankType List filtered by supported currency. Use for Ploutus Consumption
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryCommonController.GetOnlineBankList(System.String,System.String,System.String)">
+            <summary>
+            <returns>
+            Get Online Banks List filtered by supported currency/banktype/transactiontype. Use for Ploutus Consumption
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.UpdatePlayerBetLimit(System.String)">
+            <summary>
+            <returns>
+            Update player bet limit levels in game providers
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.UpdatePlayerBetLimit(System.String,System.Int64)">
+            <summary>
+            <returns>
+            Update player bet limit level in player profile
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.IsUserExists(System.String)">
+            <summary>
+            <returns>
+            Check if username exists.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.Register(blueberry.common.src.Criteria.PlayerRegisterCriteria)">
+            <summary>
+            <returns>
+            Register a player.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.VerifyRegistration(blueberry.common.src.Criteria.VerifyRegistrationCriteria)">
+            <summary>
+            <returns>
+            Verify/Activate player registration
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.NewRegister(blueberry.common.src.Criteria.PlayerRegisterCriteria)">
+            <summary>
+            <returns>
+            Register a player.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.RegisterFromBackOffice(blueberry.common.src.Criteria.PlayerRegisterFromBackOfficeCriteria)">
+            <summary>
+            <returns>
+            Register player from back office.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+            
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.NewVerifyRegistration(blueberry.common.src.Criteria.VerifyRegistrationCriteria)">
+            <summary>
+            <returns>
+            Verify/Activate player registration
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.VerifyRegistrationByBackOffice(blueberry.common.src.Criteria.VerifyRegistrationByBackOfficeCriteria)">
+            <summary>
+            <returns>
+            Verify/Activate player registration from back office
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.VerifyRegistrationByBackOfficeV1(blueberry.common.src.Criteria.VerifyRegistrationByBackOfficeCriteria)">
+            <summary>
+            <returns>
+            Verify/Activate player registration from back office
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.GetActivationCode(System.String)">
+            <summary>
+            <returns>
+            Get the activation code of the player.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.SendVerificationCode">
+            <summary>
+            <returns>
+            Get the activation code of the player.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.SendVerificationCodeToMobileNumber(blueberry.common.src.Criteria.SendVerificationCodeCriteria)">
+            <summary>
+            <returns>
+            Get the activation code of the player providing player mobile number.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.SaveUpdatePlayerFromRB(blueberry.common.src.Criteria.RollbaseIdCriteria)">
+            <summary>
+            <returns>
+            Update Player Details from RB
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.UpdatePlayerDetailsFromBackOffice(blueberry.common.src.Criteria.v1.UpdatePlayerDetailsFromBackOfficeCriteria)">
+            <summary>
+            <returns>
+            Update Player Details from RB
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.CreateHouseAndTestPlayerFromRB(blueberry.common.src.Criteria.RollbaseIdCriteria)">
+            <summary>
+            <returns>
+            Create House and Test Player from blueberry
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.PullCreatedPlayerDetailsToRB(blueberry.common.src.Criteria.RollbaseIdCriteria)">
+            <summary>
+            <returns>
+            Create House and Test Player from blueberry
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlayerController.EnableCreateHouseAndTestPlayerFromRB(blueberry.common.src.Criteria.RollbaseIdCriteria)">
+            <summary>
+            <returns>
+            Enable created House and Test Player from blueberry : this will verify the created registration from back office
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.GetGuestGameUrl(BetSoft.Api.src.models.parameters.BSGuestPlayerParameter)">
+            <summary>
+            <returns>
+            This API gets the Guest Player game URL
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.GetAuthorizedPlayerGameUrl(BetSoft.Api.src.models.parameters.BSAuthorizedPlayerParameter)">
+            <summary>
+            <returns>
+            This API gets the Authorized Player game URL
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.Authenticate(BetSoft.Api.src.models.parameters.BSGenericParameter)">
+            <summary>
+            <returns>
+            This API is used to authorize USER by Token. This method is called on stating the game/bonus for the authorized player
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.BetResult(BetSoft.Api.src.models.parameters.BSBetParameter)">
+            <summary>
+            <returns>
+            This API is used to post transaction Bet and Result from BSG to EC
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.RefundBet(BetSoft.Api.src.models.parameters.BSRefundBetParameter)">
+            <summary>
+            <returns>
+            This API is used to post Refund Bet from BSG to EC
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.GetBalance(BetSoft.Api.src.models.parameters.BSGetBalanceParameter)">
+            <summary>
+            <returns>
+            This API is used to get balance from EC to BSG
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.GetAccountInfo(BetSoft.Api.src.models.parameters.BSGetAccountInfoParameter)">
+            <summary>
+            <returns>
+            This API is used to get Accont Info from EC to BSG
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.BonusRelease(BetSoft.Api.src.models.parameters.BSBonusReleaseParameter)">
+            <summary>
+            <returns>
+            This API is used to release bonus to palyer's cash balance as per request from BSG
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BetSoftController.BonusWin(BetSoft.Api.src.models.parameters.BSBonusWinParameter)">
+            <summary>
+            <returns>
+            BSG sends request to EC to each win obtained during FRB game session. Wins should be added to player's cash balance.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.PTCreatePlayer(Playtech.Api.src.models.parameters.PTCreatePlayerParameter)">
+            <summary>
+            <returns>
+            Register Player to Playtech
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.CheckPlayerIfExists(System.String)">
+            <summary>
+            <returns>
+            Check if Player already Exist to Playtech
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.PlaytechGetPlayerURLs">
+            <summary>
+            <returns>
+            Get Playtech Game URLs
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.KeryxGameURL(Playtech.Api.src.models.parameters.PTKeryxGameApiParameter)">
+            <summary>
+            <returns>
+            Playtech Game Launch url for Games OS and username and password for playtech games
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.AuthenticatePlayer(Playtech.Api.src.models.parameters.PTAuthenticatePlayerParameter)">
+            <summary>
+            <returns>
+            This API authenticates the player's password. This API can be used in Merchant's cashier site.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.ResetPassword(Playtech.Api.src.models.parameters.PTSetPasswordParameter)">
+            <summary>
+            <returns>
+            This API can be used for setting new password of player
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.KillSession(Playtech.Api.src.models.parameters.PTKillSessionParameter)">
+            <summary>
+            <returns>
+            This API kills the current session of a player. when there is an active user session on the game server for some reasons(multiple login from different IP). this api is used to kill the session before launching the game.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.ChipTransfer(Playtech.Api.src.models.parameters.PTChipTransferParameter)">
+            <summary>
+            <returns>
+            This API performs fund in(Deposit) and fund out (withdrawal). indicate negative amount (eg.-100 )for fund out transaction
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.CheckTransfer(Playtech.Api.src.models.parameters.PTCheckTransferParameter)">
+            <summary>
+            <returns>
+            This API performs fund in(Deposit) and fund out (withdrawal). indicate negative amount (eg.-100 )for fund out transaction
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.GetPlayerCurrentBalance(Playtech.Api.src.models.parameters.PTGetPlayerCurrentBalanceParameter)">
+            <summary>
+            <returns>
+            This API returns the current balance of a player in Playtech 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.GetJackpot(Playtech.Api.src.models.parameters.PTGetJackpotParameter)">
+            <summary>
+            <returns>
+            It returns the jackpot ticker based on currency
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.GetBetLog(Playtech.Api.src.models.parameters.PTGetBetLogParameter)">
+            <summary>
+            <returns>
+            gets the Bet history records - Cron
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.GetBetLogByDay(Playtech.Api.src.models.parameters.PTGetBetLogByDayParameter)">
+            <summary>
+            <returns>
+            gets the Bet History records by Specific Date
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.ProcessBetLog">
+            <summary>
+            <returns>
+            gets the Bet History records by Specific Date
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.GetBetSummary(System.DateTime)">
+            <summary>
+            <returns>
+            It gets the Player's history records; 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.PlaytechController.StartPlay(Playtech.Api.src.models.parameters.PTStartPlayParameter)">
+            <summary>
+            <returns>
+            Player Game Proper
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.AgentController.CreateAgent(blueberry.common.src.Criteria.CreateAgentCriteria)">
+            <summary>
+            <returns>
+            Create Agent.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SafePayController.GetThirdPartyBank">
+            <summary>
+            <returns>
+            Get Safe Pay Banks
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.SafePayController.DepositThirdPartyBank(blueberry.common.src.Criteria.SafePayOnlineDepositCriteria)">
+            <summary>
+            <returns>
+            Deposit using Third Party
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.UsersLoginStatus(System.Collections.Generic.IList{System.String})">
+            <summary>
+            <returns>
+            Kick Player
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.Create(blueberry.common.src.Criteria.CreateUserCriteria)">
+            <summary>
+            <returns>
+            Kick Player
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.ConnectedUsers">
+            <summary>
+            <returns>
+            Kick Player
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.KickPlayer(System.String)">
+            <summary>
+            <returns>
+            Kick Player
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.NotifyPlayer(blueberry.common.src.Criteria.MessageCriteria)">
+            <summary>
+            <returns>
+            Kick Player
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.Login(blueberry.common.src.Criteria.LoginCriteria)">
+            <summary>
+            <returns>
+            Login a user to get authority token that will be used to authorized request from secured api.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.LoginAsync(blueberry.common.src.Criteria.LoginCriteria)">
+            <summary>
+            <returns>
+            Login a user to get authority token that will be used to authorized request from secured api.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.DownloadClientLogin(blueberry.common.src.Criteria.LoginCriteria)">
+            <summary>
+            <returns>
+            Login a user to get authority token that will be used to authorized request from secured api.(for Download Client use)
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.ShopLogin(blueberry.common.src.Criteria.LoginCriteria)">
+            <summary>
+            <returns>
+            Login a user to get authority token that will be used to authorized request from secured api.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.LogOut(blueberry.common.src.Criteria.LogOutApiCriteria)">
+            <summary>
+            <returns>
+            Logout user and invalidate the authority token, this will invalidate all user using the authority token in case the authority token is compromised.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.LogOutAuthenticated">
+            <summary>
+            <returns>
+            Logout authenticated user and invalidate the authority token, this will invalidate all user using the authority token in case the authority token is compromised.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.ChangePassword(blueberry.common.src.Criteria.ChangePasswordCriteria)">
+            <summary>
+            <returns>
+            Change user's password(this has not yet implemented).
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.ForceLogOut(blueberry.common.src.Criteria.ForceLogOutApiCriteria)">
+            <summary>
+            <returns>
+            Logout user and invalidate the authority token, this will be performed when Back Office for some reason LOCKED user Account
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryUtilityController.CreateProfileBatch">
+            <summary>
+            <returns>
+            Create Profile for Registered Players with Pending Status.
+            NOTE : It is recommended to Execute this during System Maintenance
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryUtilityController.CreateWalletBatch">
+            <summary>
+            <returns>
+            Create Wallet for Registered Players with Pending Status.
+            NOTE : It is recommended to Execute this during System Maintenance
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryUtilityController.UpdatePlayerInformationToRBBatch">
+            <summary>
+            <returns>
+            Update Player Information to RB 
+            NOTE : It is recommended to Execute this during System Maintenance
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BlueberryUtilityController.PushWalletToRBBatch">
+            <summary>
+            <returns>
+            Create Wallet By Batch to RB.
+            NOTE : It is recommended to Execute this during System Maintenance
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetBalance">
+            <summary>
+            <returns>
+            Get wallet balance.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetWallet">
+            <summary>
+            <returns>
+            Get wallet balance.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.Deposit(blueberry.common.src.Criteria.WalletDepositCriteria)">
+            <summary>
+            <returns>
+            Deposit money to your wallet.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.DepositFromCS(blueberry.common.src.Criteria.WalletDepositFromCSCriteria)">
+            <summary>
+            <returns>
+            Deposit money to your wallet.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.UpdateDepositStatus(blueberry.common.src.Criteria.WalletUpdateStatusDepositCriteria)">
+            <summary>
+            <returns>
+            Update player deposit (Confirmed, Pending, Approved, Cancelled).
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.UpdateDepositStatusV1(blueberry.common.src.Criteria.WalletUpdateStatusDepositCriteria)">
+            <summary>
+            <returns>
+            Update player deposit (Confirmed, Pending, Approved, Cancelled). v1
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.UpdateDepositStatusByUser(blueberry.common.src.Criteria.WalletUpdateStatusDepositByUserCriteria)">
+            <summary>
+            <returns>
+            Update player deposit Status(Confirmed).
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CancelDeposit(blueberry.common.src.Criteria.WalletCancelDepositCriteria)">
+            <summary>
+            <returns>
+            Cancel player deposit.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CancelDepositV1(blueberry.common.src.Criteria.WalletCancelDepositCriteria)">
+            <summary>
+            <returns>
+            Cancel player deposit. Version1
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.ReserveUDA(blueberry.common.src.Criteria.ReserveUDACriteria)">
+            <summary>
+            <returns>
+            Reserve UDA.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetPaymentMethods">
+            <summary>
+            <returns>
+            Get payment method, requestor must be a player and authenticated.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetPaymentMethodsByCurrency(System.String)">
+            <summary>
+            <returns>
+            Get payment method, requestor must be a player and authenticated.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetPaymentMethodsByCountry(System.String)">
+            <summary>
+            <returns>
+            Get payment methods , requestor must be a player and authenticated.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetBankAccount(System.Int64)">
+            <summary>
+            <returns>
+            Get bank account detail by payment method for payments, requestor must be a player and authenticated.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetBankAccountByCurrency(System.Int64,System.String)">
+            <summary>
+            <returns>
+            Get bank account detail by currency and payment method for payments, requestor must be a player and authenticated.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetSuggestedBankAccount(System.Int64,System.Int64)">
+            <summary>
+            <returns>
+            Get Suggested Bank Account details by Payment method, bank Id for deposit purposes, requestor must be a player and authenticated.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetSuggestedBankAccountByCurrency(System.Int64,System.Int64,System.String)">
+            <summary>
+            <returns>
+            Get Suggested Bank Account details by Payment method, bank Id and currency  for deposit purposes, requestor must be a player and authenticated.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.WithdrawFromCS(blueberry.common.src.Criteria.WalletWithdrawalFromCSCriteria)">
+            <summary>
+            <returns>
+            Withdraw amount from your wallet.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.Withdraw(blueberry.common.src.Criteria.WalletWithdrawalCriteria)">
+            <summary>
+            <returns>
+            Withdraw amount from your wallet.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.WithdrawV1(blueberry.common.src.Criteria.WalletWithdrawalCriteria)">
+            <summary>
+            <returns>
+            Withdraw amount from your wallet. Version 1
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.UpdateWithdrawalStatus(blueberry.common.src.Criteria.WalletUpdateStatusWithdrawalCriteria)">
+            <summary>
+            <returns>
+            Withdraw amount from your wallet.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.UpdateWithdrawalStatusV1(blueberry.common.src.Criteria.WalletUpdateStatusWithdrawalCriteria)">
+            <summary>
+            <returns>
+            Withdraw amount from your wallet. Version 1
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CreateWalletWin(blueberry.common.src.Criteria.WalletWinLossCriteria)">
+            <summary>
+            <returns>
+            Create win record.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CreateWalletLoss(blueberry.common.src.Criteria.WalletWinLossCriteria)">
+            <summary>
+            <returns>
+            Create win record.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CreateCreditMemo(blueberry.common.src.Criteria.WalletAdjustmentMemoCriteria)">
+            <summary>
+            <returns>
+            Create Credit Memo record.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CreateDebitMemo(blueberry.common.src.Criteria.WalletAdjustmentMemoCriteria)">
+            <summary>
+            <returns>
+            Create Debit Memo record.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CreditMemo(blueberry.common.src.Criteria.v1.CreditMemoCriteria)">
+            <summary>
+            <returns>
+            Create Credit Memo record. Version 1
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.DebitMemo(blueberry.common.src.Criteria.v1.DebitMemoCriteria)">
+            <summary>
+            <returns>
+            Create Debit Memo record. Version 1
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.AdjustmentUpdateStatus(blueberry.common.src.Criteria.v1.AdjustmentUpdateStatusCriteria)">
+            <summary>
+            <returns>
+            Update Wallet Adjustment Status. Version 1
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.CreateFundTransferMemo(blueberry.common.src.Criteria.WalletAdjustmentMemoCriteria)">
+            <summary>
+            <returns>
+            Create Fund Transfer Memo record.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetBanks">
+            <summary>
+            <returns>
+            Get bank list.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetBanksByType(blueberry.core.src.Enums.BankTransactionType)">
+            <summary>
+            <returns>
+            Get bank list by Transaction Type.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.BanksByTypeWithBankAccount(blueberry.core.src.Enums.BankTransactionType)">
+            <summary>
+            <returns>
+            Get all banks with bankaccounts by Transaction Type. 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetOfflineDepositBanks">
+            <summary>
+            <returns>
+            Get banks for OFF-Line deposit list.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetOfflineDepositBanksByType(blueberry.core.src.Enums.BankTransactionType)">
+            <summary>
+            <returns>
+            Get banks by Type for OFF-Line deposit list.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetPlayerPaymentLimit">
+            <summary>
+            <returns>
+            Get Player payment limit, withdraw, deposit, Total active Deposit/Withdrawal for the day.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.GetTransactionHistory(blueberry.common.src.Criteria.TransactionHistoryCriteria)">
+            <summary>
+            <returns>
+            Get Player transaction histort. For withdrawal/CM/DM set PaymentMethod to 0
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.UpdateWalletNotifications(blueberry.common.src.Criteria.UpdateWalletNotificationCriteria)">
+            <summary>
+            <returns>
+            Update Wallet notifications.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.AdjustDeposit(blueberry.common.src.Criteria.AdjustDepositCriteria)">
+            <summary>
+            <returns>
+            Adjust deposit Actual Deposit Amount and Bonus with wagering requirement recomputation
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.FulfillDepositWagering(blueberry.common.src.Criteria.IdCriteria)">
+            <summary>
+            <returns>
+            Fulfill deposit wagering.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.AdjustDepositV1(blueberry.common.src.Criteria.AdjustDepositCriteriaV1)">
+            <summary>
+            <returns>
+            Adjust deposit Actual Deposit Amount and Bonus with wagering requirement recomputation
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.FulfillDepositWageringV1(blueberry.common.src.Criteria.IdCriteria)">
+            <summary>
+            <returns>
+            Fulfill deposit wagering.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.WalletController.Grab(blueberry.common.src.Criteria.GrabCriteria)">
+            <summary>
+            <returns>
+            Deposit and Withdrawal Grab/Ungrab
+            </returns>       
+            
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GDGetLoginURL(System.String,System.String,System.String)">
+            <summary>
+            <returns>
+            Get Goldeluxe Login URL by username, language and currency
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GDGetLoginURL(System.String)">
+            <summary>
+            <returns>
+            Get Goldeluxe Login URL by user token id
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GDGetLoginURL2">
+            <summary>
+            <returns>
+            Get Goldeluxe Login URL
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GetPlayerUrls(System.String)">
+            <summary>
+            <returns>
+            Get Goldeluxe Login URL(Live Dealer, RNG, Lobby, European Dealer)
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GDGetPlayerBets">
+            <summary>
+            <returns>
+            Get Player Bets by user id(this is the bets created through debit transaction using SOAP api)
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GetGDBetHistoryCasino(System.DateTime)">
+            <summary>
+            <returns>
+            Get All Bet History directly from GD Game platform
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GetGDBetHistoryCasino(System.String,System.DateTime)">
+            <summary>
+            <returns>
+            Get Per Player Bet History directly from GD Game platform
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GetGDBetHistoryRNG(System.DateTime)">
+            <summary>
+            <returns>
+            Get RNG Bet History directly from GD Game platform 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GetGDBetHistoryRNG(System.String,System.DateTime)">
+            <summary>
+            <returns>
+            Get RNG Bet History per Player directly from GD Game platform 
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GDCreateMember(System.String,System.String)">
+            <summary>
+            <returns>
+            Register Player to GD
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.GDController.GDLogoutPlayer(System.String)">
+            <summary>
+            <returns>
+            Logout Player from GD
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.Select(blueberry.common.src.Criteria.RollbaseSelectCriteria)">
+            <summary>
+            <returns>
+            Select record(s) from rollbase.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.Save(blueberry.common.src.Criteria.RollbaseSaveCriteria)">
+            <summary>
+            <returns>
+            Save record to rollbase.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.Update(blueberry.common.src.Criteria.RollbaseUpdateCriteria)">
+            <summary>
+            <returns>
+            Update record in rollbase.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.Delete(blueberry.common.src.Criteria.RollbaseDeleteCriteria)">
+            <summary>
+            <returns>
+            Delete a record in rollbase.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshIMPlatforms">
+            <summary>
+            <returns>
+            Sync Instant messenger records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshBanks">
+            <summary>
+            <returns>
+            Sync bank records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshBankAccounts">
+            <summary>
+            <returns>
+            Sync bank records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshFraudRiskLevel">
+            <summary>
+            <returns>
+            Sync fraud risk records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshUDAR">
+            <summary>
+            <returns>
+            Sync unique deposit amount rule records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshPaymentRiskLevel">
+            <summary>
+            <returns>
+            Sync payment risk level records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshPaymentMethod">
+            <summary>
+            <returns>
+            Sync payment method records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshSecurityQuestion">
+            <summary>
+            <returns>
+            Sync security question records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshVipLevel">
+            <summary>
+            <returns>
+            Sync vip level records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshCountry">
+            <summary>
+            <returns>
+            Sync Country records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshStateProvince">
+            <summary>
+            <returns>
+            Sync State/Province records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshGamePlatforms">
+            <summary>
+            <returns>
+            Sync Game Platform records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshGamePlatformProducts(System.String)">
+            <summary>
+            <returns>
+            Sync Game Platform game records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshGamePlatformProductNoImage(System.String)">
+            <summary>
+            <returns>
+            Sync Game Platform game records labels/descriptions only.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshBrand">
+            <summary>
+            <returns>
+            Sync Brand records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshBonus">
+            <summary>
+            <returns>
+            Sync Bonus records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshBandWords">
+            <summary>
+            <returns>
+            Sync Band Words records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshNotification">
+            <summary>
+            <returns>
+            Sync notification setup.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshCampaignDetailLevel">
+            <summary>
+            <returns>
+            Sync CampaignDetailLevel setup.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshCampaignDetail(System.Int64)">
+            <summary>
+            <returns>
+            Sync CampaignDetail setup.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RemoveGetAllReferences">
+            <summary>
+            <returns>
+            Remove existing references and get all from Rollbase records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshWithdrawalLevels">
+            <summary>
+            <returns>
+            Sync withdrawal levels
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshAffiliates">
+            <summary>
+            <returns>
+            Sync Affiliate
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshOnlineBank">
+            <summary>
+            <returns>
+            Sync Online Bank(Payment Gateway Banks)
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshAllReferences">
+            <summary>
+            <returns>
+            Sync all references records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.SaveCreateGamePlatformOAuthCredential(blueberry.common.src.Criteria.GamePlatformOAuthCredentialCriteria)">
+            <summary>
+            <returns>
+            Sync all references records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.CreateUpdateGameBetLimitLevel(blueberry.common.src.Criteria.GameBetLimitLevelCriteria)">
+            <summary>
+            <returns>
+            Create/Update Game Bet Limit
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.CreateUpdateGameBetLimitSetting(blueberry.common.src.Criteria.GameBetLimitLevelSettingCriteria)">
+            <summary>
+            <returns>
+            Create/Update Game Bet Limit Setting
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshPlayerProviderLocking(blueberry.common.src.Criteria.PlayerProviderLockingCriteria)">
+            <summary>
+            <returns>
+            Sync PlayerProvider Locking()
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshRebates">
+            <summary>
+            <returns>
+            Sync Rebates records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshRebateDetails">
+            <summary>
+            <returns>
+            Sync Rebate Detail records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshCurrency">
+            <summary>
+            <returns>
+            Sync Currency records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshGamePlatformSupportedCurrency">
+            <summary>
+            <returns>
+            Sync GamePlatform Supported Currency records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshLanguage">
+            <summary>
+            <returns>
+            Sync Language records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshGamePlatformSupportedLanguage">
+            <summary>
+            <returns>
+            Sync GamePlatform Supported Language records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshBrandMarket">
+            <summary>
+            <returns>
+            Sync BrandMarket records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.RollbaseController.RefreshBrandMarketEmailNotificationSetup">
+            <summary>
+            <returns>
+            Sync BrandMarket records.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

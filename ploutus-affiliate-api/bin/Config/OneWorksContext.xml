@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+  <object name="OneWorksApiAbstractService" type="OneWorks.Api.src.Implementations.AbstractService" abstract="true">
+    <!--
+    Production Config
+    -->
+    <property name="OneWorksApiUrl" value="http://api.prod.ib.gsoft88.net/api/"/>
+    <property name="OperatorCode" value="ORN88CN"/>
+    <property name="OperatorPrivateKey" value="Fsd3f56y"/>
+
+
+    <!--
+    Sandbox Config
+    
+    <property name="OneWorksApiUrl" value="http://api.mid.ib.gsoft88.net/api/"/>
+    <property name="OperatorCode" value="ORG88"/>
+    <property name="OperatorPrivateKey" value="Q1w2e3r4"/>
+    -->
+
+    <property name="ConnectionTimeout" value="120000"/>
+    <property name="WebRequestUtils" ref="WebRequestUtils"/>
+  </object>
+
+
+  <object id="OneWorksService" type="OneWorks.Api.src.Implementations.OneWorksService, OneWorks.Api" parent="OneWorksApiAbstractService">
+    <!--Production Config-->
+    <property name="PlayerSiteUrl" value="http://mkt.ib.beachheadsolutionsinc.com/Deposit_ProcessLogin.aspx"/>
+    <property name="SportsBookMobileUrl" value="http://ismart.ib.gsoft88.net/Deposit_ProcessLogin.aspx"/>
+    <property name="LiveCasinoUrl" value="http://mkt.ib.beachheadsolutionsinc.com/Deposit_ProcessLogin.aspx"/>
+    <property name="RngCasinoUrl" value="http://mkt.ib.beachheadsolutionsinc.com/Deposit_ProcessLogin.aspx"/>
+    <property name="SportsBookUrl" value="http://mkt.ib.beachheadsolutionsinc.com"/>    
+  </object>
+  
+
+
+  <object id="OneWorksLogManager" type="OneWorks.Api.src.Implementations.OneWorksLogManager, OneWorks.Api" parent="OneWorksApiAbstractService">
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="OWCasinoBetLogService" ref="OWCasinoBetLogService"/>
+    <property name="OWSportsBetLogService" ref="OWSportsBetLogService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>    
+  </object>
+  
+  
+
+</objects>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx">
+
+
+
+  <object id="SystemUserManager" type="blueberry.security.manager.src.Implementations.SystemUserManager, blueberry.security.manager">
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+  </object>
+
+
+  <object id="SecurityTokenStoreManager" name="SecurityTokenStoreManager" type="blueberry.security.manager.src.Implementations.SecurityTokenStoreManager, blueberry.security.manager">
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="MerchantService" ref="MerchantService"/>
+    <property name="HubConnectionService" ref="HubConnectionService"/>
+  </object>
+
+
+  <object id="UserSecurityService" type="blueberry.security.manager.src.Implementations.UserSecurityService, blueberry.security.manager">
+  </object>
+
+  <!--<object id="ApplicationOAuthProvider" type="blueberry.security.manager.src.Provider.ApplicationOAuthProvider, blueberry.security.manager">
+    <property name="MerchantService" ref="MerchantService"/>    
+  </object>-->
+
+
+  <tx:attribute-driven/>
+
+</objects>

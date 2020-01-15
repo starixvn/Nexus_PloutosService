@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+
+  <object name="AbstractApiController" type="blueberry.Controllers.Api.AbstractApiController" abstract="true">
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PushDataService" ref="PushDataService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+  </object>
+
+  <object id="ApplicationAuthenticationHandler" type="blueberry.Api.Authentication.ApplicationAuthenticationHandler, blueberry">
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+  </object>
+
+  <object type="blueberry.Controllers.Api.RollbaseController" parent="AbstractApiController" singleton="false">
+    <property name="RollbaseManager" ref="RollbaseManager"></property>
+  </object>
+
+  <object id="UserController" name="UserController" type="blueberry.Controllers.Api.Controllers.UserController" parent="AbstractApiController" singleton="false">
+    <property name="UserSecurityManager" ref="UserSecurityManager"/>
+    <property name="GameWalletBalanceManager" ref="GameWalletBalanceManager"/>
+    <property name="PTPlayerService" ref="PTPlayerService"/>
+    <!--<property name="UserManager" ref="UserManager"/>-->    
+  </object>
+
+  <object id="PlayerController" name="PlayerController" type="blueberry.Controllers.Api.PlayerController" parent="AbstractApiController" singleton="false">
+    <property name="PlayerRegisterManager" ref="PlayerRegisterManager"/>
+    <property name="GameBetLimitManager" ref="GameBetLimitManager"/>
+  </object>
+
+  <object id="PlayerAccountController" name="PlayerAccountController" type="blueberry.Controllers.Api.PlayerAccountController" parent="AbstractApiController" singleton="false">
+    <property name="AccountManager" ref="AccountManager"/>
+    <property name="PlayerSugestedBonusService" ref="PlayerSugestedBonusService"/>
+  </object>
+
+  <object id="BlueberryCommonController" name="BlueberryCommonController" type="blueberry.Controllers.Api.BlueberryCommonController" parent="AbstractApiController" singleton="false">
+    <property name="BlueberryCommonManager" ref="BlueberryCommonManager"></property>
+  </object>
+
+  <object id="WalletController" name="WalletController" type="blueberry.Controllers.Api.WalletController" parent="AbstractApiController" singleton="false">
+    <property name="WalletApiManager" ref="WalletApiManager"></property>
+    <property name="WalletService" ref="WalletService"></property>    
+  </object>
+
+  <object id="OneWorksApiController" name="OneWorksApiController" type="blueberry.Controllers.Api.OneWorksController" parent="AbstractApiController" singleton="false">
+    <property name="OneWorksManager" ref="OneWorksManager"></property>
+  </object>
+
+  <object id="GDController" type="blueberry.Controllers.Api.GDController" parent="AbstractApiController" singleton="false">
+    <property name="GDGameManager" ref="GDGameManager"></property>
+  </object>
+
+  <object id="GameManagerController" type="blueberry.Controllers.Api.GameManagerController" parent="AbstractApiController" singleton="false">
+    <property name="GameManager" ref="GameManager"></property>
+    <property name="BrandService" ref="BrandService"></property>
+  </object>
+
+  <object id="PlaytechController" type="blueberry.Controllers.Api.PlaytechController" parent="AbstractApiController" singleton="false">
+    <property name="PTPlayerService" ref="PTPlayerService"></property>
+    <property name="PTGameService" ref="PTGameService"></property>
+    <property name="PTLogManager" ref="PTLogManager"></property>
+  </object>
+
+  <object id="BetSoftController" type="blueberry.Controllers.Api.BetSoftController" parent="AbstractApiController" singleton="false">
+    <property name="BSGameService" ref="BSGameService"></property>
+  </object>
+
+  <object id="PaymentGatewayController" type="blueberry.Controllers.Api.PaymentGatewayController" parent="AbstractApiController" singleton="false">
+    <property name="PaymentGatewayApiManager" ref="PaymentGatewayApiManager"/>
+    <property name="SystemUserManager" ref="SystemUserManager"/>
+  </object>
+
+  <object id="DaddyPayController" type="blueberry.Controllers.Api.DaddyPayController" parent="AbstractApiController" singleton="false">
+    <property name="PaymentGatewayApiManager" ref="PaymentGatewayApiManager"/>
+  </object>
+
+  <object id="AgentController" type="blueberry.Controllers.Api.AgentController" parent="AbstractApiController" singleton="false">
+    <property name="AgentManager" ref="AgentManager"/>
+  </object>
+
+  <object id="SafePayController" type="blueberry.Controllers.Api.SafePayController" parent="AbstractApiController" singleton="false">
+    <property name="PaymentGatewayApiManager" ref="PaymentGatewayApiManager"/>
+  </object>
+
+  <object id="OnlineDepositController" type="blueberry.Controllers.Api.OnlineDepositController" parent="AbstractApiController" singleton="false">
+    <property name="PaymentGatewayApiManager" ref="PaymentGatewayApiManager"/>
+    <property name="WalletApiManager" ref="WalletApiManager"/>
+    <property name="PloutusClientManager" ref="PloutusClientManager"/>
+    <property name="BrandService" ref="BrandService"/>    
+  </object>
+
+  <object id="AllBetController" type="blueberry.Controllers.Api.AllBetController" parent="AbstractApiController" singleton="false">
+    <property name="AllBetGameService" ref="AllBetGameService"/>
+  </object>
+
+  <object id="BoomingGamesController" type="blueberry.Controllers.Api.BoomingGamesController" parent="AbstractApiController" singleton="false">
+    <property name="BGGameService" ref="BGGameService"/>
+  </object>
+
+  <object type="blueberry.Controllers.Api.TtgController" parent="AbstractApiController" singleton="false">
+    <property name="TopTrendService" ref="TopTrendService"/>
+    <property name="WebUtils" ref="TTGWebUtils"/>
+  </object>
+
+  <object id="HGController" type="blueberry.Controllers.Api.HGController" parent="AbstractApiController" singleton="false">
+    <property name="HGGameService" ref="HGGameService"/>
+    <property name="HGLogService" ref="HGLogService"/>    
+  </object>
+
+  <object type="blueberry.Controllers.Api.TgpController" parent="AbstractApiController" singleton="false">
+    <property name="TgpPlayManager" ref="TgpPlayManager"/>    
+  </object>
+
+  <object id="SBTechController" type="blueberry.Controllers.Api.SBTechController" parent="AbstractApiController" singleton="false">
+    <property name="SBTechGameService" ref="SBTechGameService"/>
+    <property name="SBTechLogService" ref="SBTechLogService"/>
+  </object>
+
+  <object id="BlueberryUtilityController" type="blueberry.Controllers.Api.BlueberryUtilityController" parent="AbstractApiController" singleton="false">
+
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="FraudRiskLevelService" ref="FraudRiskLevelService"/>
+    <property name="WithdrawalLevelService" ref="WithdrawalLevelService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="RollbasePlayerRegistration" ref="RollbasePlayerRegistration"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="PushDataService" ref="PushDataService"/>
+    <property name="AffiliateCommissionService" ref="AffiliateCommissionService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+  </object>
+
+
+  <object id="SDPayController" type="blueberry.Controllers.Api.SDPayController" parent="AbstractApiController" singleton="false">
+    <property name="SDPayDepositManager" ref="SDPayDepositManager"/>
+  </object>
+
+  <object id="OfflineDepositController" type="blueberry.Controllers.Api.OfflineDepositController" parent="AbstractApiController" singleton="false">
+    <property name="OfflineWechatDepositManager" ref="OfflineWechatDepositManager"/>
+  </object>
+
+  <object id="PaywaloController" type="blueberry.Controllers.Api.PaywaloController" parent="AbstractApiController" singleton="false">
+    <property name="PaymentGatewayApiManager" ref="PaymentGatewayApiManager"/>
+  </object>
+
+  <object id="SetupController" type="blueberry.Controllers.Api.SetupController" parent="AbstractApiController" singleton="false">
+    <property name="TransactionSetupManager" ref="TransactionSetupManager"/>
+  </object>
+
+  <object id="PagcorController" type="blueberry.Controllers.Api.PagcorController" parent="AbstractApiController" singleton="false">
+    <property name="PagcorDataSendManager" ref="PagcorDataSendManager"/>
+  </object>
+
+  <object id="EmailTemplateController" type="blueberry.Controllers.Api.EmailTemplateController" parent="AbstractApiController" singleton="false">
+    <property name="EmailTemplateService" ref="EmailTemplateService"/>
+    <property name="MailInBlueService" ref="MailInBlueService"/>
+  </object>
+
+  <object id="PaymentGatewaySetupController" type="blueberry.Controllers.Api.PaymentGatewaySetupController" parent="AbstractApiController" singleton="false">
+    <property name="PaymentGatewayService" ref="PaymentGatewayService"/>
+  </object>
+
+  <object id="BrandController" type="blueberry.Controllers.Api.BrandController" parent="AbstractApiController" singleton="false">
+    <property name="BrandService" ref="BrandService"/>
+    <property name="MerchantService" ref="MerchantService"/>
+    <!--<property name="UserManager" ref="UserManager"/>-->
+  </object>
+
+  <object id="BetController" type="blueberry.Controllers.Api.BetController" parent="AbstractApiController" singleton="false">
+    <property name="BetlogManager" ref="BetlogManager"/>    
+  </object>
+
+  <object id="OnlineWithdrawalController" type="blueberry.Controllers.Api.OnlineWithdrawalController" parent="AbstractApiController" singleton="false">
+    <property name="PaymentGatewayApiManager" ref="PaymentGatewayApiManager"/>
+  </object>
+
+  <object id="EmailBlastController" type="blueberry.Controllers.Api.EmailBlastController" parent="AbstractApiController" singleton="false">
+    <property name="EmailTemplateService" ref="EmailTemplateService"/>
+    <property name="EmailBlastService" ref="EmailBlastService"/>
+    <property name="EmailBlastMonitoringService" ref="EmailBlastMonitoringService"/>
+    <property name="MailInBlueService" ref="MailInBlueService"/>
+  </object>
+
+  <object id="OnlineBankTypeController" type="blueberry.Controllers.Api.OnlineBankTypeController" parent="AbstractApiController" singleton="false">
+    <property name="OnlineBankTypeService" ref="OnlineBankTypeService"/>
+    <property name="BrandService" ref="BrandService"/>
+  </object>
+
+  <object id="OnlineBankController" type="blueberry.Controllers.Api.OnlineBankController" parent="AbstractApiController" singleton="false">
+    <property name="OnlineBankService" ref="OnlineBankService"/>
+    <property name="OnlineBankTypeService" ref="OnlineBankTypeService"/>
+    <property name="BrandService" ref="BrandService"/>
+  </object>
+
+  <object id="OnlineBankSupportedCurrencyController" type="blueberry.Controllers.Api.OnlineBankSupportedCurrencyController" parent="AbstractApiController" singleton="false">
+    <property name="OnlineBankService" ref="OnlineBankService"/>
+    <property name="OnlineBankSupportedCurrencyService" ref="OnlineBankSupportedCurrencyService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+  </object>
+
+  <object id="PlayerMessageController" type="blueberry.Controllers.Api.PlayerMessageController" parent="AbstractApiController" singleton="false">
+    <property name="PlayerMessageManager" ref="PlayerMessageManager"/>    
+  </object>
+
+  <object id="MessageController" type="blueberry.Controllers.Api.MessageController" parent="AbstractApiController" singleton="false">
+    <property name="MessageManager" ref="MessageManager"/>
+  </object>
+
+  <!--<object id="GamePlatformBetController" type="blueberry.Controllers.Api.GamePlatformBetController" parent="AbstractApiController" singleton="false">
+    <property name="GamePlatformBetlogManager" ref="GamePlatformBetlogManager"/>
+  </object>-->
+
+  <object id="GameOperatorController" type="blueberry.Controllers.Api.GameOperatorController" parent="AbstractApiController" singleton="false">
+    <property name="GameOperatorManager" ref="GameOperatorManager"/>
+  </object>
+
+
+</objects>

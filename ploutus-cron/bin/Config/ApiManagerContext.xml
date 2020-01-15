@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database" default-autowire="constructor"
+         xmlns:tx="http://www.springframework.net/tx">
+  <!--API AUTHENTICATION HANDLER-->
+
+
+  <object id="AbstractApiManager" type="blueberry.api.manager.src.Implementations.AbstractApiManager, blueberry.api.manager" abstract="true">
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+  </object>
+
+
+
+
+  <object id="PersonManager" type="blueberry.api.manager.src.Implementations.PersonManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="PersonService" ref="PersonService"/>
+  </object>
+
+  <object id="RollbaseManager" type="blueberry.api.manager.src.Implementations.RollbaseManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="IMPlatformService" ref="IMPlatformService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="FraudRiskLevelService" ref="FraudRiskLevelService"/>
+    <property name="UniqueDepositAmountRuleService" ref="UniqueDepositAmountRuleService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="SecurityQuestionService" ref="SecurityQuestionService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="StateProvinceService" ref="StateProvinceService"/>
+    <property name="BankService" ref="BankService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="BankAccountPaymentMethodService" ref="BankAccountPaymentMethodService"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="BandWordService" ref="BandWordService"/>
+    <property name="NotificationService" ref="NotificationService"/>
+    <property name="WithdrawalLevelService" ref="WithdrawalLevelService"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>
+    <property name="AgentService" ref="AgentService"/>
+    <property name="PaymentGatewayBankService" ref="PaymentGatewayBankService"/>
+    <property name="CampaignDetailLevelService" ref="CampaignDetailLevelService"/>
+    <property name="CampaignDetailService" ref="CampaignDetailService"/>
+    <property name="GamePlatformOAuthCredentialService" ref="GamePlatformOAuthCredentialService"/>
+
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="GameBetLimitLevelService" ref="GameBetLimitLevelService"/>
+    <property name="GameBetLimitSettingService" ref="GameBetLimitSettingService"/>
+    <property name="PlayerProviderLockingService" ref="PlayerProviderLockingService"/>
+
+    <property name="RebateService" ref="RebateService"/>
+    <property name="RebateDetailService" ref="RebateDetailService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="GamePlatformSupportedCurrencyService" ref="GamePlatformSupportedCurrencyService"/>
+    <property name="LanguageService" ref="LanguageService"/>
+    <property name="GamePlatformSupportedLanguageService" ref="GamePlatformSupportedLanguageService"/>
+    <property name="BrandMarketService" ref="BrandMarketService"/>
+    <property name="BrandMarketEmailNotificationSetupService" ref="BrandMarketEmailNotificationSetupService"/>
+  </object>
+
+
+
+
+
+  <object id="PlayerRegisterManager" type="blueberry.api.manager.src.Implementations.PlayerRegisterManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="DefaultCountry" value="CN"/>
+    <property name="DefaultCurrency" value="CNY"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="FraudRiskLevelService" ref="FraudRiskLevelService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="Nexmo" ref="Nexmo"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="GDGameManager" ref="GDGameManager"/>
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="GameManager" ref="GameManager"/>
+    <property name="TriggerRollbaseProcessService" ref="TriggerRollbaseProcessService"/>
+    <property name="BandWordService" ref="BandWordService"/>
+    <property name="RollbasePlayerRegistration" ref="RollbasePlayerRegistration"/>
+    <property name="SignupNotificationService" ref="SignupNotificationService"/>
+    <property name="WithdrawalLevelService" ref="WithdrawalLevelService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="PlayerNotificationService" ref="PlayerNotificationService"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="MailInBlueService" ref="MailInBlueService"/>
+    <property name="AccountManager" ref="AccountManager"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="SystemUserManager" ref="SystemUserManager"/>
+    <property name="RollbaseDeposit" ref="RollbaseDeposit"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+    <property name="LanguageService" ref ="LanguageService"/>
+    <property name="GameBetLimitLevelService" ref="GameBetLimitLevelService" />
+    <property name="BrandMarketService" ref="BrandMarketService" />
+    <property name="PlayerResetCodeService" ref="PlayerResetCodeService" />
+    <property name="BrandMarketEmailNotificationSetupService" ref="BrandMarketEmailNotificationSetupService" />       
+  </object>
+
+  <object id="AccountManager" type="blueberry.api.manager.src.Implementations.AccountManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="FraudRiskLevelService" ref="FraudRiskLevelService"/>
+    <property name="IMPlatformService" ref="IMPlatformService"/>
+    <property name="SecurityQuestionService" ref="SecurityQuestionService"/>
+    <property name="PlayerBankAccountService" ref="PlayerBankAccountService"/>
+    <property name="BankService" ref="BankService"/>
+    <property name="StateProvinceService" ref="StateProvinceService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="PlayerRegisterManager" ref="PlayerRegisterManager"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="PlayerRegisterManager" ref="PlayerRegisterManager"/>
+    <property name="PlayerResetCodeService" ref="PlayerResetCodeService"/>
+    <property name="ResetNotificationService" ref="ResetNotificationService"/>
+    <property name="UserSecurityManager" ref="UserSecurityManager"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="RollbasePlayerRegistration" ref="RollbasePlayerRegistration"/>
+    <property name="WithdrawalLevelService" ref="WithdrawalLevelService"/>
+    <property name="PlayerNotificationService" ref="PlayerNotificationService"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="MailInBlueService" ref="MailInBlueService"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="SystemUserManager" ref="SystemUserManager"/>
+    <property name="BrandMarketService" ref="BrandMarketService"/>
+    <property name="BrandMarketEmailNotificationSetupService" ref="BrandMarketEmailNotificationSetupService"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+    
+
+
+  </object>
+
+  <object id="BlueberryCommonManager" type="blueberry.api.manager.src.Implementations.BlueberryCommonManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="BlueberryCommonService" ref="BlueberryCommonService"/>
+    <property name="StateProvinceService" ref="StateProvinceService"/>
+    <property name="IMPlatformService" ref="IMPlatformService"/>
+    <property name="SecurityQuestionService" ref="SecurityQuestionService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="OnlineBankTypeService" ref="OnlineBankTypeService"/>
+    <property name="OnlineBankSupportedCurrencyService" ref="OnlineBankSupportedCurrencyService"/>
+  </object>
+
+  <object id="WalletApiManager" type="blueberry.api.manager.src.Implementations.WalletApiManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="WalletAdjustmentMemoService" ref="WalletAdjustmentMemoService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="GameWalletBalanceManager" ref="GameWalletBalanceManager"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="PlayerBankAccountService" ref="PlayerBankAccountService"/>
+    <property name="RollbaseDeposit" ref="RollbaseDeposit"/>
+    <property name="PlayerDepositNotification" ref="PlayerDepositNotification"/>
+    <property name="PlayerWithdrawalNotification" ref="PlayerWithdrawalNotification"/>
+    <property name="MailInBlueService" ref="MailInBlueService"/>
+    <property name="PushDataService" ref="PushDataService"/>
+    <property name="WalletFundTransferService" ref="WalletFundTransferService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="SubAgentService" ref="SubAgentService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="BrandMarketService" ref="BrandMarketService"/>
+    <property name="BrandMarketEmailNotificationSetupService" ref="BrandMarketEmailNotificationSetupService"/>
+    <property name="TransactionGrabService" ref="TransactionGrabService"/>
+  </object>
+
+  <object id="GDGameManager" type="blueberry.soap.gd.src.Implementations.GDGameManager, blueberry.soap.gd" >
+    <property name="WalletService" ref="WalletService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="BankService" ref="BankService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+    <property name="GDGameBetsService" ref="GDGameBetsService"/>
+    <property name="GDGameBetTransactionService" ref="GDGameBetTransactionService"/>
+    <property name="GDGameBetResultService" ref="GDGameBetResultService"/>
+    <property name="GDCancelledGameBetsService" ref="GDCancelledGameBetsService"/>
+    <property name="GDBetHistoryCasinoService" ref="GDBetHistoryCasinoService"/>
+    <property name="GDBetHistoryRNGService" ref="GDBetHistoryRNGService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="UpdatePlayerSignalBalancceApiAddress" value="http://uat.beachheadsolutionsinc.com/api/Wallet/UpdateClientBalance"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+  </object>
+
+
+  <object id="UserSecurityManager" name="UserSecurityManager" type="blueberry.api.manager.src.Implementations.UserSecurityManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="AccountManager" ref="AccountManager"/>
+    <property name="RollbasePlayerRegistration" ref="RollbasePlayerRegistration"/>
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>
+    <property name="PushDataService" ref="PushDataService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="HubConnectionService" ref="HubConnectionService"/>
+    <property name="BrandService" ref="BrandService"/>
+  </object>
+
+
+  <object id="PaymentGatewayApiManager" type="blueberry.api.manager.src.Implementations.PaymentGatewayApiManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="DaddyPayService" ref="DaddyPayService"/>
+    <property name="DaddyPayBankService" ref="DaddyPayBankService"/>
+    <property name="DaddyPayDepositService" ref="DaddyPayDepositService"/>
+    <property name="DaddypayExceptionWithdrawApplyService" ref="DaddypayExceptionWithdrawApplyService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="RollbaseDeposit" ref="RollbaseDeposit"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+
+    <property name="SafePayBankService" ref="SafePayBankService"/>
+    <property name="SafePayService" ref="SafePayService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="SafePayDepositService" ref="SafePayDepositService"/>
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="SafePayDepositResponseService" ref="SafePayDepositResponseService"/>
+
+    <property name="PaymentGatewayBankService" ref="PaymentGatewayBankService"/>
+    <property name="SDPayDepositManager" ref="SDPayDepositManager"/>
+
+    <property name="PaywaloManager" ref="PaywaloManager"/>
+    <property name="PaywaloDepositService" ref="PaywaloDepositService"/>
+    <property name="BankService" ref="BankService"/>
+    
+    <property name="BonusService" ref="BonusService"/>
+    <property name="BankAccountPaymentMethodService" ref="BankAccountPaymentMethodService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="PlayerBankAccountService" ref="PlayerBankAccountService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="WalletApiManager" ref="WalletApiManager"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="BrandMarketService" ref="BrandMarketService"/>
+    <property name="MailInBlueService" ref="MailInBlueService"/>
+    <property name="BrandMarketEmailNotificationSetupService" ref="BrandMarketEmailNotificationSetupService"/>
+    <property name="PaymentGatewayService" ref="PaymentGatewayService"/>
+    
+
+  </object>
+
+  <object id="AgentManager" type="blueberry.api.manager.src.Implementations.AgentManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="AgentService" ref="AgentService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="RollbaseManager" ref="RollbaseManager"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="RollbaseAgentService" ref="RollbaseAgentService"/>
+    <property name="SubAgentService" ref="SubAgentService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="RollbasePlayerRegistration" ref="RollbasePlayerRegistration"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="FraudRiskLevelService" ref="FraudRiskLevelService"/>
+    <property name="WithdrawalLevelService" ref="WithdrawalLevelService"/>
+    <property name="GameManager" ref="GameManager"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+  </object>
+
+
+  <object id="TgpPlayManager" type="blueberry.api.manager.src.Implementations.TgpPlayManager, blueberry.api.manager" parent="AbstractApiManager">
+    <property name="TgpPlayWalletService" ref="TgpPlayWalletService"/>    
+  </object>
+
+  <object name="OfflineWechatDepositManager" type="blueberry.api.manager.src.Implementations.OfflineWechatDepositManager, blueberry.api.manager">
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="OfflineWechatDepositService" ref="OfflineWechatDepositService"/>
+  </object>
+
+  <object name="BetlogManager" type="blueberry.api.manager.src.Implementations.BetlogManager, blueberry.api.manager">
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="BetlogService" ref="BetlogService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="AthenaGameTransactionService" ref="AthenaGameTransactionService"/>    
+  </object>
+
+  <object name="MessageManager" type="blueberry.api.manager.src.Implementations.MessageManager, blueberry.api.manager">
+    <property name="MessageService" ref="MessageService"/>
+    <property name="PlayerMessageService" ref="PlayerMessageService"/>
+    <property name="PlayerMessageSeenHistoryService" ref="PlayerMessageSeenHistoryService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerMessageSeenHistoryService" ref="PlayerMessageSeenHistoryService"/>
+    
+  </object>
+
+  <object name="PlayerMessageManager" type="blueberry.api.manager.src.Implementations.PlayerMessageManager, blueberry.api.manager">
+    <property name="MessageService" ref="MessageService"/>
+    <property name="PlayerMessageService" ref="PlayerMessageService"/>
+    <property name="PlayerMessageSeenHistoryService" ref="PlayerMessageSeenHistoryService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+  </object>
+
+  <object name="GamePlatformBetlogManager" type="blueberry.api.manager.src.Implementations.GamePlatformBetlogManager, blueberry.api.manager">
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="GamePlatformBetlogService" ref="GamePlatformBetlogService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="AthenaGameTransactionService" ref="AthenaGameTransactionService"/>
+  </object>
+
+  <object name="GameOperatorManager" type="blueberry.api.manager.src.Implementations.GameOperatorManager, blueberry.api.manager">
+    <property name="GameOperatorService" ref="GameOperatorService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>    
+  </object>
+
+  <tx:attribute-driven/>
+
+</objects>

@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+ 
+
+  <object name="JobManager" type="blueberry.jobs.manager.src.JobManager.Implementations.JobManager, blueberry.jobs.manager" >    
+  </object>
+
+  <object name="FetchBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="TriggerProcessJob" type="blueberry.jobs.manager.src.Jobs.TriggerProcessJob, blueberry.jobs.manager" >
+    <property name="ProcessApprovalService" ref="ProcessApprovalService"/>
+  </object>
+
+  <object name="PushBetToRbJob" type="blueberry.jobs.manager.src.Jobs.PushBetToRbJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="PushWageringToRbJob" type="blueberry.jobs.manager.src.Jobs.PushWageringToRbJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="PushWinToRbJob" type="blueberry.jobs.manager.src.Jobs.PushWinToRbJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="PushLossToRbJob" type="blueberry.jobs.manager.src.Jobs.PushLossToRbJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="UpdatePlayerWalletWithBetsJob" type="blueberry.jobs.manager.src.Jobs.UpdatePlayerWalletWithBetsJob, blueberry.jobs.manager" >
+    <property name="GameWalletBalanceManager" ref="GameWalletBalanceManager"/>
+  </object>
+
+  <object name="ProcessBetWageringJob" type="blueberry.jobs.manager.src.Jobs.ProcessBetWageringJob, blueberry.jobs.manager" >
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="GameWalletBalanceManager" ref="GameWalletBalanceManager"/>
+    <property name="DashboardService" ref="DashboardService"/>
+  </object>
+
+  <object name="UpdateBackOfficeWalletJob" type="blueberry.jobs.manager.src.Jobs.UpdateBackOfficeWalletJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+  </object>
+
+  <object name="UpdateBackOfficeDepositJob" type="blueberry.jobs.manager.src.Jobs.UpdateBackOfficeDepositJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessDaddyPayDepositJod" type="blueberry.jobs.manager.src.Jobs.ProcessDaddyPayDepositJod, blueberry.jobs.manager" >
+    <property name="DaddyPayDepositManager" ref="DaddyPayDepositManager"/>
+  </object>
+
+  <object name="FetchAGBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchAGBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchOWBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchOWBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchGDCBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchGDCBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchGDRNGBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchGDRNGBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchPTBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchPTBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="PingCronAppJob" type="blueberry.jobs.manager.src.Jobs.PingCronAppJob, blueberry.jobs.manager" >    
+  </object>
+
+  <object name="PushFTJob" type="blueberry.jobs.manager.src.Jobs.PushFTJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessTtgBetsJob" type="blueberry.jobs.manager.src.Jobs.ProcessTtgBetsJob, blueberry.jobs.manager" >
+    <property name="TopTrendService" ref="TopTrendService"/>
+  </object>
+
+  <object name="ProcessAccessLogJob" type="blueberry.jobs.manager.src.Jobs.ProcessAccessLogJob, blueberry.jobs.manager" >
+    <property name="PushUserFingerPrintService" ref="PushUserFingerPrintService"/>
+  </object>
+
+  <object name="PushWalletLedgerJob" type="blueberry.jobs.manager.src.Jobs.PushWalletLedgerJob, blueberry.jobs.manager" >
+    <property name="PushWalletLedgerService" ref="PushWalletLedgerService"/>
+  </object>
+
+  <object name="SyncBackOfficeAdjustmentJob" type="blueberry.jobs.manager.src.Jobs.SyncBackOfficeAdjustmentJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="PushAffiliateJob" type="blueberry.jobs.manager.src.Jobs.PushAffiliateJob, blueberry.jobs.manager" >
+    <property name="PushAffiliateData" ref="PushAffiliateData"/>
+  </object>
+
+  <object name="ProcessAffiliateCommissionJob" type="blueberry.jobs.manager.src.Jobs.ProcessAffiliateCommissionJob, blueberry.jobs.manager" >
+    <property name="AffiliateCommissionService" ref="AffiliateCommissionService"/>
+  </object>
+
+  <object name="PushAffiliateCommissionJob" type="blueberry.jobs.manager.src.Jobs.PushAffiliateCommissionJob, blueberry.jobs.manager" >
+    <property name="PushAffiliateData" ref="PushAffiliateData"/>
+  </object>
+
+  <object name="PushAffiliateTransactionJob" type="blueberry.jobs.manager.src.Jobs.PushAffiliateTransactionJob, blueberry.jobs.manager" >
+    <property name="PushAffiliateData" ref="PushAffiliateData"/>
+  </object>
+
+  <object name="PushCustomerJob" type="blueberry.jobs.manager.src.Jobs.PushCustomerJob, blueberry.jobs.manager" >
+    <property name="PushCustomerTicketService" ref="PushCustomerTicketService"/>
+  </object>
+
+  <object name="ProcessTGPBetJob" type="blueberry.jobs.manager.src.Jobs.ProcessTGPBetJob, blueberry.jobs.manager" >
+    <property name="TgpPlayWalletService" ref="TgpPlayWalletService"/>
+  </object>
+
+  <object name="PushNotificationMessageLogJob" type="blueberry.jobs.manager.src.Jobs.PushNotificationMessageLogJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="DashboardJob" type="blueberry.jobs.manager.src.Jobs.DashboardJob, blueberry.jobs.manager" >
+    <property name="DashboardService" ref="DashboardService"/>
+  </object>
+
+
+  <object name="FetchAGBetLogRescanAllJob" type="blueberry.jobs.manager.src.Jobs.FetchAGBetLogRescanAllJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchHGBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchHGBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchSBTechLiveBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchSBTechLiveBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchSBTechSlotBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchSBTechSlotBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="FetchSBTechSportsBetLogJob" type="blueberry.jobs.manager.src.Jobs.FetchSBTechSportsBetLogJob, blueberry.jobs.manager" >
+    <property name="GameManager" ref="GameManager"/>
+  </object>
+
+  <object name="PushPlayerToRBJob" type="blueberry.jobs.manager.src.Jobs.PushPlayerToRBJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="PushPlayerNotificationToRBJob" type="blueberry.jobs.manager.src.Jobs.PushPlayerNotificationToRBJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="PushWalletToRBJob" type="blueberry.jobs.manager.src.Jobs.PushWalletToRBJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="PushDepositToRBJob" type="blueberry.jobs.manager.src.Jobs.PushDepositToRBJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessPTBetLogJob" type="blueberry.jobs.manager.src.Jobs.ProcessPTBetLogJob, blueberry.jobs.manager" >
+    <property name="PTLogManager" ref="PTLogManager"/>
+  </object>
+
+  <object name="PushWithdrawalToRBJob" type="blueberry.jobs.manager.src.Jobs.PushWithdrawalToRBJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessPlayerRebateQueueJob" type="blueberry.jobs.manager.src.Jobs.ProcessPlayerRebateQueueJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessPlayerRebateJob" type="blueberry.jobs.manager.src.Jobs.ProcessPlayerRebateJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessPlayerRebateCreditMemoJob" type="blueberry.jobs.manager.src.Jobs.ProcessPlayerRebateCreditMemoJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessPlayerRebatePushToRBJob" type="blueberry.jobs.manager.src.Jobs.ProcessPlayerRebatePushToRBJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessPlayerRebateDetailPushToRBJob" type="blueberry.jobs.manager.src.Jobs.ProcessPlayerRebateDetailPushToRBJob, blueberry.jobs.manager" >
+    <property name="PushDataService" ref="PushDataService"/>
+  </object>
+
+  <object name="ProcessPagcorSendGameRecordsCAFJob" type="blueberry.jobs.manager.src.Jobs.ProcessPagcorSendGameRecordsCAFJob, blueberry.jobs.manager" >
+    <property name="PagcorDataSendManager" ref="PagcorDataSendManager"/>
+  </object>
+
+  <object name="ProcessPagcorSendGameRecordsKORJob" type="blueberry.jobs.manager.src.Jobs.ProcessPagcorSendGameRecordsKORJob, blueberry.jobs.manager" >
+    <property name="PagcorDataSendManager" ref="PagcorDataSendManager"/>
+  </object>
+
+  <object name="EmailBlastQueryJob" type="blueberry.jobs.manager.src.Jobs.EmailBlastQueryJob, blueberry.jobs.manager" >
+    <property name="EmailBlastStatusMonitoringService" ref="EmailBlastStatusMonitoringService"/>
+  </object>
+
+  <object name="ProcessBetLogsJob" type="blueberry.jobs.manager.src.Jobs.ProcessBetLogsJob, blueberry.jobs.manager" >
+    <property name="BetlogManager" ref="BetlogManager"/>
+  </object>
+
+  <object name="UpdateMessageStatusJob" type="blueberry.jobs.manager.src.Jobs.UpdateMessageStatusJob, blueberry.jobs.manager" >
+    <property name="MessageManager" ref="MessageManager"/>
+  </object>
+
+  <object name="UpdatePlayerMessageStatusJob" type="blueberry.jobs.manager.src.Jobs.UpdatePlayerMessageStatusJob, blueberry.jobs.manager" >
+    <property name="PlayerMessageManager" ref="PlayerMessageManager"/>
+  </object>
+
+  <object name="ProcessAthenaGameTransactionJob" type="blueberry.jobs.manager.src.Jobs.ProcessAthenaGameTransactionJob, blueberry.jobs.manager" >
+    <property name="BetlogManager" ref="BetlogManager"/>
+  </object>
+
+  <object name="ProcessAthenaGameTransactionCreateTableJob" type="blueberry.jobs.manager.src.Jobs.ProcessAthenaGameTransactionCreateTableJob, blueberry.jobs.manager" >
+    <property name="AthenaTableManager" ref="AthenaTableManager"/>
+  </object>
+
+  <object name="ProcessAffiliateRewardJob" type="blueberry.jobs.manager.src.Jobs.ProcessAffiliateRewardJob, blueberry.jobs.manager" >
+    <property name="AffiliateRewardService" ref="AffiliateRewardService"/>
+  </object>
+
+  <object name="ProcessAffiliateRewardDetailJob" type="blueberry.jobs.manager.src.Jobs.ProcessAffiliateRewardDetailJob, blueberry.jobs.manager" >
+    <property name="AffiliateRewardService" ref="AffiliateRewardService"/>
+  </object>
+
+  <object name="ProcessGamePlatformBetLogsJob" type="blueberry.jobs.manager.src.Jobs.ProcessGamePlatformBetLogsJob, blueberry.jobs.manager" >
+    <property name="GamePlatformBetlogManager" ref="GamePlatformBetlogManager"/>
+  </object>
+
+  <object name="ProcessAthenaGameTransactionGamePlatformJob" type="blueberry.jobs.manager.src.Jobs.ProcessAthenaGameTransactionGamePlatformJob, blueberry.jobs.manager" >
+    <property name="GamePlatformBetlogManager" ref="GamePlatformBetlogManager"/>
+  </object>
+  
+</objects>

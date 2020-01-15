@@ -1,0 +1,839 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx">
+
+
+  <object id="AbstractService" type="blueberry.service.src.Implementations.AbstractService, blueberry.service" abstract="true">
+  </object>
+
+  <object id="PersonService" type="blueberry.service.src.Implementations.PersonService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PersonDao"/>
+  </object>
+
+  <object id="UserTokenService" type="blueberry.service.src.Implementations.UserTokenService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="UserTokenDao"/>
+  </object>
+
+  <object id="PlayerRegistrationService" type="blueberry.service.src.Implementations.PlayerRegistrationService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerRegistrationDao"/>
+  </object>
+
+  <object id="PlayerProfileService" type="blueberry.service.src.Implementations.PlayerProfileService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerProfileDao"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+  </object>
+
+  <object id="StateProvinceService" type="blueberry.service.src.Implementations.StateProvinceService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="StateProvinceDao"/>
+    <property name="BlueberryCommonService" ref="BlueberryCommonService"/>
+    <property name="CountryService" ref="CountryService"/>
+  </object>
+
+  <object id="VipLevelService" type="blueberry.service.src.Implementations.VipLevelService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="VipLevelDao"/>
+  </object>
+
+  <object id="PaymentRiskLevelService" type="blueberry.service.src.Implementations.PaymentRiskLevelService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PaymentRiskLevelDao"/>
+  </object>
+
+  <object id="PaymentMethodService" type="blueberry.service.src.Implementations.PaymentMethodService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PaymentMethodDao"/>
+  </object>
+
+  <object id="BankService" type="blueberry.service.src.Implementations.BankService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BankDao"/>
+  </object>
+
+  <object id="BankAccountService" type="blueberry.service.src.Implementations.BankAccountService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BankAccountDao"/>
+  </object>
+
+  <object id="UniqueDepositAmountService" type="blueberry.service.src.Implementations.UniqueDepositAmountService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="UniqueDepositAmountDao"/>
+  </object>
+
+  <object id="UniqueDepositAmountRuleService" type="blueberry.service.src.Implementations.UniqueDepositAmountRuleService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="UniqueDepositAmountRuleDao"/>
+    <property name="UniqueDepositAmountService" ref="UniqueDepositAmountService"/>
+  </object>
+
+  <object id="FraudRiskLevelService" type="blueberry.service.src.Implementations.FraudRiskLevelService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="FraudRiskLevelDao"/>
+  </object>
+
+  <object id="IMPlatformService" type="blueberry.service.src.Implementations.IMPlatformService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="IMPlatformDao"/>
+  </object>
+
+  <object id="SecurityQuestionService" type="blueberry.service.src.Implementations.SecurityQuestionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SecurityQuestionDao"/>
+  </object>
+
+  <object id="WalletService" type="blueberry.service.src.Implementations.WalletService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletDao"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="AgentService" ref="AgentService"/>
+    <property name="SubAgentService" ref="SubAgentService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+  </object>
+
+  <object id="WalletDepositService" type="blueberry.service.src.Implementations.WalletDepositService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletDepositDao"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="UniqueDepositAmountService" ref="UniqueDepositAmountService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="TransactionNumberSetupService" ref="TransactionNumberSetupService"/>
+    <property name="WalletDepositAuditService" ref="WalletDepositAuditService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+    <property name="OnlineBankService" ref="OnlineBankService"/>
+    
+  </object>
+
+  <object id="MerchantService" type="blueberry.service.src.Implementations.MerchantService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="MerchantDao"/>
+  </object>
+
+  <object id="CountryService" type="blueberry.service.src.Implementations.CountryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="CountryDao"/>
+  </object>
+
+  <object id="CountryPaymentMethodService" type="blueberry.service.src.Implementations.CountryPaymentMethodService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="CountryPaymentMethodDao"/>
+  </object>
+
+  <object id="WalletWithdrawalService" type="blueberry.service.src.Implementations.WalletWithdrawalService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletWithdrawalDao"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+    
+  </object>
+
+  <object id="WalletWinService" type="blueberry.service.src.Implementations.WalletWinService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletWinDao"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="AgentService" ref="AgentService"/>
+  </object>
+
+  <object id="WalletLossService" type="blueberry.service.src.Implementations.WalletLossService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletLossDao"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="AgentService" ref="AgentService"/>
+  </object>
+
+  <object id="GamePlatformService" type="blueberry.service.src.Implementations.GamePlatformService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GamePlatformDao"/>
+  </object>
+
+  <object id="GamePlatformProductService" type="blueberry.service.src.Implementations.GamePlatformProductService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GamePlatformProductDao"/>
+  </object>
+
+  <object id="BrandService" type="blueberry.service.src.Implementations.BrandService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BrandDao"/>
+  </object>
+
+  <object id="PlayerBankAccountService" type="blueberry.service.src.Implementations.PlayerBankAccountService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerBankAccountDao"/>
+  </object>
+
+  <object id="PlayerBetService" type="blueberry.service.src.Implementations.PlayerBetService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerBetDao"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="MinAmountForWagedDeposit" value="5.00"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="WageringFulfilmentService" type="blueberry.service.src.Implementations.WageringFulfilmentService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WageringFulfilmentDao"/>
+  </object>
+
+  <object id="WalletAdjustmentMemoService" type="blueberry.service.src.Implementations.WalletAdjustmentMemoService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletAdjustmentMemoDao"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+  </object>
+
+  <object id="BankAccountPaymentMethodService" type="blueberry.service.src.Implementations.BankAccountPaymentMethodService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BankAccountPaymentMethodDao"/>
+  </object>
+
+  <object id="GDGameBetsService" type="blueberry.service.src.Implementations.GDGameBetsService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GDGameBetsDao"/>
+  </object>
+
+  <object id="GDGameBetTransactionService" type="blueberry.service.src.Implementations.GDGameBetTransactionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GDGameBetTransactionDao"/>
+  </object>
+
+  <object id="GDGameBetResultService" type="blueberry.service.src.Implementations.GDGameBetResultService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GDGameBetResultDao"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+  </object>
+
+  <object id="GDCancelledGameBetsService" type="blueberry.service.src.Implementations.GDCancelledGameBetsService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GDCancelledGameBetsDao"/>
+  </object>
+
+  <object id="GDBetHistoryCasinoService" type="blueberry.service.src.Implementations.GDBetHistoryCasinoService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GDBetHistoryCasinoDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="GDBetHistoryRNGService" type="blueberry.service.src.Implementations.GDBetHistoryRNGService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GDBetHistoryRNGDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+
+  <object id="AGTransferRecordService" type="blueberry.service.src.Implementations.AGTransferRecordService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AGTransferRecordDao"/>
+  </object>
+
+
+  <object id="AGBetRecordService" type="blueberry.service.src.Implementations.AGBetRecordService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AGBetRecordDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="OWCasinoBetLogService" type="blueberry.service.src.Implementations.OWCasinoBetLogService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="OWCasinoBetLogDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+
+
+  </object>
+
+  <object id="OWSportsBetLogService" type="blueberry.service.src.Implementations.OWSportsBetLogService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="OWSportsBetLogDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="PlayerResetCodeService" type="blueberry.service.src.Implementations.PlayerResetCodeService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerResetCodeDao"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="ResetLimit" value="4"/>
+  </object>
+
+  <object id="BackgroundTaskScheduleService" type="blueberry.service.src.Implementations.BackgroundTaskScheduleService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BackgroundTaskScheduleDao"/>
+  </object>
+
+  <object id="TriggerRollbaseProcessService" type="blueberry.service.src.Implementations.TriggerRollbaseProcessService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TriggerRollbaseProcessDao"/>
+  </object>
+
+
+  <object id="PTFundTransferHistoryService" type="blueberry.service.src.Implementations.PTFundTransferHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PTFundTransferHistoryDao"/>
+  </object>
+
+  <object id="PTBetHistoryService" type="blueberry.service.src.Implementations.PTBetHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PTBetHistoryDao"/>
+  </object>
+
+  <object id="PTBetLogService" type="blueberry.service.src.Implementations.PTBetLogService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PTBetLogDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="BSBetResultHistoryService" type="blueberry.service.src.Implementations.BSBetResultHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BSBetResultHistoryDao"></property>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="BSRefundBetHistoryService" type="blueberry.service.src.Implementations.BSRefundBetHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BSRefundBetHistoryDao"></property>
+  </object>
+
+  <object id="BSBonusReleaseService" type="blueberry.service.src.Implementations.BSBonusReleaseService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BSBonusReleaseDao"></property>
+  </object>
+
+  <object id="BSBonusWinService" type="blueberry.service.src.Implementations.BSBonusWinService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BSBonusWinDao"></property>
+  </object>
+
+  <object id="BonusService" type="blueberry.service.src.Implementations.BonusService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BonusDao"/>
+  </object>
+
+  <object id="BandWordService" type="blueberry.service.src.Implementations.BandWordService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BandWordDao"/>
+  </object>
+
+  <object id="NotificationService" type="blueberry.service.src.Implementations.NotificationService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="NotificationDao"/>
+  </object>
+
+  <object id="TransactionNumberSetupService" type="blueberry.service.src.Implementations.TransactionNumberSetupService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TransactionNumberSetupDao"/>
+  </object>
+
+  <object id="DaddyPayBankService" type="blueberry.service.src.Implementations.DaddyPayBankService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="DaddyPayBankDao"/>
+  </object>
+
+  <object id="WithdrawalLevelService" type="blueberry.service.src.Implementations.WithdrawalLevelService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WithdrawalLevelDao"/>
+  </object>
+
+  <object id="DaddyPayDepositService" type="blueberry.service.src.Implementations.DaddyPayDepositService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="DaddyPayDepositDao"/>
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="DaddyPayBankAccountCode" value="DDPA"/>
+  </object>
+
+  <object id="DaddypayExceptionWithdrawApplyService" type="blueberry.service.src.Implementations.DaddypayExceptionWithdrawApplyService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="DaddypayExceptionWithdrawApplyDao"/>
+  </object>
+
+  <object id="PlayerAccessLogService" type="blueberry.service.src.Implementations.PlayerAccessLogService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerAccessLogDao"/>
+  </object>
+
+  <object id="PlayerNotificationService" type="blueberry.service.src.Implementations.PlayerNotificationService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerNotificationDao"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="NotificationService" ref="NotificationService"/>
+  </object>
+
+  <object id="HubConnectionService" type="blueberry.service.src.Implementations.HubConnectionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="HubConnectionDao"/>
+  </object>
+
+  <object id="AgentService" type="blueberry.service.src.Implementations.AgentService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AgentDao"/>
+  </object>
+
+  <object id="SubAgentService" type="blueberry.service.src.Implementations.SubAgentService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SubAgentDao"/>
+    <property name="AgentService" ref="AgentService"/>
+    <property name="WalletService" ref="WalletService"/>
+
+    <property name="WalletFundTransferService" ref="WalletFundTransferService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+
+
+
+  </object>
+
+  <object id="WalletFundTransferService" type="blueberry.service.src.Implementations.WalletFundTransferService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletFundTransferDao"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="AgentService" ref="AgentService"/>
+    <property name="SubAgentService" ref="SubAgentService"/>
+  </object>
+
+  <object id="WalletDepositAuditService" type="blueberry.service.src.Implementations.WalletDepositAuditService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletDepositAuditDao"/>
+  </object>
+
+  <object id="WalletComputedBalanceService" type="blueberry.service.src.Implementations.WalletComputedBalanceService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletComputedBalanceDao"/>
+    <property name="WalletService" ref="WalletService"/>
+  </object>
+
+  <object id="AgentSubAgentUserService" type="blueberry.service.src.Implementations.AgentSubAgentUserService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AgentSubAgentUserDao"/>
+    <property name="AgentService" ref="AgentService"/>
+    <property name="SubAgentService" ref="SubAgentService"/>
+  </object>
+
+  <object id="ABBetHistoryService" type="blueberry.service.src.Implementations.ABBetHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="ABBetHistoryDao"/>
+  </object>
+
+  <object id="ABSettleHistoryService" type="blueberry.service.src.Implementations.ABSettleHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="ABSettleHistoryDao"/>
+  </object>
+
+  <object id="SafePayBankService" type="blueberry.service.src.Implementations.SafePayBankService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SafePayBankDao"/>
+  </object>
+
+  <object id="SafePayDepositService" type="blueberry.service.src.Implementations.SafePayDepositService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SafePayDepositDao"/>
+  </object>
+
+  <object id="SafePayDepositResponseService" type="blueberry.service.src.Implementations.SafePayDepositResponseService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SafePayDepositResponseDao"/>
+  </object>
+
+  <object id="PaymentGatewayBankService" type="blueberry.service.src.Implementations.PaymentGatewayBankService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PaymentGatewayBankDao"/>
+  </object>
+
+  <object id="BGPlayerSessionService" type="blueberry.service.src.Implementations.BGPlayerSessionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BGPlayerSessionDao"/>
+  </object>
+
+  <object id="BGGameEventsService" type="blueberry.service.src.Implementations.BGGameEventsService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BGGameEventsDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+
+  </object>
+
+  <object id="PlayerSugestedBonusService" type="blueberry.service.src.Implementations.PlayerSugestedBonusService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerSugestedBonusDao"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+  </object>
+
+  <object id="TtgFundTransferService" type="blueberry.service.src.Implementations.TtgFundTransferService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TtgFundTransferDao"/>
+  </object>
+
+  <object id="PlayerFingerPrintService" type="blueberry.service.src.Implementations.PlayerFingerPrintService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerFingerPrintDao"/>
+  </object>
+
+  <object id="PlayerFingerPrintHitService" type="blueberry.service.src.Implementations.PlayerFingerPrintHitService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerFingerPrintHitDao"/>
+  </object>
+
+  <object id="OWFundTransferService" type="blueberry.service.src.Implementations.OWFundTransferService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="OWFundTransferDao"/>
+  </object>
+
+  <object id="AGFundTransferService" type="blueberry.service.src.Implementations.AGFundTransferService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AGFundTransferDao"/>
+  </object>
+
+  <object id="TtgBalanceRequestService" type="blueberry.service.src.Implementations.TtgBalanceRequestService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TtgBalanceRequestDao"/>
+  </object>
+
+  <object id="WalletLedgerService" type="blueberry.service.src.Implementations.WalletLedgerService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WalletLedgerDao"/>
+  </object>
+
+  <object id="AffiliateEarningPlanService" type="blueberry.service.src.Implementations.AffiliateEarningPlanService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AffiliateEarningPlanDao"/>
+  </object>
+
+  <object id="AffiliateCommissionService" type="blueberry.service.src.Implementations.AffiliateCommissionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AffiliateCommisionDao"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="AffiliateEarningPlanService" ref="AffiliateEarningPlanService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="TransactionNumberSetupService" ref="TransactionNumberSetupService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="AffiliateCommissionDetailService" ref="AffiliateCommissionDetailService"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+  </object>
+
+  <object id="CampaignDetailService" type="blueberry.service.src.Implementations.CampaignDetailService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="CampaignDetailDao"/>
+  </object>
+  <object id="AffiliateService" type="blueberry.service.src.Implementations.AffiliateService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AffiliateDao"/>
+    <property name="AffiliateEarningPlanService" ref="AffiliateEarningPlanService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+  </object>
+
+  <object id="AffiliateTransactionService" type="blueberry.service.src.Implementations.AffiliateTransactionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AffiliateTransactionDao"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="TransactionNumberSetupService" ref="TransactionNumberSetupService"/>
+    <property name="AffiliateEarningPlanService" ref="AffiliateEarningPlanService"/>
+    <property name="AffiliateCommissionService" ref="AffiliateCommissionService"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+  </object>
+
+
+  <object id="CampaignDetailLevelService" type="blueberry.service.src.Implementations.CampaignDetailLevelService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="CampaignDetailLevelDao"/>
+  </object>
+
+  <object id="CustomerTicketService" type="blueberry.service.src.Implementations.CustomerTicketService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="CustomerTicketDao"/>
+  </object>
+
+  <object id="GamePlatformOAuthCredentialService" type="blueberry.service.src.Implementations.GamePlatformOAuthCredentialService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GamePlatformOAuthCredentialDao"/>
+  </object>
+
+  <object id="TgpTransactionService" type="blueberry.service.src.Implementations.TgpTransactionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TgpTransactionDao"/>
+  </object>
+
+  <object id="TgpCancelledTransactionService" type="blueberry.service.src.Implementations.TgpCancelledTransactionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TgpCancelledTransactionDao"/>
+  </object>
+
+  <object id="HGFundTransferHistoryService" type="blueberry.service.src.Implementations.HGFundTransferHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="HGFundTransferHistoryDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="NotificationMessageLogService" type="blueberry.service.src.Implementations.NotificationMessageLogService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="NotificationMessageLogDao"/>
+  </object>
+
+  <object id="HGBetLogsService" type="blueberry.service.src.Implementations.HGBetLogsService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="HGBetLogsDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="BetLogsLatestFetchService" type="blueberry.service.src.Implementations.BetLogsLatestFetchService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BetLogsLatestFetchDao"/>
+  </object>
+
+  <object id="DashboardService" type="blueberry.service.src.Implementations.DashboardService, blueberry.service" >
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+  </object>
+
+  <object id="SBTechDebitCreditHistoryService" type="blueberry.service.src.Implementations.SBTechDebitCreditHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SBTechDebitCreditHistoryDao"/>
+  </object>
+
+  <object id="SBTechSportsBookBetLogsService" type="blueberry.service.src.Implementations.SBTechSportsBookBetLogsService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SBTechSportsBookBetLogsDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="SBTechLiveCasinoBetLogsService" type="blueberry.service.src.Implementations.SBTechLiveCasinoBetLogsService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SBTechLiveCasinoBetLogsDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+
+  </object>
+
+  <object id="SBTechSlotBetLogsService" type="blueberry.service.src.Implementations.SBTechSlotBetLogsService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SBTechSlotBetLogsDao"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+  </object>
+
+  <object id="RpnDepositRequestService" type="blueberry.service.src.Implementations.RpnDepositRequestService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="RpnDepositRequestDao"/>
+  </object>
+
+  <object id="RpnDepositResponseService" type="blueberry.service.src.Implementations.RpnDepositResponseService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="RpnDepositResponseDao"/>
+  </object>
+
+  <object id="PlayerProviderLockingService" type="blueberry.service.src.Implementations.PlayerProviderLockingService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerProviderLockingDao"/>
+  </object>
+
+  <object id="GameBetLimitSettingService" type="blueberry.service.src.Implementations.GameBetLimitSettingService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GameBetLimitSettingDao"/>
+  </object>
+
+  <object id="GameBetLimitLevelService" type="blueberry.service.src.Implementations.GameBetLimitLevelService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GameBetLimitLevelDao"/>
+    <property name="GameBetLimitSettingService" ref="GameBetLimitSettingService"/>
+  </object>
+
+  <object id="SDPayDepositService" type="blueberry.service.src.Implementations.SDPayDepositService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="SDPayDepositDao"/>
+  </object>
+
+  <object id="OfflineWechatDepositService" type="blueberry.service.src.Implementations.OfflineWechatDepositService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="OfflineWechatDepositDao"/>
+  </object>
+
+  <object id="RebateService" type="blueberry.service.src.Implementations.RebateService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="RebateDao"/>
+  </object>
+
+  <object id="RebateDetailService" type="blueberry.service.src.Implementations.RebateDetailService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="RebateDetailDao"/>
+  </object>
+
+  <object id="CurrencyService" type="blueberry.service.src.Implementations.CurrencyService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="CurrencyDao"/>
+  </object>
+
+  <object id="GamePlatformSupportedCurrencyService" type="blueberry.service.src.Implementations.GamePlatformSupportedCurrencyService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GamePlatformSupportedCurrencyDao"/>
+  </object>
+
+  <object id="LanguageService" type="blueberry.service.src.Implementations.LanguageService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="LanguageDao"/>
+  </object>
+
+  <object id="GamePlatformSupportedLanguageService" type="blueberry.service.src.Implementations.GamePlatformSupportedLanguageService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="GamePlatformSupportedLanguageDao"/>
+  </object>
+
+  <object id="PaywaloDepositService" type="blueberry.service.src.Implementations.PaywaloDepositService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PaywaloDepositDao"/>
+  </object>
+
+  <object id="PlayerRebateService" type="blueberry.service.src.Implementations.PlayerRebateService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerRebateDao"/>
+  </object>
+
+  <object id="PlayerRebateDetailService" type="blueberry.service.src.Implementations.PlayerRebateDetailService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerRebateDetailDao"/>
+  </object>
+
+  <object id="PlayerRebateQueueService" type="blueberry.service.src.Implementations.PlayerRebateQueueService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerRebateQueueDao"/>
+  </object>
+
+  <object id="AffiliateCommissionDetailService" type="blueberry.service.src.Implementations.AffiliateCommissionDetailService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AffiliateCommissionDetailDao"/>
+  </object>
+
+  <object id="BrandMarketService" type="blueberry.service.src.Implementations.BrandMarketService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BrandMarketDao"/>
+  </object>
+
+  <object id="BrandMarketEmailNotificationSetupService" type="blueberry.service.src.Implementations.BrandMarketEmailNotificationSetupService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BrandMarketEmailNotificationSetupDao"/>
+    <property name="BrandMarketService" ref="BrandMarketService"/>
+
+  </object>
+
+  <object id="TransactionTypeService" type="blueberry.service.src.Implementations.TransactionTypeService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TransactionTypeDao"/>
+  </object>
+
+  <object id="WorkstepService" type="blueberry.service.src.Implementations.WorkstepService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="WorkstepDao"/>
+  </object>
+
+  <object id="TransactionTypeWorkstepService" type="blueberry.service.src.Implementations.TransactionTypeWorkstepService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TransactionTypeWorkstepDao"/>
+  </object>
+
+  <object id="TransactionTypeWorkstepApproverService" type="blueberry.service.src.Implementations.TransactionTypeWorkstepApproverService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TransactionTypeWorkstepApproverDao"/>
+  </object>
+
+  <object id="TransactionService" type="blueberry.service.src.Implementations.TransactionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TransactionDao"/>
+  </object>
+
+  <object id="TransactionWorkstepService" type="blueberry.service.src.Implementations.TransactionWorkstepService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TransactionWorkstepDao"/>
+  </object>
+
+  <object id="CommentService" type="blueberry.service.src.Implementations.CommentService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="CommentDao"/>
+  </object>
+
+  <object id="TransactionGrabService" type="blueberry.service.src.Implementations.TransactionGrabService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="TransactionGrabDao"/>
+  </object>
+
+  <object id="PagcorBatchService" type="blueberry.service.src.Implementations.PagcorBatchService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PagcorBatchDao"/>
+  </object>
+
+  <object id="RecordViewedService" type="blueberry.service.src.Implementations.RecordViewedService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="RecordViewedDao"/>
+  </object>
+
+  <object id="PlayerNoteCategoryService" type="blueberry.service.src.Implementations.PlayerNoteCategoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerNoteCategoryDao"/>
+  </object>
+
+  <object id="PlayerNoteTypeService" type="blueberry.service.src.Implementations.PlayerNoteTypeService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerNoteTypeDao"/>
+  </object>
+
+  <object id="AffiliateTrackingLinkService" type="blueberry.service.src.Implementations.AffiliateTrackingLinkService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AffiliateTrackingLinkDao"/>
+  </object>
+
+  <object id="PlayerNoteService" type="blueberry.service.src.Implementations.PlayerNoteService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerNoteDao"/>
+  </object>
+
+
+  <object id="PlayerDocumentService" type="blueberry.service.src.Implementations.PlayerDocumentService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerDocumentDao"/>
+  </object>
+
+  <object id="AuditTrailService" type="blueberry.service.src.Implementations.AuditTrailService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AuditTrailDao"/>
+    <!--<property name="UserManager" ref="UserManager"/>-->
+  </object>
+
+  <object id="PaymentGatewayService" type="blueberry.service.src.Implementations.PaymentGatewayService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PaymentGatewayDao"/>
+  </object>
+
+    <object id="EmailTemplateService" type="blueberry.service.src.Implementations.EmailTemplateService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="EmailTemplateDao"/>
+  </object>
+
+  <object id="BetlogService" type="blueberry.service.src.Implementations.BetlogService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="BetlogDao"/>
+  </object>
+
+
+  <object id="EmailBlastMonitoringService" type="blueberry.service.src.Implementations.EmailBlastMonitoringService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="EmailBlastMonitoringDao"/>
+  </object>
+
+  <object id="EmailBlastService" type="blueberry.service.src.Implementations.EmailBlastService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="EmailBlastDao"/>
+  </object>
+
+  <object id="OnlineBankTypeService" type="blueberry.service.src.Implementations.OnlineBankTypeService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="OnlineBankTypeDao"/>
+  </object>
+
+  <object id="OnlineBankService" type="blueberry.service.src.Implementations.OnlineBankService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="OnlineBankDao"/>
+  </object>
+
+  <object id="OnlineBankSupportedCurrencyService" type="blueberry.service.src.Implementations.OnlineBankSupportedCurrencyService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="OnlineBankSupportedCurrencyDao"/>
+  </object>
+
+  <object id="AthenaGameTransactionService" type="blueberry.service.src.Implementations.AthenaGameTransactionService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AthenaGameTransactionDao"/>
+  </object>
+
+  <object id="MessageService" type="blueberry.service.src.Implementations.MessageService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="MessageDao"/>
+  </object>
+
+  <object id="PlayerMessageService" type="blueberry.service.src.Implementations.PlayerMessageService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerMessageDao"/>
+  </object>
+
+  <object id="PlayerMessageSeenHistoryService" type="blueberry.service.src.Implementations.PlayerMessageSeenHistoryService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="PlayerMessageSeenHistoryDao"/>
+  </object>
+
+  <object id="AffiliateRewardService" type="blueberry.service.src.Implementations.AffiliateRewardService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="AffiliateRewardDao"/>
+  </object>
+
+  <object id="RewardService" type="blueberry.service.src.Implementations.RewardService, blueberry.service" parent="AbstractService">
+    <property name="Dao" ref="RewardDao"/>
+  </object>
+
+  <tx:attribute-driven/>
+
+</objects>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database" default-autowire="constructor"
+         xmlns:tx="http://www.springframework.net/tx"><!--API AUTHENTICATION HANDLER-->
+
+
+  <object id="AffiliateManager" type="blueberry.affiliate.api.src.Implementations.AffiliateManager, blueberry.affiliate.api" >
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+    <property name="IMPlatformService" ref="IMPlatformService"/>
+    <property name="SecurityQuestionService" ref="SecurityQuestionService"/>
+    <property name="PushAffiliateData" ref="PushAffiliateData"/>
+    <property name="BankService" ref="BankService"/>
+    <property name="AffiliateEarningPlanService" ref="AffiliateEarningPlanService"/>
+    <property name="AffiliateCommissionService" ref="AffiliateCommissionService"/>
+    <property name="AffiliateTransactionService" ref="AffiliateTransactionService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="CustomerTicketService" ref="CustomerTicketService"/>
+    <property name="UserSecurityService" ref="UserSecurityService"/>
+    <property name="AffiliateMailService" ref="AffiliateMailService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="BonusService" ref="BonusService"/>
+    <property name="AffiliateRewardService" ref="AffiliateRewardService"/>
+    <property name="RewardService" ref="RewardService"/>
+
+    <property name="BrandMarketService" ref="BrandMarketService"/>
+    <property name="BrandMarketEmailNotificationSetupService" ref="BrandMarketEmailNotificationSetupService"/>
+  </object>
+
+
+  <tx:attribute-driven/>
+
+</objects>

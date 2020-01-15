@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database" default-autowire="constructor">
+
+
+  <!--API AUTHENTICATION HANDLER-->
+
+
+  <object id="OneWorksManager" name="OneWorksManager" type="blueberry.games.manager.src.Implementations.OneWorksManager, blueberry.games.manager">
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletAdjustmentMemoService" ref="WalletAdjustmentMemoService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+    <property name="UrlPort" value=""/>
+
+  </object>
+
+  <object id="GameManager" name="GameManager" type="blueberry.games.manager.src.Implementations.GameManager, blueberry.games.manager">
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="AsianGamingService" ref="AsianGamingService"/>
+    <property name="GDGameManager" ref="GDGameManager"/>
+    <property name="OneWorksManager" ref="OneWorksManager"/>
+    <property name="SequenceId" value="0"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+    <property name="AsianGamingLogManager" ref="AsianGamingLogManager"/>
+    <property name="OneWorksLogManager" ref="OneWorksLogManager"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="GameWalletBalanceManager" ref="GameWalletBalanceManager"/>
+    <property name="MinTransferAmount" value="1"/>
+    <property name="MaxTransferAmount" value="500000"/>
+    <property name="MinAGTransferAmount" value="500000"/>
+    <property name="PTPlayerService" ref="PTPlayerService"/>
+    <property name="PTLogManager" ref="PTLogManager"/>
+    <property name="BSGameService" ref="BSGameService"/>
+    <property name="BGGameService" ref="BGGameService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="TopTrendService" ref="TopTrendService"/>
+    <property name="TgpPlayService" ref="TgpPlayService"/>
+    <property name="HGGameService" ref="HGGameService"/>
+    <property name="HGLogService" ref="HGLogService"/>
+    <property name="SBTechGameService" ref="SBTechGameService"/>
+    <property name="SBTechLogService" ref="SBTechLogService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="PlayerProviderLockingService" ref="PlayerProviderLockingService"/>
+    <property name="GameBetLimitLevelService" ref="GameBetLimitLevelService"/>
+    <property name="GameBetLimitManager" ref="GameBetLimitManager"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="PloutusClientManager" ref="PloutusClientManager"/>
+    
+  </object>
+
+
+  <object id="GameWalletBalanceManager" name="GameWalletBalanceManager" type="blueberry.games.manager.src.Implementations.GameWalletBalanceManager, blueberry.games.manager">
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="AsianGamingService" ref="AsianGamingService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+    <property name="MaxTransferAmount" value="500000"/>
+    <property name="MinTransferAmount" value="1"/>
+    <property name="MaxAGTransferAmount" value="500000"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PTGameService" ref="PTGameService"/>
+    <property name="OWFundTransferService" ref="OWFundTransferService"/>
+    <property name="AGFundTransferService" ref="AGFundTransferService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="SBTechGameService" ref="SBTechGameService"/>
+    
+  </object>
+
+
+
+  <object id="GameBetLimitManager" name="GameBetLimitManager" type="blueberry.games.manager.src.Implementations.GameBetLimitManager, blueberry.games.manager">
+    <property name="GameBetLimitLevelService" ref="GameBetLimitLevelService"/>
+    <property name="GameBetLimitSettingService" ref="GameBetLimitSettingService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="AsianGamingService" ref="AsianGamingService"/>    
+  </object>
+
+
+
+
+</objects>

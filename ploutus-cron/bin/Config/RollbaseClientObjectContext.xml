@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+
+  <!-- Referenced by main application context configuration file -->
+  <description>
+    Instantiate single tone objects utils here.
+  </description>
+
+  <object name="RollbaseService" type="Rollbase.Service.src.implementations.RollbaseService, Rollbase.Service">
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>
+  </object>
+
+  <object name="PushDataService" type="Rollbase.Service.src.implementations.PushDataService, Rollbase.Service">
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="WageringFulfilmentService" ref="WageringFulfilmentService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="WalletFundTransferService" ref="WalletFundTransferService"/>  
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="SafePayDepositService" ref="SafePayDepositService"/>
+    <property name="WalletAdjustmentMemoService" ref="WalletAdjustmentMemoService"/>
+    <property name="NotificationMessageLogService" ref="NotificationMessageLogService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="PlayerNotificationService" ref="PlayerNotificationService"/>
+    <property name="DaddyPayDepositService" ref="DaddyPayDepositService"/>
+    <property name="PaymentGatewayBankService" ref="PaymentGatewayBankService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name ="CurrencyService" ref="CurrencyService"/>
+    <property name ="PaywaloDepositService" ref="PaywaloDepositService"/>
+    <property name ="SDPayDepositService" ref="SDPayDepositService"/>
+    <property name ="PlayerRebateQueueService" ref="PlayerRebateQueueService"/>
+    <property name ="RebateService" ref="RebateService"/>
+    <property name ="RebateDetailService" ref="RebateDetailService"/>
+    <property name ="PlayerRebateDetailService" ref="PlayerRebateDetailService"/>
+    <property name ="PlayerRebateService" ref="PlayerRebateService"/>
+
+  
+    <property name ="AgentService" ref="AgentService"/>
+    <property name ="SubAgentService" ref="SubAgentService"/>
+    <property name ="WalletLedgerService" ref="WalletLedgerService"/>
+
+  </object>
+
+  <object name="RollbasePlayerRegistration" type="Rollbase.Service.src.implementations.RollbasePlayerRegistration, Rollbase.Service">
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="IMPlatformService" ref="IMPlatformService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="PaymentRiskLevelService" ref="PaymentRiskLevelService"/>
+    <property name="StateProvinceService" ref="StateProvinceService"/>
+    <property name="SecurityQuestionService" ref="SecurityQuestionService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="FraudRiskLevelService" ref="FraudRiskLevelService"/>
+    <property name="PlayerNotificationService" ref="PlayerNotificationService"/>
+    <property name="WithdrawalLevelService" ref="WithdrawalLevelService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    
+  </object>
+
+
+  <object name="RollbaseDeposit" type="Rollbase.Service.src.implementations.RollbaseDeposit, Rollbase.Service">
+    <property name="RollbaseService" ref="RollbaseService"/>
+  </object>
+
+  <object name="RollbaseAgentService" type="Rollbase.Service.src.implementations.RollbaseAgentService, Rollbase.Service">
+    <property name="RollbaseService" ref="RollbaseService"/>
+  </object>
+
+  <object name="PushUserFingerPrintService" type="Rollbase.Service.src.implementations.PushUserFingerPrintService, Rollbase.Service">
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>
+    <property name="PlayerFingerPrintService" ref="PlayerFingerPrintService"/>
+    <property name="RollbaseService" ref="RollbaseService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="PushDataService" ref="PushDataService"/>
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>
+    <property name="PlayerFingerPrintHitService" ref="PlayerFingerPrintHitService"/>
+    <property name="RollbasePlayerRegistration" ref="RollbasePlayerRegistration"/>
+  </object>
+
+
+  <object name="PushWalletLedgerService" type="Rollbase.Service.src.implementations.PushWalletLedgerService, Rollbase.Service">
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>
+  </object>
+
+  <object name="PushAffiliateData" type="Rollbase.Service.src.implementations.PushAffiliateData, Rollbase.Service">
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="IMPlatformService" ref="IMPlatformService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="BankService" ref="BankService"/>
+    <property name="AffiliateEarningPlanService" ref="AffiliateEarningPlanService"/>
+    <property name="AffiliateCommissionService" ref="AffiliateCommissionService"/>
+    <property name="AffiliateTransactionService" ref="AffiliateTransactionService"/>
+    <property name="WalletService" ref="WalletService"/>
+    <property name="CustomerTicketService" ref="CustomerTicketService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>    
+  </object>
+
+  <object name="PushCustomerTicketService" type="Rollbase.Service.src.implementations.PushCustomerTicketService, Rollbase.Service">
+    <property name="CustomerTicketService" ref="CustomerTicketService"/>
+    <property name="AffiliateService" ref="AffiliateService"/>
+    <property name="RollbaseRestClientService" ref="RollbaseRestClientService"/>    
+  </object>
+        
+</objects>

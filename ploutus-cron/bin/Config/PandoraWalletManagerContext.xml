@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database" default-autowire="constructor">
+
+
+  <!--API AUTHENTICATION HANDLER-->
+
+
+  <object id="AbstractWalletManager" type="blueberry.walletmanager.src.Implementations.AbstractWalletManager, blueberry.walletmanager" abstract="true">
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+  </object>
+
+  <object id="WalletManager" name="WalletManager" type="blueberry.walletmanager.src.Implementations.WalletManager, blueberry.walletmanager" parent="AbstractWalletManager">
+    <property name="WalletService" ref="WalletService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="WalletDepositService" ref="WalletDepositService"/>    
+    <property name="PaymentMethodService" ref="PaymentMethodService"/>
+    <property name="BankAccountService" ref="BankAccountService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="BankService" ref="BankService"/>
+    <property name="WalletAdjustmentMemoService" ref="WalletAdjustmentMemoService"/>
+    <property name="OneWorksService" ref="OneWorksService"/>
+    <property name="BankAccountPaymentMethodService" ref="BankAccountPaymentMethodService"/>
+    <property name="UniqueDepositAmountService" ref="UniqueDepositAmountService"/>
+    <property name="AsianGamingService" ref="AsianGamingService"/>
+    <property name="PlayerBankAccountService" ref="PlayerBankAccountService"/>
+    <property name="TransactionNumberSetupService" ref="TransactionNumberSetupService"/>
+    <property name="WalletFundTransferService" ref="WalletFundTransferService"/>
+    <property name="AgentService" ref="AgentService"/>
+    <property name="SubAgentService" ref="SubAgentService"/>
+    <property name="WalletComputedBalanceService" ref="WalletComputedBalanceService"/>
+    <property name="PTGameService" ref="PTGameService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="DashboardService" ref="DashboardService"/>
+    <property name="CurrencyService" ref="CurrencyService"/>
+    <property name="SBTechGameService" ref="SBTechGameService"/>
+    <property name="VipLevelService" ref="VipLevelService"/>
+    <property name="BrandService" ref="BrandService"/>
+    <property name="AuditTrailService" ref="AuditTrailService"/>
+    <property name="PaymentGatewayService" ref="PaymentGatewayService"/>
+    <property name="CountryService" ref="CountryService"/>
+    <property name="CountryPaymentMethodService" ref="CountryPaymentMethodService"/>
+    
+  </object>
+  
+
+
+</objects>

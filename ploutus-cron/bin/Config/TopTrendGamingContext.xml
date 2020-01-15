@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+
+  
+  <object name="TopTrendService" type="Ttg.Api.src.Implementations.TopTrendService, Ttg.Api">
+    <property name="MainParterId" value="zero"/>
+    <property name="WaloParterId" value="walo"/>    
+    <property name="WalletService" ref="WalletService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="TtgFundTransferService" ref="TtgFundTransferService"/>
+    <property name="WalletWinService" ref="WalletWinService"/>
+    <property name="WalletLossService" ref="WalletLossService"/>
+    <property name="PlayerBetService" ref="PlayerBetService"/>
+    <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
+    <property name="GamePlatformService" ref="GamePlatformService"/>
+    <property name="TtgBalanceRequestService" ref="TtgBalanceRequestService"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+  </object>
+
+
+  <object name="TTGWebUtils" type="Ttg.Api.src.Util.WebUtils, Ttg.Api">    
+  </object>
+
+  
+
+</objects>

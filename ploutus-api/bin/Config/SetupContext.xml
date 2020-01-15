@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+
+  <object id="TransactionSetupManager" type="blueberry.setup.manager.src.implementations.TransactionSetupManager, blueberry.setup.manager" >
+    <property name="TransactionTypeService" ref="TransactionTypeService" />
+    <property name="WorkstepService" ref="WorkstepService" />
+    <property name="TransactionTypeWorkstepService" ref="TransactionTypeWorkstepService" />
+    <property name="TransactionTypeWorkstepApproverService" ref="TransactionTypeWorkstepApproverService" />
+    <property name="AuditTrailService" ref="AuditTrailService" />
+    
+  </object>
+
+  <object id="AthenaTableManager" type="blueberry.setup.manager.src.implementations.AthenaTableManager, blueberry.setup.manager" >    
+  </object>
+
+</objects>

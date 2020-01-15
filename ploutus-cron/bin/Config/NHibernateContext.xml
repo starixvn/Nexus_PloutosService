@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:db="http://www.springframework.net/database">
+
+  <!-- Referenced by main application context configuration file -->
+  <description>
+    Object definitions for the Data Access Objects.    
+  </description>
+
+
+
+  <object type="Spring.Objects.Factory.Config.PropertyPlaceholderConfigurer, Spring.Core">
+    <property name="ConfigSections" value="databaseSettings"/>
+  </object>
+
+  <!--SQL SERVER DATABASE
+  <db:provider id="DbProvider"
+       provider="${provider}"
+       connectionString="Data Source=${datasource};
+                        Database=${database};
+                        User ID=${user};
+                        Password=${password};
+                        Trusted_Connection=False;                        
+                        Timeout=1800"/>
+    -->
+
+  
+  <!--MYSQL DATABASE-->
+  <db:provider id="DbProvider"
+       provider="${provider}"
+       connectionString="Data Source=${datasource};
+                        Database=${database};
+                        User ID=${user};
+                        Password=${password};
+                        Old Guids=true;default command timeout=120;CharSet=utf8;
+                        Connection Timeout=120"/>
+  
+  
+  <!-- NHibernate Configuration 
+  Add in Web.Config to use
+  -->
+  <object id="NHibernateSessionFactory" type="blueberry.dao.src.Factory.SessionFactoryObject, blueberry.dao">    
+    <property name="DbProvider" ref="DbProvider"/>
+    <property name="ConnectionStringName" value="DefaultConnection"/>
+    <property name="FluentMappingAssembly" value="blueberry.dao"/>    
+    <property name="MappingAssemblies">
+      <list>
+        <value>blueberry.dao</value>
+      </list>
+    </property>
+    <property name="HibernateProperties">      
+      <dictionary>
+        <entry key="hibernate.connection.provider" value="NHibernate.Connection.DriverConnectionProvider"/>        
+        <entry key="dialect" value="${dialect}"/>        
+        <entry key="connection.driver_class" value="${driverClass}"/>
+        <entry key="use_proxy_validator" value="false" />
+        <entry key="transaction_factory" value="transactionManager"/>
+        <entry key="hibernate.user_reflection.optimizer" value="true" />
+        <entry key="hibernate.connection.isolation" value="ReadCommitted" />
+        <entry key="hbm2ddl.auto" value="update"/>
+        <!--<entry key="hbm2ddl.auto" value="check"/>-->
+        <entry key="hbm2ddl.keywords" value="auto-quote"/>
+        <entry key="adonet.batch_size" value="1000"/>
+        <entry key="connection.release_mode" value="on_close"/>
+        <entry key="show_sql" value="False"/>
+        <!--<add key="command_timeout" value="300"/>-->
+      </dictionary>
+    </property>
+
+    <!-- provides integation with Spring's declarative transaction management features -->
+    <property name="ExposeTransactionAwareSessionFactory" value="true" />
+
+  </object>
+
+  <!-- Transaction Management Strategy - local database transactions -->
+  <object id="transactionManager"
+        type="Spring.Data.NHibernate.HibernateTransactionManager, Spring.Data.NHibernate4">
+    <property name="DbProvider" ref="DbProvider"/>
+    <property name="SessionFactory" ref="NHibernateSessionFactory"/>
+
+  </object>
+
+  <!-- Exception translation object post processor -->
+  <object type="Spring.Dao.Attributes.PersistenceExceptionTranslationPostProcessor, Spring.Data"/>
+
+
+
+
+</objects>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net"
+         xmlns:tx="http://www.springframework.net/tx" default-autowire="constructor">
+
+
+
+
+  <object id="HGAbstractService" type="HG.Api.src.implementations.HGAbstractService, HG.Api" abstract="true">    
+      <property name="ConnectionTimeout" value="3600000"/>  
+  </object>
+
+  <object id="HGGameService" type="HG.Api.src.implementations.HGGameService, HG.Api" parent="HGAbstractService">
+
+
+    <property name="WalletService" ref="WalletService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="HGFundTransferHistoryService" ref="HGFundTransferHistoryService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="WalletLedgerService" ref="WalletLedgerService"/>
+    
+  </object>
+
+  <object id="HGLogService" type="HG.Api.src.implementations.HGLogService, HG.Api" parent="HGAbstractService">
+
+
+    <property name="WalletService" ref="WalletService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="PlayerProfileService" ref="PlayerProfileService"/>
+    <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
+    <property name="HGFundTransferHistoryService" ref="HGFundTransferHistoryService"/>
+    <property name="WalletManager" ref="WalletManager"/>
+    <property name="HGFundTransferHistoryService" ref="HGFundTransferHistoryService"/>
+    <property name="HGBetLogsService" ref="HGBetLogsService"/>
+    <property name="BetLogsLatestFetchService" ref="BetLogsLatestFetchService"/>
+    
+
+
+
+  </object>
+
+  <tx:attribute-driven/>
+
+</objects>

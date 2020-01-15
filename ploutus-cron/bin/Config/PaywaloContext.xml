@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+
+  <object name="PaywaloManager" type="Paywalo.Api.src.implementations.PaywaloManager, Paywalo.Api">
+    <property name="PaywaloDepositService" ref="PaywaloDepositService"/>
+    <property name="WalletWithdrawalService" ref="WalletWithdrawalService"/>
+    <property name="PaywaloWechatPayBankAccountCode" value="PWHRP"/>
+  </object>
+  
+
+</objects>
