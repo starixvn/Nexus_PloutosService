@@ -1,0 +1,252 @@
+﻿@model dynamic
+@using blueberry.core.src.Models
+
+@{
+    ViewBag.Title = "Player Lose Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Player Lose Summary</h2>
+
+<p>
+    <button data-toggle="collapse" data-target="#filter" class="glyphicon glyphicon-search"></button>
+    Filters
+</p>
+<div id="filter" class="collapse">
+    @using (Html.BeginForm("PlayerLoseSummary", "PlayerBetSummary", FormMethod.Post, new { id = "PlayerLoseSummary" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("startDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("endDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Player Account Number", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("userAccountNo", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button value="PlayerLoseSummary" id="PlayerLoseSummary" class="btn btn-default">
+                        GO
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+    <hr />
+    <div class="container">
+        <dl class="dl-horizontal">
+
+            <dt>
+                Record Count
+            </dt>
+            <dd>
+                @Model.RecordCount
+
+            </dd>
+            <dt>
+                Total Lose
+            </dt>
+            <dd>
+                @string.Format("{0:N2}", Model.TotalAmount)
+            </dd>
+            <dt>
+                Total Lose - Real Player
+            </dt>
+            <dd>
+                @string.Format("{0:N2}", Model.RealPlayerTotal)
+            </dd>
+        </dl>
+    </div>
+
+    <hr />
+
+    <div style="overflow-y: auto; width: 100%; overflow-x:scroll">
+        <table id="loseRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        User Account No.
+                    </th>
+                    <th>
+                        User Name
+                    </th>
+                    <th>
+                        Transaction No.
+                    </th>
+                    <th>
+                        Transaction Date
+                    </th>
+                    <th>
+                        Lose Amount
+                    </th>
+                    <th>
+                        Bet Amount
+                    </th>
+                    <th>
+                        GP Code
+                    </th>
+                    <th>
+                        GP Product Code
+                    </th>
+                    <th>
+                        GP Product Name
+                    </th>
+                    <th>
+                        Player Type
+                    </th>
+                    <th>
+                        Player Account Status
+                    </th>
+                    <th>
+                        Brand Code
+                    </th>
+                    <th>
+                        Wallet Code
+                    </th>
+                    <th>
+                        Rollbase Id
+                    </th>
+                    <th>
+                        Date Created
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.BetSummary != null)
+            {
+                foreach (PlayerTransactionSummary item in Model.BetSummary)
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserAccountNo)
+                            </td>
+                            <td>
+                                @*@Html.DisplayFor(modelItem => item.UserName)*@
+                                @Html.ActionLink(item.UserName, "UserTransactions", "PlayerTransaction", new { userName = item.UserName }, htmlAttributes: new { @target = "_blank" })
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionNo)
+                            </td>
+                            <td>
+                                @string.Format("{0: MM/dd/yyyy hh:mm:ss tt}", item.TransactionDate)
+                            </td>
+                            <td>
+                                @*@Html.DisplayFor(modelItem => item.TransactionAmount)*@
+                                @string.Format("{0:F2}", item.TransactionAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RefTransactionAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatformCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatformProducCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatformProducName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PlayerType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AccountStatus)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BrandCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WalletCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RollbaseId)
+                            </td>
+                            <td>
+                                @string.Format("{0: MM/dd/yyyy hh:mm:ss tt}", item.ApiDateCreated)
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <div id="divMessage"></div>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script type="text/javascript">
+        var errorMessage = "@TempData["ErrorMessage"]";
+        $(document).ready(function () {
+
+            $('.date').datepicker()
+                .on('changeDate', function (e) {
+                    $(this).datepicker('hide');
+                });
+
+            $('#loseRecords').DataTable({
+                "bPaginate": true,
+                "bLengthChange": true,
+                "bFilter": true,
+                "bSort": true,
+                "bInfo": true,
+                "bAutoWidth": true,
+                "asStripClasses": null,
+                "bJQueryUI": true,
+                "sPaginationType": "full_numbers",
+                dom: 'lfriptB',
+                buttons: ['print', 'excel', 'pdf'],
+                "order": [[0, "desc"]]
+            });
+
+
+            if (errorMessage.length > 0) {
+                $("#divMessage").text(errorMessage);
+                jQuery('#myModal').modal();
+            }
+
+
+
+        });
+    </script>

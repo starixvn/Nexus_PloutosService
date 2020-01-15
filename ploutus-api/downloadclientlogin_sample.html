@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript">
+        function dopageloaded(){
+	        window.location='htcmd:pageloaded';
+        }
+
+        function login() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+			
+            if (username == "DEMO" && password == "DEMO") {
+                window.location = "htcmd:login?&username=OR161010725124&password=OR161010725124"
+            } else {
+                alert('Login failed.');
+            }
+        }
+    </script>
+</head>
+<body oncontextmenu="return false" onload="dopageloaded()">
+    <div class="container">
+        <div class="logo">
+            <img src="img/logo.png" />
+        </div>
+
+        <div class="form-signin">
+            <h4 class="section-heading"><span>PT MOBILE - SIGN IN</span></h4>
+
+            <div class="row">
+                <div class="column">
+                    <label>USERNAME </label>
+                    <input id="username" class="full-width" type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label>PASSWORD </label>
+                    <input id="password" class="full-width" type="password">
+                </div>
+            </div>
+
+            <br /> 
+            
+            <input class="button-submit" type="submit" value="SIGN IN" onclick="login()">
+        </div>
+    </div>
+</body>
+</html>

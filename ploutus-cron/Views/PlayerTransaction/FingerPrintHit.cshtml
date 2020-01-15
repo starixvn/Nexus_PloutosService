@@ -1,0 +1,99 @@
+﻿@model dynamic
+@using blueberry.core.src.Models
+@using Microsoft.AspNet.Identity
+@using blueberry.common.src.Const
+
+@{
+    ViewBag.Title = "Finger Print Hit - " + Model.FingerPrint;
+}
+
+<h2>Finger Print Hit @Model.FingerPrint (Hit Count: @Model.HitCount)</h2>
+
+
+
+<table id="accessLogs" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                User
+            </th>
+            <th>
+                FP
+            </th>            
+            <th>
+                RB Id
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PlayerFingerPrintHit item in Model.PlayerFingerPrintHits)
+            {
+            <tr>
+                <td>                    
+                    @if (ViewContext.HttpContext.User.IsInRole(ApplicationRoles.Administrator))
+                    {
+                        @Html.ActionLink(item.UserName, "UserTransactions", "PlayerTransaction", new { userName = item.UserName }, htmlAttributes: new { @target = "_blank" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.UserName, "PlayerDetail", "Report", new { userName = item.UserName }, htmlAttributes: new { @target = "_blank" }) @:|
+                    }
+                    
+                </td>
+                <td>                    
+                    @Html.ActionLink(item.FingerPrint, "FingerPrintHit", "PlayerTransaction", new { fingerPrint = item.FingerPrint }, htmlAttributes: new { @target = "_blank" })
+                </td>                
+                <td>
+                    @item.RollbaseId
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+        $('#accessLogs').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[2, "desc"]],
+        });
+
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+    });
+</script>

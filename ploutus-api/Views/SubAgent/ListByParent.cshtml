@@ -1,0 +1,89 @@
+﻿@model IEnumerable<blueberry.Core.src.Models.SubAgent>
+
+@{
+    ViewBag.Title = "Agents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2></h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-default" })
+</p>
+<table class="table" id="records">
+    <thead>
+        <tr>
+
+            <th>
+                Agent Codes
+            </th>
+            <th>
+                Business Name
+            </th>
+            <th>
+                User Name
+            </th>
+            <th>
+                Brand Code
+            </th>
+            <th>
+                Parent Agent
+            </th>            
+            <th>
+                Wallet Code
+            </th>
+            <th>
+                Wallet Balance
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.AgentCode, "Details", new { id = item.Id })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BusinessName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BrandCode)
+                </td>
+                <td class="">
+                    @if (item.ParentAgent == null)
+                {
+                        @Html.DisplayFor(modelItem => item.MasterAgent.AgentCode, new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ParentAgent.AgentCode)
+                    }
+
+                </td>                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wallet.WalletCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wallet.Balance)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Reset Password", "ResetPassword", new { id = item.Id })*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#records').DataTable();
+    });
+</script>

@@ -1,0 +1,69 @@
+﻿
+@using blueberry.common.src.Const
+
+@model IList<blueberry.security.manager.src.Models.PandoraUser>
+
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+
+<table id="records" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                User Name
+            </th>
+            <th>
+                Account Number
+            </th>
+            <th>
+                Role
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayerAccountNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId }, htmlAttributes: new { @class = "btn btn-danger btn-xs" })
+                    @if (item.Role == ApplicationRoles.User || item.Role == ApplicationRoles.AgentShopUser)
+                    {
+                        @Html.ActionLink("Transactions", "UserTransactions", "PlayerTransaction", new { userName = item.UserName, limitRecord = 1000 }, htmlAttributes: new { @class = "btn btn-info btn-xs", @target = "_blank" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#records').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+        });
+    });
+</script>

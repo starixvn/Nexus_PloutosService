@@ -1,0 +1,335 @@
+﻿
+@model dynamic
+@using blueberry.core.src.Models
+@using blueberry.core.src.Const
+@{
+    ViewBag.Title = "PlayerTtgTransaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TTG Test</h2>
+
+<dl class="dl-horizontal">
+
+    <dt>
+        User Name:
+    </dt>
+    <dd>
+        @Model.UserName
+    </dd>
+    <dt>
+        Account number:
+    </dt>
+    <dd>
+        @Model.UserAccountNo
+    </dd>
+
+    <dt>
+        Wallet Code:
+    </dt>
+    <dd>
+        @Model.WalletCode
+    </dd>
+
+    <dt>
+        Wallet Balance:
+    </dt>
+    <dd>
+        @Model.Balance
+    </dd>
+</dl>
+
+<hr />
+<ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#GameList">Game List</a></li>
+    <li><a data-toggle="tab" href="#FundTransferRecord">Fund Transfer Record (Bet/Win/Loss)</a></li>
+    <li><a data-toggle="tab" href="#BalanceRequestRecord">Balance Request record</a></li>
+</ul>
+<div class="tab-content">
+
+    <div id="GameList" class="tab-pane fade in active">
+        <div style="overflow-y: auto; width: 100%; overflow-x:scroll">
+            <table id="ttgGameRecords" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Game Code
+                        </th>
+                        <th>
+                            Game Name
+                        </th>
+                        <th>
+                            Url Game Name
+                        </th>
+                        <th>
+                            Game Type
+                        </th>
+                        <th>
+                            Game Platform
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (GamePlatformProduct item in Model.TtgGames)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatformProductCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatformProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LaunchGameName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GameType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatform.GamePlatformCode)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Play Web", "PlayTtgGame", new { userId = Model.UserId, gameCode = item.GamePlatformProductCode, isMobile = "0" }, htmlAttributes: new { @class = "btn btn-info btn-xs", @target = "_blank" })
+                                |
+                                @Html.ActionLink("Play Mobile", "PlayTtgGame", new { userId = Model.UserId, gameCode = item.GamePlatformProductCode, isMobile = "1" }, htmlAttributes: new { @class = "btn btn-warning btn-xs g", @target = "_blank" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="FundTransferRecord" class="tab-pane fade">
+
+        <table id="ttgPlayerTransferRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Txn Id
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Game Id
+                    </th>
+                    <th>
+                        Txn Type
+                    </th>
+                    <th>
+                        Txn Type Description
+                    </th>
+
+                    <th>
+                        Hand Id
+                    </th>
+
+                    <th>
+                        Player Handle
+                    </th>
+
+                    <th>
+                        Game Play
+                    </th>
+                    <th>
+                        Wallet Prev Bal
+                    </th>
+
+                    <th>
+                        Wallet New Bal
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TtgFundTransfer item in Model.TtgFundTransfers)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TransactionId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GameId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TtgFundTransferTxnSubType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TxnDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HandId)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlayerHandle)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GameplayId)
+                        </td>
+
+                        <td>
+                            @item.CurrentBalance.ToString("N2")
+                        </td>
+
+                        <td>
+                            @item.NewBalance.ToString("N2")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div id="BalanceRequestRecord" class="tab-pane fade">
+        <table id="ttgPlayerBalanceRequestRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Request Type
+                    </th>
+                    <th>
+                        Provider Account Id
+                    </th>
+                    <th>
+                        Currency
+                    </th>
+                    <th>
+                        Player Handle
+                    </th>
+                    <th>
+                        Game Id
+                    </th>
+
+                    <th>
+                        Amount
+                    </th>
+
+                    <th>
+                        Error Code
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (TtgBalanceRequest item in Model.TtgBalanceRequest)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequestType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProviderAccountId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Currency)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlayerHandle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GameId)
+                        </td>
+                        <td>
+                            @String.Format("{0:N2}", item.Amount)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ErrorCode)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+
+
+        $('#ttgPlayerBalanceRequestRecords').DataTable({            
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]]
+        });
+
+        $('#ttgGameRecords').DataTable({            
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+        });
+
+
+        $('#ttgPlayerTransferRecords').DataTable({            
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]]
+        });
+
+
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+</script>

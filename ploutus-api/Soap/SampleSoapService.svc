@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="blueberry.Soap.SampleSoapService" CodeBehind="SampleSoapService.svc.cs" Factory="Spring.ServiceModel.Activation.ServiceHostFactory" %>

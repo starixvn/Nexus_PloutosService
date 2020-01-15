@@ -1,0 +1,148 @@
+﻿<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Lobby</title>
+    <script type="text/javascript" src="https://login.mightypanda88.com/jswrapper/integration.js.php?casino=mightypanda88"></script>
+    <script type="text/javascript">
+        
+        iapiSetCallout('Login', calloutLogin);
+        iapiSetCallout('GetTemporaryAuthenticationToken', calloutGetTemporaryAuthenticationToken);
+
+        var realMode = 1;
+        var gameType = "";
+        var gameCode = "";
+        var language = "";
+        var uri = "";
+        var token = "";
+
+        function login() {
+            iapiSetClientPlatform("mobile&deliveryPlatform=HTML5");
+            //var realMode = 1;
+            iapiLogin(document.getElementById("loginform").username.value, document.getElementById("loginform").password.value, realMode, "en");            
+
+            console.log("2. RealMode :" + realMode + " GameType :" + gameType + " GameCode :" + gameCode + " Language :" + language + " URI :" + uri + " Token :" + token);
+        }
+
+        function askTempandLaunchGame(type, game) {
+            currentgame = game;
+            gametype = type;
+            //var realMode = 1;
+
+            iapiRequestTemporaryToken(realMode, '570', 'GamePlay');
+        }
+
+        function launchMobileClient(temptoken) {
+            console.log("4. RealMode :" + realMode + " GameType :" + gameType + " GameCode :" + gameCode + " Language :" + language + " URI :" + uri + " Token :" + token);
+            //document.getElementById("loginform").username.value = getQueryVariable('username');
+            if (gametype == "mps") {
+                var clientUrl = '' + '?username=' + document.getElementById("loginform").username.value + '&temptoken=' + temptoken + '&game=' + gameCode + '&real=1';
+            } else if (gametype = "ngm") {
+                var clientUrl = 'http://hub.mp176588.com/igaming/' + '?gameId=' + gameCode + '&real=1' + '&username=' + document.getElementById("loginform").username.value
+                    + '&language=' + language + '&tempToken=' + temptoken
+                    //+ '&lobby=https://mobile.galaxyinnovation.com/mightypanda88/lobby.php'
+                    //+ '&support=https://mobile.galaxyinnovation.com/mightypanda88/support.php'
+                    //+ '&logout=https://mobile.galaxyinnovation.com/mightypanda88';
+            }
+            console.log("5. Client URL :" + clientUrl);
+            document.location = clientUrl;
+        }
+
+        function calloutLogin(response) {
+            if (response.errorCode) {
+                alert("Login failed. " + response.playerMessage + " Error code: " + response.errorCode);
+            }
+            else {
+
+                console.log(document.getElementById("loginform").username.value);
+                //window.location = "lobby.html?username=" + document.getElementById("loginform").username.value;                
+                
+                //alert("Login OK, ready to play games.");
+                askTempandLaunchGame(gameType, gameCode);
+            }
+        }
+
+        function calloutGetTemporaryAuthenticationToken(response) {
+            if (response.errorCode) {
+                alert("Token failed. " + response.playerMessage + " Error code: " + response.errorCode);
+            }
+            else {
+                token = response.sessionToken.sessionToken;
+                console.log(token);
+
+                console.log("3. RealMode :" + realMode + " GameType :" + gameType + " GameCode :" + gameCode + " Language :" + language + " URI :" + uri + " Token :" + token);
+                launchMobileClient(token);
+
+            }
+        }
+   
+
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i = 0; i < vars.length; i++) {
+                var pair = vars[i].split("=");
+                if (pair[0] == variable) {
+                    return pair[1];
+                }
+            }
+            alert('Query Variable ' + variable + ' not found');
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function pageLoad() {
+                        
+            var aa = getParameterByName('a', window.location.href);
+            uri = getParameterByName('redi', window.location.href);
+            gameType = getParameterByName('type', window.location.href);
+            gameCode = getParameterByName('code', window.location.href);
+            language = getParameterByName('language', window.location.href);
+
+            console.log("1. RealMode :" + realMode + " GameType :" + gameType + " GameCode :" + gameCode + " Language :" + language + " URI :" + uri + " Token :" + token);
+
+            document.getElementById("username").value = aa;
+            document.getElementById("password").value = aa;
+            document.getElementById("go").click();
+            
+        }
+
+        window.onload = pageLoad;
+    </script>
+</head>
+
+<body>
+    <center>
+        <br>
+        LOGIN
+        <br><br>
+        <form id="loginform" style="visibility:hidden">
+            Username: <input type="text" value="" id="username" name="username" ><br>
+            Password: <input type="text" value="" id="password" name="password">
+        </form>
+
+        <input type="submit" value="LOGIN" onclick="login()" style="height: 50px; width: 180px" id="go">
+    </center>
+    <br>
+    <center>
+        <form id="languageform" style="visibility:hidden">
+            <select name="language" id="language">
+                <option value="en">English (en)</option>
+                <option value="zh_cn">Simplified Chinese (zh-cn)</option>
+                <option value="ch">Traditional Chinese (ch)</option>
+            </select>
+        </form>
+    </center>
+
+
+
+
+</body>
+</html>

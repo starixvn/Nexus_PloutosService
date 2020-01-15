@@ -1,0 +1,256 @@
+﻿@model dynamic
+@using blueberry.Core.src.Models
+@using blueberry.Core.src.Enums
+@{
+    ViewBag.Title = Model.SubAgent.AgentCode;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<p></p>
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li><a data-toggle="tab" href="#Profile">Profile</a></li>
+        <li><a data-toggle="tab" href="#Transaction">Transaction</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div id="Profile" class="tab-pane fade in active">
+            <p></p>
+
+            <div>
+
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        Agent Code
+                    </dt>
+
+                    <dd>
+                        @Model.SubAgent.AgentCode
+                    </dd>
+                    <dt>
+                        Business Name
+                    </dt>
+
+                    <dd>
+                        @Model.SubAgent.BusinessName
+                    </dd>
+                    <dt>
+                        Agent User Name
+                    </dt>
+
+                    <dd>
+                        @Model.SubAgent.UserName
+                    </dd>
+                    <dt>
+                        Parent Agent
+                    </dt>
+
+                    <dd>
+                        @if (Model.SubAgent.ParentAgent == null)
+                        {
+                            @Model.SubAgent.MasterAgent.UserName
+                        }
+                        else
+                        {
+                            @Model.SubAgent.ParentAgent.UserName
+                        }
+                    </dd>
+                </dl>
+            </div>
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.SubAgent.Id }, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.SubAgent.Id }, new { @class = "btn btn-danger" })
+                @Html.ActionLink("Reset Password", "ResetPassword", new { id = Model.SubAgent.Id }, new { @class = "btn btn-success" })
+                @Html.ActionLink("Back to List", "ListByParent", null, new { @class = "btn btn-default" })
+            </p>
+
+
+        </div>
+
+        <div id="Transaction" class="tab-pane fade">
+            <p></p>
+            <div>
+                <div class="form-horizontal">
+                    <form method="post" action="/SubAgent/TransferBalance">
+
+                        @Html.Hidden("SourceWalletId", (string)Model.SourceWallet.Id.ToString())
+                        @Html.Hidden("DestinationWalletId", (string)Model.DestinationWallet.Id.ToString())
+                        @Html.Hidden("AgentId", (string)Model.SubAgent.Id.ToString())
+                        <dl class="dl-horizontal">
+                            <dt>
+                                User Name
+                            </dt>
+
+                            <dd>
+                                @Model.SubAgent.UserName
+                            </dd>
+                            <dt>
+                                Wallet Balance
+                            </dt>
+
+                            <dd>
+                                @Model.DestinationWallet.Balance.ToString("N2")
+                            </dd>
+
+                            <dt>
+                                Transfer Type
+                            </dt>
+                            <dd>
+                                Fund In <input checked="checked"
+                                               id="FundIn"
+                                               name="FundIn"
+                                               type="radio"
+                                               value="True" />
+                                Fund Out <input id="FundOut"
+                                                name="FundIn"
+                                                type="radio"
+                                                value="False" />
+                            </dd>
+
+
+
+
+                            <dt>
+                                Amount
+                            </dt>
+
+                            <dd style="text-align: left;">
+                                @Html.TextBox("TransferAmount", "0.00", new { @class = "form-control bfh-number" })
+                            </dd>
+                        </dl>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Transfer" class="btn btn-success" />
+                                @Html.ActionLink("Back to List", "ListByParent", null, new { @class = "btn btn-default" })
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <div>
+                <p><b>History</b></p>
+                <table id="fundTransferRecords" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Transaction No.
+                            </th>
+                            <th>
+                                Transaction Date
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Agent
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (WalletFundTransfer item in Model.FundTransfers)
+                        {
+                            <tr>
+                                <td>
+                                    @item.TransactionNo
+                                </td>
+                                <td>
+                                    @item.TransactionDate
+                                </td>
+                                <td>
+                                    @if (item.FundTransferType == FundTransferType.TransferIn)
+                                    {
+                                        @:Fund In
+                                            }
+                                    else
+                                    {
+                                        @:Fund Out
+                                            }
+                                </td>
+                                <td>
+                                    @item.TransferAmount
+                                </td>
+                                <td>
+                                    @if (item.MasterAgent == null)
+                                    {
+
+                                        @Html.DisplayFor(modelItem => item.SubAgent.UserName)
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(modelItem => item.MasterAgent.UserName)
+                                    }
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+        @if (TempData["ErrorMessage"] !=null)
+        {
+            @:errorMesage = "@TempData["ErrorMessage"]"
+        }
+        if (errorMessage.length > 0) {
+            ShowNotification("Error", errorMessage, "error");
+            //alert(errorMessage);
+        }
+
+        console.log(errorMessage.length);
+    });
+
+    function ShowNotification(title, message, notifyType) {
+        /*
+        nodeType: error, info, warning, success
+        */
+
+
+
+        $.pnotify.defaults.styling = 'bootstrap3';
+        $.pnotify({
+            title: title,
+            text: message,
+            hide: true,
+            type: notifyType,
+            delay: 10000,
+            stack: { 'dir1': 'down', 'dir2': 'middle', 'push': 'top' },
+            history: false,
+        });
+    }
+
+</script>

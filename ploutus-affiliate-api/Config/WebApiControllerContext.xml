@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net" default-autowire="constructor">
+
+
+
+  <object id="ApplicationAuthenticationHandler" type="blueberry.affiliate.Api.Authentication.ApplicationAuthenticationHandler, blueberry.affiliate">
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>
+  </object>
+
+  <object name="AbstractApiController" type="blueberry.affiliate.Controllers.Api.AbstractApiController, blueberry.affiliate" abstract="true">
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>        
+    <property name="PlayerAccessLogService" ref="PlayerAccessLogService"/>
+    <property name="UserTokenService" ref="UserTokenService"/>
+    <property name="SecurityTokenStoreManager" ref="SecurityTokenStoreManager"/>    
+  </object>
+  
+  
+
+  <object type="blueberry.affiliate.Controllers.Api.AffiliateController" parent="AbstractApiController" singleton="false">
+    <property name="AffiliateManager" ref="AffiliateManager"></property>
+  </object>
+
+  <object type="blueberry.affiliate.Controllers.Api.AffiliateCommonController" parent="AbstractApiController" singleton="false">
+    <property name="AffiliateManager" ref="AffiliateManager"></property>
+  </object>
+
+
+
+</objects>

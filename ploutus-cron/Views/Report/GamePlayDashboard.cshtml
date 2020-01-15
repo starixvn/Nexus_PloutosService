@@ -1,0 +1,509 @@
+﻿@using Pandora.Models
+@using blueberry.core.src.Enums
+@using blueberry.common.src.Enums
+@using blueberry.core.src.Models
+
+
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="alert alert-success" id="success-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong><label id="strongMessage"></label> </strong>
+    <label id="notifyMessage"></label>
+</div>
+
+<h2>Dashboard</h2>
+
+@Scripts.Render("https://www.google.com/jsapi")
+@Scripts.Render("https://www.gstatic.com/charts/loader.js")
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/jquery.signalR-2.2.1.js")
+}
+
+
+<p>
+    <button data-toggle="collapse" data-target="#filter" class="glyphicon glyphicon-search"></button>
+    Filters
+</p>
+<div id="filter" class="collapse">
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("StartDate", new { htmlAttributes = new { @class = "form-control date" } })
+                @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("EndDate", new { htmlAttributes = new { @class = "form-control date" } })
+                @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Player Type", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("PlayerType", EnumHelper.GetSelectList(typeof(PlayerType)), "Select Player Type(Default = Real)", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Grouping", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TimingType", EnumHelper.GetSelectList(typeof(TimingType)), "Select Grouping Type(Default = Hourly)", new { @class = "form-control" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button value="Refresh" id="Refresh" class="btn btn-info">
+                    <span class="glyphicon glyphicon-search"></span> Search
+                </button>
+            </div>
+        </div>
+    </div>
+    <hr />
+</div>
+
+
+
+<p>
+    <button data-toggle="collapse" data-target="#totals" class="glyphicon glyphicon-equalizer"></button>
+    Totals
+</p>
+<div id="totals" class="collapse">
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Total For</th>
+                <th>Bet</th>
+                <th>Win</th>
+                <th>Lose</th>
+                <th>Net</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Today</th>
+                <td><label class="control-label" id="totalBetToday">0.00</label></td>
+                <td><label class="control-label" id="totalWinToday">0.00</label></td>
+                <td><label class="control-label" id="totalLoseToday">0.00</label></td>
+                <td>
+                    <span id="spanTotalWinLessLoseToday">
+                        <label class="control-label" id="totalWinLessLoseToday" data-toggle="tooltip" data-placement="right">0.00</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">This Week</th>
+                <td><label class="control-label" id="totalBetThisWeek">0.00</label></td>
+                <td><label class="control-label" id="totalWinThisWeek">0.00</label></td>
+                <td><label class="control-label" id="totalLoseThisWeek">0.00</label></td>
+                <td>
+                    <span id="spanTotalWinLessLoseThisWeek">
+                        <label class="control-label" id="totalWinLessLoseThisWeek" data-toggle="tooltip" data-placement="right">0.00</label>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">This Month</th>
+                <td><label class="control-label" id="totalBetThisMonth">0.00</label></td>
+                <td><label class="control-label" id="totalWinThisMonth">0.00</label></td>
+                <td><label class="control-label" id="totalLoseThisMonth">0.00</label></td>
+                <td>
+                    <span id="spanTotalWinLessLoseThisMonth">
+                        <label class="control-label" id="totalWinLessLoseThisMonth" data-toggle="tooltip" data-placement="right">0.00</label>
+                    </span>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<p>
+    <button data-toggle="collapse" data-target="#chart" class="glyphicon glyphicon-signal"></button>
+    Charts
+</p>
+<div id="chart" class="collapse">
+
+    <ul>
+        <li>
+            <div id="gamePlaySum_div" style="border: 1px solid #ccc" />
+        </li>
+        <li>
+            <div id="bets_div" style="border: 1px solid #ccc" />
+        </li>
+        <li>
+            <div id="wins_div" style="border: 1px solid #ccc" />
+        </li>
+        <li>
+            <div id="loses_div" style="border: 1px solid #ccc" />
+        </li>
+    </ul>
+
+</div>
+
+
+<div class="loader">
+    <p></p>
+</div>
+
+
+
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    //google.setOnLoadCallback(drawChart);
+    //google.charts.load('current', { 'packages': ['line'] });
+
+
+    function drawChart(elemId, title, records) {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+        data.addColumn('number', '');
+        for (var i = 0; i < records.length; i++) {
+            var row = new Array();
+            row[0] = records[i].TxnDesc;
+            row[1] = parseFloat(records[i].Amount);
+            data.addRow(row);
+        }
+
+        var elem = document.getElementById(elemId);
+        var chart = new google.visualization.LineChart(elem);
+
+        var options = {
+            legend: 'none',
+            chart: {
+                title: title,
+                subtitle: '',
+                legend: 'none',
+                hAxis: { title: '', titleTextStyle: { color: 'red' } },
+            },
+            hAxis: { textPosition: 'none',
+                title: title},
+            axes: {
+                x: {
+                    0: { side: 'top' }
+                }
+            }
+        };
+
+        chart.draw(data, options);
+    }
+
+    function drawGamePlayChart(elemId, title, records) {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'Bet');
+        data.addColumn('number', 'Win');
+        data.addColumn('number', 'Lose');
+
+
+        for (var i = 0; i < records.length; i++) {
+            var row = new Array();
+            row[0] = records[i].STxnDate;
+            row[1] = parseFloat(records[i].Amount);
+            row[2] = parseFloat(records[i].Amount1);
+            row[3] = parseFloat(records[i].Amount2);
+            data.addRow(row);
+        }
+
+        var elem = document.getElementById(elemId);
+        var chart = new google.visualization.LineChart(elem);
+        //var chart = new google.charts.Line(elem);
+
+        var options = {
+            //legend: 'none',
+            chart: {
+                title: title,
+                subtitle: '',
+                legend: 'none',
+                hAxis: { title: '', titleTextStyle: { color: 'red' } },
+            },
+            hAxis: {
+                //textPosition: 'none',
+                //title: title
+            },
+            axes: {
+                x: {
+                    0: { side: 'top' }
+                }
+            }
+        };
+
+        chart.draw(data, options);
+    }
+
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+
+    var gamePlayData =
+        {TotalBetToday:0,
+            TotalBetThisWeek:0,
+            TotalBetThisMonth:0,
+            TotalWinToday:0,
+            TotalWinThisWeek:0,
+            TotalWinThisMonth:0,
+            TotalLoseToday:0,
+            TotalLoseThisWeek:0,
+            TotalLoseThisMonth:0
+        };
+
+
+    $(document).ready(function () {
+
+        $('.loader').hide();
+
+        $("#success-alert").hide();
+        $('#chart').collapse({
+            toggle: true
+        })
+
+        $('.date').datepicker()
+            .on('changeDate', function (e) {
+                $(this).datepicker('hide');
+            });
+
+        var Bets = @Html.Raw(Json.Encode(ViewBag.Bets));
+        var Wins = @Html.Raw(Json.Encode(ViewBag.Wins));
+        var Loses = @Html.Raw(Json.Encode(ViewBag.Loses));
+        var GamePlaySum = @Html.Raw(Json.Encode(ViewBag.GamePlaySum));
+
+
+        drawChart('bets_div', "Bets", Bets);
+        drawChart('wins_div', "Wins", Wins);
+        drawChart('loses_div', "Lose", Loses);
+        drawGamePlayChart('gamePlaySum_div', "Bet/Win/Lose", GamePlaySum);
+
+        $('#totalBetToday').text(addCommas(parseFloat("@ViewBag.TotalBetToday").toFixed(2)));
+        $('#totalBetThisWeek').text(addCommas(parseFloat("@ViewBag.TotalBetThisWeek").toFixed(2)));
+        $('#totalBetThisMonth').text(addCommas(parseFloat("@ViewBag.TotalBetThisMonth").toFixed(2)));
+
+        $('#totalWinToday').text(addCommas(parseFloat("@ViewBag.TotalWinToday").toFixed(2)));
+        $('#totalWinThisWeek').text(addCommas(parseFloat("@ViewBag.TotalWinThisWeek").toFixed(2)));
+        $('#totalWinThisMonth').text(addCommas(parseFloat("@ViewBag.TotalWinThisMonth").toFixed(2)));
+
+        $('#totalLoseToday').text(addCommas(parseFloat("@ViewBag.TotalLoseToday").toFixed(2)));
+        $('#totalLoseThisWeek').text(addCommas(parseFloat("@ViewBag.TotalLoseThisWeek").toFixed(2)));
+        $('#totalLoseThisMonth').text(addCommas(parseFloat("@ViewBag.TotalLoseThisMonth").toFixed(2)));
+
+        gamePlayData.TotalBetToday = @ViewBag.TotalBetToday;
+        gamePlayData.TotalBetThisWeek = @ViewBag.TotalBetThisWeek;
+        gamePlayData.TotalBetThisMonth = @ViewBag.TotalBetThisMonth;
+
+        gamePlayData.TotalWinToday = @ViewBag.TotalWinToday;
+        gamePlayData.TotalWinThisWeek = @ViewBag.TotalWinThisWeek;
+        gamePlayData.TotalWinThisMonth = @ViewBag.TotalWinThisMonth;
+
+        gamePlayData.TotalLoseToday = @ViewBag.TotalLoseToday;
+        gamePlayData.TotalLoseThisWeek = @ViewBag.TotalLoseThisWeek;
+        gamePlayData.TotalLoseThisMonth = @ViewBag.TotalLoseThisMonth;
+
+
+        $('#totalWinLessLoseToday').text(addCommas(parseFloat(gamePlayData.TotalWinToday - gamePlayData.TotalLoseToday).toFixed(2)));
+        $('#totalWinLessLoseThisWeek').text(addCommas(parseFloat(gamePlayData.TotalWinThisWeek - gamePlayData.TotalLoseThisWeek).toFixed(2)));
+        $('#totalWinLessLoseThisMonth').text(addCommas(parseFloat(gamePlayData.TotalWinThisMonth - gamePlayData.TotalLoseThisMonth).toFixed(2)));
+
+
+        //console.log(gamePlayData)
+
+        $('#Refresh').click(function () {
+            $('.loader').show();
+            RefreshDashboard();
+        });
+
+        //var conn = $.hubConnection(pandoraUrl);
+        var conn = $.hubConnection();
+        var hub = conn.createHubProxy('dashboardhub');
+
+        hub.on('updateGamePlayDashboard', function(data){
+
+            console.log('client called by server')
+            drawChart('bets_div', "Bets", data.Bets);
+            drawChart('wins_div', "Wins", data.Wins);
+            drawChart('loses_div', "Lose", data.Loses);
+            drawGamePlayChart('gamePlaySum_div', "Bet/Win/Lose", data.GamePlaySum);
+
+            $('#totalBetToday').text(addCommas(parseFloat(data.TotalBetToday).toFixed(2)));
+            $('#totalBetThisWeek').text(addCommas(parseFloat(data.TotalBetThisWeek).toFixed(2)));
+            $('#totalBetThisMonth').text(addCommas(parseFloat(data.TotalBetThisMonth).toFixed(2)));
+
+            $('#totalWinToday').text(addCommas(parseFloat(data.TotalWinToday).toFixed(2)));
+            $('#totalWinThisWeek').text(addCommas(parseFloat(data.TotalWinThisWeek).toFixed(2)));
+            $('#totalWinThisMonth').text(addCommas(parseFloat(data.TotalWinThisMonth).toFixed(2)));
+
+            $('#totalLoseToday').text(addCommas(parseFloat(data.TotalLoseToday).toFixed(2)));
+            $('#totalLoseThisWeek').text(addCommas(parseFloat(data.TotalLoseThisWeek).toFixed(2)));
+            $('#totalLoseThisMonth').text(addCommas(parseFloat(data.TotalLoseThisMonth).toFixed(2)));
+
+            $('#totalBetThisMonth').removeClass( "glyphicon glyphicon-arrow-up");
+            $('#spanTotalWinLessLoseToday').removeClass( "has-error" )
+            $('#spanTotalWinLessLoseThisWeek').removeClass("has-error")
+            $('#spanTotalWinLessLoseThisMonth').removeClass("has-error")
+            
+            if(data.TotalBetThisMonth > gamePlayData.TotalBetThisMonth){
+                $('#totalBetThisMonth').addClass( "glyphicon glyphicon-arrow-up" )
+
+                $('#strongMessage').text('Bets');
+                $('#notifyMessage').text('From ' + addCommas(gamePlayData.TotalBetThisMonth) + ' to ' + addCommas(data.TotalBetThisMonth));
+
+                $("#success-alert").show();
+                $("#success-alert").delay(10000).slideUp(1500, function() {
+                    $("#success-alert").hide();
+                });
+            }
+
+            var curTurnOverToday = gamePlayData.TotalWinToday - gamePlayData.TotalLoseToday;
+            var curTurnOverThisWeek = gamePlayData.TotalWinThisWeek - gamePlayData.TotalLoseThisWeek;
+            var curTurnOverThisMonth = gamePlayData.TotalWinThisMonth - gamePlayData.TotalLoseThisMonth;
+
+            var newTurnOverToday = data.TotalWinToday - data.TotalLoseToday;
+            var newTurnOverThisWeek = data.TotalWinThisWeek - data.TotalLoseThisWeek;
+            var newTurnOverThisMonth = data.TotalWinThisMonth - data.TotalLoseThisMonth;
+
+
+            gamePlayData.TotalBetToday = data.TotalBetToday;
+            gamePlayData.TotalBetThisWeek = data.TotalBetThisWeek;
+            gamePlayData.TotalBetThisMonth = data.TotalBetThisMonth;
+
+            gamePlayData.TotalWinToday = data.TotalWinToday;
+            gamePlayData.TotalWinThisWeek = data.TotalWinThisWeek;
+            gamePlayData.TotalWinThisMonth = data.TotalWinThisMonth;
+
+            gamePlayData.TotalLoseToday = data.TotalLoseToday;
+            gamePlayData.TotalLoseThisWeek = data.TotalLoseThisWeek;
+            gamePlayData.TotalLoseThisMonth = data.TotalLoseThisMonth;
+
+            
+            if(curTurnOverToday > newTurnOverToday){
+                $('#spanTotalWinLessLoseToday').addClass( "has-error" )
+            }
+            
+            if(curTurnOverThisWeek > newTurnOverThisWeek){
+                $('#spanTotalWinLessLoseThisWeek').addClass("has-error")
+            }
+            
+            if(curTurnOverThisMonth > newTurnOverThisMonth){                
+                $('#spanTotalWinLessLoseThisMonth').addClass("has-error")
+            }
+
+
+            $('#totalBetToday').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalBetToday).toFixed(2)));
+            $('#totalBetThisWeek').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalBetThisWeek).toFixed(2)));
+            $('#totalBetThisMonth').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalBetThisMonth).toFixed(2)));
+
+            $('#totalWinToday').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalWinToday).toFixed(2)));
+            $('#totalWinThisWeek').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalWinThisWeek).toFixed(2)));
+            $('#totalWinThisMonth').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalWinThisMonth).toFixed(2)));
+
+            $('#totalLoseToday').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalLoseToday).toFixed(2)));
+            $('#totalLoseThisWeek').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalLoseThisWeek).toFixed(2)));
+            $('#totalLoseThisMonth').attr('title', 'Previous: ' + addCommas(parseFloat(gamePlayData.TotalLoseThisMonth).toFixed(2)));
+
+
+
+            $('#totalWinLessLoseToday').attr('title', 'Previous: ' + addCommas(curTurnOverToday.toFixed(2)));
+            $('#totalWinLessLoseThisWeek').attr('title', 'Previous: ' + addCommas(curTurnOverThisWeek.toFixed(2)));
+            $('#totalWinLessLoseThisMonth').attr('title', 'Previous: ' + addCommas(curTurnOverThisMonth.toFixed(2)));
+
+
+            $('#totalWinLessLoseToday').tooltip();
+            $('#totalWinLessLoseThisWeek').tooltip();
+            $('#totalWinLessLoseThisMonth').tooltip();
+            
+            $('#totalBetToday').tooltip();
+            $('#totalBetThisWeek').tooltip();
+            $('#totalBetThisMonth').tooltip();
+
+            $('#totalWinToday').tooltip();
+            $('#totalWinThisWeek').tooltip();
+            $('#totalWinThisMonth').tooltip();
+
+            $('#totalLoseToday').tooltip();
+            $('#totalLoseThisWeek').tooltip();
+            $('#totalLoseThisMonth').tooltip();
+
+
+            $('#totalWinLessLoseToday').text(addCommas(parseFloat(gamePlayData.TotalWinToday - gamePlayData.TotalLoseToday).toFixed(2)));
+            $('#totalWinLessLoseThisWeek').text(addCommas(parseFloat(gamePlayData.TotalWinThisWeek - gamePlayData.TotalLoseThisWeek).toFixed(2)));
+            $('#totalWinLessLoseThisMonth').text(addCommas(parseFloat(gamePlayData.TotalWinThisMonth - gamePlayData.TotalLoseThisMonth).toFixed(2)));
+
+        });
+
+        conn.start({ transport: 'longPolling' }, function(){
+        }).done(function(){ console.log(conn.id)  })
+        .fail(function(){ console.log('failed to connect signalr') });
+
+
+    });
+
+    function addCommas(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+
+
+
+    function RefreshDashboard(){        
+        $.post('/Report/GamePlayData/', {
+            StartDate: $('#StartDate').val(),
+            EndDate: $('#EndDate').val(),
+            PlayerType: $('#PlayerType').val(),
+            Status: $('#Status').val(),
+            TimingType: $('#TimingType').val(),
+        },function (data) {          
+                drawChart('bets_div', "Bets", data.Bets);
+                drawChart('wins_div', "Wins", data.Wins);
+                drawChart('loses_div', "Lose", data.Loses);
+                drawGamePlayChart('gamePlaySum_div', "Bet/Win/Lose", data.GamePlaySum);
+
+                $('#totalBetToday').text(addCommas(parseFloat(data.TotalBetToday).toFixed(2)));
+                $('#totalBetThisWeek').text(addCommas(parseFloat(data.TotalBetThisWeek).toFixed(2)));
+                $('#totalBetThisMonth').text(addCommas(parseFloat(data.TotalBetThisMonth).toFixed(2)));
+
+                $('#totalWinToday').text(addCommas(parseFloat(data.TotalWinToday).toFixed(2)));
+                $('#totalWinThisWeek').text(addCommas(parseFloat(data.TotalWinThisWeek).toFixed(2)));
+                $('#totalWinThisMonth').text(addCommas(parseFloat(data.TotalWinThisMonth).toFixed(2)));
+
+                $('#totalLoseToday').text(addCommas(parseFloat(data.TotalLoseToday).toFixed(2)));
+                $('#totalLoseThisWeek').text(addCommas(parseFloat(data.TotalLoseThisWeek).toFixed(2)));
+                $('#totalLoseThisMonth').text(addCommas(parseFloat(data.TotalLoseThisMonth).toFixed(2)));
+
+                $('#totalWinLessLoseToday').text(addCommas(parseFloat(data.TotalWinToday - data.TotalLoseToday).toFixed(2)));
+                $('#totalWinLessLoseThisWeek').text(addCommas(parseFloat(data.TotalWinThisWeek - data.TotalLoseThisWeek).toFixed(2)));
+                $('#totalWinLessLoseThisMonth').text(addCommas(parseFloat(data.TotalWinThisMonth - data.TotalLoseThisMonth).toFixed(2)));
+                $('.loader').hide();
+            }, 'json');
+
+    }
+
+
+</script>

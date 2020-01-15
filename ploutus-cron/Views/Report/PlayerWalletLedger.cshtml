@@ -1,0 +1,194 @@
+﻿@model dynamic
+@using blueberry.core.src.Models
+
+@{
+    ViewBag.Title = "Wallet Ledger";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Player Wallet Ledger</h2>
+
+<p>
+    <button data-toggle="collapse" data-target="#filter" class="glyphicon glyphicon-search"></button>
+    Filters
+</p>
+<div id="filter" class="collapse">
+    @using (Html.BeginForm("PlayerWalletLedger", "Report", FormMethod.Post, new { id = "PlayerWalletLedger" }))
+    {
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("StartDate", new { htmlAttributes = new { @class = "form-control date", required = "required" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("EndDate", new { htmlAttributes = new { @class = "form-control date", required = "required" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Player User Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("UserName", new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button value="PlayerWalletLedger" id="PlayerWalletLedger" class="btn btn-default">
+                        GO
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<hr />
+
+
+
+<table id="walletLedgerRecords" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Txn Date
+            </th>
+            <th>
+                Txn No
+            </th>
+            <th>
+                Vendor
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Txn Amount
+            </th>
+
+            <th>
+                Vendor Prev Balance
+            </th>
+            <th>
+                Vendor New Balance
+            </th>
+
+            <th>
+                Wallet Prev Balance
+            </th>
+            <th>
+                Wallet New Balance
+            </th>
+            <th>
+                RB Id
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (WalletLedger item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WalletLedgerType)
+                </td>
+                <td>
+                    @string.Format("{0:N2}", item.TransactionAmount)
+                </td>
+                <td>
+                    @string.Format("{0:N2}", item.VendorPrevBalanceAmount)
+                </td>
+                <td>
+                    @string.Format("{0:N2}", item.VendorNewBalanceAmount)
+                </td>
+                <td>
+                    @string.Format("{0:N2}", item.WalletPrevBalanceAmount)
+                </td>
+                <td>
+                    @string.Format("{0:N2}", item.WalletNewBalanceAmount)
+                </td>
+                <td>
+                    @item.RollbaseId
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+        $('.date').datepicker()
+            .on('changeDate', function (e) {
+                $(this).datepicker('hide');
+            });
+
+        $('#walletLedgerRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            dom: 'lfriptB',
+            buttons: ['print', 'excel', 'pdf'],
+            "order": [[0, "desc"]],
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        });
+
+
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+</script>

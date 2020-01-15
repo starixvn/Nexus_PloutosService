@@ -1,0 +1,96 @@
+﻿@model blueberry.core.src.Models.PaymentGatewayBank
+@using blueberry.core.src.Enums
+@using blueberry.utils.src.DataTypeConvesion
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Bank</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankAbb)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankAbb)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BankNameEn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BankNameEn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BrandCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentGateway)
+        </dt>
+
+        <dd>
+            @{
+              PaymentGateway paymentGateway = Model.PaymentGateway;
+            }
+            @paymentGateway.GetDisplayName()
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepositMode)
+        </dt>
+
+        <dd>
+            @{
+                PaymentGatewayDepositMode depositMode = Model.DepositMode;
+            }
+            @depositMode.GetDisplayName()
+        </dd>
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActiveRecord)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActiveRecord)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "List")
+</p>

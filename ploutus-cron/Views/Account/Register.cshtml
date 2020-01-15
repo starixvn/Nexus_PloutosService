@@ -1,0 +1,121 @@
+﻿@using blueberry.common.src.Const
+
+
+@model blueberry.security.manager.src.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserRole, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select id="UserRole" name="UserRole" class="form-control">
+                <option value="Users">Users</option>
+                <option value="Administrator">Administrator</option>
+                <option value="RepostUsers">Repost Users</option>
+                <option value="AdministratorBackOffice">Administrator Back Office</option>
+                <option value="AdministratorGamePlatforms">Administrator Game Platforms</option>
+                <option value="CronUser">CRON User</option>
+                <option value="AdministratorDaddyPay">Administrator Daddy Pay</option>
+                <option value="AdministratorSafePay">Administrator SafePay</option>
+                <option value="AdministratorSDPay">Administrator SD Pay</option>
+                <option value="HeadAgent">Head Agent</option>
+                <option value="SubAgent">Sub Agents</option>
+                <option value="AgentShopUser">Agent Shop User</option>
+                <option value="AgentSubAgentAdmins">Agent SubAgent Admins</option>
+                <option value="GameTesterUser">Game Tester User</option>
+                <option value="PaymentTesterUser">Payment Test User</option>
+
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MobileNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+    <div class="form-group merchant-input">
+        @Html.LabelFor(m => m.MerchantCode, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MerchantCode, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group merchant-input">
+        @Html.LabelFor(m => m.MerchantName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MerchantName, new { @class = "form-control" })
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
+<script>
+    $(document).ready(function () {
+
+        if ($("#UserRole").val() == "@ApplicationRoles.AdministratorBackOffice" || $("#UserRole").val() == "@ApplicationRoles.AdministratorGamePlatforms") {
+            $(".merchant-input").show();
+        } else {
+            $(".merchant-input").hide();
+        }
+
+        $("#UserRole").change(function () {
+            console.log($("#UserRole").val());
+            if($("#UserRole").val() == "@ApplicationRoles.AdministratorBackOffice" || $("#UserRole").val() == "@ApplicationRoles.AdministratorGamePlatforms"){
+                $(".merchant-input").show();
+            }else{
+                $(".merchant-input").hide();
+            }
+        });
+    });
+</script>

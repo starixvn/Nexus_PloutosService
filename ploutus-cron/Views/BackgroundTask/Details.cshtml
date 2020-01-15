@@ -1,0 +1,70 @@
+﻿@model blueberry.core.src.Models.BackgroundTaskSchedule
+@using blueberry.core.src.Enums
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4></h4>
+<hr />
+<dl class="dl-horizontal">
+
+    <dt>
+        @Html.DisplayNameFor(model => model.BackgroundTaskTypeName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.BackgroundTaskTypeName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.NotifyEmailAddress)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.NotifyEmailAddress)
+    </dd>
+
+    @if (Model.RepeatType == 0)
+    {
+        <dt>
+            @Html.DisplayNameFor(model => model.Minute)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Minute)
+        </dd>
+    }
+    @if (Model.RepeatType == 1)
+    {
+        <dt>
+            @Html.DisplayNameFor(model => model.Hour)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hour)
+        </dd>
+    }
+    @if (Model.RepeatType == 2)
+    {
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeOfDay)
+        </dt>
+
+        <dd>
+            @Model.TimeOfDay.ToShortTimeString()
+        </dd>
+    }
+
+
+
+</dl>
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-warning" }) |
+    @Html.ActionLink("Back to List", "List", null, htmlAttributes: new { @class = "btn btn-info" })
+</p>

@@ -1,0 +1,131 @@
+﻿@using Microsoft.AspNet.Identity
+@using blueberry.common.src.Const
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Blueberry-Pagcor</title>    
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/jquery.dataTables.min.js")
+    @Scripts.Render("~/Scripts/dataTables.bootstrap.min.js")
+    @Styles.Render("~/bundles/Content/css")
+    @RenderSection("scripts", required: false)
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Blueberry-Pagcor", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*@if (Request.IsAuthenticated && ViewContext.HttpContext.User.IsInRole("Administrator"))
+                    {
+                        <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, new { target = "_blank" })</li>
+                    }*@
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container body-content">
+
+        <div class="row">
+            <div class="col-lg-3">
+                @if (Request.IsAuthenticated && ViewContext.HttpContext.User.IsInRole("Administrator"))
+                {
+
+                    <ul class="nav nav-pills nav-stacked" style="padding-top: 30px;">
+                        @*<li>
+                            @Html.ActionLink("Users", "UserList", "UserManagement")
+                        </li>*@
+                        <li>
+                            @Html.ActionLink("Connected Players", "PlayerConnections", "PlayerTransaction")
+                        </li>
+                        @*<li>
+                            @Html.ActionLink("Register New User", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+                        </li>*@
+                        <li>
+                            @Html.ActionLink("Application Logs", "Index", "BackgroundTaskLog")
+                        </li>
+                        @*<li>
+                            @Html.ActionLink("Daddy Pay Bank", "List", "DaddyPayBank")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Payment Gateway Banks", "List", "PaymentGatewayBank")
+                        </li>*@
+
+                        <li>
+                            @Html.ActionLink("Application Configurations", "Index", "AppConfiguration")
+                        </li>
+
+                        @*<li>
+                            @Html.ActionLink("Get Registration", "GetPlayerRegistration", "PlayerTransaction")
+                        </li>*@
+
+                    </ul>
+                }
+                @if (Request.IsAuthenticated && ViewContext.HttpContext.User.IsInRole("Users"))
+                {
+                    <ul class="nav nav-pills nav-stacked" style="padding-top: 30px;">
+                        <li>
+                            @Html.ActionLink("Player Transactions", "Transactions", "PlayerTransaction")
+                        </li>
+                    </ul>
+                }
+
+                @if (Request.IsAuthenticated && (ViewContext.HttpContext.User.IsInRole(ApplicationRoles.HeadAgent) || ViewContext.HttpContext.User.IsInRole(ApplicationRoles.SubAgent)))
+                {
+                    <ul class="nav nav-pills nav-stacked" style="padding-top: 30px;">
+                        <li>
+                            @Html.ActionLink("Sub-Agents", "ListByParent", "SubAgent")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Players", "List", "SubAgentPlayer")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Transactions", "TransactionHistory", "SubAgent")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Reports", "WinLossHistory", "SubAgent")
+                        </li>
+
+                    </ul>
+                }
+
+
+
+
+            </div>
+            <div class="col-lg-9">
+                @RenderBody()
+            </div>
+        </div>
+
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - blueberry Inc.</p>
+        </footer>
+    </div>
+
+
+
+
+
+
+</body>
+</html>

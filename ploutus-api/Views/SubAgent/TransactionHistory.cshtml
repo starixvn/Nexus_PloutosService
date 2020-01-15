@@ -1,0 +1,99 @@
+﻿@using blueberry.Core.src.Models
+@using blueberry.Core.src.Dto
+@using blueberry.Core.src.Enums
+@model IEnumerable<blueberry.Core.src.Dto.WalletFundTransferDto>
+
+@{
+    ViewBag.Title = "TransactionHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Transaction History</h2>
+
+<table id="fundTransferRecords" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Transaction No.
+            </th>
+            <th>
+                Transaction Date
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Agent
+            </th>
+            <th>
+                Fund Source
+            </th>
+            <th>
+                Fund Destination
+            </th>
+
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (WalletFundTransferDto item in Model)
+        {
+            <tr>
+                <td>
+                    @item.TransactionNo
+                </td>
+                <td>
+                    @item.TransactionDate
+                </td>
+                <td>
+                    @if (item.FundTransferType == FundTransferType.TransferIn)
+                    {
+                        @:Fund In
+                                            }
+                    else
+                    {
+                        @:Fund Out
+                                            }
+                </td>
+                <td>
+                    @item.TransferAmount.ToString("N2")
+                </td>
+                <td>
+                    @if (item.MasterAgent == null)
+                    {
+
+                        @Html.DisplayFor(modelItem => item.SubAgent.UserName)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.MasterAgent.UserName)
+                    }
+                </td>
+                <td>
+                    @item.SourceObjectName
+                </td>
+                <td>
+                    @item.DestinationObjectName
+                </td>
+
+
+
+
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#fundTransferRecords').DataTable();
+    });
+</script>

@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Fetch Game Log Manualy</h2>
+
+@using (Html.BeginForm("ProcessOwGameBetLog", "FetcGameBet", FormMethod.Post, new { id = "ProcessOwGameBetLog" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Game Log Version", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("versionKey", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("versionKey", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button value="ProcessOwGameBetLog" id="ProcessOwGameBetLog" class="btn btn-default">
+                    Get OW Log
+                </button>                
+            </div>
+        </div>
+    </div>
+}
+
+<hr />
+
+@using (Html.BeginForm("ProcessAGLog", "FetcGameBet", FormMethod.Post, new { id = "ProcessAGLog" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("date", new { htmlAttributes = new { @class = "form-control date" } })
+                @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button value="ProcessAGLog" id="ProcessAGLog" class="btn btn-default">
+                    Process AG Bet
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("ProcessPTLog", "FetcGameBet", FormMethod.Post, new { id = "ProcessPTLog" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("date", new { htmlAttributes = new { @class = "form-control date" } })
+                @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button value="ProcessPTLog" id="ProcessPTLog" class="btn btn-default">
+                    Process PT Bet
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+
+<hr />
+<div class="form-group">
+    @Html.Label("Process Access Logs", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.ActionLink("Push Access Log", "PushFingerPrint", null, htmlAttributes: new { @class = "btn btn-default" })
+    </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+       
+
+        //$('#date').datepicker({
+        //    format: "dd/mm/yyyy"
+        //});
+        
+        $('#date').datepicker()
+                .on('changeDate', function (e) {
+                    $(this).datepicker('hide');
+                });
+
+    });
+
+</script>

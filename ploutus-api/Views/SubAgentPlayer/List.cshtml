@@ -1,0 +1,65 @@
+﻿@model IEnumerable<blueberry.core.src.Dto.AgentPlayerDto>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2></h2>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-default" })
+</p>
+<table class="table" id="records">
+    <thead>
+        <tr>
+            <th>
+                Player Code
+            </th>
+
+            <th>
+                User Name
+            </th>
+            <th>
+                Agent Code
+            </th>
+
+            <th>
+                Wallet Balance
+            </th>
+            <th>
+                Wallet Code
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(item.PlayerCode, "Details", new { id = item.Id })
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AgentUserName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.WalletBalance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WalletCode)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#records').DataTable();
+    });
+</script>

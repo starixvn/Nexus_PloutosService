@@ -1,0 +1,113 @@
+﻿
+@using blueberry.common.src.Const
+
+@model IList<blueberry.security.manager.src.Models.PandoraUser>
+
+@{
+    ViewBag.Title = "Players";
+}
+
+<h2>Players</h2>
+
+<table id="records" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                User Name
+            </th>
+            <th>
+                Account Number
+            </th>
+
+            <th>
+                Latest Balance
+            </th>
+            <th>
+                Balance as Of
+            </th>
+            <th>
+                Withdrawable Amount
+            </th>
+            <th>
+                Verified
+            </th>
+            <th>
+                Player Type
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Date Register
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (Request.IsAuthenticated && ViewContext.HttpContext.User.IsInRole(ApplicationRoles.Administrator))
+                    {
+                        @Html.ActionLink(item.UserName, "UserTransactions", "PlayerTransaction", new { userName = item.UserName, limitRecord=1000 }, htmlAttributes: new { @class = "", @target = "_blank" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.UserName, "PlayerDetail", "Report", new { userName = item.UserName, limitRecord = 1000 }, htmlAttributes: new { @class = "", @target = "_blank" })
+                    }
+                    
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayerAccountNo)
+                </td>
+                
+                <td>
+                    @string.Format("{0:N2}", item.LatestWalletBalance)
+                </td>
+
+                <td>
+                   @string.Format("{0:MM/dd/yy hh:mm:ss tt}", item.WalletBalanceAsOf)
+                </td>
+
+                <td>
+                    @string.Format("{0:N2}", item.WithdrawableAmount)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsVerified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayerType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountStatus)
+                </td>
+                <td>
+                    @string.Format("{0:MM/dd/yy hh:mm:ss tt}", item.DateRegistered)
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#records').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            dom: 'lfriptB',//fliptB
+            buttons: ['print', 'excel', 'pdf'],
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            "order": [[2, "desc"]]
+        });
+    });
+</script>

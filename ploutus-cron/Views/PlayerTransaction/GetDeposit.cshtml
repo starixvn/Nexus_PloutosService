@@ -1,0 +1,470 @@
+﻿@model blueberry.core.src.Models.WalletDeposit
+@using blueberry.core.src.Models;
+@using Microsoft.AspNet.Identity
+@using blueberry.common.src.Const
+
+@{
+    ViewBag.Title = "Deposit -" + Model.TransactionNo;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Deposit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            Transaction No
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransactionNo)
+        </dd>
+
+        <dt>
+            Ref Transaction No
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefTransactionNo)
+        </dd>
+
+        <dt>
+            Ref Deposit Remarks
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefDepositRemarks)
+        </dd>
+
+        <dt>
+            Transaction Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransactionDate)
+        </dd>
+
+        <dt>
+            Deposit Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepositDate)
+        </dd>
+
+        <dt>
+            Actual Deposit Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualDepositAmount)
+        </dd>
+
+        <dt>
+            Deposit Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepositAmount)
+        </dd>
+
+        <dt>
+            Unique Deposit Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UniqueDepositAmount)
+        </dd>
+
+        <dt>
+            Credit Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditAmount)
+        </dd>
+
+        <dt>
+            Wagering Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WageringAmount)
+        </dd>
+
+
+        <dt>
+            Bonus Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BonusAmount)
+        </dd>
+
+        <dt>
+            Bonus Wagering Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BonusWageringAmount)
+        </dd>
+
+        <dt>
+            Total Wagering Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalWageringAmount)
+        </dd>
+
+        <dt>
+            Wagering Balance Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WageringBalanceAmount)
+        </dd>
+
+        <dt>
+            Wagering Fulfillment Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WageringFulfillmentAmount)
+        </dd>
+
+        <dt>
+            Is Wagering Fulfilled
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsWageringFulfilled)
+        </dd>
+
+        <dt>
+            Lock Amount
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LockAmount)
+        </dd>
+        <dt>
+            Required Deposit for Bonus Limit
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequiredDepositForBonus)
+        </dd>
+
+        <dt>
+            Rollbase Id
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RollbaseId)
+        </dd>
+
+
+
+        <dt>
+            Need to Sync
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NeedToSync)
+        </dd>
+
+        <dt>
+            Approved Date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApprovedDate)
+        </dd>
+
+
+
+        <dt>
+            <div class="force-aligned-status">
+                <div class="title-wallet-balance">
+                    Status
+                </div>
+            </div>
+        </dt>
+
+        <dd>
+            <div class="force-aligned-status">
+                <div class="vertical-align-status-search">
+                    @Html.DisplayFor(model => model.Status)
+                </div>
+                <div class="ChangeStatusForm">
+                    @if (Request.IsAuthenticated && ViewContext.HttpContext.User.IsInRole(ApplicationRoles.Administrator))
+                    {
+                        using (Html.BeginForm("UpdateDepositStatus", "PlayerTransaction", FormMethod.Post))
+                        {
+                            @Html.Hidden("depositId", Model.Id)
+                            <div class="form-group">
+                                <div class="input-group-btn">
+                                    <select class="form-control" id="Status" name="Status">
+                                        <option value="">-Select Status-</option>
+                                        <option value="0">Requested</option>
+                                        <option value="2">Approved</option>
+                                        <option value="7">Rejected</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                        <button id="Search" class="btn btn-info">
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                        </button>
+                                    </span>
+
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </dd>
+
+
+        <dt>
+            Bonus Id
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BonusId)
+        </dd>
+
+        <dt>
+            Bonus Code
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BonusCode)
+        </dd>
+
+    </dl>
+    @if (Model != null)
+    {
+        @Html.ActionLink("Recompute Bonus", "RecomputeBonus", "PlayerTransaction", new { depositId = Model.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+        @:|
+        @Html.ActionLink("Update Wagering", "UpdateDepositWagering", "PlayerTransaction", new { depositId = Model.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+        @:|
+        @Html.ActionLink("Fulfill", "FulfillDeposit", "PlayerTransaction", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+        @:|
+        @Html.ActionLink("Unfulfill", "UnfulfillDeposit", "PlayerTransaction", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+        @:|
+        @Html.ActionLink("Sync", "SyncDeposit", "PlayerTransaction", new { depositId = Model.Id }, htmlAttributes: new { @class = "btn btn-primary" })
+    }
+
+</div>
+<hr />
+<h1>Audit</h1>
+<table id="DepositRecords">
+    <thead>
+        <tr>
+            <th>
+                Record Id
+            </th>
+            <th>
+                Transaction No.
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Ref Txn No.
+            </th>
+            <th>
+                Rollbase Id
+            </th>
+            <th>
+                Txn Date
+            </th>
+            <th>
+                A.D. Amount
+            </th>
+            <th>
+                Deposit Amount
+            </th>
+            <th>
+                UDA
+            </th>
+            <th>
+                CR Amount
+            </th>
+            <th>
+                Wagering Amount
+            </th>
+            <th>
+                Wagering Fullfillment
+            </th>
+            <th>
+                Bonus Amount
+            </th>
+            <th>
+                Bonus Wagering
+            </th>
+            <th>
+                Total Wagering
+            </th>
+            <th>
+                Wagering Balance
+            </th>
+            <th>
+                Fulfilled
+            </th>
+            <th>
+                Lock Amount
+            </th>
+            <th>
+                Bonus Code
+            </th>
+            <th>
+                Date Created
+            </th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (WalletDepositAudit item in Model.WalletDepositAudits)
+        {
+        <tr>
+            <td>
+                @item.Id
+            </td>
+            <td>
+                @item.TransactionNo
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @item.RefTransactionNo
+            </td>
+            <td>
+                @item.RollbaseId
+            </td>
+            <td>
+                @item.TransactionDate
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.ActualDepositAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.DepositAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.UniqueDepositAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.CreditAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.WageringAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.WageringFulfillmentAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.BonusAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.BonusWageringAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.TotalWageringAmount)
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.WageringBalanceAmount)
+            </td>
+            <td>
+                @item.IsWageringFulfilled
+            </td>
+            <td>
+                @String.Format("{0:N2}", item.LockAmount)
+            </td>
+            <td>
+                @item.BonusCode
+            </td>
+            <td>
+                @item.DateCreated
+            </td>
+
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+<style>
+    .force-aligned-status {
+        position: relative;
+        display: table;
+        padding: 10px 0;
+    }
+
+    .vertical-align-status-search,
+    .ChangeStatusForm,
+    .title-wallet-balance {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .vertical-align-status-search {
+        margin-right: 10px;
+    }
+
+    .ChangeStatusForm .form-group {
+        margin: 0;
+    }
+
+    .ChangeStatusForm input.form-control,
+    .ChangeStatusForm select.form-control,
+    .ChangeStatusForm span.input-group-btn {
+        display: inline-block;
+        vertical-align: middle;
+    }
+</style>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        if ("@Model.Status" == "Requested") {
+            $('#Status').val(0);
+        }
+        if ("@Model.Status" == "Approved") {
+            $('#Status').val(2);
+        }
+        if ("@Model.Status" == "Rejected") {
+            $('#Status').val(7);
+        }
+
+
+
+        $('#DepositRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            dom: 'lfriptB',//fliptB
+            buttons: ['print', 'excel', 'pdf'],
+            "order": [[0, "desc"]],
+            "scrollX": true,
+            "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]]
+        });
+
+
+    });
+
+</script>

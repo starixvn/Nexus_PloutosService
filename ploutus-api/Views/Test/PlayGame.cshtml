@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNet.Identity
+@model   blueberry.Controllers.Mvc.UserTokenModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestLoginRedirect</title>
+</head>
+<body>
+
+    @if (Request.IsAuthenticated)
+    {
+        <ul>
+            <li>
+                <span>Hello</span>  
+                <span>@User.Identity.GetUserName()!</span>
+            </li>
+            <li>
+                <span>Your selected game</span> 
+                <span>@Model.GameCode</span> 
+            </li>
+        </ul>
+    }
+    else
+    {
+        <ul>
+            <li>
+                You are not authenticated!
+            </li>
+        </ul>
+    }
+
+
+    <div> 
+
+
+
+
+    </div>
+</body>
+</html>

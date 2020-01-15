@@ -1,0 +1,285 @@
+﻿@model dynamic
+@using blueberry.core.src.Models
+@using blueberry.cron.Models
+@using blueberry.core.src.Enums
+
+@{
+    ViewBag.Title = "Deposits";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Deposits</h2>
+<hr />
+
+<p>
+    <button data-toggle="collapse" data-target="#filter" class="glyphicon glyphicon-search"></button>
+    Filters
+</p>
+<div id="filter" class="collapse">
+
+    @using (Html.BeginForm("Deposits", "PlayerTransaction", FormMethod.Post, new { id = "Deposits" }))
+    {
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("StartDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("EndDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Player Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PlayerType", EnumHelper.GetSelectList(typeof(PlayerType)), "Select Player Type(Default = Real)", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Transaction No", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("TransactionNo", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Ref Transaction No", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("RefTxnNo", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button value="Deposits" id="Deposits" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<hr />
+
+@{
+    double totalRealPlayerApproved = 0;
+    string BankCodeName = "";
+}
+
+<table id="DepositRecords" class="table table-striped responsive nowrap" style="overflow-y: scroll">
+
+    <thead>
+        <tr>
+            <th>
+                Player
+            </th>
+
+            <th>
+                Transaction No.
+            </th>
+            <th>
+                Transaction Date
+            </th>
+            <th>
+                A.D. Amount
+            </th>
+
+            <th>
+                W. Fulfilled
+            </th>
+
+            <th>
+                Bonus Code
+            </th>
+
+            <th>
+                Bank
+            </th>
+
+            <th>
+                Status
+            </th>
+            <th>
+                Ref Txn No.
+            </th>
+            <th>
+                Player Type
+            </th>
+            <th>
+                Platform
+            </th>
+            <th>
+                Deposit Page Used
+            </th>
+            <th>
+                Gateway Used
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (Deposits item in Model.AllDeposits)
+        {
+            <tr>
+                <td>
+                    @if (item.UserName != null)
+                    {
+                        @Html.ActionLink(item.UserName, "UserTransactions", "PlayerTransaction", new { userName = item.UserName }, htmlAttributes: new { @target = "_blank" })
+                    }
+
+                </td>
+
+                <td>
+                    @Html.ActionLink(item.TransactionNo, "GetDeposit", "PlayerTransaction", new { id = item.Id }, htmlAttributes: new { @target = "_blank" })
+                </td>
+                <td>
+                    @item.ApprovedDate.ToString("MM/dd/yy h:m:s tt")
+                </td>
+                <td>
+                    @String.Format("{0:N2}", item.ActualDepositAmount)
+                </td>
+                <td>
+                    @item.IsWageringFulfilled
+                </td>
+                <td>
+                    @item.BonusCode
+                </td>
+                <td>
+                    @if (item.PaymentGatewayBankCode != "")
+                    {
+                        BankCodeName = item.PaymentGatewayBankCode + "-" + item.PaymentGatewayBankName;
+                    }
+                    else{
+                        BankCodeName = "Offline Deposit";
+                    }
+                     @BankCodeName
+                    
+                </td>
+                <td>
+                    @item.Status
+                </td>
+                <td>
+                    @item.RefTransactionNo
+                </td>
+                <td>
+                    @item.PlayerType
+                </td>
+                <td>
+                    @item.Platform
+                </td>
+                <td>
+                    @item.DepositPageUsed
+                </td>
+                <td>
+                    @item.GatewayName
+                </td>
+            </tr>
+
+            if (item.PlayerType == blueberry.core.src.Enums.PlayerType.Real && item.Status == blueberry.core.src.Enums.WalletTransactionStatus.Approved)
+            {
+                totalRealPlayerApproved += item.ActualDepositAmount;
+            }
+        }
+    </tbody>
+
+</table>
+
+<hr />
+
+
+
+
+
+<div>
+    <dl class="dl-horizontal">
+
+        <dt>
+            Total Approved - Real Player:
+        </dt>
+        <dd>
+            @string.Format("{0:N2}", totalRealPlayerApproved)
+        </dd>
+
+    </dl>
+</div>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<style>
+    .dl-horizontal dt {
+        width: 243px !important;
+    }
+</style>
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+        $('.date').datepicker()
+            .on('changeDate', function (e) {
+                $(this).datepicker('hide');
+            });
+
+        $('#DepositRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            dom: 'lfriptB',//fliptB
+            buttons: ['print', 'excel', 'pdf'],
+            "order": [[2, "desc"]],
+            "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]]
+        });
+
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+
+    function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+    }
+</script>

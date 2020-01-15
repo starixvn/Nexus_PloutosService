@@ -1,0 +1,199 @@
+﻿@model dynamic
+@using blueberry.core.src.Models
+@using blueberry.cron.Models
+@using blueberry.core.src.Enums
+
+
+@{
+    ViewBag.Title = "Withdrawals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Withdrawals</h2>
+<hr />
+<p>
+    <button data-toggle="collapse" data-target="#filter" class="glyphicon glyphicon-search"></button>
+    Filters
+</p>
+<div id="filter" class="collapse">
+
+    @using (Html.BeginForm("Withdrawals", "PlayerTransaction", FormMethod.Post, new { id = "Withdrawals" }))
+    {
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("StartDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("EndDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Player Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PlayerType", EnumHelper.GetSelectList(typeof(PlayerType)), "Select Player Type(Default = Real)", new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Transaction No", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("TransactionNo", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button value="Withdrawals" id="Withdrawals" class="btn btn-info">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<hr />
+
+
+<table id="withdrawalsRecords" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Player
+            </th>
+            <th>
+                Transaction No
+            </th>
+            <th>
+                Withdraw Amount
+            </th>
+            <th>
+                Transaction Date
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                RB Id
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            double totalWithdrawal = 0;
+            double totalApprovedWithdrawal = 0;
+        }
+        @foreach (Withdrawals item in Model.AllWithdrawals)
+            {
+
+                totalWithdrawal += item.WithdrawAmount;
+                if (item.Status == blueberry.core.src.Enums.WalletTransactionStatus.Approved)
+                {
+                    totalApprovedWithdrawal += item.WithdrawAmount;
+                }
+                <tr>
+                    <td>
+                        @Html.ActionLink((string)item.UserName, "UserTransactions", "PlayerTransaction", new { userName = item.UserName }, htmlAttributes: new { @target = "_blank" })
+                    </td>
+                    <td>
+                        @item.TransactionNo
+                    </td>
+                    <td>
+                        @String.Format("{0:N2}", item.WithdrawAmount)
+                    </td>
+                    <td>
+                        @item.TransactionDate
+                    </td>
+
+                    <td>
+                        @item.Status
+                    </td>
+                    <td>
+                        @item.RollbaseId
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<div class="container">
+    <dl class="dl-horizontal">
+        <dt>
+            Total Withdrawal
+        </dt>
+        <dd>
+            @totalWithdrawal.ToString("N2")
+        </dd>
+        <dt>
+            Total Approved Withdrawal
+        </dt>
+        <dd>
+            @totalApprovedWithdrawal.ToString("N2")
+        </dd>
+    </dl>
+</div>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+        $('.date').datepicker()
+            .on('changeDate', function (e) {
+                $(this).datepicker('hide');
+            });
+
+
+
+        $('#withdrawalsRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+        });
+
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+</script>

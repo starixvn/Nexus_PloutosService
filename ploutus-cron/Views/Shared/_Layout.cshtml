@@ -1,0 +1,263 @@
+﻿@using Microsoft.AspNet.Identity
+@using blueberry.common.src.Const
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Pandora</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/datatables/js")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/aCollapTable/js")
+
+    @Styles.Render("~/bundles/datatables/css")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Custom/Css")
+
+
+    @RenderSection("scripts", required: false)
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse, .menu-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                @*@Html.ActionLink("Pandora", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                @if (Request.IsAuthenticated && ViewContext.HttpContext.User.IsInRole(ApplicationRoles.Administrator))
+                {
+                    <div class="navbar-collapse collapse navbar-responsive-collapse" aria-expanded="false" style="height: 1px;">
+                        @Html.ActionLink("PANDORA CRON", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    </div>
+                }
+
+
+
+
+
+
+            </div>
+            <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav"></ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+
+
+    @*<div class="container body-content">*@
+
+
+    <div class="containert">
+        <div class="row" style="margin-left: -20px !important">
+
+            <div class="col-lg-12">
+                <ul class="nav nav-pills" style="padding-top: 30px;">
+                    @*@if (Request.IsAuthenticated && (ViewContext.HttpContext.User.IsInRole(ApplicationRoles.Administrator)))
+                                    {
+
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">User Management<span class="caret"></span></a>
+
+                                            <ul class="dropdown-menu">
+                                                <li class="dropdown-submenu">
+                                                    @Html.ActionLink("Users", "UserList", "UserManagement")
+                                                    @Html.ActionLink("Register New User", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+                                                </li>
+                                            </ul>
+                                        </li>
+
+                                    }
+                                    @if (Request.IsAuthenticated && (ViewContext.HttpContext.User.IsInRole(ApplicationRoles.ReportUsers) || ViewContext.HttpContext.User.IsInRole(ApplicationRoles.Administrator)
+                        || ViewContext.HttpContext.User.IsInRole(ApplicationRoles.CronUser)))
+                                    {
+
+                                        if (ViewContext.HttpContext.User.IsInRole(ApplicationRoles.CronUser))
+                                        {
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="true">CRON<span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        @Html.ActionLink("Background Task", "List", "BackgroundTask")
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="true">CRON<span class="caret"></span></a>
+                                                <ul class="dropdown-menu">
+
+
+                                                    <li>
+                                                        @Html.ActionLink("Background Task", "List", "BackgroundTask")
+                                                    </li>
+                                                    <li>
+                                                        @Html.ActionLink("Process Logs", "Index", "FetcGameBet")
+                                                    </li>
+                                                    <li>
+                                                        @Html.ActionLink("Background Task Logs", "Index", "BackgroundTaskLog")
+                                                    </li>
+                                                    <li>
+                                                        @Html.ActionLink("Application Configurations", "Index", "AppConfiguration")
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        }
+
+                                        if (!ViewContext.HttpContext.User.IsInRole(ApplicationRoles.CronUser))
+                                        {
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                                                    Players<span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-submenu">
+                                                        @Html.ActionLink("Players List", "Players", "Report")
+                                                        @Html.ActionLink("Test TGP/TTG", "PlayerListForTtgTest", "PlayerTransaction")
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                                                    Reports<span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-submenu">
+                                                        @Html.ActionLink("Bets", "Bets", "Report")
+                                                        @Html.ActionLink("Wins", "Wins", "Report")
+                                                        @Html.ActionLink("Loses", "Loses", "Report")
+                                                        @Html.ActionLink("Player Wallet Ledger", "PlayerWalletLedger", "Report")
+                                                        @Html.ActionLink("Safepay Deposits", "SafePayDeposits", "PlayerTransaction")
+                                                        @Html.ActionLink("Dashboard - Cash Flow", "Dashboard", "Report", new { type = "finance" }, null)
+                                                        @Html.ActionLink("Dashboard - Game Play", "Dashboard", "Report", new { type = "game" }, null)
+
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                                                    References<span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-submenu">
+                                                        @Html.ActionLink("Affiliates", "Index", "Affiliate")
+                                                        @Html.ActionLink("Bonuses", "Index", "Bonus")
+                                                        @Html.ActionLink("Game List", "GameTypes", "Product")
+                                                        @Html.ActionLink("Daddy Pay Bank", "List", "DaddyPayBank")
+                                                        @Html.ActionLink("Payment Gateway Banks", "List", "PaymentGatewayBank")
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                                                    Finance Transaction<span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-submenu">
+                                                        @Html.ActionLink("Deposits", "Deposits", "PlayerTransaction")
+                                                        @Html.ActionLink("Withdrawals", "Withdrawals", "PlayerTransaction")
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                                                    Report Summary<span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-submenu">
+                                                        @Html.ActionLink("Bet History", "PlayerBetSummary", "PlayerBetSummary")
+                                                        @Html.ActionLink("Win History", "PlayerWinSummary", "PlayerBetSummary")
+                                                        @Html.ActionLink("Lose History", "PlayerLoseSummary", "PlayerBetSummary")
+                                                    </li>
+                                                </ul>
+                                            </li>
+
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="false">
+                                                    Test<span class="caret"></span>
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li class="dropdown-submenu">
+                                                        @Html.ActionLink("Game Test - Users", "PlayerListForTtgTest", "PlayerTransaction")
+                                                        @Html.ActionLink("Daddy Pay - Users", "TestPlayers", "DaddyPayDeposit")
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        }
+
+
+
+                                    }*@
+
+                    @if (Request.IsAuthenticated && ViewContext.HttpContext.User.IsInRole(ApplicationRoles.Administrator) || ViewContext.HttpContext.User.IsInRole(ApplicationRoles.CronUser))
+                    {
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" tabindex="0" data-toggle="dropdown" data-submenu="" aria-expanded="true">CRON<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    @Html.ActionLink("Background Task", "List", "BackgroundTask")
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    
+
+                </ul>
+               
+            </div>
+
+
+            <div class="col-lg-10" style="margin-left: 18px !important">
+                @RenderBody()
+            </div>
+        </div>
+
+        <hr />
+        <footer>
+            <p style="margin-left: 20px !important;">&copy; @DateTime.Now.Year - Pandora</p>
+        </footer>
+    </div>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); });
+
+            $('a.dropdown, .dropdown-menu a').on('touchstart', function (e) {
+                e.stopPropagation();
+            });
+
+        });
+    </script>
+
+
+
+
+</body>
+</html>

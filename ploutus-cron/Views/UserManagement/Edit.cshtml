@@ -1,0 +1,118 @@
+﻿@using blueberry.common.src.Const
+@model blueberry.security.manager.src.Models.PandoraUser
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2></h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>@Model.UserName</h4>
+        <div class="merchant-input">
+            <h6>(Note: Saving will generate new Merchant Key.)</h6>
+        </div>
+        
+        <hr />
+
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.UserId)
+
+        <div class="form-group">            
+            <label class="control-label col-md-2" for="RefferalCode">User Name</label>
+            <div class="col-md-10">
+                <input id="UserName" name="UserName" class="form-control" readonly="true" value="@Model.UserName" />
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select id="Role" name="Role" class="form-control">     
+                    <option value="Users">Users</option>
+                    <option value="Administrator">Administrator</option>
+                    <option value="ReportUsers">Report Users</option>
+                    <option value="AdministratorBackOffice">Administrator Back Office</option>
+                    <option value="AdministratorGamePlatforms">Administrator Game Platforms</option>
+                    <option value="AdministratorDaddyPay">Administrator Daddy Pay</option>
+                    <option value="AdministratorSafePay">Administrator SafePay</option>
+                    <option value="AdministratorSDPay">Administrator SD Pay</option>
+                    <option value="HeadAgent">Head Agent</option>
+                    <option value="SubAgent">Sub Agents</option>
+                    <option value="AgentShopUser">Agent Shop User</option>
+                    <option value="AgentSubAgentAdmins">Agent SubAgent Admins</option>
+                    <option value="GameTesterUser">Game Tester User</option>
+                    <option value="PaymentTesterUser">Payment Test User</option>
+                    <option value="AffiliateUser">Affiliate User</option>
+                    
+                                   
+                    @*<option value="Users" @(@Model.Role== "Users" ? "selected" : "") >Users</option>
+                    <option value="Administrator" @(@Model.Role== "Administrator" ? "selected" : "")>Administrator</option>
+                    <option value="AdministratorBackOffice" @(@Model.Role== "AdministratorBackOffice" ? "selected" : "")>Administrator Back Office</option>
+                    <option value="AdministratorGamePlatforms" @(@Model.Role== "AdministratorGamePlatforms" ? "selected" : "")>Administrator Game Platforms</option>*@
+                </select>
+                @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group merchant-input">
+            @Html.LabelFor(m => m.MerchantCode, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.MerchantCode, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group merchant-input">
+            @Html.LabelFor(m => m.MerchantName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.MerchantName, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group merchant-input">
+            @Html.LabelFor(m => m.MerchantKey, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.MerchantKey, new { @class = "form-control", @readonly = "readonly", @style = "height: 150px;" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+                @Html.ActionLink("Back to List", "UserList", null, htmlAttributes: new { @class = "btn btn-info"})
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#Role").val("@Model.Role");
+
+        if ($("#Role").val() == "@ApplicationRoles.AdministratorBackOffice" || $("#Role").val() == "@ApplicationRoles.AdministratorGamePlatforms") {
+            $(".merchant-input").show();
+        } else {
+            $(".merchant-input").hide();
+        }
+
+        $("#UserRole").change(function () {
+            console.log($("#UserRole").val());
+            if ($("#Role").val() == "@ApplicationRoles.AdministratorBackOffice" || $("#Role").val() == "@ApplicationRoles.AdministratorGamePlatforms") {
+                $(".merchant-input").show();
+            }else{
+                $(".merchant-input").hide();
+            }
+        });
+    });
+</script>

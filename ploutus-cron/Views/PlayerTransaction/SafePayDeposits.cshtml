@@ -1,0 +1,166 @@
+﻿@model IEnumerable<blueberry.core.src.Models.SafePayDeposit>
+
+@{
+    ViewBag.Title = "SafePay Deposits";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SafePay Deposits</h2>
+
+
+<p>
+    <button data-toggle="collapse" data-target="#filter" class="glyphicon glyphicon-search"></button>
+    Filters
+</p>
+<div id="filter" class="collapse">
+
+    @using (Html.BeginForm("SafePayDeposits", "PlayerTransaction", FormMethod.Post, new { id = "SafePayDeposits" }))
+    {
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                @Html.Label("Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("StartDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("EndDate", new { htmlAttributes = new { @class = "form-control date" } })
+                    @Html.ValidationMessage("date", "", new { @class = "text-danger" })
+                </div>
+            </div>
+         
+            <div class="form-group">
+                @Html.Label("Deposit No", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("TransactionNo", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label("Order No", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Editor("RefTxnNo", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button  class="btn btn-info">
+                        <span class="glyphicon glyphicon-search"></span> Search
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    }
+</div>
+<style>
+    .dl-horizontal dt {
+        width: 243px !important;
+    }
+</style>
+<hr />
+
+<table id="SafepayDeposits">
+    <thead>
+        <tr>
+            <th>
+                Order Id
+            </th>
+            <th>
+                Deposit No.
+            </th>         
+            <th>
+                Transaction Date/Time
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Bank
+            </th>
+            <th>
+                Player Account No.
+            </th>
+            <th>
+                Cur
+            </th>
+            <th>
+                User IP
+            </th>
+              
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.WalletDepositNo)*@
+                    @Html.ActionLink(item.WalletDepositNo, "GetDeposit", "PlayerTransaction", new { id = item.WalletDepositId }, htmlAttributes: new { @target = "_blank" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TransactionDateTime)
+                </td>
+                <td>
+                    @String.Format("{0:n2}", item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bank)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cur)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserIP)
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.date').datepicker()
+           .on('changeDate', function (e) {
+               $(this).datepicker('hide');
+           });
+
+        $('#SafepayDeposits').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            dom: 'lfriptB',//fliptB
+            buttons: ['print', 'excel', 'pdf'],
+            "order": [[2, "desc"]],
+            "lengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "All"]]
+        });
+
+
+      
+
+    });
+
+</script>

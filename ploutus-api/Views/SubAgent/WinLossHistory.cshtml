@@ -1,0 +1,156 @@
+﻿
+@model dynamic
+@using blueberry.Core.src.Models
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Player Transactions";
+}
+
+
+
+<h2>@ViewBag.Title.</h2>
+
+
+<div class="container">
+    <ul class="nav nav-tabs">        
+        <li><a data-toggle="tab" href="#Wins">Wins</a></li>
+        <li><a data-toggle="tab" href="#Loss">Loss</a></li>        
+    </ul>
+
+    <div class="tab-content">
+
+        <div id="Wins" class="tab-pane fade in active">
+
+            <p><b>Player Wins</b></p>
+            <table id="walletWinRecords" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                       
+                        <th>
+                            Transaction No
+                        </th>
+
+                        <th>
+                            Transaction Date
+                        </th>
+
+                        <th>
+                            Bet Amount
+                        </th>
+
+                        <th>
+                            Win Amount
+                        </th>
+                        <th>
+                            Game Platform Code
+                        </th>
+
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (WalletWin item in Model.WalletWins)
+            {
+                        <tr>
+                           
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionDate)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BetAmount)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WinAmount)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatform.GamePlatformCode)
+                            </td>
+
+                           
+
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+            
+        </div>
+
+        <div id="Loss" class="tab-pane fade">
+            <p><b>Player Loss</b></p>
+            <table id="walletLossRecords" class="table table-striped table-bordered">
+                <thead>
+                    <tr>                       
+                        <th>
+                            Transaction No
+                        </th>
+
+                        <th>
+                            Transaction Date
+                        </th>
+
+                        <th>
+                            Bet Amount
+                        </th>
+
+                        <th>
+                            Loss Amount
+                        </th>
+                        <th>
+                            Game Platform Code
+                        </th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (WalletLoss item in Model.WalletLosses)
+            {
+                        <tr>                           
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionDate)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BetAmount)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LossAmount)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatform.GamePlatformCode)
+                            </td>
+
+                           
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+
+     
+      
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {      
+        $('#walletWinRecords').DataTable();
+        $('#walletLossRecords').DataTable();        
+    });
+</script>

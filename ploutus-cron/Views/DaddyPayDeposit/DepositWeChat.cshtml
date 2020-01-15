@@ -1,0 +1,96 @@
+﻿@model blueberry.core.src.Models.PlayerProfile
+
+@{
+    ViewBag.Title = "Daddy Pay Deposit - WeChat";
+}
+
+<h2>Daddy Pay Deposit - WeChat</h2>
+
+<hr />
+
+<div class="container">
+    <dl class="dl-horizontal">
+
+        <dt>
+            Account Id:
+        </dt>
+        <dd>
+            @Model.PlayerRegistration.UserAccountNo
+        </dd>
+        <dt>
+            User Name:
+        </dt>
+        <dd>
+            @Model.PlayerRegistration.UserName
+        </dd>
+    </dl>
+</div>
+
+<hr />
+
+
+@using (Html.BeginForm("DepositWeChat", "DaddyPayDeposit", FormMethod.Post, new { id = "DaddyPayDeposit" }))
+{
+    @Html.Hidden("userName", Model.UserName)
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("amount", new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessage("amount", "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Bonus Code", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Editor("bonusCode", new { htmlAttributes = new { @class = "form-control" } })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+                <button value="DepositWeChat" id="DepositWeChat" class="btn btn-default">
+                    GO
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+      
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+</script>

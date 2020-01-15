@@ -1,0 +1,267 @@
+﻿@model blueberry.core.src.Models.AppConfigurationHelper
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Application Configurations</h2>
+<hr />
+<div>
+
+    <h4>Misc</h4>
+    <dl class="dl-horizontal">
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("API Request Header Key: ")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AdminApiHeaderKey)
+            </dd>
+            <dt>
+                @Html.DisplayName("API Request Header Value: ")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AdminApiHeaderValue)
+            </dd>
+
+        </dl>
+
+        @*<dt>
+            @Html.DisplayName("Request Counter: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestCounter)
+        </dd>
+        <dt>
+            @Html.DisplayName("Connection String: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConnectionString)
+        </dd>
+        <dt>
+            @Html.DisplayName("Dao Datasource: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DaoDatasource)
+        </dd>
+        <dt>
+            @Html.DisplayName("Dao User: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DaoUserName)
+        </dd>
+        <dt>
+            @Html.DisplayName("Dao Password: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DaoPassword)
+        </dd>
+    </dl>*@
+
+
+    @*<h4>Rollbase</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Rollbase REST Api url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RollbaseRestUrl)
+        </dd>
+
+    </dl>
+
+    <h4>Agent Portal</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Agent portal Download url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GameListDomain)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Agent portal FTP url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GameListFTPAddress)
+        </dd>
+    </dl>
+
+    <h4>blueberry Base</h4>
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayName("blueberry API url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PandoraApiBaseUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("blueberry CRON url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PandoraCronBaseUrl)
+        </dd>
+    </dl>
+
+    <h4>Daddy Pay</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Daddy Pay Company Id: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DaddyPayCompanyId)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Daddy Pay API url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DaddyPayDaddyPayUrl)
+        </dd>
+
+    </dl>
+
+    <h4>Safe Pay</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Safe Pay Url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SafePayUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Safe Pay Key: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SafePayKey)
+        </dd>
+        <dt>
+            @Html.DisplayName("Safe Pay User Id: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SafePayUserID)
+        </dd>
+
+    </dl>
+
+
+    <h4>Booming Game</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Api Url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BoomingapiURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Api Key: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BoomingApiKey)
+        </dd>
+        <dt>
+            @Html.DisplayName("Secret Key: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BoomingSecretKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Callback Url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BoomingcallbackURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Rollback Url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Boomingrollback_callbackURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Return URL: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BoomingreturnURL)
+        </dd>   
+
+        <dt>
+            @Html.DisplayName("Demo: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BoomingIsDemo)
+        </dd>   
+
+    </dl>
+
+
+    <h4>TTG</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Login Url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TTGLoginCreatePlayerUrl)
+        </dd>
+        <dt>
+            @Html.DisplayName("Forward Game Url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TTGForwardGameUrl)
+        </dd>
+    </dl>
+
+    <h4>TGP</h4>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Base URL: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TGPPlayBaseApiUrl)
+        </dd>
+        <dt>
+            @Html.DisplayName("Forward Game Url: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TGPGameLauncherUrl)
+        </dd>
+    </dl>*@
+
+</div>
+

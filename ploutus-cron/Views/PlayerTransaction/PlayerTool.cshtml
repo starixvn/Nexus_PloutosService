@@ -1,0 +1,215 @@
+﻿
+@model dynamic
+@using blueberry.core.src.Models
+@using System.Linq
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Player Transaction - " + @Model.PlayerRegistration.UserName;
+}
+
+
+
+<h2>@ViewBag.Title.</h2>
+
+
+@*<div class="container">*@
+<dl class="dl-horizontal">
+
+    <dt>
+        Account number:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.UserAccountNo
+    </dd>
+
+    <dt>
+        Account Id:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.Id
+    </dd>
+    <dt>
+        Rollbase Id:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.RollbaseId
+    </dd>
+
+    <dt>
+        User Name:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.UserName
+    </dd>
+    <dt>
+        Name:
+    </dt>
+    <dd>
+        @if (Model.PlayerProfile != null)
+            {
+            @Model.PlayerProfile.FullName
+        }
+
+    </dd>
+    @if (@Model.WalletComputedBalance != null)
+    {
+
+        <dt>
+            Payment Risk Level:
+        </dt>
+        <dd>
+            @Model.PaymentRiskLevel            
+        </dd>
+
+        <dt>
+            Fraud Risk Level:
+        </dt>
+        <dd>
+            @Model.FraudRiskLevel            
+        </dd>
+
+        <dt>
+            Fraud Risk Level:
+        </dt>
+        <dd>
+            @Model.VipLevel            
+        </dd>
+
+        <dt>
+            Withdrawal Level:
+        </dt>
+        <dd>
+            @Model.WithdrawalLevel            
+        </dd>
+
+        <dt>
+            Account Status:
+        </dt>
+        <dd>
+            @Model.AccountStatus            
+        </dd>
+
+        <dt>
+            Registration Status:
+        </dt>
+        <dd>
+            @Model.PlayerRegisterStatus            
+        </dd>
+
+
+
+
+
+        <dt>
+            Wallet Code:
+        </dt>
+        <dd>
+            @Model.Wallet.WalletCode
+        </dd>
+        <dt>
+            Updated Balance:
+        </dt>
+        <dd>
+            <label class="control-label">@string.Format("{0:N2}", Model.WalletComputedBalance.UpdatedBalance)  (as of @Model.WalletComputedBalance.WalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))</label>
+        </dd>
+
+        <dt>
+            Updated Hunter Balance:
+        </dt>
+        <dd>
+            @string.Format("{0:N2}", Model.WalletComputedBalance.GPLatestSubWalletBalance)  (as of @Model.WalletComputedBalance.GPLatestSubWalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))
+        </dd>
+
+        <dt>
+            Wallet Balance:
+        </dt>
+        <dd>
+            @string.Format("{0:N2}", Model.WalletComputedBalance.Balance) (as of @Model.Wallet.WalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))
+        </dd>
+
+        <dt>
+            Withdrawable Amount:
+        </dt>
+        <dd>
+            @string.Format("{0:N2}", Model.WalletComputedBalance.WithdrawableAmount)  (as of @Model.Wallet.WalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))
+        </dd>
+    }
+
+    <br />    
+    <p>
+        <button data-toggle="collapse" data-target="#actions" class="btn btn-danger">
+            <span class="glyphicon glyphicon-alert"></span> Actions
+        </button>        
+    </p>
+    <div id="actions" class="collapse">
+        <hr />
+        <dt></dt>
+        <dd>
+            @Html.ActionLink("Process Wagering", "ProcessWagering", new { userName = Model.PlayerRegistration.UserName }, htmlAttributes: new { @class = "btn btn-primary btn-xs" })
+            |
+            @if (@Model.WalletComputedBalance != null)
+            {
+                @Html.ActionLink("Queue Wallet for Sync", "QueueWalletToSync", new { walletId = Model.WalletComputedBalance.WalletId }, htmlAttributes: new { @class = "btn btn-primary btn-xs" })
+            }
+            |
+            @Html.ActionLink("Create/Update CS Record", "CreateOrUpdatePlayerInCS", new { playerRegistrationId = Model.PlayerRegistration.Id }, htmlAttributes: new { @class = "btn btn-primary btn-xs" })
+            |
+            @Html.ActionLink("Refresh Withdrawable/Wagering", "RefreshWithdrawableAndWagering", new { userName = Model.PlayerRegistration.UserName }, htmlAttributes: new { @class = "btn btn-primary btn-xs" })
+            |
+            @Html.ActionLink("Update Wallet Balance", "RefreshPlayerBalance", new { userName = Model.PlayerRegistration.UserName }, htmlAttributes: new { @class = "btn btn-danger btn-xs" })
+        </dd>
+        <hr />
+        </div>
+
+</dl>
+
+
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<style>
+    .dl-horizontal dt {
+        width: 243px !important;
+    }
+
+    .debit {
+        color: red;
+    }
+
+    .credit {
+        color: green;
+    }
+</style>
+
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+
+    $(document).ready(function () {
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+</script>

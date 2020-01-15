@@ -1,0 +1,25 @@
+﻿@model Exception
+@{
+    ViewBag.Title = "Error";
+}
+<div class="alert-info">
+    <h2 class="alert-info">Error was encountered</h2>        
+    <div class="alert-danger">
+        <h3>
+            Error Source: @Model.Source
+        </h3>
+        <h3>
+            Error Message: @Model.Message
+        </h3>
+        <h5>
+            Statck Trace: 
+            <br />
+            @Model.StackTrace
+        </h5>
+    </div>
+
+</div>
+
+
+
+Sorry For this.

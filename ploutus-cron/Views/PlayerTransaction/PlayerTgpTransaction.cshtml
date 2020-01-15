@@ -1,0 +1,344 @@
+﻿
+@model dynamic
+@using blueberry.core.src.Models
+@using blueberry.core.src.Const
+@{
+    ViewBag.Title = "PlayerTtgTransaction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TGP Test</h2>
+
+
+<dl class="dl-horizontal">
+
+    <dt>
+        User Name:
+    </dt>
+    <dd>
+        @Model.UserName
+    </dd>
+    <dt>
+        Account number:
+    </dt>
+    <dd>
+        @Model.UserAccountNo
+    </dd>
+
+    <dt>
+        Wallet Code:
+    </dt>
+    <dd>
+        @Model.WalletCode
+    </dd>
+
+    <dt>
+        Wallet Balance:
+    </dt>
+    <dd>
+        @Model.Balance
+    </dd>
+</dl>
+
+
+<hr />
+
+<ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#GameList">Game List</a></li>
+    <li><a data-toggle="tab" href="#TgpTransactionsRecord">Transactions</a></li>
+    <li><a data-toggle="tab" href="#TgpCancelTransactionsRecord">Cancel Transactions</a></li>
+</ul>
+<div class="tab-content">
+
+    <div id="GameList" class="tab-pane fade in active">
+        <div>
+            <table id="gameRecords" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Game Code
+                        </th>
+                        <th>
+                            Game Name
+                        </th>
+                        <th>
+                            Url Game Name
+                        </th>
+                        <th>
+                            Game Type
+                        </th>
+                        <th>
+                            Game Platform
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (GamePlatformProduct item in Model.GameList)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatformProductCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatformProductName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LaunchGameName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GameType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GamePlatform.GamePlatformCode)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Play Web", "TestPlayGame", new { userId = Model.UserId, gameCode = item.GamePlatformProductCode, isMobile = "0" }, htmlAttributes: new { @class = "btn btn-info btn-xs", @target = "_blank" })
+                                |
+                                @Html.ActionLink("Play Mobile", "TestPlayGame", new { userId = Model.UserId, gameCode = item.GamePlatformProductCode, isMobile = "1" }, htmlAttributes: new { @class = "btn btn-warning btn-xs", @target = "_blank" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="TgpTransactionsRecord" class="tab-pane fade">
+        <div>
+            <table id="tgpTransactions" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Txn Date
+                        </th>
+                        <th>
+                            Txn Id
+                        </th>
+                        <th>
+                            Ref Txn Id
+                        </th>
+                        <th>
+                            Txn Amount
+                        </th>
+                        <th>
+                            Turn Over
+                        </th>
+                        <th>
+                            Game Code
+                        </th>
+                        <th>
+                            Game Name
+                        </th>
+                        <th>
+                            Txn Type
+                        </th>
+                        <th>
+                            Round Id
+                        </th>
+                        <th>
+                            Ext. Round Id
+                        </th>
+                        <th>
+                            Txn Desc
+                        </th>
+                        <th>
+                            Wallet Prev Bal
+                        </th>
+
+                        <th>
+                            Wallet New Bal
+                        </th>
+                        <th>
+                            Processed
+                        </th>
+                        <th>
+                            API Status
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TgpTransaction item in Model.TgpTransactions)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SentOn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PTxnId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RefPTxnId)
+                            </td>
+                            <td>
+                                @string.Format("{0:N2}", item.TxnAmount)
+                            </td>
+                            <td>
+                                @string.Format("{0:N2}", item.TurnOver)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GameCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GameName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TxnType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RoundId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ExternalRoundId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TxnDesc)
+                            </td>
+                            <td>
+                                @item.WalletCurrentBalance.ToString("N2")
+                            </td>
+
+                            <td>
+                                @item.WalletNewBalance.ToString("N2")
+                            </td>
+                            <td>
+                                @item.IsBetProcessed
+                            </td>
+                            <td>
+                                @item.TgpApiTxnStatus
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+
+    </div>
+
+    <div id="TgpCancelTransactionsRecord" class="tab-pane fade in active">
+        <div>
+            <table id="cancelRecords" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            Ref PTxnId
+                        </th>
+                        <th>
+                            Txn Time Stamp
+                        </th>
+                        <th>
+                            Wallet Code
+                        </th>
+                        <th>
+                            Desc
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (TgpCancelledTransaction item in Model.TgpCancelledTransactions)
+            {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RefPTxnId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TxnTimeStamp)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WalletCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Desc)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+
+
+        $('#gameRecords').DataTable({            
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+        });
+
+        $('#tgpTransactions').DataTable({            
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]]
+        });
+
+        $('#cancelRecords').DataTable({            
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null,
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]]
+        });
+
+
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+</script>

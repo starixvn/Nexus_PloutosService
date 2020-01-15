@@ -1,0 +1,1401 @@
+﻿
+@model dynamic
+@using blueberry.core.src.Models
+@using System.Linq
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Player Transaction - " + @Model.PlayerRegistration.UserName;
+}
+
+
+
+<h2>@ViewBag.Title.</h2>
+
+
+@*<div class="container">*@
+<dl class="dl-horizontal">
+
+    <dt>
+        Account number:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.UserAccountNo
+    </dd>
+
+    <dt>
+        Account Id:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.Id
+    </dd>
+    <dt>
+        Rollbase Id:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.RollbaseId
+    </dd>
+
+    <dt>
+        User Name:
+    </dt>
+    <dd>
+        @Model.PlayerRegistration.UserName
+    </dd>
+    <dt>
+        Name:
+    </dt>
+    <dd>
+        @if (Model.PlayerProfile != null)
+            {
+        @Model.PlayerProfile.FullName
+        }
+
+    </dd>
+    @if (@Model.WalletComputedBalance != null)
+    {
+        <dt>
+            Payment Risk Level:
+        </dt>
+        <dd>
+            @Model.PaymentRiskLevel
+        </dd>
+
+        <dt>
+            Fraud Risk Level:
+        </dt>
+        <dd>
+            @Model.FraudRiskLevel
+        </dd>
+
+        <dt>
+            Fraud Risk Level:
+        </dt>
+        <dd>
+            @Model.VipLevel
+        </dd>
+
+        <dt>
+            Withdrawal Level:
+        </dt>
+        <dd>
+            @Model.WithdrawalLevel
+        </dd>
+
+        <dt>
+            Account Status:
+        </dt>
+        <dd>
+            @Model.AccountStatus
+        </dd>
+
+        <dt>
+            Registration Status:
+        </dt>
+        <dd>
+            @Model.PlayerRegisterStatus
+        </dd>
+
+
+
+    <dt>
+        Wallet Code:
+    </dt>
+    <dd>
+        @Model.Wallet.WalletCode
+    </dd>
+    <dt>
+        Updated Balance:
+    </dt>
+    <dd>
+        @string.Format("{0:N2}", Model.WalletComputedBalance.UpdatedBalance)  (as of @Model.Wallet.WalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))
+    </dd>
+
+    <dt>
+        Updated Hunter Balance:
+    </dt>
+    <dd>
+        @string.Format("{0:N2}", Model.WalletComputedBalance.GPLatestSubWalletBalance)  (as of @Model.WalletComputedBalance.GPLatestSubWalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))
+    </dd>
+
+    <dt>
+        Wallet Balance:
+    </dt>
+    <dd>
+        @string.Format("{0:N2}", Model.WalletComputedBalance.Balance) (as of @Model.Wallet.WalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))
+    </dd>
+
+    <dt>
+        Withdrawable Amount:
+    </dt>
+    <dd>
+        @string.Format("{0:N2}", Model.WalletComputedBalance.WithdrawableAmount)  (as of @Model.Wallet.WalletLastUpdated.ToString("MMM dd yyyy h:m:s tt"))
+    </dd>
+    }    
+</dl>
+@*</div>*@
+
+@*<div class="container">*@
+
+<ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="#Deposits" class="active">Deposits</a></li>
+    <li><a data-toggle="tab" href="#Withdrawals">Withdrawals</a></li>
+    <li><a data-toggle="tab" href="#Adjustments">Adjustments</a></li>
+    <li><a data-toggle="tab" href="#Wins">Wins</a></li>
+    <li><a data-toggle="tab" href="#Loss">Loss</a></li>
+    <li><a data-toggle="tab" href="#Bets">Bets</a></li>
+    <li><a data-toggle="tab" href="#Wagering">Wagering</a></li>
+    <li><a data-toggle="tab" href="#AGTransferRecords">AG Transfer Records</a></li>
+    <li><a data-toggle="tab" href="#OWTransferRecords">OW Transfer Records</a></li>
+    <li><a data-toggle="tab" href="#AGFundTransferRecords">AG Pandora Transfer Records</a></li>
+    <li><a data-toggle="tab" href="#WalletLedgerRecords">Wallet Ledger</a></li>
+    <li><a data-toggle="tab" href="#AccessLogs">Finger Print</a></li>
+
+</ul>
+
+@{
+    double totalWin = 0;
+    double totalLoss = 0;
+    double totalBet = 0;
+    double totalApprovedDepositCredit = 0;
+    double totalWagering = 0;
+    double totalCM = 0;
+    double totalDM = 0;
+    double totalapprovedWithdrawal = 0;
+}
+
+
+<div class="tab-content">
+    <div id="Deposits" class="tab-pane fade in active" active>
+
+        <div >
+            <table id="depositRecords" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            RB Id
+                        </th>
+                        <th>
+                            Transaction No.
+                        </th>
+                        <th>
+                            Ref Transaction No.
+                        </th>
+                        <th>
+                            Ref Transaction Remarks
+                        </th>
+                        <th>
+                            Actual Deposit Amount
+                        </th>
+
+                        <th>
+                            Wagering Amount
+                        </th>
+
+                        <th>
+                            Wagering Fulfillment Amount
+                        </th>
+
+                        <th>
+                            Bonus Amount
+                        </th>
+                        <th>
+                            Bonus Wagering Amount
+                        </th>
+
+                        <th>
+                            Total Wagering Amount
+                        </th>
+
+                        <th>
+                            Wagering Balance Amount
+                        </th>
+
+                        <th>
+                            Wagering Fulfilled
+                        </th>
+
+                        <th>
+                            Bonus Code
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Approved Date
+                        </th>                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (WalletDeposit item in Model.WalletDeposits)
+                        {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RollbaseId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TransactionNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RefTransactionNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RefDepositRemarks)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActualDepositAmount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WageringAmount)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WageringFulfillmentAmount)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BonusAmount)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BonusWageringAmount)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalWageringAmount)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WageringBalanceAmount)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsWageringFulfilled)
+                        </td>
+
+                        <td>
+                            @if (item.Bonus != null)
+                                    {
+                                @Html.DisplayFor(modelItem => item.Bonus.BonusCode)
+                                    }
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApprovedDate)
+                        </td>                       
+                    </tr>
+
+                            if(item.Status== blueberry.core.src.Enums.WalletTransactionStatus.Approved)
+                            {
+                                totalApprovedDepositCredit += item.CreditAmount;
+                            }
+
+                        }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    <div id="Withdrawals" class="tab-pane fade">
+        <table id="withdrawalRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        RB Id
+                    </th>
+                    <th>
+                        Withdraw Amount
+                    </th>
+                    <th>
+                        Transaction No.
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Approved Date
+                    </th>
+                    <th>
+                        Date Created
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (WalletWithdrawal item in Model.WalletWithdrawals)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RollbaseId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WithdrawAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+
+                </tr>
+                        if(item.Status == blueberry.core.src.Enums.WalletTransactionStatus.Approved)
+                        {
+                            totalapprovedWithdrawal += item.WithdrawAmount;
+                        }
+                    }
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div id="Adjustments" class="tab-pane fade" >
+        <table id="adjustmentRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        RB Id
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Transaction No
+                    </th>
+                    <th>
+                        Credit Amount
+                    </th>
+                    <th>
+                        Debit Amount
+                    </th>
+                    <th>
+                        Transaction Date
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (WalletAdjustmentMemo item in Model.WalletAdjustmentMemos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RollbaseId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AdjustmentType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreditAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DebitAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+
+                </tr>
+
+                        totalCM += item.CreditAmount;
+                        totalDM += item.DebitAmount;
+
+                    }
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div id="Wins" class="tab-pane fade">
+        <table id="walletWinRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        RB Id
+                    </th>
+                    <th>
+                        Transaction No
+                    </th>
+
+                    <th>
+                        Transaction Date
+                    </th>
+
+                    <th>
+                        Bet Amount
+                    </th>
+
+                    <th>
+                        Win Amount
+                    </th>
+                    <th>
+                        Game Platform Code
+                    </th>
+
+                    <th>
+                        Is Being Pushed
+                    </th>
+
+                    <th>
+                        Remarks
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (WalletWin item in Model.WalletWins)
+                    {
+
+                        totalWin += item.WinAmount;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RollbaseId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BetAmount)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WinAmount)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GamePlatform.GamePlatformCode)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsBeingPushed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+
+
+                </tr>
+                    }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="Loss" class="tab-pane fade">
+        <table id="walletLossRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        RB Id
+                    </th>
+                    <th>
+                        Transaction No
+                    </th>
+
+                    <th>
+                        Transaction Date
+                    </th>
+
+                    <th>
+                        Bet Amount
+                    </th>
+
+                    <th>
+                        Loss Amount
+                    </th>
+                    <th>
+                        Game Platform Code
+                    </th>
+
+                    <th>
+                        Is Being Pushed
+                    </th>
+
+                    <th>
+                        Remarks
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (WalletLoss item in Model.WalletLosses)
+                    {
+                        totalLoss += item.LossAmount;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RollbaseId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BetAmount)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LossAmount)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GamePlatform.GamePlatformCode)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsBeingPushed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Remarks)
+                    </td>
+
+
+                </tr>
+                    }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="Bets" class="tab-pane fade">
+        <table id="playerBetsRecords" class="table table-striped">
+            <thead>
+                <tr>
+
+                    <th>
+                        RB Id
+                    </th>
+
+                    <th>
+                        Transaction No
+                    </th>
+
+                    <th>
+                        Transaction Date
+                    </th>
+
+                    <th>
+                        Bet Amount
+                    </th>
+                    <th>
+                        Game Platform Code
+                    </th>
+
+                    <th>
+                        Is Being Pushed
+                    </th>
+                    <th>
+                        Is Done Wagering
+                    </th>
+
+                    <th>
+                        Is Wage Being Process
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (PlayerBet item in Model.PlayerBets)
+                    {
+                        totalBet += item.BetAmount;
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RollbaseId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+
+                    <td>
+                        @string.Format("{0:F2}", item.BetAmount)
+                        @*@Html.DisplayFor(modelItem => item.BetAmount)*@
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GamePlatform.GamePlatformCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsBeingPushed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDoneWagering)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsWageBeingProcess)
+                    </td>
+
+
+                </tr>
+                    }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="Wagering" class="tab-pane fade">
+        <table id="wageringFulfillmentRecords" class="table table-striped">
+            <thead>
+                <tr>
+
+                    <th>
+                        RB Id
+                    </th>
+
+                    <th>
+                        Transaction No
+                    </th>
+
+                    <th>
+                        Bet Amount
+                    </th>
+                    <th>
+                        Game Platform Code
+                    </th>
+
+                    <th>
+                        Is Being Pushed
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (WageringFulfilment item in Model.WageringFulfillments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RollbaseId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlayerBet.TransactionNo)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BetAmount)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlayerBet.GamePlatform.GamePlatformCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsBeingPushed)
+                    </td>
+
+
+
+                </tr>
+                        totalWagering += item.BetAmount;
+                    }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="AGTransferRecords" class="tab-pane fade">
+        <table id="agTransferRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Creation Time
+                    </th>
+                    <th>
+                        Txn No
+                    </th>
+
+                    <th>
+                        Trans Id
+                    </th>
+
+                    <th>
+                        Trade No
+                    </th>
+                    <th>
+                        Platform Type
+                    </th>
+
+                    <th>
+                        Type
+                    </th>
+
+                    <th>
+                        AG-Previous
+                    </th>
+                    <th>
+                        AG-Current
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AGTransferRecord item in Model.AGTransferRecord)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreationTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AGId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransferId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TradeNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlatformType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransferType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransferAmount)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PreviousAmount)
+                    </td>
+
+                </tr>
+                    }
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div id="OWTransferRecords" class="tab-pane fade">
+        <table id="owTransferRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Transfer Date
+                    </th>
+                    <th>
+                        Txn No
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Wallet Prev
+                    </th>
+                    <th>
+                        Wallet New
+                    </th>
+
+                    <th>
+                        OW Wallet Prev
+                    </th>
+                    <th>
+                        OW Wallet New
+                    </th>
+                    <th>
+                        Transfer Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (OWFundTransfer item in Model.OWFundTransfer)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WalletPrevBal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WalletNewBal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OWWalletPrevBal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OWWalletNewBal)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransferType)
+                    </td>
+
+                </tr>
+                    }
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div id="AGFundTransferRecords" class="tab-pane fade">
+        <table id="agFundTransferRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Transfer Date
+                    </th>
+                    <th>
+                        Txn No
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                    <th>
+                        Wallet Prev
+                    </th>
+                    <th>
+                        Wallet New
+                    </th>
+
+                    <th>
+                        AG Wallet Prev
+                    </th>
+                    <th>
+                        AG Wallet New
+                    </th>
+                    <th>
+                        Transfer Type
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (AGFundTransfer item in Model.AGFundTransfer)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WalletPrevBal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WalletNewBal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AGWalletPrevBal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AGWalletNewBal)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransferType)
+                    </td>
+
+                </tr>
+                    }
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div id="WalletLedgerRecords" class="tab-pane fade">
+        <table id="walletLedgerRecords" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Txn Date
+                    </th>
+                    <th>
+                        Txn No
+                    </th>
+                    <th>
+                        Vendor
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Txn Amount
+                    </th>
+
+                    <th>
+                        Vendor Prev Balance
+                    </th>
+                    <th>
+                        Vendor New Balance
+                    </th>
+
+                    <th>
+                        Wallet Prev Balance
+                    </th>
+                    <th>
+                        Wallet New Balance
+                    </th>
+                    <th>
+                        RB Id
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (WalletLedger item in Model.WalletLedger)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TransactionNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VendorType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WalletLedgerType)
+                    </td>
+                    <td>
+                        @string.Format("{0:N2}", item.TransactionAmount)
+                    </td>
+                    <td>
+                        @string.Format("{0:N2}", item.VendorPrevBalanceAmount)
+                    </td>
+                    <td>
+                        @string.Format("{0:N2}", item.VendorNewBalanceAmount)
+                    </td>
+                    <td>
+                        @string.Format("{0:N2}", item.WalletPrevBalanceAmount)
+                    </td>
+                    <td>
+                        @string.Format("{0:N2}", item.WalletNewBalanceAmount)
+                    </td>
+                    <td>
+                        @item.RollbaseId
+                    </td>
+
+                </tr>
+                    }
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+    @{
+        int fpHitCount = 0;
+    }
+
+    <div id="AccessLogs" class="tab-pane fade">
+        <table id="accessLogs" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        IP
+                    </th>
+                    <th>
+                        FP
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Users
+                    </th>
+                    <th>
+                        FP Hit
+                    </th>
+                    <th>
+                        RB Id
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (PlayerAccessLog item in Model.AccessLogs)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IPAddress)
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.FingerPrint))
+                            {
+                                @Html.ActionLink(item.FingerPrint, "FingerPrintHit", "PlayerTransaction", new { fingerPrint = item.FingerPrint }, htmlAttributes: new { @target = "_blank" })
+                            }
+                            else
+                            {
+                                @item.FingerPrint
+                            }
+
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LogDateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AccessLogType)
+                        </td>
+                        <td>
+                            @foreach (string userName in item.FingerPrintUsers)
+                            {
+                                if (!string.IsNullOrEmpty(userName))
+                                {
+                                    @Html.ActionLink(userName, "PlayerDetail", "Report", new { userName = userName }, htmlAttributes: new { @target = "_blank" }) @:|
+                                }
+
+                            }
+                        </td>
+                        <td>
+                            @item.FingerPrintHitCount
+                        </td>
+                        <td>
+                            @item.RollbaseId
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+@*</div>*@
+
+
+@*<div class="container">*@
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        Total Approved Deposit Credit:
+    </dt>
+    <dd class="credit">
+        @totalApprovedDepositCredit.ToString("N2")
+    </dd>
+    <dt>
+        Total Win:
+    </dt>
+    <dd class="credit">
+        @totalWin.ToString("N2")
+    </dd>
+    <dt>
+        Total CM:
+    </dt>
+    <dd class="credit">
+        @totalCM.ToString("N2")
+    </dd>
+    <dt>
+        Total Loss:
+    </dt>
+    <dd class="debit">
+        @totalLoss.ToString("N2")
+    </dd>
+    <dt>
+        Total DM:
+    </dt>
+    <dd class="debit">
+        @totalDM.ToString("N2")
+    </dd>
+    <dt>
+        Total Approved Withdrawal:
+    </dt>
+    <dd class="debit">
+        @totalapprovedWithdrawal.ToString("N2")
+    </dd>
+    <hr />
+    <dt>
+        Expected Balance:
+    </dt>
+    <dd>
+        @string.Format("{0:N2}", (totalApprovedDepositCredit + totalWin + totalCM) - (totalLoss + totalDM + totalapprovedWithdrawal))
+    </dd>
+    <hr />
+    <dt>
+        Total Bets:
+    </dt>
+    <dd>
+        @totalBet.ToString("N2")
+    </dd>
+    <dt>
+        Total Wagering:
+    </dt>
+    <dd>
+        @totalWagering.ToString("N2")
+    </dd>
+
+    @if (@Model.WalletComputedBalance != null)
+    {
+    <dt>
+        Wagering Requirement Amount:
+    </dt>
+    <dd>
+        @string.Format("{0:N2}", Model.WageringRequirement)
+    </dd>
+
+    <dt>
+        Wagering Balance Amount:
+    </dt>
+    <dd>
+        @string.Format("{0:N2}", Model.WalletComputedBalance.WageringBalance)
+    </dd>
+    }
+
+</dl>
+@*</div>*@
+
+
+
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <div id="divMessage"></div>
+                </p>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<style>
+    .dl-horizontal dt {
+        width: 243px !important;
+    }
+
+    .debit {
+        color: red;
+    }
+
+    .credit {
+        color: green;
+    }
+</style>
+
+
+
+<script type="text/javascript">
+    var errorMessage = "@TempData["ErrorMessage"]";
+    $(document).ready(function () {
+
+        $('#accessLogs').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[2, "desc"]],
+        });
+
+        $('#depositRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "bAutoWidth": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        var dtWithdrawalRecords =
+            $('#withdrawalRecords').DataTable({
+                "bPaginate": true,
+                "bLengthChange": true,
+                "bFilter": true,
+                "bSort": true,
+                "bInfo": true,
+                "bAutoWidth": true,
+                "asStripClasses": null, //To remove "odd"/"event" zebra classes
+                "bJQueryUI": true,
+                "sPaginationType": "full_numbers",
+                "order": [[0, "desc"]],
+            });
+
+        $('#adjustmentRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+
+
+        var dtWalletWinRecords =
+        $('#walletWinRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        $('#walletLossRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        $('#playerBetsRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        $('#wageringFulfillmentRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        $('#agTransferRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        $('#owTransferRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        $('#agFundTransferRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+        $('#walletLedgerRecords').DataTable({
+            "bPaginate": true,
+            "bLengthChange": true,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true,
+            "asStripClasses": null, //To remove "odd"/"event" zebra classes
+            "bJQueryUI": true,
+            "sPaginationType": "full_numbers",
+            "order": [[0, "desc"]],
+        });
+
+
+
+        dtWalletWinRecords.responsive.recalc();
+
+
+
+        if (errorMessage.length > 0) {
+            $("#divMessage").text(errorMessage);
+            jQuery('#myModal').modal();
+        }
+
+
+
+    });
+</script>
