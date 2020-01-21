@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>     
+  <Function Name="Sync Data">
+    <Setting Key="Plo_API_BetTicket_SelPush" SpName="Plo_API_BetTicket_SelPush" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="Plo_API_BetTicket_Update" SpName="Plo_API_BetTicket_Update" DbName="Ploutos" Plain="0"></Setting>
+  </Function>
+</Functions>

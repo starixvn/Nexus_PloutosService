@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.ServiceAPI", "Plout
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.ServiceAPI.UnitTests", "Ploutos.ServiceAPI.UnitTests\Ploutos.ServiceAPI.UnitTests.csproj", "{FA5F6E8D-CBF9-44DA-8F33-83871C073054}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.GlobalComJobs", "Ploutos.GlobalComJobs\Ploutos.GlobalComJobs.csproj", "{ECC062AE-A8A5-460E-BEA6-2F2CB6A02905}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{FA5F6E8D-CBF9-44DA-8F33-83871C073054}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA5F6E8D-CBF9-44DA-8F33-83871C073054}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA5F6E8D-CBF9-44DA-8F33-83871C073054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECC062AE-A8A5-460E-BEA6-2F2CB6A02905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECC062AE-A8A5-460E-BEA6-2F2CB6A02905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECC062AE-A8A5-460E-BEA6-2F2CB6A02905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECC062AE-A8A5-460E-BEA6-2F2CB6A02905}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

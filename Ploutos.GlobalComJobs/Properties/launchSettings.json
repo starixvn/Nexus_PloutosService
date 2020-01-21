@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Ploutos.GlobalComJobs": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
