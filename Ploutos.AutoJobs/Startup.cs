@@ -22,6 +22,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Newtonsoft.Json;
+    using NLog.Web;
     using ONEbook.UM.AspNetCore;
     using ONEbook.UM.Configurations;
     using ONEbook.UM.Helpers;
@@ -54,7 +55,10 @@
                                     .ToDictionary(x => x.GetValue<string>("Name"),
                                     y => new ConnectionConfiguration(y.GetValue<string>("Name"), y.GetValue<string>("ConnectionString"), y.GetValue<string>("ProviderName")));
 
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+
             string evn = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            logger.Warn(string.Format("ASPNETCORE_ENVIRONMENT {0}", evn));
             DbSettingProviderManager
                .StartNewSession()
                .Use(connections)
