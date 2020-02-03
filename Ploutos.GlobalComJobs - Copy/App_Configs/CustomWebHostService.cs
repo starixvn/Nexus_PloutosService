@@ -1,17 +1,18 @@
-﻿using Hangfire;
-using Hangfire.Storage;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.WindowsServices;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Ploutos.GlobalComJobs.Services.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.ComponentModel;
-using System.Linq;
-
-namespace Ploutos.GlobalComJobs.App_Configs
+﻿namespace Ploutos.GlobalComJobs.App_Configs
 {
+    using Hangfire;
+    using Hangfire.Storage;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Hosting.WindowsServices;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
+    using Ploutos.GlobalComJobs.Services.Interfaces;
+    using Microsoft.Extensions.DependencyInjection;
+    using System;
+    using System.ComponentModel;
+    using System.Linq;
+    using Resources;
+
     public class CustomWebHostService : WebHostService
     {
         private readonly Microsoft.Extensions.Logging.ILogger logger;
@@ -31,7 +32,7 @@ namespace Ploutos.GlobalComJobs.App_Configs
         protected override void OnStarted()
         {
             jobRunningChecker.ClearAllRunning();
-            logger.LogInformation(string.Format(Resources.Resources.Log_OnStartedService, DateTime.Now));
+            logger.LogInformation(string.Format(Resources.Log_OnStartedService, DateTime.Now));
             RunHangfireJobs();
             base.OnStarted();
         }
@@ -44,14 +45,15 @@ namespace Ploutos.GlobalComJobs.App_Configs
 
         protected override void OnStopping()
         {
-            logger.LogInformation(string.Format(Resources.Resources.Log_OnStoppingService, DateTime.Now));
+            logger.LogInformation(string.Format(Resources.Log_OnStoppingService, DateTime.Now));
             RemoveCurrentHangfireServer();
             base.OnStopping();
         }
 
         public void RunHangfireJobs()
         {
-            recurringJob.AddOrUpdate<IJobService>(Resources.Resources.Job_Sync12BTicket,
+            //var x = Ploutos.GlobalComJobs.Resources.
+            recurringJob.AddOrUpdate<IJobService>("Resources.Job_Sync12BTicket",
                 job => job.Sync12BTicket(),
                 cronJob.CurrentValue.Sync12BTicket);
         }

@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.EventLog;
-using NLog.Web;
-using Ploutos.GlobalComJobs.Extensions;
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-
-namespace Ploutos.GlobalComJobs
+﻿namespace Ploutos.GlobalComJobs
 {
+    using Microsoft.AspNetCore;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.EventLog;
+    using NLog.Web;
+    using Ploutos.GlobalComJobs.Extensions;
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+
     public static class Program
     {
         public static void Main(string[] args)
