@@ -31,7 +31,11 @@
     <None Remove="appsettings.LOCAL.json" />
     <None Remove="appsettings.Production.json" />
     <None Remove="appsettings.UAT.json" />
+    <None Remove="App_Data\Development\SpNames.xml" />
+    <None Remove="App_Data\LOCAL\SpNames.xml" />
+    <None Remove="App_Data\Production\SpNames.xml" />
     <None Remove="App_Data\SpNames.xml" />
+    <None Remove="App_Data\UAT\SpNames.xml" />
     <None Remove="Views\Auth\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -50,7 +54,19 @@
     <Content Include="appsettings.UAT.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="App_Data\Development\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\LOCAL\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\Production\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="App_Data\SpNames.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\UAT\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Auth\Login.cshtml">
