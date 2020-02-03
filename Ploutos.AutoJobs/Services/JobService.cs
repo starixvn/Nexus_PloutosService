@@ -121,6 +121,7 @@
 
         private async Task SyncJob(bool isEnabled, string jobName, Func<Task> fn)
         {
+            fileLogger.Warn(string.Format("enter syncjob {0}", jobName));
             if (isEnabled && !(await maintenanceService.GetUnderMaintenanceTimeAsync()).IsUnderMaintenanceTime)
             {
                 var isRunning = await jobRunningChecker.IsRunning(jobName);
@@ -128,6 +129,7 @@
                 {
                     try
                     {
+                        fileLogger.Warn(string.Format("enter running job {0}", jobName));
                         await jobRunningChecker.MarkRunning(jobName);
                         await fn();
                         await jobRunningChecker.ClearRunning(jobName);
@@ -145,6 +147,7 @@
                 }
 
             }
+            fileLogger.Warn(string.Format("leave syncjob {0}", jobName));
         }
     }
 }

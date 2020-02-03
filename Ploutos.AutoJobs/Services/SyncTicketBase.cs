@@ -37,7 +37,9 @@
             var siteName = this.apiConfigs.BrandName;
             fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
 
+            fileLogger.Warn(string.Format("get bettickets {0}", siteName));
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
+            fileLogger.Warn(string.Format("finish get bettickets {0}", siteName));
 
             var newBetTickets = betTickets.Select(t =>
             {
@@ -57,6 +59,7 @@
                     .Select(grp => grp.Select(x => x.Value).ToList())
                     .ToList();
 
+            fileLogger.Warn(string.Format("push bettickets {0}", siteName));
             var successCount = 0;
             foreach (var batch in betTicketParallelBatches)
             {
@@ -71,6 +74,7 @@
                 var results = await Task.WhenAll(tasks);
                 successCount += results.Sum(r => r);
             }
+            fileLogger.Warn(string.Format("finish push bettickets {0}", siteName));
 
             fileLogger.Warn(string.Format("Finish Push Tickets for {0}, total: {1}, success: {2}, failed: {3}",
                 siteName, betTickets.Count, successCount, betTickets.Count - successCount));
