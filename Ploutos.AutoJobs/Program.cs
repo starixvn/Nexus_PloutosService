@@ -56,6 +56,9 @@
                     .Build();
             string evn = configuration["Environment"] ?? string.Empty;
 
+            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            logger.Warn(string.Format("ENVIRONMENT {0}", evn));
+
             return WebHost.CreateDefaultBuilder(args)
                .ConfigureLogging((hostingContext, logging) =>
                {
