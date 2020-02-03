@@ -143,7 +143,7 @@
             }
             catch (Exception ex)
             {
-                fileLogger.Warn(string.Format("exception post bettickets {0}", siteName));
+                fileLogger.Warn(string.Format("exception post bettickets {0} {1}", siteName, ex.Message));
                 responseResult = ex.Message;
                 foreach (var updateTicket in updateBetTickets)
                 {
