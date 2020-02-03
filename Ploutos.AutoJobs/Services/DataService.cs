@@ -55,6 +55,7 @@
             data.Columns.Add("LossAmount");
             data.Columns.Add("PlayerCode");
             data.Columns.Add("ResponseResult");
+            data.Columns.Add("SettlementDate");
             data.Columns.Add("TransactionDate");
             data.Columns.Add("TransactionNo");
             data.Columns.Add("WinAmount");
@@ -62,7 +63,7 @@
             {
                 data.Rows.Add(ticket.BetAmount, ticket.CurrencyCode, ticket.GameId, ticket.GamePlatformCode,
                     ticket.GameType, ticket.IsError, ticket.LossAmount, ticket.PlayerCode, ticket.ResponseResult,
-                    ticket.TransactionDate, ticket.TransactionNo, ticket.WinAmount);
+                    ticket.SettlementDate, ticket.TransactionDate, ticket.TransactionNo, ticket.WinAmount);
             }
 
             var criteria = new UpdateBetTicketCriteria

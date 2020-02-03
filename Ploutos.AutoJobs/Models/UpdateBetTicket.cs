@@ -13,6 +13,7 @@
             GameType = betTicket.GameType;
             LossAmount = betTicket.LossAmount;
             PlayerCode = betTicket.PlayerCode;
+            SettlementDate = betTicket.SettlementDate;
             TransactionDate = betTicket.TransactionDate;
             TransactionNo = betTicket.TransactionNo;
             WinAmount = betTicket.WinAmount;
@@ -27,6 +28,7 @@
         public double LossAmount { get; set; }
         public string PlayerCode { get; set; }
         public string ResponseResult { get; set; }
+        public DateTime SettlementDate { get; set; }
         public DateTime TransactionDate { get; set; }
         public string TransactionNo { get; set; }
         public double WinAmount { get; set; }        
