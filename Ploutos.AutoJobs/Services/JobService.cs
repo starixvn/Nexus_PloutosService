@@ -138,6 +138,7 @@
                     {
                         await jobRunningChecker.ClearRunning(jobName);
                         await logger.ErrorAsync(util.BuildLogMessage(ex));
+                        fileLogger.Warn(string.Format("error syncjob {0} {1}", jobName, util.BuildLogMessage(ex)));
                         throw;
                     }
                 }
