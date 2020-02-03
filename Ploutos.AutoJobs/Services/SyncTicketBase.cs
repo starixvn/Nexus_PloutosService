@@ -106,12 +106,14 @@
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
+                fileLogger.Warn(string.Format("start post bettickets {0}", siteName));
                 var response = await webClientService.PostAsync<List<BetTicket>>(
                         domainName,
                         apiConfigs.TicketConfigs.Url,
                         apiConfigs.PloutosToken,
                         betTickets);
                 responseResult = response.Content;
+                fileLogger.Warn(string.Format("finish post bettickets {0} {1} {2}", siteName, response.Content, response.StatusCode));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
@@ -141,6 +143,7 @@
             }
             catch (Exception ex)
             {
+                fileLogger.Warn(string.Format("exception post bettickets {0}", siteName));
                 responseResult = ex.Message;
                 foreach (var updateTicket in updateBetTickets)
                 {
@@ -152,7 +155,9 @@
             }
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
+            fileLogger.Warn(string.Format("start update bettickets {0}", siteName));
             await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
+            fileLogger.Warn(string.Format("finish update bettickets {0}", siteName));
 
             return updateBetTickets.Count(t => !t.IsError);
         }
