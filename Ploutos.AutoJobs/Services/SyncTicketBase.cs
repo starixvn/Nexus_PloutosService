@@ -35,8 +35,9 @@
         public virtual async Task PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
-            var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
-            
+            fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
+            var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);            
+
             var newBetTickets = betTickets.Select(t =>
             {                
                 t.TransactionDate = t.TransactionDate.AddHours(-4);
