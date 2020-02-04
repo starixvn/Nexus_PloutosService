@@ -38,8 +38,9 @@
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
             
             var newBetTickets = betTickets.Select(t =>
-            {
+            {                
                 t.TransactionDate = t.TransactionDate.AddHours(-4);
+                t.SettlementDate = t.SettlementDate.AddHours(-4);
                 return t;
             }).ToList();
 
