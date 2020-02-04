@@ -58,7 +58,7 @@
             var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
             string evn = Configuration["Environment"];
-            logger.Warn(string.Format("ASPNETCORE_ENVIRONMENT {0}", evn));
+            logger.Warn(string.Format("ENVIRONMENT {0}", evn));
             DbSettingProviderManager
                .StartNewSession()
                .Use(connections)

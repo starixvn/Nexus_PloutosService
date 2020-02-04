@@ -35,12 +35,8 @@
         public virtual async Task PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
-            fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
-
-            fileLogger.Warn(string.Format("get bettickets {0}", siteName));
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
-            fileLogger.Warn(string.Format("finish get bettickets {0}", siteName));
-
+            
             var newBetTickets = betTickets.Select(t =>
             {
                 t.TransactionDate = t.TransactionDate.AddHours(-4);
@@ -59,7 +55,6 @@
                     .Select(grp => grp.Select(x => x.Value).ToList())
                     .ToList();
 
-            fileLogger.Warn(string.Format("push bettickets {0}", siteName));
             var successCount = 0;
             foreach (var batch in betTicketParallelBatches)
             {
@@ -74,8 +69,7 @@
                 var results = await Task.WhenAll(tasks);
                 successCount += results.Sum(r => r);
             }
-            fileLogger.Warn(string.Format("finish push bettickets {0}", siteName));
-
+            
             fileLogger.Warn(string.Format("Finish Push Tickets for {0}, total: {1}, success: {2}, failed: {3}",
                 siteName, betTickets.Count, successCount, betTickets.Count - successCount));
         }
@@ -106,15 +100,13 @@
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
-                fileLogger.Warn(string.Format("start post bettickets {0}", siteName));
                 var response = await webClientService.PostAsync<List<BetTicket>>(
                         domainName,
                         apiConfigs.TicketConfigs.Url,
                         apiConfigs.PloutosToken,
                         betTickets);
                 responseResult = response.Content;
-                fileLogger.Warn(string.Format("finish post bettickets {0} {1} {2}", siteName, response.Content, response.StatusCode));
-
+                
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
@@ -155,10 +147,8 @@
             }
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
-            fileLogger.Warn(string.Format("start update bettickets {0}", siteName));
             await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
-            fileLogger.Warn(string.Format("finish update bettickets {0}", siteName));
-
+            
             return updateBetTickets.Count(t => !t.IsError);
         }
     }
