@@ -42,8 +42,9 @@ namespace Ploutos.GlobalComJobs.Services
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
 
             var newBetTickets = betTickets.Select(t =>
-            {
+            {                
                 t.TransactionDate = t.TransactionDate.AddHours(-4);
+                t.SettlementDate = t.SettlementDate.AddHours(-4);
                 return t;
             }).ToList();
 
@@ -71,10 +72,11 @@ namespace Ploutos.GlobalComJobs.Services
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
+                var token = await GetTokenFromSupportAPI(this.apiConfigs);
                 var response = await webClientService.PostAsync<List<BetTicket>>(
                         apiConfigs.BaseDomain,
                         apiConfigs.TicketConfigs.Url,
-                        string.Empty,
+                        token,
                         betTickets);
                 responseResult = response.Content;
 
@@ -120,6 +122,27 @@ namespace Ploutos.GlobalComJobs.Services
             await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
 
             return updateBetTickets.Count(t => !t.IsError);
+        }
+
+        private async Task<string> GetTokenFromSupportAPI(BrandApiConfigs brandApiConfigs)
+        {
+            var authParam = new AuthParam
+            {
+                response_type = "code",
+                client_id = brandApiConfigs.ClientId,
+                client_secret = brandApiConfigs.ClientSecret
+            };
+
+            var authResponse = await webClientService.PostAsync<AuthParam>(
+                brandApiConfigs.AuthDomain, brandApiConfigs.AuthConfigs.Url, string.Empty, authParam);
+            
+            if (authResponse.StatusCode == HttpStatusCode.OK)
+            {
+                var authObj = this.util.ConvertJsonResponse<AuthData>(authResponse.Content);
+                return authObj.access_token;                
+            }
+
+            return null;
         }
     }
 }
