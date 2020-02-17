@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Ploutos.GlobalComJobs.Services
 {
@@ -38,6 +39,8 @@ namespace Ploutos.GlobalComJobs.Services
         {
             var siteName = this.apiConfigs.BrandName;
             fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
+
+            await GetTokenFromSupportAPI(this.apiConfigs);
 
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
 
@@ -122,6 +125,29 @@ namespace Ploutos.GlobalComJobs.Services
             await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
 
             return updateBetTickets.Count(t => !t.IsError);
+        }
+
+        private async Task<string> GetTokenFromSupportAPI2(BrandApiConfigs brandApiConfigs)
+        {
+            string url = string.Format("{0}{1}", brandApiConfigs.AuthDomain, brandApiConfigs.AuthConfigs.Url);
+            var authParam = new AuthParam
+            {
+                response_type = "code",
+                client_id = brandApiConfigs.ClientId,
+                client_secret = brandApiConfigs.ClientSecret
+            };
+            string sData = webClientService.PostRequest(url, GetQueryString(authParam), 5000, null);
+
+            return null;
+        }
+
+        private string GetQueryString(object obj)
+        {
+            var properties = from p in obj.GetType().GetProperties()
+                             where p.GetValue(obj, null) != null
+                             select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
+
+            return String.Join("&", properties.ToArray());
         }
 
         private async Task<string> GetTokenFromSupportAPI(BrandApiConfigs brandApiConfigs)
