@@ -3,11 +3,18 @@ using Fanex.Logging.Extensions.Database;
 using Newtonsoft.Json;
 using Ploutos.GlobalComJobs.Constant;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace Ploutos.GlobalComJobs.Utils
 {
     public class Util : IUtil
     {
+        public const string RootElementName = "root";
+
         public string BuildLogMessage(Exception exception)
         {
             return new LogMessage(exception.Message)
@@ -25,6 +32,33 @@ namespace Ploutos.GlobalComJobs.Utils
         public DateTime GetCurrentTimeAtGMTMinus4()
         {
             return DateTime.UtcNow.AddHours(Constants.GmtMinus4);
+        }
+
+        public string SerializeList<T>(IEnumerable<T> list)
+        {
+            if (list == null || !list.Any())
+            {
+                return string.Empty;
+            }
+
+            var xmlSettings = new XmlWriterSettings
+            {
+                Indent = false,
+                OmitXmlDeclaration = true,
+                NewLineHandling = NewLineHandling.None
+            };
+
+            var xmlNameSpace = new XmlSerializerNamespaces();
+            xmlNameSpace.Add(string.Empty, string.Empty);
+
+            using (var stringWriter = new StringWriter())
+            using (var xmlWriter = XmlWriter.Create(stringWriter, xmlSettings))
+            {
+                var serializer = new XmlSerializer(list.GetType(), new XmlRootAttribute(RootElementName));
+                serializer.Serialize(xmlWriter, list, xmlNameSpace);
+
+                return stringWriter.ToString();
+            }
         }
     }
 }

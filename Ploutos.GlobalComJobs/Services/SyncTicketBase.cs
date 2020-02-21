@@ -46,8 +46,8 @@ namespace Ploutos.GlobalComJobs.Services
 
             var newBetTickets = betTickets.Select(t =>
             {                
-                t.TransactionDate = t.TransactionDate.AddHours(-4);
-                t.SettlementDate = t.SettlementDate.AddHours(-4);
+                t.Transaction_Date = t.Transaction_Date.AddHours(-4);
+                t.Settlement_Date = t.Settlement_Date.AddHours(-4);
                 return t;
             }).ToList();
 
@@ -73,6 +73,11 @@ namespace Ploutos.GlobalComJobs.Services
             List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
+
+            await this.dataService.UpdateBetTickets(siteName, pushTime, this.util.GetCurrentTimeAtGMTMinus4(), responseResult, updateBetTickets);
+
+            return updateBetTickets.Count(t => !t.Is_Error);
+
             try
             {
                 var token = await GetTokenFromSupportAPI(this.apiConfigs);
@@ -88,9 +93,9 @@ namespace Ploutos.GlobalComJobs.Services
                     var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
                     for (var i = 0; i < updateBetTickets.Count; i++)
                     {
-                        var errorMsg = ticketResponse.GetErrorMessage(updateBetTickets[i].TransactionNo);
-                        updateBetTickets[i].IsError = !string.IsNullOrEmpty(errorMsg);
-                        updateBetTickets[i].ResponseResult = errorMsg;
+                        //var errorMsg = ticketResponse.GetErrorMessage(updateBetTickets[i].TransactionNo);
+                        //updateBetTickets[i].IsError = !string.IsNullOrEmpty(errorMsg);
+                        //updateBetTickets[i].ResponseResult = errorMsg;
                     }
                 }
                 else if (response.StatusCode == HttpStatusCode.BadRequest)
@@ -100,8 +105,8 @@ namespace Ploutos.GlobalComJobs.Services
                     for (var i = 0; i < updateBetTickets.Count; i++)
                     {
                         var errorMsg = ticketResponse.GetErrorMessage(i);
-                        updateBetTickets[i].IsError = true;
-                        updateBetTickets[i].ResponseResult = errorMsg;
+                        updateBetTickets[i].Is_Error = true;
+                        updateBetTickets[i].Response_Result = errorMsg;
                     }
                 }
                 else
@@ -114,17 +119,17 @@ namespace Ploutos.GlobalComJobs.Services
                 responseResult = ex.Message;
                 foreach (var updateTicket in updateBetTickets)
                 {
-                    updateTicket.ResponseResult = string.Empty;
-                    updateTicket.IsError = true;
+                    updateTicket.Response_Result = string.Empty;
+                    updateTicket.Is_Error = true;
                 }
 
                 await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
             }
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
-            await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
+            //await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
 
-            return updateBetTickets.Count(t => !t.IsError);
+            //return updateBetTickets.Count(t => !t.IsError);
         }
 
         private async Task<string> GetTokenFromSupportAPI2(BrandApiConfigs brandApiConfigs)

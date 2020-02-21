@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ploutos.GlobalComJobs.Utils
 {
@@ -9,5 +10,6 @@ namespace Ploutos.GlobalComJobs.Utils
         T ConvertJsonResponse<T>(string json);
 
         DateTime GetCurrentTimeAtGMTMinus4();
+        string SerializeList<T>(IEnumerable<T> list);
     }
 }
