@@ -96,4 +96,13 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ploutos.Common\Ploutos.Common.csproj" />
+  </ItemGroup>
+
 </Project>

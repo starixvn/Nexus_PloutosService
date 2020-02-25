@@ -1,7 +1,7 @@
 ﻿using Fanex.Logging.Extensions;
 using Fanex.Logging.Extensions.Database;
 using Newtonsoft.Json;
-using Ploutos.GlobalComJobs.Constant;
+using Ploutos.Common.Const;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Ploutos.GlobalComJobs.Utils
+namespace Ploutos.Common.Utils
 {
     public class Util : IUtil
     {
@@ -31,7 +31,7 @@ namespace Ploutos.GlobalComJobs.Utils
 
         public DateTime GetCurrentTimeAtGMTMinus4()
         {
-            return DateTime.UtcNow.AddHours(Constants.GmtMinus4);
+            return DateTime.UtcNow.AddHours(Consts.GmtMinus4);
         }
 
         public string SerializeList<T>(IEnumerable<T> list)

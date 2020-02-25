@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Ploutos.AutoJobs.Models;
+    using Ploutos.Common.Models;
 
     public interface IDataService
     {

@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Options;
-    using Ploutos.AutoJobs.Models;
+    using Ploutos.Common.Models;
     using RestSharp;
 
     public class WebClientService : IWebClientService

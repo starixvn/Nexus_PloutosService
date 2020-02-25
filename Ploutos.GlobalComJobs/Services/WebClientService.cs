@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
-using Ploutos.GlobalComJobs.Models;
+using Ploutos.Common.Models;
 using Ploutos.GlobalComJobs.Services.Interfaces;
 using RestSharp;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Security;

@@ -1,8 +1,8 @@
 ﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
+using Ploutos.Common.Utils;
 using Ploutos.GlobalComJobs.Models;
 using Ploutos.GlobalComJobs.Services.Interfaces;
-using Ploutos.GlobalComJobs.Utils;
 using System.Threading.Tasks;
 
 namespace Ploutos.GlobalComJobs.Services

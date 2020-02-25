@@ -3,7 +3,7 @@ using FluentAssertions;
 using NSubstitute;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services;
-using Ploutos.AutoJobs.Utils;
+using Ploutos.Common.Utils;
 using RestSharp;
 using System.Collections.Generic;
 using System.Net;

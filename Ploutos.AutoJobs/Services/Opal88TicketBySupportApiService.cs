@@ -3,7 +3,7 @@ using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services.Interfaces;
-using Ploutos.AutoJobs.Utils;
+using Ploutos.Common.Utils;
 
 namespace Ploutos.AutoJobs.Services
 {

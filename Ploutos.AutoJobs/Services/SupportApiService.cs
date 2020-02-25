@@ -4,7 +4,7 @@
     using Ploutos.AutoJobs.Constant;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
-    using Ploutos.AutoJobs.Utils;
+    using Ploutos.Common.Utils;
     using RestSharp;
     using System;
     using System.Collections.Generic;

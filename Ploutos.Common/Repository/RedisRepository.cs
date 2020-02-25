@@ -2,7 +2,7 @@
 using StackExchange.Redis;
 using System.Threading.Tasks;
 
-namespace Ploutos.GlobalComJobs.Repository
+namespace Ploutos.Common.Repository
 {
     public class RedisRepository : IRedisRepository
     {

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using NSubstitute;
-using Ploutos.AutoJobs.Repository;
 using Ploutos.AutoJobs.Services;
+using Ploutos.Common.Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;

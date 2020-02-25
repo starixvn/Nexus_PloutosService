@@ -1,4 +1,4 @@
-﻿namespace Ploutos.AutoJobs.Models
+﻿namespace Ploutos.Common.Models
 {
     public class ProxySettings
     {

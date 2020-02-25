@@ -7,7 +7,8 @@
     using System.Threading.Tasks;
     using Ploutos.AutoJobs.Criteria;
     using Ploutos.AutoJobs.Models;
-    using Ploutos.AutoJobs.Repository;
+    using Ploutos.Common.Models;
+    using Ploutos.Common.Repository;
 
     public class DataService : IDataService
     {

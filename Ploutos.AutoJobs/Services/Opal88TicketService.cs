@@ -5,7 +5,7 @@
     using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
-    using Ploutos.AutoJobs.Utils;
+    using Ploutos.Common.Utils;
 
     public class Opal88TicketService : SyncTicketBase, IOpal88TicketService
     {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Ploutos.Common.Models;
 using Ploutos.GlobalComJobs.App_Configs;
 using System;
 using System.Collections.Generic;

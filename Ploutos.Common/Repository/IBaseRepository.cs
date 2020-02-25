@@ -1,9 +1,9 @@
 ﻿using Fanex.Data.Repository;
-using Ploutos.GlobalComJobs.Models;
+using Ploutos.Common.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ploutos.GlobalComJobs.Repository
+namespace Ploutos.Common.Repository
 {
     public interface IBaseRepository
     {

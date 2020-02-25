@@ -1,5 +1,5 @@
-﻿using Ploutos.GlobalComJobs.Constant;
-using Ploutos.GlobalComJobs.Repository;
+﻿using Ploutos.Common.Repository;
+using Ploutos.GlobalComJobs.Constant;
 using Ploutos.GlobalComJobs.Services.Interfaces;
 using System.Threading.Tasks;
 

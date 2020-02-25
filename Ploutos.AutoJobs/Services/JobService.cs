@@ -9,9 +9,9 @@
     using Ploutos.AutoJobs.Constant;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
-    using Ploutos.AutoJobs.Utils;
+    using Ploutos.Common.Utils;
 
-    #pragma warning disable S107
+#pragma warning disable S107
     public class JobService : IJobService
     {
         private readonly IOptionsSnapshot<ApiConfigs> apiConfigs;

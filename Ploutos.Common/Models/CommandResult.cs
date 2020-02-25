@@ -1,4 +1,4 @@
-﻿namespace Ploutos.GlobalComJobs.Models
+﻿namespace Ploutos.Common.Models
 {
     public class CommandResult
     {

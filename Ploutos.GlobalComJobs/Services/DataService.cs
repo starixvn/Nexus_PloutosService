@@ -1,8 +1,9 @@
-﻿using Ploutos.GlobalComJobs.Criteria;
+﻿using Ploutos.Common.Models;
+using Ploutos.Common.Repository;
+using Ploutos.Common.Utils;
+using Ploutos.GlobalComJobs.Criteria;
 using Ploutos.GlobalComJobs.Models;
-using Ploutos.GlobalComJobs.Repository;
 using Ploutos.GlobalComJobs.Services.Interfaces;
-using Ploutos.GlobalComJobs.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;

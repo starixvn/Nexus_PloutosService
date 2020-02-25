@@ -1,6 +1,6 @@
 ﻿using Fanex.Logging;
 using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Utils;
+using Ploutos.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

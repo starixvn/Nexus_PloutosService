@@ -4,7 +4,7 @@
     using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
-    using Ploutos.AutoJobs.Utils;
+    using Ploutos.Common.Utils;
     using System.Threading.Tasks;
 
     public class IvorybetPlayerService : SyncPlayerBase, IIvorybetPlayerService

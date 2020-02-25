@@ -29,12 +29,13 @@
     using ONEbook.UM.Services;
     using ONEbook.UM.Transport;
     using Ploutos.AutoJobs.App_Configs;
-    using Ploutos.AutoJobs.Extensions;
     using Ploutos.AutoJobs.Models;
-    using Ploutos.AutoJobs.Repository;
     using Ploutos.AutoJobs.Services;
     using Ploutos.AutoJobs.Services.Interfaces;
-    using Ploutos.AutoJobs.Utils;
+    using Ploutos.Common.Extensions;
+    using Ploutos.Common.Models;
+    using Ploutos.Common.Repository;
+    using Ploutos.Common.Utils;
     using Sentry;
 
     public class Startup

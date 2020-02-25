@@ -1,4 +1,4 @@
-﻿namespace Ploutos.AutoJobs.App_Configs
+﻿namespace Ploutos.Common.Models
 {
     public class IdentifyModel
     {

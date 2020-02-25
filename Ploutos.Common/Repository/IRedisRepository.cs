@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Ploutos.GlobalComJobs.Repository
+namespace Ploutos.Common.Repository
 {
     public interface IRedisRepository
     {

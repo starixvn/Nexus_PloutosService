@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.ServiceAPI", "Plout
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.ServiceAPI.UnitTests", "Ploutos.ServiceAPI.UnitTests\Ploutos.ServiceAPI.UnitTests.csproj", "{FA5F6E8D-CBF9-44DA-8F33-83871C073054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.GlobalComJobs", "Ploutos.GlobalComJobs\Ploutos.GlobalComJobs.csproj", "{F775AFD7-901A-433A-BE63-A407BA989D9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.GlobalComJobs", "Ploutos.GlobalComJobs\Ploutos.GlobalComJobs.csproj", "{F775AFD7-901A-433A-BE63-A407BA989D9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.Common", "Ploutos.Common\Ploutos.Common.csproj", "{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,14 @@ Global
 		{F775AFD7-901A-433A-BE63-A407BA989D9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F775AFD7-901A-433A-BE63-A407BA989D9C}.Release|x64.ActiveCfg = Release|Any CPU
 		{F775AFD7-901A-433A-BE63-A407BA989D9C}.Release|x64.Build.0 = Release|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Debug|x64.Build.0 = Debug|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Release|x64.ActiveCfg = Release|Any CPU
+		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

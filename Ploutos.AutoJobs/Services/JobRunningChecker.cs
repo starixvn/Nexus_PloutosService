@@ -1,8 +1,8 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
     using Ploutos.AutoJobs.Constant;
-    using Ploutos.AutoJobs.Repository;
     using Ploutos.AutoJobs.Services.Interfaces;
+    using Ploutos.Common.Repository;
     using System.Threading.Tasks;
 
     public class JobRunningChecker : IJobRunningChecker

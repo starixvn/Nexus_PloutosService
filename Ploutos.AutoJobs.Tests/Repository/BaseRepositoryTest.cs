@@ -5,7 +5,7 @@ using FluentAssertions;
 using NSubstitute;
 using Ploutos.AutoJobs.Criteria;
 using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Repository;
+using Ploutos.Common.Repository;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -1,7 +1,7 @@
 ﻿using Fanex.Logging;
+using Ploutos.Common.Utils;
 using Ploutos.GlobalComJobs.Models;
 using Ploutos.GlobalComJobs.Services.Interfaces;
-using Ploutos.GlobalComJobs.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

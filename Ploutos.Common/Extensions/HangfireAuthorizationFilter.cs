@@ -1,8 +1,8 @@
-﻿namespace Ploutos.AutoJobs.Extensions
-{
-    using Hangfire.Annotations;
-    using Hangfire.Dashboard;
+﻿using Hangfire.Annotations;
+using Hangfire.Dashboard;
 
+namespace Ploutos.Common.Extensions
+{
     public class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
     {
         public bool Authorize([NotNull] DashboardContext context)
