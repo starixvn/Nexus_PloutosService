@@ -68,7 +68,6 @@ namespace Ploutos.GlobalComJobs.Services
                 {
                     fileLogger.Warn(string.Format("Another job is running for {0}, Skipped", jobName));
                 }
-
             }
         }
     }

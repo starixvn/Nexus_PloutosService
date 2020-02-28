@@ -52,7 +52,6 @@ namespace Ploutos.GlobalComJobs.App_Configs
 
         public void RunHangfireJobs()
         {
-            //var x = Ploutos.GlobalComJobs.Resources.
             recurringJob.AddOrUpdate<IJobService>(Labels.Job_Sync12BTicket,
                 job => job.Sync12BTicket(),
                 cronJob.CurrentValue.Sync12BTicket);

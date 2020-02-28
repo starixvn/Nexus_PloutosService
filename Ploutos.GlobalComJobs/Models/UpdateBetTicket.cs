@@ -10,23 +10,23 @@ namespace Ploutos.GlobalComJobs.Models
 
         public UpdateBetTicket(BetTicket betTicket)
         {
-            this.Player_No = betTicket.Player_No;
-            this.Player_Name = betTicket.Player_Name;
-            this.Player_Type = betTicket.Player_Type;
-            this.Transaction_Date = betTicket.Transaction_Date;
-            this.Transaction_Id = betTicket.Transaction_Id;
-            this.Settlement_Date = betTicket.Settlement_Date;
-            this.Brand = betTicket.Brand;
-            this.Brand_Url = betTicket.Brand_Url;
-            this.Game_Code = betTicket.Game_Code;
-            this.Game_Name = betTicket.Game_Name;
-            this.Game_Type = betTicket.Game_Type;
-            this.Currency_Code = betTicket.Currency_Code;
-            this.Bet_Type = betTicket.Bet_Type;
-            this.Bet_Amount = betTicket.Bet_Amount;
-            this.Debit_Amount = betTicket.Debit_Amount;
-            this.Credit_Amount = betTicket.Credit_Amount;
-            this.Net_Amount = betTicket.Net_Amount;
+            this.Player_No = betTicket.player_no;
+            this.Player_Name = betTicket.player_name;
+            this.Player_Type = betTicket.player_type;
+            this.Transaction_Date = betTicket.transaction_date;
+            this.Transaction_Id = betTicket.transaction_id;
+            this.Settlement_Date = betTicket.settlement_date;
+            this.Brand = betTicket.brand;
+            this.Brand_Url = betTicket.brand_url;
+            this.Game_Code = betTicket.game_code;
+            this.Game_Name = betTicket.game_name;
+            this.Game_Type = betTicket.game_type;
+            this.Currency_Code = betTicket.currency_code;
+            this.Bet_Type = betTicket.bet_type;
+            this.Bet_Amount = betTicket.bet_amount;
+            this.Debit_Amount = betTicket.debit_amount;
+            this.Credit_Amount = betTicket.credit_amount;
+            this.Net_Amount = betTicket.net_amount;
         }
 
         [XmlAttribute("player_no")]

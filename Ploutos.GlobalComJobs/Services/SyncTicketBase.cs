@@ -7,9 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Ploutos.GlobalComJobs.Services
 {
@@ -38,16 +36,14 @@ namespace Ploutos.GlobalComJobs.Services
         public virtual async Task PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
-            fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
-
-            await GetTokenFromSupportAPI(this.apiConfigs);
+            fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));            
 
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
 
             var newBetTickets = betTickets.Select(t =>
             {                
-                t.Transaction_Date = t.Transaction_Date.AddHours(-4);
-                t.Settlement_Date = t.Settlement_Date.AddHours(-4);
+                t.transaction_date = t.transaction_date.AddHours(-4);
+                t.settlement_date = t.settlement_date.AddHours(-4);
                 return t;
             }).ToList();
 
@@ -73,19 +69,22 @@ namespace Ploutos.GlobalComJobs.Services
             List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
-
-            await this.dataService.UpdateBetTickets(siteName, pushTime, this.util.GetCurrentTimeAtGMTMinus4(), responseResult, updateBetTickets);
-
-            return updateBetTickets.Count(t => !t.Is_Error);
+            var param = new ApiParam
+            {
+                game_transactions = betTickets.Select(t => new BetTicketToPush(t)).ToList(),
+                aggregator_code = string.Empty,
+                operator_code = apiConfigs.OperatorCode,
+                provider_code = apiConfigs.ProviderCode
+            };
 
             try
             {
                 var token = await GetTokenFromSupportAPI(this.apiConfigs);
-                var response = await webClientService.PostAsync<List<BetTicket>>(
+                var response = await webClientService.PostJsonAsync<ApiParam>(
                         apiConfigs.BaseDomain,
                         apiConfigs.TicketConfigs.Url,
                         token,
-                        betTickets);
+                        param);
                 responseResult = response.Content;
 
                 if (response.StatusCode == HttpStatusCode.OK)
@@ -93,21 +92,14 @@ namespace Ploutos.GlobalComJobs.Services
                     var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
                     for (var i = 0; i < updateBetTickets.Count; i++)
                     {
-                        //var errorMsg = ticketResponse.GetErrorMessage(updateBetTickets[i].TransactionNo);
-                        //updateBetTickets[i].IsError = !string.IsNullOrEmpty(errorMsg);
-                        //updateBetTickets[i].ResponseResult = errorMsg;
-                    }
-                }
-                else if (response.StatusCode == HttpStatusCode.BadRequest)
-                {
-                    var ticketResponse = this.util.ConvertJsonResponse<TicketResponseBadRequest>(response.Content);
-
-                    for (var i = 0; i < updateBetTickets.Count; i++)
-                    {
-                        var errorMsg = ticketResponse.GetErrorMessage(i);
-                        updateBetTickets[i].Is_Error = true;
+                        var errorMsg = ticketResponse.GetErrorMessage();
+                        updateBetTickets[i].Is_Error = !string.IsNullOrEmpty(errorMsg);
                         updateBetTickets[i].Response_Result = errorMsg;
                     }
+                }    
+                else if(response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new HttpRequestException(response.StatusCode.ToString());
                 }
                 else
                 {
@@ -123,38 +115,16 @@ namespace Ploutos.GlobalComJobs.Services
                     updateTicket.Is_Error = true;
                 }
 
+                fileLogger.Warn(string.Format("exception post bettickets {0} {1}", siteName, ex.Message));
                 await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
             }
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
-            //await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
+            await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
 
-            //return updateBetTickets.Count(t => !t.IsError);
-        }
-
-        private async Task<string> GetTokenFromSupportAPI2(BrandApiConfigs brandApiConfigs)
-        {
-            string url = string.Format("{0}{1}", brandApiConfigs.AuthDomain, brandApiConfigs.AuthConfigs.Url);
-            var authParam = new AuthParam
-            {
-                response_type = "code",
-                client_id = brandApiConfigs.ClientId,
-                client_secret = brandApiConfigs.ClientSecret
-            };
-            string sData = webClientService.PostRequest(url, GetQueryString(authParam), 5000, null);
-
-            return null;
-        }
-
-        private string GetQueryString(object obj)
-        {
-            var properties = from p in obj.GetType().GetProperties()
-                             where p.GetValue(obj, null) != null
-                             select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
-
-            return String.Join("&", properties.ToArray());
-        }
-
+            return updateBetTickets.Count(t => !t.Is_Error);
+        }        
+        
         private async Task<string> GetTokenFromSupportAPI(BrandApiConfigs brandApiConfigs)
         {
             var authParam = new AuthParam
@@ -164,7 +134,7 @@ namespace Ploutos.GlobalComJobs.Services
                 client_secret = brandApiConfigs.ClientSecret
             };
 
-            var authResponse = await webClientService.PostAsync<AuthParam>(
+            var authResponse = await webClientService.PostFormAsync<AuthParam>(
                 brandApiConfigs.AuthDomain, brandApiConfigs.AuthConfigs.Url, string.Empty, authParam);
             
             if (authResponse.StatusCode == HttpStatusCode.OK)
@@ -174,6 +144,6 @@ namespace Ploutos.GlobalComJobs.Services
             }
 
             return null;
-        }
+        }       
     }
 }

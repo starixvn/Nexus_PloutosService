@@ -1,16 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 
 namespace Ploutos.GlobalComJobs.Models
 {
     public class TicketResponse
     {
-        public List<TicketResponseData> Data { get; set; }
+        public string batch_transaction_id { get; set; }
+        public DateTime created_date { get; set; }
+        public string status { get; set; }
 
-        public string GetErrorMessage(string TransactionNo)
+        public string GetErrorMessage()
         {
-            var errors = Data.Where(t => t.TransactionNo == TransactionNo).Select(t => t.ErroMessage);
-            return string.Join(",", errors);
+            return status.ToLower() == "posted" ? string.Empty : "failed";
         }
     }
 }
