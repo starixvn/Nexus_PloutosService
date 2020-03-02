@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using Fanex.Logging;
     using Ploutos.AutoJobs.Models;
+    using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
 
     public class SyncTicketBase

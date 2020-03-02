@@ -5,6 +5,7 @@ using NSubstitute;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services;
 using Ploutos.AutoJobs.Services.Interfaces;
+using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 using RestSharp;
 using System;

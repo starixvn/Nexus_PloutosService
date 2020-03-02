@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Ploutos.GlobalComJobs.Services.Interfaces
+namespace Ploutos.Common.Services
 {
     public interface IWebClientService
     {
         Task<IRestResponse> PostFormAsync<T>(string domain, string url, string token, T parameters);
         Task<IRestResponse> PostJsonAsync<T>(string domain, string url, string token, T parameters);
+        Task<IRestResponse> PostAsync<T>(string domain, string url, string token, T parameters);
         Task<IRestResponse> GetAsync(string domain, string url, string token, List<Parameter> parameters);
     }
 }

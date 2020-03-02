@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using Ploutos.Common.Models;
-using Ploutos.GlobalComJobs.Services.Interfaces;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Ploutos.GlobalComJobs.Services
+namespace Ploutos.Common.Services
 {
     public class WebClientService : IWebClientService
     {
@@ -39,10 +38,21 @@ namespace Ploutos.GlobalComJobs.Services
             return result;
         }
 
+        public async Task<IRestResponse> PostAsync<T>(string domain, string url, string token, T parameters)
+        {
+            webClient.BaseUrl = new Uri(domain);
+            var request = new RestRequest(url, Method.POST);
+            request.AddHeader("x-api-key", token);
+            request.AddJsonBody(parameters);
+
+            var result = await webClient.ExecutePostTaskAsync(request);
+            return result;
+        }
+
         public async Task<IRestResponse> PostFormAsync<T>(string domain, string url, string token, T parameters)
         {
             webClient.BaseUrl = new Uri(domain);
-            var request = new RestRequest(url, Method.POST);            
+            var request = new RestRequest(url, Method.POST);
 
             var paramStr = GetQueryString(parameters);
 
