@@ -40,7 +40,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             };
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
-            var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now } };
+            var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
 
             var restResponse = new RestResponse
@@ -82,7 +82,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             };
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
-            var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now } };
+            var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
 
             var restResponse = new RestResponse
@@ -127,7 +127,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             };
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
-            var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now } };
+            var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
 
             var restResponse = new RestResponse
