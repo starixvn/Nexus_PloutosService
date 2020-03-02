@@ -11,6 +11,7 @@ using System.Xml.Serialization;
 
 namespace Ploutos.Common.Utils
 {
+#pragma warning disable S4142
     public class Util : IUtil
     {
         public const string RootElementName = "root";

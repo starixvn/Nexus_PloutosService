@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Ploutos.GlobalComJobs.Models
 {
@@ -10,7 +11,7 @@ namespace Ploutos.GlobalComJobs.Models
 
         public string GetErrorMessage()
         {
-            return status.ToLower() == "posted" ? string.Empty : "failed";
+            return status.ToLower(CultureInfo.CurrentCulture) == "posted" ? string.Empty : "failed";
         }
     }
 }

@@ -74,7 +74,7 @@ namespace Ploutos.Common.Services
             return result;
         }
 
-        private string GetQueryString(object obj)
+        private static string GetQueryString(object obj)
         {
             var properties = from p in obj.GetType().GetProperties()
                              where p.GetValue(obj, null) != null
