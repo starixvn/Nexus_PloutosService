@@ -1,8 +1,5 @@
 ﻿namespace Ploutos.AutoJobs.App_Configs
 {
-    using System;
-    using System.ComponentModel;
-    using System.Linq;
     using Hangfire;
     using Hangfire.Storage;
     using Microsoft.AspNetCore.Hosting;
@@ -10,9 +7,13 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using Ploutos.AutoJobs.Constant;
     using Ploutos.AutoJobs.Services;
-    using Ploutos.AutoJobs.Services.Interfaces;
+    using Ploutos.Common.Services;
     using Resources;
+    using System;
+    using System.ComponentModel;
+    using System.Linq;
 
     [DesignerCategory("Code")]
     public class CustomWebHostService : WebHostService
@@ -32,7 +33,13 @@
 
         protected override void OnStarted()
         {
-            jobRunningChecker.ClearAllRunning();
+            jobRunningChecker.ClearRunning(Constants.SyncOpal88Player);
+            jobRunningChecker.ClearRunning(Constants.SyncOpal88Ticket);
+            jobRunningChecker.ClearRunning(Constants.SyncNova88Player);
+            jobRunningChecker.ClearRunning(Constants.SyncNova88Ticket);
+            jobRunningChecker.ClearRunning(Constants.SyncIvorybetPlayer);
+            jobRunningChecker.ClearRunning(Constants.SyncIvorybetTicket);
+
             logger.LogInformation(string.Format(Resources.Log_OnStartedService, DateTime.Now));
             RunHangfireJobs();
             base.OnStarted();

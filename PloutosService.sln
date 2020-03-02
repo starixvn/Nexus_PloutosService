@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.ServiceAPI.UnitTest
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.GlobalComJobs", "Ploutos.GlobalComJobs\Ploutos.GlobalComJobs.csproj", "{F775AFD7-901A-433A-BE63-A407BA989D9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.Common", "Ploutos.Common\Ploutos.Common.csproj", "{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ploutos.Common", "Ploutos.Common\Ploutos.Common.csproj", "{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ploutos.Common.Tests", "Ploutos.Common.Tests\Ploutos.Common.Tests.csproj", "{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,14 @@ Global
 		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Release|x64.ActiveCfg = Release|Any CPU
 		{1F2AA2C0-4E5A-4A97-B3B5-15B39B928A96}.Release|x64.Build.0 = Release|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Debug|x64.Build.0 = Debug|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Release|x64.ActiveCfg = Release|Any CPU
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +100,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2B85CAF5-0DFC-43EA-95A9-1E303D8D9899} = {B008EFA9-0B53-4C1C-A07E-377C7370690C}
 		{FA5F6E8D-CBF9-44DA-8F33-83871C073054} = {B008EFA9-0B53-4C1C-A07E-377C7370690C}
+		{ABE8A14D-56C2-4FED-8EE4-B558CB5C30A4} = {B008EFA9-0B53-4C1C-A07E-377C7370690C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {505A5203-82A2-414E-B729-9E37E348FA93}

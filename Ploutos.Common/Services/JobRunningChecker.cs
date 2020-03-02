@@ -1,14 +1,12 @@
-﻿namespace Ploutos.AutoJobs.Services
-{
-    using Ploutos.AutoJobs.Constant;
-    using Ploutos.AutoJobs.Services.Interfaces;
-    using Ploutos.Common.Repository;
-    using System.Threading.Tasks;
+﻿using Ploutos.Common.Repository;
+using System.Threading.Tasks;
 
+namespace Ploutos.Common.Services
+{
     public class JobRunningChecker : IJobRunningChecker
     {
         private readonly IRedisRepository redisRepository;
-        private const string NAME_SPACE = "PloutosService:RunningJobs";
+        private const string NAME_SPACE = "RunningJobs";
         private const string TRUE = "true";
         private const string FALSE = "false";
 
@@ -36,16 +34,6 @@
         private static string GetKey(string jobName)
         {
             return string.Format("{0}:{1}", NAME_SPACE, jobName);
-        }
-
-        public async Task ClearAllRunning()
-        {
-            await redisRepository.Set(GetKey(Constants.SyncOpal88Player), FALSE);
-            await redisRepository.Set(GetKey(Constants.SyncOpal88Ticket), FALSE);
-            await redisRepository.Set(GetKey(Constants.SyncNova88Player), FALSE);
-            await redisRepository.Set(GetKey(Constants.SyncNova88Ticket), FALSE);
-            await redisRepository.Set(GetKey(Constants.SyncIvorybetPlayer), FALSE);
-            await redisRepository.Set(GetKey(Constants.SyncIvorybetTicket), FALSE);
         }
     }
 }

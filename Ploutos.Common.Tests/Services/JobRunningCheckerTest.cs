@@ -1,14 +1,14 @@
 ﻿using FluentAssertions;
 using NSubstitute;
-using Ploutos.AutoJobs.Services;
 using Ploutos.Common.Repository;
+using Ploutos.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Ploutos.AutoJobs.Tests.Services
+namespace Ploutos.Common.Tests.Services
 {
     public class JobRunningCheckerTest
     {
@@ -81,28 +81,6 @@ namespace Ploutos.AutoJobs.Tests.Services
 
             // Assert
             value.Should().Be("false");
-        }
-
-        [Fact]
-        public async Task ClearAllRunning_WhenCalled_ClearAll()
-        {
-            // Arrange
-            var jobRunningChecker = new JobRunningChecker(redisRepository);
-
-            string value1 = null;
-            string value2 = null;
-            await redisRepository.Set(Arg.Do<string>(x => value1 = x), Arg.Do<string>(x => value2 = x));
-
-            // Act
-            await jobRunningChecker.ClearAllRunning();
-
-            // Assert
-            await redisRepository.Received().Set(string.Format("PloutosService:RunningJobs:{0}", Constant.Constants.SyncOpal88Player), "false");
-            await redisRepository.Received().Set(string.Format("PloutosService:RunningJobs:{0}", Constant.Constants.SyncOpal88Ticket), "false");
-            await redisRepository.Received().Set(string.Format("PloutosService:RunningJobs:{0}", Constant.Constants.SyncNova88Player), "false");
-            await redisRepository.Received().Set(string.Format("PloutosService:RunningJobs:{0}", Constant.Constants.SyncNova88Ticket), "false");
-            await redisRepository.Received().Set(string.Format("PloutosService:RunningJobs:{0}", Constant.Constants.SyncIvorybetPlayer), "false");
-            await redisRepository.Received().Set(string.Format("PloutosService:RunningJobs:{0}", Constant.Constants.SyncIvorybetTicket), "false");
         }
     }
 }

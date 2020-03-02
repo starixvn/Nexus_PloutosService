@@ -2,6 +2,7 @@
 using Hangfire;
 using Microsoft.Extensions.Options;
 using ONEbook.UM.Services;
+using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 using Ploutos.GlobalComJobs.Constant;
 using Ploutos.GlobalComJobs.Models;

@@ -25,6 +25,7 @@ using ONEbook.UM.Transport;
 using Ploutos.Common.Extensions;
 using Ploutos.Common.Models;
 using Ploutos.Common.Repository;
+using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 using Ploutos.GlobalComJobs.App_Configs;
 using Ploutos.GlobalComJobs.Extensions;
@@ -119,6 +120,7 @@ namespace Ploutos.GlobalComJobs
             services.Configure<IdentifyModel>(Configuration.GetSection("HangfireAuthenticate"));
             services.Configure<CronJob>(Configuration.GetSection("CronJob"));
             services.Configure<ApiConfigs>(Configuration.GetSection("ApiConfigs"));
+            services.Configure<RedisConfig>(Configuration.GetSection("RedisConfig"));
             services.Configure<ProxySettings>(Configuration.GetSection("ProxySettings"));
             services.AddTransient<ILogger, Logger>();
             services.AddSingleton(new UMClientConfiguration().Initialize(Configuration));

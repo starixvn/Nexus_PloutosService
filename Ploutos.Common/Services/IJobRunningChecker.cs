@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Ploutos.GlobalComJobs.Services.Interfaces
+namespace Ploutos.Common.Services
 {
     public interface IJobRunningChecker
     {
         Task<bool> IsRunning(string jobName);
         Task MarkRunning(string jobName);
         Task ClearRunning(string jobName);
-        Task ClearAllRunning();
     }
 }

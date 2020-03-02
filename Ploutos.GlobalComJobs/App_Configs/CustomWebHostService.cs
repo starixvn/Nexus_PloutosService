@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Ploutos.Common.Services;
+using Ploutos.GlobalComJobs.Constant;
 using Ploutos.GlobalComJobs.Resources;
 using Ploutos.GlobalComJobs.Services.Interfaces;
 using System;
@@ -31,7 +33,7 @@ namespace Ploutos.GlobalComJobs.App_Configs
 
         protected override void OnStarted()
         {
-            jobRunningChecker.ClearAllRunning();
+            jobRunningChecker.ClearRunning(Constants.Sync12BTicket);
             logger.LogInformation(string.Format(Labels.Log_OnStartedService, DateTime.Now));
             RunHangfireJobs();
             base.OnStarted();
