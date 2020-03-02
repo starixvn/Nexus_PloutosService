@@ -50,7 +50,6 @@ namespace Ploutos.GlobalComJobs.Services
             };
 
             return this.baseRepository.ExecuteNonQueryAsync(criteria);
-        }
-       
+        }       
     }
 }

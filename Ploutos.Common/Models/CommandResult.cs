@@ -11,7 +11,5 @@
         public int Error { get; set; }
 
         public string Message { get; set; }
-
-        public bool IsSuccessful => Error == 0;
     }
 }

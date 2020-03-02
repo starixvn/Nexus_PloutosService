@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\**" />
+    <Compile Remove="Utils\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <EmbeddedResource Remove="Utils\**" />
+    <None Remove="Repository\**" />
+    <None Remove="Utils\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
     <None Remove="appsettings.LOCAL.json" />
@@ -94,11 +103,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Labels.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repository\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
