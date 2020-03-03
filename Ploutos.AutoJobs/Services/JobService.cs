@@ -1,7 +1,5 @@
 ﻿namespace Ploutos.AutoJobs.Services
 {
-    using System;
-    using System.Threading.Tasks;
     using Fanex.Logging;
     using Hangfire;
     using Microsoft.Extensions.Options;
@@ -11,9 +9,10 @@
     using Ploutos.AutoJobs.Services.Interfaces;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
+    using System.Threading.Tasks;
 
 #pragma warning disable S107
-    public class JobService : IJobService
+    public class JobService : JobServiceBase, IJobService
     {
         private readonly IOptionsSnapshot<ApiConfigs> apiConfigs;
         private readonly IOpal88PlayerService opal88PlayerService;
@@ -25,12 +24,7 @@
         private readonly IIvorybetPlayerService ivorybetPlayerService;
         private readonly IIvorybetTicketService ivorybetTicketService;
         private readonly IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService;
-        private readonly ILogger logger;
-        private readonly IUtil util;
-        private readonly IMaintenanceService maintenanceService;
-        private readonly IJobRunningChecker jobRunningChecker;
-        private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
-
+        
         public JobService(
             IOptionsSnapshot<ApiConfigs> apiConfigs,
             ILogger logger,
@@ -45,12 +39,9 @@
             IOpal88TicketBySupportApiService opal88TicketBySupportApiService,
             INova88TicketBySupportApiService nova88TicketBySupportApiService,
             IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService,
-            IJobRunningChecker jobRunningChecker)
+            IJobRunningChecker jobRunningChecker) : base(logger, util, maintenanceService, jobRunningChecker)
         {
             this.apiConfigs = apiConfigs;
-            this.logger = logger;
-            this.util = util;
-            this.maintenanceService = maintenanceService;
             this.opal88PlayerService = opal88PlayerService;
             this.opal88TicketService = opal88TicketService;
             this.nova88PlayerService = nova88PlayerService;
@@ -59,8 +50,7 @@
             this.ivorybetTicketService = ivorybetTicketService;
             this.opal88TicketBySupportApiService = opal88TicketBySupportApiService;
             this.nova88TicketBySupportApiService = nova88TicketBySupportApiService;
-            this.ivorybetTicketBySupportApiService = ivorybetTicketBySupportApiService;
-            this.jobRunningChecker = jobRunningChecker;
+            this.ivorybetTicketBySupportApiService = ivorybetTicketBySupportApiService;            
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
@@ -118,34 +108,6 @@
         {
             return SyncJob(!apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled && apiConfigs.Value.Ivorybet.SupportTicketConfigs.IsEnabled, 
                 Constants.SyncIvorybetTicketBySupportApi, ivorybetTicketBySupportApiService.PushTickets);
-        }
-
-        private async Task SyncJob(bool isEnabled, string jobName, Func<Task> fn)
-        {            
-            if (isEnabled && !(await maintenanceService.GetUnderMaintenanceTimeAsync()).IsUnderMaintenanceTime)
-            {
-                var isRunning = await jobRunningChecker.IsRunning(jobName);
-                if (!isRunning)
-                {
-                    try
-                    {
-                        await jobRunningChecker.MarkRunning(jobName);
-                        await fn();
-                        await jobRunningChecker.ClearRunning(jobName);
-                    }
-                    catch (Exception ex)
-                    {
-                        await jobRunningChecker.ClearRunning(jobName);
-                        await logger.ErrorAsync(util.BuildLogMessage(ex));
-                        fileLogger.Warn(string.Format("error syncjob {0} {1}", jobName, ex.Message));
-                        throw;
-                    }
-                }
-                else
-                {
-                    fileLogger.Warn(string.Format("Another job is running for {0}, Skipped", jobName));
-                }
-            }            
         }
     }
 }
