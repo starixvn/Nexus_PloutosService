@@ -34,6 +34,10 @@ namespace Ploutos.GlobalComJobs.App_Configs
         protected override void OnStarted()
         {
             jobRunningChecker.ClearRunning(Constants.Sync12BTicket);
+            jobRunningChecker.ClearRunning(Constants.SyncOpal88Ticket);
+            jobRunningChecker.ClearRunning(Constants.SyncNova88Ticket);
+            jobRunningChecker.ClearRunning(Constants.SyncIvorybetTicket);
+
             logger.LogInformation(string.Format(Labels.Log_OnStartedService, DateTime.Now));
             RunHangfireJobs();
             base.OnStarted();
@@ -57,6 +61,15 @@ namespace Ploutos.GlobalComJobs.App_Configs
             recurringJob.AddOrUpdate<IJobService>(Labels.Job_Sync12BTicket,
                 job => job.Sync12BTicket(),
                 cronJob.CurrentValue.Sync12BTicket);
+            recurringJob.AddOrUpdate<IJobService>(Labels.Job_SyncOpal88Ticket,
+                job => job.SyncOpal88Ticket(),
+                cronJob.CurrentValue.SyncOpal88Ticket);
+            recurringJob.AddOrUpdate<IJobService>(Labels.Job_SyncNova88Ticket,
+                job => job.SyncNova88Ticket(),
+                cronJob.CurrentValue.SyncNova88Ticket);
+            recurringJob.AddOrUpdate<IJobService>(Labels.Job_SyncIvorybetTicket,
+                job => job.SyncIvorybetTicket(),
+                cronJob.CurrentValue.SyncIvorybetTicket);
         }
 
         private static void RemoveCurrentHangfireServer()

@@ -40,7 +40,7 @@ namespace Ploutos.GlobalComJobs.Services
             fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));            
 
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);
-
+            
             var newBetTickets = betTickets.Select(t =>
             {                
                 t.transaction_date = t.transaction_date.AddHours(-4);
@@ -97,7 +97,18 @@ namespace Ploutos.GlobalComJobs.Services
                         updateBetTickets[i].Is_Error = !string.IsNullOrEmpty(errorMsg);
                         updateBetTickets[i].Response_Result = errorMsg;
                     }
-                }    
+                }
+                else if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var ticketResponse = this.util.ConvertJsonResponse<TicketResponseBadRequest>(response.Content);
+
+                    for (var i = 0; i < updateBetTickets.Count; i++)
+                    {
+                        var errorMsg = ticketResponse.GetErrorMessage(updateBetTickets[i].Transaction_Id);
+                        updateBetTickets[i].Is_Error = true;
+                        updateBetTickets[i].Response_Result = errorMsg;
+                    }
+                }
                 else if(response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     throw new HttpRequestException(response.StatusCode.ToString());

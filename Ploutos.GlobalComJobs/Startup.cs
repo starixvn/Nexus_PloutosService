@@ -180,6 +180,9 @@ namespace Ploutos.GlobalComJobs
             #endregion ONEbookUM
 
             services.AddScoped<I12BTicketService, L12BTicketService>();
+            services.AddScoped<IOpal88TicketService, Opal88TicketService>();
+            services.AddScoped<INova88TicketService, Nova88TicketService>();
+            services.AddScoped<IIvorybetTicketService, IvorybetTicketService>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IWebClientService, WebClientService>();
             services.AddScoped<IDataService, DataService>();

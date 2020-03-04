@@ -70,6 +70,33 @@ namespace Ploutos.GlobalComJobs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sync Ivorybet Ticket.
+        /// </summary>
+        internal static string Job_SyncIvorybetTicket {
+            get {
+                return ResourceManager.GetString("Job_SyncIvorybetTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync Nova88 Ticket.
+        /// </summary>
+        internal static string Job_SyncNova88Ticket {
+            get {
+                return ResourceManager.GetString("Job_SyncNova88Ticket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync Opal88 Ticket.
+        /// </summary>
+        internal static string Job_SyncOpal88Ticket {
+            get {
+                return ResourceManager.GetString("Job_SyncOpal88Ticket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nap Chatbot Service started &amp;amp; initialize auto jobs at {0}.
         /// </summary>
         internal static string Log_OnStartedService {

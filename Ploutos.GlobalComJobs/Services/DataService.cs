@@ -34,7 +34,7 @@ namespace Ploutos.GlobalComJobs.Services
             };
             var betTickets = await this.baseRepository.FetchData<BetTicket>(criteria);
 
-            return betTickets.ToList();
+            return betTickets.ToList();            
         }
 
         public Task<CommandResult> UpdateBetTickets(string siteName, DateTime pushTime, DateTime responseTime,

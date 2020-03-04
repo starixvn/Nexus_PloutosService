@@ -120,6 +120,15 @@
   <data name="Job_Sync12BTicket" xml:space="preserve">
     <value>Sync 12B Ticket</value>
   </data>
+  <data name="Job_SyncIvorybetTicket" xml:space="preserve">
+    <value>Sync Ivorybet Ticket</value>
+  </data>
+  <data name="Job_SyncNova88Ticket" xml:space="preserve">
+    <value>Sync Nova88 Ticket</value>
+  </data>
+  <data name="Job_SyncOpal88Ticket" xml:space="preserve">
+    <value>Sync Opal88 Ticket</value>
+  </data>
   <data name="Log_OnStartedService" xml:space="preserve">
     <value>Nap Chatbot Service started &amp;amp; initialize auto jobs at {0}</value>
   </data>
