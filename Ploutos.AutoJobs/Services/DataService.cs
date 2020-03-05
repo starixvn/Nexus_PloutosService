@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Ploutos.AutoJobs.Criteria;
     using Ploutos.AutoJobs.Models;
+    using Ploutos.Common.Const;
     using Ploutos.Common.Models;
     using Ploutos.Common.Repository;
 
@@ -47,8 +48,8 @@
         {
             return betTickets.Select(t =>
             {
-                t.TransactionDate = t.TransactionDate.AddHours(-4);
-                t.SettlementDate = t.SettlementDate.AddHours(-4);
+                t.TransactionDate = t.TransactionDate.AddHours(Consts.GmtMinus4);
+                t.SettlementDate = t.SettlementDate.AddHours(Consts.GmtMinus4);
                 return t;
             }).ToList();
         }

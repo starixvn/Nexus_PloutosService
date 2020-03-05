@@ -99,5 +99,24 @@ namespace Ploutos.AutoJobs.Tests.Services
             criteria.BrandCode.Should().Be(siteName);
             criteria.PlayerProfile.Rows.Count.Should().Be(playerProfiles.Count);
         }
+
+        [Fact]
+        public void PreProcessTickets_WhenCalled_UpdateTickets()
+        {
+            // Arrange
+            var baseRepository = Substitute.For<IBaseRepository>();
+            var service = new DataService(baseRepository);
+            var betTickets = fixture.CreateMany<BetTicket>().ToList();
+
+            var expectedTranDate = betTickets[0].TransactionDate.AddHours(-4);
+            var expectedSetDate = betTickets[0].SettlementDate.AddHours(-4);
+
+            // Act
+            var result = service.PreProcessTickets(betTickets);
+
+            // Assert
+            result[0].TransactionDate.Should().Be(expectedTranDate);
+            result[0].SettlementDate.Should().Be(expectedSetDate);
+        }
     }
 }

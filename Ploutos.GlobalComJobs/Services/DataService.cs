@@ -1,4 +1,5 @@
-﻿using Ploutos.Common.Models;
+﻿using Ploutos.Common.Const;
+using Ploutos.Common.Models;
 using Ploutos.Common.Repository;
 using Ploutos.Common.Utils;
 using Ploutos.GlobalComJobs.Criteria;
@@ -41,8 +42,8 @@ namespace Ploutos.GlobalComJobs.Services
         {
             return betTickets.Select(t =>
             {
-                t.transaction_date = t.transaction_date.AddHours(-4);
-                t.settlement_date = t.settlement_date.AddHours(-4);
+                t.transaction_date = t.transaction_date.AddHours(Consts.GmtMinus4);
+                t.settlement_date = t.settlement_date.AddHours(Consts.GmtMinus4);
                 return t;
             }).ToList();
         }

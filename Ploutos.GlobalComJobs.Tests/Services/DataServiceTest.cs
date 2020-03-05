@@ -63,5 +63,25 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             criteria.ResponseResult.Should().Be(responseResult);
             criteria.BetTicket.Should().Be(util.SerializeList<UpdateBetTicket>(betTickets));
         }
+
+        [Fact]
+        public void PreProcessTickets_WhenCalled_UpdateTickets()
+        {
+            // Arrange
+            var baseRepository = Substitute.For<IBaseRepository>();
+            var util = Substitute.For<IUtil>();
+            var service = new DataService(baseRepository, util);
+            var betTickets = fixture.CreateMany<BetTicket>().ToList();
+
+            var expectedTranDate = betTickets[0].transaction_date.AddHours(-4);
+            var expectedSetDate = betTickets[0].settlement_date.AddHours(-4);
+
+            // Act
+            var result = service.PreProcessTickets(betTickets);
+
+            // Assert
+            result[0].transaction_date.Should().Be(expectedTranDate);
+            result[0].settlement_date.Should().Be(expectedSetDate);
+        }
     }
 }
