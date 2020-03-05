@@ -43,6 +43,16 @@
             return playerProfiles.ToList();
         }
 
+        public List<BetTicket> PreProcessTickets(List<BetTicket> betTickets)
+        {
+            return betTickets.Select(t =>
+            {
+                t.TransactionDate = t.TransactionDate.AddHours(-4);
+                t.SettlementDate = t.SettlementDate.AddHours(-4);
+                return t;
+            }).ToList();
+        }
+
         public Task<CommandResult> UpdateBetTickets(string siteName, DateTime pushTime, DateTime responseTime,
             string responseResult, List<UpdateBetTicket> betTickets)
         {

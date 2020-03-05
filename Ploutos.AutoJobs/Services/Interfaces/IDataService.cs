@@ -16,5 +16,7 @@
 
         Task<CommandResult> UpdateBetTickets(string siteName, DateTime pushTime, DateTime responseTime,
             string responseResult, List<UpdateBetTicket> betTickets);
+
+        List<BetTicket> PreProcessTickets(List<BetTicket> betTickets);
     }
 }

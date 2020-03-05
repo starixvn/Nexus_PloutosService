@@ -1,5 +1,6 @@
 ﻿using Fanex.Logging;
 using ONEbook.UM.Services;
+using Ploutos.Common.Models;
 using Ploutos.Common.Utils;
 using System;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace Ploutos.Common.Services
             this.jobRunningChecker = jobRunningChecker;
         }
 
-        protected async Task SyncJob(bool isEnabled, string jobName, Func<Task> fn)
+        protected async Task SyncJob(bool isEnabled, string jobName, Func<Task<PushResult>> fn)
         {
             if (isEnabled && !(await maintenanceService.GetUnderMaintenanceTimeAsync()).IsUnderMaintenanceTime)
             {
@@ -36,7 +37,9 @@ namespace Ploutos.Common.Services
                     try
                     {
                         await jobRunningChecker.MarkRunning(jobName);
-                        await fn();
+                        fileLogger.Warn(string.Format("Start {0}", jobName));
+                        var pushResult = await fn();
+                        fileLogger.Warn(string.Format("Finish {0}, Success: {1}, Failed: {2}", jobName, pushResult.SuccessCount, pushResult.FailedCount));
                         await jobRunningChecker.ClearRunning(jobName);
                     }
                     catch (Exception ex)

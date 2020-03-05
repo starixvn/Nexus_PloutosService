@@ -37,6 +37,16 @@ namespace Ploutos.GlobalComJobs.Services
             return betTickets.ToList();            
         }
 
+        public List<BetTicket> PreProcessTickets(List<BetTicket> betTickets)
+        {
+            return betTickets.Select(t =>
+            {
+                t.transaction_date = t.transaction_date.AddHours(-4);
+                t.settlement_date = t.settlement_date.AddHours(-4);
+                return t;
+            }).ToList();
+        }
+
         public Task<CommandResult> UpdateBetTickets(string siteName, DateTime pushTime, DateTime responseTime,
             string responseResult, List<UpdateBetTicket> betTickets)
         {

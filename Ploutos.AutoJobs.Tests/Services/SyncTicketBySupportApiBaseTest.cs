@@ -43,6 +43,8 @@ namespace Ploutos.AutoJobs.Tests.Services
 
             var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>> { betTickets });
 
             var restResponse = new RestResponse
             {
@@ -87,6 +89,8 @@ namespace Ploutos.AutoJobs.Tests.Services
 
             var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>> { betTickets });
 
             var restResponse = new RestResponse
             {

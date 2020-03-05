@@ -3,6 +3,7 @@ using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services.Interfaces;
+using Ploutos.Common.Models;
 using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 
@@ -18,7 +19,7 @@ namespace Ploutos.AutoJobs.Services
         {
         }
 
-        Task IOpal88TicketBySupportApiService.PushTickets()
+        Task<PushResult> IOpal88TicketBySupportApiService.PushTickets()
         {
             return base.PushTickets();
         }

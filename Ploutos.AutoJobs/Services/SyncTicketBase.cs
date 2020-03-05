@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using Fanex.Logging;
     using Ploutos.AutoJobs.Models;
+    using Ploutos.Common.Models;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
 
@@ -33,30 +34,13 @@
             this.util = util;
         }
 
-        public virtual async Task PushTickets()
+        public virtual async Task<PushResult> PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
-            fileLogger.Warn(string.Format("Start Push Tickets for {0}", siteName));
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);            
-
-            var newBetTickets = betTickets.Select(t =>
-            {                
-                t.TransactionDate = t.TransactionDate.AddHours(-4);
-                t.SettlementDate = t.SettlementDate.AddHours(-4);
-                return t;
-            }).ToList();
-
-            var betTicketBatches = newBetTickets
-                    .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / apiConfigs.TicketConfigs.SyncBatchSize)
-                    .Select(grp => grp.Select(x => x.Value).ToList())
-                    .ToList();
-
-            var betTicketParallelBatches = betTicketBatches
-                    .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / apiConfigs.TicketConfigs.SyncParallelSize)
-                    .Select(grp => grp.Select(x => x.Value).ToList())
-                    .ToList();
+            var newBetTickets = dataService.PreProcessTickets(betTickets);
+            var betTicketBatches = util.SplitToBatches<BetTicket>(newBetTickets, apiConfigs.TicketConfigs.SyncBatchSize);
+            var betTicketParallelBatches = util.SplitToBatches<List<BetTicket>>(betTicketBatches, apiConfigs.TicketConfigs.SyncParallelSize);
 
             var successCount = 0;
             foreach (var batch in betTicketParallelBatches)
@@ -72,9 +56,8 @@
                 var results = await Task.WhenAll(tasks);
                 successCount += results.Sum(r => r);
             }
-            
-            fileLogger.Warn(string.Format("Finish Push Tickets for {0}, total: {1}, success: {2}, failed: {3}",
-                siteName, betTickets.Count, successCount, betTickets.Count - successCount));
+
+            return new PushResult { SuccessCount = successCount, FailedCount = betTickets.Count - successCount };
         }
 
         private string GetDomainName(int indexOfBatch)

@@ -4,6 +4,7 @@
     using Newtonsoft.Json;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
+    using Ploutos.Common.Models;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
     using System;
@@ -38,24 +39,19 @@
             this.supportApiService = supportApiService;
         }
         
-        public virtual async Task PushPlayers()
+        public virtual async Task<PushResult> PushPlayers()
         {
             var siteName = this.apiConfigs.BrandName;
-            fileLogger.Warn(string.Format("Start Push Players for {0}", siteName));
 
             var playerProfiles = await this.dataService.GetPlayerProfiles(siteName, apiConfigs.PlayerConfigs.QueryBatchSize);
-            var profileListBatches = playerProfiles
-                    .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / apiConfigs.PlayerConfigs.SyncBatchSize)
-                    .Select(grp => grp.Select(x => x.Value).ToArray())
-                    .ToList();
+            var profileListBatches = util.SplitToBatches<PlayerProfile>(playerProfiles, apiConfigs.PlayerConfigs.SyncBatchSize);
 
             var successCount = 0;
             var failedCount = 0;
             foreach (var batch in profileListBatches)
             {
-                var tasks = new Task<bool>[batch.Count()];
-                for (int i = 0; i < batch.Count(); i++)
+                var tasks = new Task<bool>[batch.Count];
+                for (int i = 0; i < batch.Count; i++)
                 {
                     tasks[i] = PushPlayer(batch[i], siteName);
                 }
@@ -65,8 +61,7 @@
                 failedCount += results.Count(r => !r);
             }
 
-            fileLogger.Warn(string.Format("Finish Push Players for {0}, total: {1}, success: {2}, failed: {3}",
-                siteName, playerProfiles.Count, successCount, failedCount));
+            return new PushResult { SuccessCount = successCount, FailedCount = failedCount };            
         }
 
         private async Task<bool> PushPlayer(PlayerProfile profile, string siteName)
@@ -104,6 +99,7 @@
                 updateProfile.ResponseResult = ex.Message;
                 updateProfile.IsError = true;
                 await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
+                fileLogger.Warn(string.Format("exception post players {0} {1}", siteName, ex.Message));
             }
             updateProfile.PushTime = pushTime;
             updateProfile.ResponseTime = this.util.GetCurrentTimeAtGMTMinus4();

@@ -1,5 +1,6 @@
 ﻿using Fanex.Logging;
 using Ploutos.AutoJobs.Models;
+using Ploutos.Common.Models;
 using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 using System;
@@ -33,34 +34,20 @@ namespace Ploutos.AutoJobs.Services
             this.util = util;
         }
 
-        public virtual async Task PushTickets()
+        public virtual async Task<PushResult> PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
-            fileLogger.Warn(string.Format("Start Push Tickets By Support Api for {0}", siteName));
-
             var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.SupportTicketConfigs.QueryBatchSize);
-
-            var newBetTickets = betTickets.Select(t =>
-            {
-                t.TransactionDate = t.TransactionDate.AddHours(-4);
-                return t;
-            }).ToList();
-
-            var betTicketBatches = newBetTickets
-                    .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / apiConfigs.SupportTicketConfigs.SyncBatchSize)
-                    .Select(grp => grp.Select(x => x.Value).ToList())
-                    .ToList();
-
+            var newBetTickets = dataService.PreProcessTickets(betTickets);
+            var betTicketBatches = util.SplitToBatches<BetTicket>(newBetTickets, apiConfigs.SupportTicketConfigs.SyncBatchSize);
+            
             var successCount = 0;
             foreach (var batch in betTicketBatches)
             {
-                var batchResult = await PushTicketBatch(siteName, batch);
-                successCount += batchResult;
+                successCount += await PushTicketBatch(siteName, batch);                
             }
 
-            fileLogger.Warn(string.Format("Finish Push Tickets By Support Api for {0}, total: {1}, success: {2}, failed: {3}",
-                siteName, betTickets.Count, successCount, betTickets.Count - successCount));
+            return new PushResult { SuccessCount = successCount, FailedCount = betTickets.Count - successCount };
         }
 
         private async Task<int> PushTicketBatch(string siteName, List<BetTicket> betTickets)
@@ -101,6 +88,7 @@ namespace Ploutos.AutoJobs.Services
                 }
 
                 await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
+                fileLogger.Warn(string.Format("exception post bettickets by support api {0} {1}", siteName, ex.Message));
             }
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 

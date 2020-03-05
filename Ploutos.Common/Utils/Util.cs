@@ -61,5 +61,13 @@ namespace Ploutos.Common.Utils
                 return stringWriter.ToString();
             }
         }
+
+        public List<List<T>> SplitToBatches<T>(List<T> data, int batchSize)
+        {
+            return data.Select((s, i) => new { Value = s, Index = i })
+                    .GroupBy(x => x.Index / batchSize)
+                    .Select(grp => grp.Select(x => x.Value).ToList())
+                    .ToList();
+        }
     }
 }

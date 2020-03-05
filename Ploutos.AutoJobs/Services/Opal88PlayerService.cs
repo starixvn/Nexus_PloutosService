@@ -4,6 +4,7 @@
     using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
+    using Ploutos.Common.Models;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
     using System.Threading.Tasks;
@@ -20,7 +21,7 @@
         {
         }      
 
-        Task IOpal88PlayerService.PushPlayers()
+        Task<PushResult> IOpal88PlayerService.PushPlayers()
         {
             return base.PushPlayers();
         }

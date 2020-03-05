@@ -56,6 +56,8 @@ namespace Ploutos.GlobalComJobs.Tests.Services
 
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>())
                 .Returns(new List<BetTicket>());
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>>());
 
             // Act
             await service.PushTickets();

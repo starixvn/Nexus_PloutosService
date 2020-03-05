@@ -44,6 +44,8 @@ namespace Ploutos.GlobalComJobs.Tests.Services
 
             var betTickets = new List<BetTicket> { new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>> { betTickets });
 
             var restResponse = new RestResponse
             {
@@ -98,6 +100,8 @@ namespace Ploutos.GlobalComJobs.Tests.Services
 
             var betTickets = new List<BetTicket> { new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>> { betTickets });
 
             var restResponse = new RestResponse
             {
@@ -154,6 +158,8 @@ namespace Ploutos.GlobalComJobs.Tests.Services
                 new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now, transaction_id = "108091850837"
                 } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>>{ betTickets });
 
             var restResponse = new RestResponse
             {
@@ -215,6 +221,8 @@ namespace Ploutos.GlobalComJobs.Tests.Services
 
             var betTickets = new List<BetTicket> { new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now } };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>> { betTickets });
 
             var restResponse = new RestResponse
             {

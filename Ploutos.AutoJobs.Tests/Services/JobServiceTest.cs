@@ -11,6 +11,7 @@
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services;
     using Ploutos.AutoJobs.Services.Interfaces;
+    using Ploutos.Common.Models;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
     using Xunit;
@@ -87,6 +88,8 @@
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
                 jobRunningChecker);
+
+            opal88PlayerService.PushPlayers().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
 
             // Act
             await service.SyncOpal88Player();
@@ -321,6 +324,8 @@
                 ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
+            opal88TicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
             // Act
             await service.SyncOpal88Ticket();
 
@@ -365,6 +370,8 @@
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
                 jobRunningChecker);
+
+            nova88PlayerService.PushPlayers().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
 
             // Act
             await service.SyncNova88Player();
@@ -411,6 +418,8 @@
                 ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
+            nova88TicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
             // Act
             await service.SyncNova88Ticket();
 
@@ -456,6 +465,8 @@
                 ivorybetTicketBySupportApiService,
                 jobRunningChecker);
 
+            ivorybetPlayerService.PushPlayers().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
             // Act
             await service.SyncIvorybetPlayer();
 
@@ -500,6 +511,8 @@
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
                 jobRunningChecker);
+
+            ivorybetTicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
 
             // Act
             await service.SyncIvorybetTicket();

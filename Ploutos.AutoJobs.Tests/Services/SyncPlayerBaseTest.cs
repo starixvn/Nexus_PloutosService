@@ -49,6 +49,8 @@ namespace Ploutos.AutoJobs.Tests.Services
                 new PlayerProfile { }
             };
             dataService.GetPlayerProfiles(Arg.Any<string>(), Arg.Any<int>()).Returns(playerProfiles);
+            util.SplitToBatches(Arg.Any<List<PlayerProfile>>(), Arg.Any<int>())
+                .Returns(new List<List<PlayerProfile>> { playerProfiles });
 
             var restResponse = new RestResponse() {
                 StatusCode = HttpStatusCode.OK,
@@ -92,6 +94,8 @@ namespace Ploutos.AutoJobs.Tests.Services
                 new PlayerProfile { }
             };
             dataService.GetPlayerProfiles(Arg.Any<string>(), Arg.Any<int>()).Returns(playerProfiles);
+            util.SplitToBatches(Arg.Any<List<PlayerProfile>>(), Arg.Any<int>())
+                .Returns(new List<List<PlayerProfile>> { playerProfiles });
 
             var restResponse = new RestResponse()
             {
@@ -135,6 +139,8 @@ namespace Ploutos.AutoJobs.Tests.Services
                 new PlayerProfile { }
             };
             dataService.GetPlayerProfiles(Arg.Any<string>(), Arg.Any<int>()).Returns(playerProfiles);
+            util.SplitToBatches(Arg.Any<List<PlayerProfile>>(), Arg.Any<int>())
+                .Returns(new List<List<PlayerProfile>> { playerProfiles });
 
             var restResponse = new RestResponse()
             {

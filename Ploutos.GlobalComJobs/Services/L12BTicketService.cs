@@ -1,5 +1,6 @@
 ﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
+using Ploutos.Common.Models;
 using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 using Ploutos.GlobalComJobs.Models;
@@ -18,7 +19,7 @@ namespace Ploutos.GlobalComJobs.Services
         {
         }
 
-        Task I12BTicketService.PushTickets()
+        Task<PushResult> I12BTicketService.PushTickets()
         {
             return base.PushTickets();
         }

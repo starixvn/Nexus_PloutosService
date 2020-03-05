@@ -5,6 +5,7 @@
     using Microsoft.Extensions.Options;
     using Ploutos.AutoJobs.Models;
     using Ploutos.AutoJobs.Services.Interfaces;
+    using Ploutos.Common.Models;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
 
@@ -18,7 +19,7 @@
         {
         }
 
-        Task INova88TicketService.PushTickets()
+        Task<PushResult> INova88TicketService.PushTickets()
         {
             return base.PushTickets();
         }

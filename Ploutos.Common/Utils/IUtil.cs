@@ -12,5 +12,7 @@ namespace Ploutos.Common.Utils
         DateTime GetCurrentTimeAtGMTMinus4();
 
         string SerializeList<T>(IEnumerable<T> list);
+
+        List<List<T>> SplitToBatches<T>(List<T> data, int batchSize);
     }
 }

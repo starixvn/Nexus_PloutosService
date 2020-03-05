@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using NSubstitute;
 using ONEbook.UM.Models;
 using ONEbook.UM.Services;
+using Ploutos.Common.Models;
 using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 using Ploutos.GlobalComJobs.Models;
@@ -63,6 +64,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
 
             apiConfigs.Value.Returns(configs);
+            l12BTicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
 
             var service = new JobService(
                 apiConfigs,
@@ -147,6 +149,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
 
             apiConfigs.Value.Returns(configs);
+            ivorybetTicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
 
             var service = new JobService(
                 apiConfigs,
@@ -209,6 +212,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             await ivorybetTicketService.DidNotReceive().PushTickets();
         }
 
+        [Fact]
         public async Task SyncNova88Ticket_WhenCalled_SyncNova88Ticket()
         {
             // Arrange
@@ -230,6 +234,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
 
             apiConfigs.Value.Returns(configs);
+            nova88TicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
 
             var service = new JobService(
                 apiConfigs,
@@ -292,6 +297,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             await nova88TicketService.DidNotReceive().PushTickets();
         }
 
+        [Fact]
         public async Task SyncOpal88Ticket_WhenCalled_SyncOpal88Ticket()
         {
             // Arrange
@@ -313,6 +319,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
 
             apiConfigs.Value.Returns(configs);
+            opal88TicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
 
             var service = new JobService(
                 apiConfigs,

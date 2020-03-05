@@ -59,6 +59,8 @@ namespace Ploutos.AutoJobs.Tests.Services
 
             dataService.GetPlayerProfiles(Arg.Any<string>(), Arg.Any<int>())
                 .Returns(new List<PlayerProfile>());
+            util.SplitToBatches(Arg.Any<List<PlayerProfile>>(), Arg.Any<int>())
+                .Returns(new List<List<PlayerProfile>>());
 
             // Act
             await service.PushPlayers();
