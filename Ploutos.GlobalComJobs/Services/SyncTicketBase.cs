@@ -15,12 +15,12 @@ namespace Ploutos.GlobalComJobs.Services
 {
     public class SyncTicketBase
     {
+        private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
         private readonly BrandApiConfigs apiConfigs;
         private readonly IWebClientService webClientService;
         private readonly IDataService dataService;
         private readonly ILogger logger;
-        private readonly IUtil util;
-        private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
+        private readonly IUtil util;        
 
         public SyncTicketBase(BrandApiConfigs apiConfigs,
             IWebClientService webClientService,
@@ -65,7 +65,7 @@ namespace Ploutos.GlobalComJobs.Services
 
             try
             {
-                var token = await GetTokenFromSupportAPI(this.apiConfigs);
+                var token = await GetAuthorizedToken(this.apiConfigs);
                 var response = await webClientService.PostJsonAsync<ApiParam>(
                         apiConfigs.BaseDomain,
                         apiConfigs.TicketConfigs.Url,
@@ -122,7 +122,7 @@ namespace Ploutos.GlobalComJobs.Services
             return updateBetTickets.Count(t => !t.Is_Error);
         }        
         
-        private async Task<string> GetTokenFromSupportAPI(BrandApiConfigs brandApiConfigs)
+        private async Task<string> GetAuthorizedToken(BrandApiConfigs brandApiConfigs)
         {
             var authParam = new AuthParam
             {
