@@ -37,7 +37,30 @@ namespace Ploutos.GlobalComJobs.Services
 
         public virtual async Task<PushResult> PushTickets()
         {
-            var betTickets = await dataService.GetBetTickets(apiConfigs.BrandName, apiConfigs.TicketConfigs.QueryBatchSize);
+            //var betTickets = await dataService.GetBetTickets(apiConfigs.BrandName, apiConfigs.TicketConfigs.QueryBatchSize);
+            var betTickets = new List<BetTicket>
+            {
+                new BetTicket {
+                    transaction_date = DateTime.Now,
+                    settlement_date = DateTime.Now,
+                    player_no = "test pn1",
+                    player_name = "test p1",
+                    player_type = "Test",
+                    transaction_id = "test id",
+                    brand = "test brand",
+                    brand_url = "test brand url",
+                    game_code = 1,
+                    game_name = "test game name" ,
+                    game_type = "sb",
+                    currency_code = "THB",
+                    bet_type = "Handicap",
+                    bet_amount = 100,
+                    debit_amount = 100,
+                    credit_amount = 100,
+                    net_amount = 100
+                }
+            };
+
             var newBetTickets = dataService.PreProcessTickets(betTickets);            
             var betTicketBatches = util.SplitToBatches(newBetTickets, apiConfigs.TicketConfigs.SyncBatchSize);
 
