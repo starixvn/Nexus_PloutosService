@@ -36,9 +36,9 @@ namespace Ploutos.GlobalComJobs
 
                 host.RunAsCustomService(isService);
             }
-            catch
+            catch(Exception ex)
             {
-                logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception!");
+                logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception! " + ex.Message);
                 throw;
             }
             finally
