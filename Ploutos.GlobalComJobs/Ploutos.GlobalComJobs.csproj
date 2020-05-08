@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -19,6 +19,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+  </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Repository\**" />
@@ -33,18 +37,23 @@
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
     <None Remove="appsettings.LOCAL.json" />
-    <None Remove="appsettings.Production.json" />
-    <None Remove="appsettings.UAT.json" />
+	<None Remove="appsettings.UAT.json" />
+	<None Remove="appsettings.Production.json" />
     <None Remove="App_Data\Development\SpNames.xml" />
     <None Remove="App_Data\LOCAL\SpNames.xml" />
     <None Remove="App_Data\Production\SpNames.xml" />
     <None Remove="App_Data\UAT\SpNames.xml" />
     <None Remove="nlog.config" />
+    <None Remove="Views\Auth\Login.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.UAT.json" />
-    <Content Include="appsettings.Production.json" />
+	<Content Include="appsettings.UAT.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.Production.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="appsettings.LOCAL.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -67,6 +76,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="nlog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Auth\Login.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -103,16 +115,7 @@
       <DependentUpon>Labels.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="appsettings.UAT.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="appsettings.Production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
+  
   <ItemGroup>
     <EmbeddedResource Update="Resources\Labels.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -124,4 +127,5 @@
     <ProjectReference Include="..\Ploutos.Common\Ploutos.Common.csproj" />
   </ItemGroup>
 
+ 
 </Project>
