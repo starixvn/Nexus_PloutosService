@@ -140,7 +140,7 @@ namespace Ploutos.GlobalComJobs.Services
             }
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
-            await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
+            //await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
 
             return updateBetTickets.Count(t => !t.Is_Error);
         }        
