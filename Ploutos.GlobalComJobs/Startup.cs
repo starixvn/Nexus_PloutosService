@@ -1,46 +1,44 @@
-﻿using Fanex.Data;
-using Fanex.Data.MySql;
-using Fanex.Data.SqlServer;
-using Fanex.Logging;
-using Fanex.Logging.Extensions;
-using Fanex.Logging.Extensions.AspNetCore;
-using Fanex.Logging.Extensions.Database;
-using Fanex.Logging.Sentry;
-using Hangfire;
-using Hangfire.MySql.Core;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using NLog.Web;
-using ONEbook.UM.AspNetCore;
-using ONEbook.UM.Configurations;
-using ONEbook.UM.Helpers;
-using ONEbook.UM.Services;
-using ONEbook.UM.Transport;
-using Ploutos.Common.Extensions;
-using Ploutos.Common.Models;
-using Ploutos.Common.Repository;
-using Ploutos.Common.Services;
-using Ploutos.Common.Utils;
-using Ploutos.GlobalComJobs.App_Configs;
-using Ploutos.GlobalComJobs.Extensions;
-using Ploutos.GlobalComJobs.Models;
-using Ploutos.GlobalComJobs.Services;
-using Ploutos.GlobalComJobs.Services.Interfaces;
-using Sentry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ploutos.GlobalComJobs
+﻿namespace Ploutos.GlobalComJobs
 {
+    using Fanex.Data;
+    using Fanex.Data.MySql;
+    using Fanex.Data.SqlServer;
+    using Fanex.Logging;
+    using Fanex.Logging.Extensions;
+    using Fanex.Logging.Extensions.AspNetCore;
+    using Fanex.Logging.Extensions.Database;
+    using Fanex.Logging.Sentry;
+    using Hangfire;
+    using Hangfire.MySql.Core;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Newtonsoft.Json;
+    using NLog.Web;
+    using ONEbook.UM.AspNetCore;
+    using ONEbook.UM.Configurations;
+    using ONEbook.UM.Helpers;
+    using ONEbook.UM.Services;
+    using ONEbook.UM.Transport;
+    using Ploutos.Common.Extensions;
+    using Ploutos.Common.Models;
+    using Ploutos.Common.Repository;
+    using Ploutos.Common.Services;
+    using Ploutos.Common.Utils;
+    using Ploutos.GlobalComJobs.App_Configs;
+    using Ploutos.GlobalComJobs.Models;
+    using Ploutos.GlobalComJobs.Services;
+    using Ploutos.GlobalComJobs.Services.Interfaces;
+    using Sentry;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -201,7 +199,11 @@ namespace Ploutos.GlobalComJobs
         private static void RegisterHangfire(IServiceCollection services, string connectionString)
         {
             var connection = Cryptography.DecryptConnectionString(connectionString);
-            services.AddHangfire(x => x.UseStorage(new MySqlStorage(connection)));
+            services.AddHangfire(x => x.UseStorage(new MySqlStorage(connection, new MySqlStorageOptions
+            {
+                PrepareSchemaIfNecessary = true,
+                TablePrefix = "PloutosHangfire_"
+            })));
         }
     }
 }
