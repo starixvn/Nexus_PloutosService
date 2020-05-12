@@ -199,11 +199,18 @@
         private static void RegisterHangfire(IServiceCollection services, string connectionString)
         {
             var connection = Cryptography.DecryptConnectionString(connectionString);
-            services.AddHangfire(x => x.UseStorage(new MySqlStorage(connection, new MySqlStorageOptions
+            var options = new MySqlStorageOptions
             {
+                QueuePollInterval = TimeSpan.FromSeconds(2),
+                JobExpirationCheckInterval = TimeSpan.FromHours(1),
+                CountersAggregateInterval = TimeSpan.FromMinutes(5),
                 PrepareSchemaIfNecessary = true,
+                DashboardJobListLimit = 50000,
+                TransactionTimeout = TimeSpan.FromMinutes(2),
                 TablePrefix = "PloutosHangfire_"
-            })));
+            };
+
+            services.AddHangfire(x => x.UseStorage(new MySqlStorage(connection, options)));
         }
     }
 }
