@@ -53,6 +53,8 @@
             Tuple<IList<PlayerProfile>, IList<PlayerResponseResult>> validateResult = ValidatePlayerProfiles(playerProfiles);
             var playerResponseResults = await playerProfileService.InsertPlayerProfileAsync(validateResult.Item1) as List<PlayerResponseResult>;
 
+            playerResponseResults = CorrectErrorCode(playerResponseResults);
+
             playerResponseResults.AddRange(validateResult.Item2);
             playerResponseResults.AddRange(validateResult.Item1.Where(x => !playerResponseResults.Any(t => t.Username == x.Username))
                 .Select(x => new PlayerResponseResult
@@ -64,6 +66,20 @@
                 }));
 
             return Json(playerResponseResults);
+        }
+
+        private List<PlayerResponseResult> CorrectErrorCode(List<PlayerResponseResult> playerResponseResults)
+        {
+            foreach (var player in playerResponseResults)
+            {
+                if (player.ErrorCode == 106)
+                {
+                    player.ErrorCode = 102;
+                    player.ErrorMessage = "The username (" + player.Username +") already exists.";
+                }
+            }
+
+            return playerResponseResults;
         }
 
         private static void AutoIncreaseRowIndex(IList<PlayerProfile> playerProfiles)
@@ -93,7 +109,7 @@
                     RowIndex = x.RowIndex,
                     Username = x.Username,
                     Username2 = x.Username2,
-                    ErrorCode = 1,
+                    ErrorCode = 102,
                     ErrorMessage = "Duplicate Username."
                 }).ToList();
         }
@@ -108,7 +124,7 @@
                     RowIndex = x.RowIndex,
                     Username = x.Username,
                     Username2 = x.Username2,
-                    ErrorCode = 1,
+                    ErrorCode = 103,
                     ErrorMessage = "Duplicate Username2."
                 }).ToList();
         }
@@ -123,7 +139,7 @@
                     RowIndex = x.RowIndex,
                     Username = x.Username,
                     Username2 = x.Username2,
-                    ErrorCode = 1,
+                    ErrorCode = 104,
                     ErrorMessage = "Duplicate EmailAddress."
                 }).ToList();
         }
@@ -148,7 +164,7 @@
                         RowIndex = playerProfile.RowIndex,
                         Username = playerProfile.Username,
                         Username2 = playerProfile.Username2,
-                        ErrorCode = 1,
+                        ErrorCode = 101,
                         ErrorMessage = "BrandCode is invalid."
                     });
                 }
