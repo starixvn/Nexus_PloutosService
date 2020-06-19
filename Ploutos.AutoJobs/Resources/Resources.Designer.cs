@@ -61,6 +61,33 @@ namespace Ploutos.AutoJobs.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sync 12B Player.
+        /// </summary>
+        internal static string Job_Sync12BPlayer {
+            get {
+                return ResourceManager.GetString("Job_Sync12BPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync 12B Ticket.
+        /// </summary>
+        internal static string Job_Sync12BTicket {
+            get {
+                return ResourceManager.GetString("Job_Sync12BTicket", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sync 12B Ticket By Support Api.
+        /// </summary>
+        internal static string Job_Sync12BTicketBySupportApi {
+            get {
+                return ResourceManager.GetString("Job_Sync12BTicketBySupportApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sync Ivorybet Player.
         /// </summary>
         internal static string Job_SyncIvorybetPlayer {

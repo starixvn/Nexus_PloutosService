@@ -24,7 +24,10 @@
         private readonly IIvorybetPlayerService ivorybetPlayerService;
         private readonly IIvorybetTicketService ivorybetTicketService;
         private readonly IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService;
-        
+        private readonly IPlayer12BService player12BService;
+        private readonly ITicket12BService ticket12BService;
+        private readonly ITicketBySupportApi12BService ticketBySupportApi12BService;
+
         public JobService(
             IOptionsSnapshot<ApiConfigs> apiConfigs,
             ILogger logger,
@@ -39,7 +42,10 @@
             IOpal88TicketBySupportApiService opal88TicketBySupportApiService,
             INova88TicketBySupportApiService nova88TicketBySupportApiService,
             IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService,
-            IJobRunningChecker jobRunningChecker) : base(logger, util, maintenanceService, jobRunningChecker)
+            IPlayer12BService player12BService,
+            ITicket12BService ticket12BService,
+            ITicketBySupportApi12BService ticketBySupportApi12BService,
+        IJobRunningChecker jobRunningChecker) : base(logger, util, maintenanceService, jobRunningChecker)
         {
             this.apiConfigs = apiConfigs;
             this.opal88PlayerService = opal88PlayerService;
@@ -51,6 +57,9 @@
             this.opal88TicketBySupportApiService = opal88TicketBySupportApiService;
             this.nova88TicketBySupportApiService = nova88TicketBySupportApiService;
             this.ivorybetTicketBySupportApiService = ivorybetTicketBySupportApiService;
+            this.player12BService = player12BService;
+            this.ticket12BService = ticket12BService;
+            this.ticketBySupportApi12BService = ticketBySupportApi12BService;
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
@@ -108,6 +117,25 @@
         {
             return SyncJob(!apiConfigs.Value.Ivorybet.TicketConfigs.IsEnabled && apiConfigs.Value.Ivorybet.SupportTicketConfigs.IsEnabled, 
                 Constants.SyncIvorybetTicketBySupportApi, ivorybetTicketBySupportApiService.PushTickets);
+        }
+
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        public Task Sync12BPlayer()
+        {
+            return SyncJob(apiConfigs.Value.Brand12B.PlayerConfigs.IsEnabled, Constants.Sync12BPlayer, player12BService.PushPlayers);
+        }
+
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        public Task Sync12BTicket()
+        {
+            return SyncJob(apiConfigs.Value.Brand12B.TicketConfigs.IsEnabled, Constants.Sync12BTicket, ticket12BService.PushTickets);
+        }
+
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
+        public Task Sync12BTicketBySupportApi()
+        {
+            return SyncJob(!apiConfigs.Value.Brand12B.TicketConfigs.IsEnabled && apiConfigs.Value.Brand12B.SupportTicketConfigs.IsEnabled,
+                Constants.Sync12BTicketBySupportApi, ticketBySupportApi12BService.PushTickets);
         }
     }
 }

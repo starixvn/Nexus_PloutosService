@@ -39,6 +39,9 @@
             jobRunningChecker.ClearRunning(Constants.SyncNova88Ticket);
             jobRunningChecker.ClearRunning(Constants.SyncIvorybetPlayer);
             jobRunningChecker.ClearRunning(Constants.SyncIvorybetTicket);
+            jobRunningChecker.ClearRunning(Constants.Sync12BPlayer);
+            jobRunningChecker.ClearRunning(Constants.Sync12BTicket);
+
 
             logger.LogInformation(string.Format(Resources.Log_OnStartedService, DateTime.Now));
             RunHangfireJobs();
@@ -89,6 +92,17 @@
             recurringJob.AddOrUpdate<IJobService>(Resources.Job_SyncIvorybetTicketBySupportApi,
                 job => job.SyncIvorybetTicketBySupportApi(),
                cronJob.CurrentValue.SyncIvorybetTicketBySupportApi);
+
+
+            recurringJob.AddOrUpdate<IJobService>(Resources.Job_Sync12BPlayer,
+                job => job.Sync12BPlayer(),
+                cronJob.CurrentValue.Sync12BPlayer);
+            recurringJob.AddOrUpdate<IJobService>(Resources.Job_Sync12BTicket,
+                job => job.Sync12BTicket(),
+               cronJob.CurrentValue.SyncIvorybetTicket);
+            recurringJob.AddOrUpdate<IJobService>(Resources.Job_Sync12BTicketBySupportApi,
+                job => job.Sync12BTicketBySupportApi(),
+               cronJob.CurrentValue.Sync12BTicketBySupportApi);
         }
 
         private static void RemoveCurrentHangfireServer()

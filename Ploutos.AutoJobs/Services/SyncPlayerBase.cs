@@ -61,7 +61,7 @@
                 failedCount += results.Count(r => !r);
             }
 
-            return new PushResult { SuccessCount = successCount, FailedCount = failedCount };            
+            return new PushResult { SuccessCount = successCount, FailedCount = failedCount };
         }
 
         private async Task<bool> PushPlayer(PlayerProfile profile, string siteName)

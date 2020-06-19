@@ -1,17 +1,17 @@
-﻿using Fanex.Logging;
-using Ploutos.AutoJobs.Models;
-using Ploutos.Common.Models;
-using Ploutos.Common.Services;
-using Ploutos.Common.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace Ploutos.AutoJobs.Services
+﻿namespace Ploutos.AutoJobs.Services
 {
+    using Fanex.Logging;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.Common.Models;
+    using Ploutos.Common.Services;
+    using Ploutos.Common.Utils;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
     public class SyncTicketBySupportApiBase
     {
         private readonly BrandApiConfigs apiConfigs;

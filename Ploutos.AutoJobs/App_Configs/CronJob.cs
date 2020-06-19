@@ -11,5 +11,8 @@
         public string SyncOpal88TicketBySupportApi { get; set; }
         public string SyncNova88TicketBySupportApi { get; set; }
         public string SyncIvorybetTicketBySupportApi { get; set; }
+        public string Sync12BPlayer { get; set; }
+        public string Sync12BTicket { get; set; }
+        public string Sync12BTicketBySupportApi { get; set; }
     }
 }

@@ -12,5 +12,9 @@
         public const string SyncOpal88TicketBySupportApi = "SyncOpal88TicketBySupportApi";
         public const string SyncNova88TicketBySupportApi = "SyncNova88TicketBySupportApi";
         public const string SyncIvorybetTicketBySupportApi = "SyncIvorybetTicketBySupportApi";
+
+        public const string Sync12BPlayer = "Sync12BPlayer";
+        public const string Sync12BTicket = "Sync12BTicket";
+        public const string Sync12BTicketBySupportApi = "Sync12BTicketBySupportApi";
     }
 }

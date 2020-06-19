@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Job_Sync12BPlayer" xml:space="preserve">
+    <value>Sync 12B Player</value>
+  </data>
+  <data name="Job_Sync12BTicket" xml:space="preserve">
+    <value>Sync 12B Ticket</value>
+  </data>
+  <data name="Job_Sync12BTicketBySupportApi" xml:space="preserve">
+    <value>Sync 12B Ticket By Support Api</value>
+  </data>
   <data name="Job_SyncIvorybetPlayer" xml:space="preserve">
     <value>Sync Ivorybet Player</value>
   </data>

@@ -42,7 +42,7 @@
 
                     if (dataResponse.StatusCode == HttpStatusCode.OK)
                     {
-                        UpdateProfileResponse(profileResponse, dataResponse.Content);                       
+                        UpdateProfileResponse(profileResponse, dataResponse.Content);
                     }
                     else if (dataResponse.StatusCode == HttpStatusCode.Unauthorized)
                     {

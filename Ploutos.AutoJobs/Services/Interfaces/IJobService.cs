@@ -13,5 +13,8 @@
         Task SyncOpal88TicketBySupportApi();
         Task SyncNova88TicketBySupportApi();
         Task SyncIvorybetTicketBySupportApi();
+        Task Sync12BPlayer();
+        Task Sync12BTicket();
+        Task Sync12BTicketBySupportApi();
     }
 }
