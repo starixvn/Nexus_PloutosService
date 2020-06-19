@@ -189,6 +189,9 @@
             services.AddScoped<IIvorybetTicketBySupportApiService, IvorybetTicketBySupportApiService>();
             services.AddScoped<INova88TicketBySupportApiService, Nova88TicketBySupportApiService>();
             services.AddScoped<IOpal88TicketBySupportApiService, Opal88TicketBySupportApiService>();
+            services.AddScoped<IPlayer12BService, Player12BService>();
+            services.AddScoped<ITicket12BService, Ticket12BService>();
+            services.AddScoped<ITicketBySupportApi12BService, TicketBySupportApi12BService>();
             services.AddScoped<IJobService, JobService>();
             services.AddScoped<IWebClientService, WebClientService>();
             services.AddScoped<IDataService, DataService>();
