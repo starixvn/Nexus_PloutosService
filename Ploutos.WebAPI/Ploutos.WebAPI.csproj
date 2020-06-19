@@ -258,9 +258,14 @@
     <None Include="packages.config" />
     <Content Include="Ploutos.WebAPI.ruleset" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Web.Pro.Nova88.config" />
-    <Content Include="Web.Pro.Ivorysport.config" />
-    <Content Include="Web.Pro.Opal88.config" />
+    <None Include="Web.Opal88.LOCAL.config" />
+    <None Include="Web.Nova88.LOCAL.config" />
+    <None Include="Web.Ivorysport.LOCAL.config" />
+    <None Include="Web.12B.LOCAL.config" />
+    <None Include="Web.12B.Production.config" />
+    <None Include="Web.Nova88.Production.config" />
+    <Content Include="Web.Ivorysport.Production.config" />
+    <Content Include="Web.Opal88.Production.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

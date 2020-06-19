@@ -50,7 +50,7 @@
             this.ivorybetTicketService = ivorybetTicketService;
             this.opal88TicketBySupportApiService = opal88TicketBySupportApiService;
             this.nova88TicketBySupportApiService = nova88TicketBySupportApiService;
-            this.ivorybetTicketBySupportApiService = ivorybetTicketBySupportApiService;            
+            this.ivorybetTicketBySupportApiService = ivorybetTicketBySupportApiService;
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
