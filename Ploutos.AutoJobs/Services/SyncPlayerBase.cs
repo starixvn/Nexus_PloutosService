@@ -51,9 +51,11 @@
             foreach (var batch in profileListBatches)
             {
                 var tasks = new Task<bool>[batch.Count];
+                string domainName;
                 for (int i = 0; i < batch.Count; i++)
                 {
-                    tasks[i] = PushPlayer(batch[i], siteName);
+                    domainName = GetDomainName(i);
+                    tasks[i] = PushPlayer(batch[i], siteName, domainName);
                 }
 
                 var results = await Task.WhenAll(tasks);
@@ -64,14 +66,33 @@
             return new PushResult { SuccessCount = successCount, FailedCount = failedCount };
         }
 
-        private async Task<bool> PushPlayer(PlayerProfile profile, string siteName)
+        private string GetDomainName(int indexOfBatch)
+        {
+            string domainName;
+            if (indexOfBatch % apiConfigs.PlayerConfigs.SyncBatchSize == 0)
+            {
+                domainName = apiConfigs.PloutosBaseDomain1;
+            }
+            else if (((indexOfBatch % apiConfigs.PlayerConfigs.SyncBatchSize) - 1) == 0)
+            {
+                domainName = apiConfigs.PloutosBaseDomain2;
+            }
+            else
+            {
+                domainName = apiConfigs.PloutosBaseDomain3;
+            }
+
+            return domainName;
+        }
+
+        private async Task<bool> PushPlayer(PlayerProfile profile, string siteName, string domainName)
         {
             var updateProfile = new UpdatePlayerProfile(profile);
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
                 var response = await webClientService.PostAsync<PlayerProfile>(
-                    apiConfigs.PloutosBaseDomain1,
+                    domainName,
                     apiConfigs.PlayerConfigs.Url,
                     apiConfigs.PloutosToken,
                     profile);
