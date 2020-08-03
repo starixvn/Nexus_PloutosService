@@ -1,12 +1,12 @@
-﻿using Fanex.Logging;
-using ONEbook.UM.Services;
-using Ploutos.Common.Models;
-using Ploutos.Common.Utils;
-using System;
-using System.Threading.Tasks;
-
-namespace Ploutos.Common.Services
+﻿namespace Ploutos.Common.Services
 {
+    using Fanex.Logging;
+    using ONEbook.UM.Services;
+    using Ploutos.Common.Models;
+    using Ploutos.Common.Utils;
+    using System;
+    using System.Threading.Tasks;
+
     public class JobServiceBase
     {
         private readonly ILogger logger;

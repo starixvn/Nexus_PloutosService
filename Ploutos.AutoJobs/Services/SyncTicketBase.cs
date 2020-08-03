@@ -7,6 +7,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Fanex.Logging;
+    using Ploutos.AutoJobs.Criteria;
     using Ploutos.AutoJobs.Models;
     using Ploutos.Common.Models;
     using Ploutos.Common.Services;
@@ -37,7 +38,8 @@
         public virtual async Task<PushResult> PushTickets()
         {
             var siteName = this.apiConfigs.BrandName;
-            var betTickets = await dataService.GetBetTickets(siteName, apiConfigs.TicketConfigs.QueryBatchSize);            
+            var criteria = GetTicketCriteria(apiConfigs);
+            var betTickets = await dataService.GetBetTickets(criteria);
             var newBetTickets = dataService.PreProcessTickets(betTickets);
             var betTicketBatches = util.SplitToBatches<BetTicket>(newBetTickets, apiConfigs.TicketConfigs.SyncBatchSize);
             var betTicketParallelBatches = util.SplitToBatches<List<BetTicket>>(betTicketBatches, apiConfigs.TicketConfigs.SyncParallelSize);
@@ -58,6 +60,18 @@
             }
 
             return new PushResult { SuccessCount = successCount, FailedCount = betTickets.Count - successCount };
+        }
+
+        private GetBetTicketCriteria GetTicketCriteria(BrandApiConfigs apiConfigs)
+        {
+            return new GetBetTicketCriteria
+            {
+                BrandCode = apiConfigs.BrandName,
+                TotalRows = apiConfigs.TicketConfigs.TotalRows,
+                TotalHistoricalRows = apiConfigs.TicketConfigs.TotalHistoricalRows,
+                FromNewlyCutoffDate = apiConfigs.TicketConfigs.FromNewlyCutoffDate,
+                ToHistoricalDate = apiConfigs.TicketConfigs.ToHistoricalDate
+            };
         }
 
         private string GetDomainName(int indexOfBatch)

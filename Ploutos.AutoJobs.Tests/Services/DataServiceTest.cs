@@ -26,7 +26,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             var service = new DataService(baseRepository);
             var betTickets = fixture.CreateMany<BetTicket>();
             var siteName = fixture.Create<string>();
-            var batchSize = fixture.Create<int>();            
+            var batchSize = fixture.Create<int>();
             baseRepository.FetchData<BetTicket>(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
 
             // Act

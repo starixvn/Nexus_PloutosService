@@ -20,13 +20,8 @@
             this.baseRepository = baseRepository;
         }
 
-        public async Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize)
+        public async Task<List<BetTicket>> GetBetTickets(GetBetTicketCriteria criteria)
         {
-            var criteria = new GetBetTicketCriteria
-            {
-                BrandCode = siteName,
-                TotalRows = batchSize
-            };
             var betTickets = await this.baseRepository.FetchData<BetTicket>(criteria);
 
             return betTickets.ToList();

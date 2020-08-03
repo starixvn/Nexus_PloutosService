@@ -8,7 +8,7 @@
         public string PloutosBaseDomain3 { get; set; }
         public string PloutosToken { get; set; }
         public UrlApiConfig PlayerConfigs { get; set; }
-        public UrlApiConfig TicketConfigs { get; set; }
+        public TicketAPIConfig TicketConfigs { get; set; }
         public SupportApiConfigs SupportApiConfigs { get; set; }
         public UrlApiConfig SupportTicketConfigs { get; set; }
     }

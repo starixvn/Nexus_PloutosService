@@ -36,9 +36,9 @@
 
                 host.RunAsCustomService(isService);
             }
-            catch
+            catch (Exception ex)
             {
-                logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception!");
+                logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception!" + ex.ToString());
                 throw;
             }
             finally

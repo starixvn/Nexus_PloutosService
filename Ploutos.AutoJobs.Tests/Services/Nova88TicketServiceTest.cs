@@ -39,7 +39,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             {
                 Nova88 = new BrandApiConfigs
                 {
-                    TicketConfigs = new UrlApiConfig
+                    TicketConfigs = new TicketAPIConfig
                     {
                         QueryBatchSize = 1,
                         SyncBatchSize = 1

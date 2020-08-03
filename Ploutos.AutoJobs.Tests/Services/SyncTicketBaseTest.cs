@@ -36,7 +36,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             // Arrange
             var apiConfigs = new BrandApiConfigs
             {
-                TicketConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
+                TicketConfigs = new TicketAPIConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
             };
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
@@ -80,7 +80,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             // Arrange
             var apiConfigs = new BrandApiConfigs
             {
-                TicketConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
+                TicketConfigs = new TicketAPIConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
             };
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
@@ -127,7 +127,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             // Arrange
             var apiConfigs = new BrandApiConfigs
             {
-                TicketConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
+                TicketConfigs = new TicketAPIConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
             };
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 

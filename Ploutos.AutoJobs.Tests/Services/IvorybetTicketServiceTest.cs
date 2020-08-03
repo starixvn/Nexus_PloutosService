@@ -39,9 +39,9 @@ namespace Ploutos.AutoJobs.Tests.Services
             {
                 Ivorybet = new BrandApiConfigs
                 {
-                    TicketConfigs = new UrlApiConfig
+                    TicketConfigs = new TicketAPIConfig
                     {
-                        QueryBatchSize = 1,
+                        TotalRows = 1,
                         SyncBatchSize = 1
                     }
                 }

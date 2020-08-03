@@ -294,7 +294,7 @@
             {
                 Opal88 = new BrandApiConfigs
                 {
-                    TicketConfigs = new UrlApiConfig
+                    TicketConfigs = new TicketAPIConfig
                     {
                         IsEnabled = true
                     }
@@ -388,7 +388,7 @@
             {
                 Nova88 = new BrandApiConfigs
                 {
-                    TicketConfigs = new UrlApiConfig
+                    TicketConfigs = new TicketAPIConfig
                     {
                         IsEnabled = true
                     }
@@ -482,7 +482,7 @@
             {
                 Ivorybet = new BrandApiConfigs
                 {
-                    TicketConfigs = new UrlApiConfig
+                    TicketConfigs = new TicketAPIConfig
                     {
                         IsEnabled = true
                     }
