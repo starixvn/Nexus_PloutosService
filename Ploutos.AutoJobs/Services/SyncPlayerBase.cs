@@ -110,6 +110,14 @@
                     updateProfile.ResponseResult = response.Content;
                     updateProfile.IsError = true;
                 }
+                else if (response.StatusCode == HttpStatusCode.InternalServerError)
+                {
+                    var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
+                    profileResponse = await this.supportApiService.UpdateResponse(profileResponse, updateProfile.Username, apiConfigs.SupportApiConfigs);
+                    updateProfile.ResponseResult = JsonConvert.SerializeObject(profileResponse);
+                    updateProfile.IsError = !profileResponse.IsSuccess;
+                    updateProfile.PlayerCode = profileResponse.IsSuccess ? profileResponse.Data.PlayerAccountNumber : string.Empty;
+                }
                 else
                 {
                     throw new HttpRequestException(response.ErrorMessage ?? response.Content);
@@ -120,7 +128,7 @@
                 updateProfile.ResponseResult = ex.Message;
                 updateProfile.IsError = true;
                 await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                fileLogger.Warn(string.Format("exception post players {0} {1}", siteName, ex.Message));
+                fileLogger.Warn(string.Format("exception post players {0} {1} {2} {3}", siteName, profile.Username, profile.CurrencyCode, ex.Message));
             }
             updateProfile.PushTime = pushTime;
             updateProfile.ResponseTime = this.util.GetCurrentTimeAtGMTMinus4();

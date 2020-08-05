@@ -6,5 +6,7 @@
     public interface ISupportApiService
     {
         Task<ProfileResponse> UpdateResponseFromSupportAPI(ProfileResponse profileResponse, string userName, SupportApiConfigs supportApiConfigs);
+
+        Task<ProfileResponse> UpdateResponse(ProfileResponse profileResponse, string userName, SupportApiConfigs supportApiConfigs);
     }
 }

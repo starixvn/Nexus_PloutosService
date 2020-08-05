@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Options;
+    using Ploutos.ServiceAPI.Enums;
     using Ploutos.ServiceAPI.Extensions;
     using Ploutos.ServiceAPI.Models;
     using Ploutos.ServiceAPI.Services;
@@ -68,13 +69,13 @@
             return Json(playerResponseResults);
         }
 
-        private List<PlayerResponseResult> CorrectErrorCode(List<PlayerResponseResult> playerResponseResults)
+        private static List<PlayerResponseResult> CorrectErrorCode(List<PlayerResponseResult> playerResponseResults)
         {
             foreach (var player in playerResponseResults)
             {
-                if (player.ErrorCode == 106)
+                if (player.ErrorCode == (int)ErrorCodes.DuplicateSyncParallelUsername)
                 {
-                    player.ErrorCode = 102;
+                    player.ErrorCode = (int)ErrorCodes.DuplicateUsername;
                     player.ErrorMessage = "The username (" + player.Username +") already exists.";
                 }
             }

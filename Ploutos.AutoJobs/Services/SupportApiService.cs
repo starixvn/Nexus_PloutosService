@@ -62,6 +62,36 @@
             return profileResponse;
         }
 
+        public async Task<ProfileResponse> UpdateResponse(ProfileResponse profileResponse, string userName, SupportApiConfigs supportApiConfigs)
+        {
+            try
+            {
+                var token = await GetTokenFromSupportAPI(supportApiConfigs);
+                var parameters = new List<Parameter> { new Parameter { Name = "username", Value = userName } };
+                var dataResponse = await webClientService.GetAsync(
+                    supportApiConfigs.Domain, supportApiConfigs.GetUserAccountNoUrl, token, parameters);
+
+                if (dataResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    UpdateProfileResponse(profileResponse, dataResponse.Content);
+                }
+                else if (dataResponse.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new HttpRequestException("Unauthorized");
+                }
+                else
+                {
+                    throw new HttpRequestException(dataResponse.ErrorMessage ?? dataResponse.Content);
+                }
+            }
+            catch (Exception ex)
+            {
+                await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
+            }
+
+            return profileResponse;
+        }
+
         private void UpdateProfileResponse(ProfileResponse profileResponse, string responseContent)
         {
             if (!string.IsNullOrWhiteSpace(responseContent))
