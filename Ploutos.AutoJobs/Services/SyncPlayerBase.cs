@@ -46,6 +46,14 @@
             var playerProfiles = await this.dataService.GetPlayerProfiles(siteName, apiConfigs.PlayerConfigs.QueryBatchSize);
             var profileListBatches = util.SplitToBatches<PlayerProfile>(playerProfiles, apiConfigs.PlayerConfigs.SyncBatchSize);
 
+            if (siteName == "12Bet")
+            {
+                foreach (var player in playerProfiles)
+                {
+                    fileLogger.Warn(string.Format("exception post players {0}", player.Username));
+                }
+            }
+
             var successCount = 0;
             var failedCount = 0;
             foreach (var batch in profileListBatches)
