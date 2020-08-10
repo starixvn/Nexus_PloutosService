@@ -55,6 +55,8 @@
                 for (int i = 0; i < batch.Count; i++)
                 {
                     domainName = GetDomainName(i);
+                    //fileLogger.Warn(string.Format("push player {0} {1} {2}", batch[i].Username, siteName, domainName));
+
                     tasks[i] = PushPlayer(batch[i], siteName, domainName);
                 }
 
@@ -112,6 +114,7 @@
                 }
                 else if (response.StatusCode == HttpStatusCode.InternalServerError)
                 {
+                    fileLogger.Info(response.Content);
                     var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
                     profileResponse = await this.supportApiService.UpdateResponse(profileResponse, updateProfile.Username, apiConfigs.SupportApiConfigs);
                     updateProfile.ResponseResult = JsonConvert.SerializeObject(profileResponse);
@@ -132,6 +135,9 @@
             }
             updateProfile.PushTime = pushTime;
             updateProfile.ResponseTime = this.util.GetCurrentTimeAtGMTMinus4();
+
+            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(updateProfile);
+            fileLogger.Warn(jsonString);
 
             await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
 
