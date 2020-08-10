@@ -38,8 +38,10 @@
                     {
                         await jobRunningChecker.MarkRunning(jobName);
                         fileLogger.Warn(string.Format("Start {0}", jobName));
+                        var startTime = DateTime.Now;
                         var pushResult = await fn();
-                        fileLogger.Warn(string.Format("Finish {0}, Success: {1}, Failed: {2}", jobName, pushResult.SuccessCount, pushResult.FailedCount));
+                        var totalRuntime = (DateTime.Now - startTime).TotalSeconds;
+                        fileLogger.Warn(string.Format("Finish {0}, Success: {1}, Failed: {2}, totals: {3}s", jobName, pushResult.SuccessCount, pushResult.FailedCount, totalRuntime));
                         await jobRunningChecker.ClearRunning(jobName);
                     }
                     catch (Exception ex)

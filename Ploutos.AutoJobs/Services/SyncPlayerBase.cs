@@ -48,6 +48,7 @@
 
             var successCount = 0;
             var failedCount = 0;
+
             foreach (var batch in profileListBatches)
             {
                 var tasks = new Task<bool>[batch.Count];
@@ -55,8 +56,6 @@
                 for (int i = 0; i < batch.Count; i++)
                 {
                     domainName = GetDomainName(i);
-                    //fileLogger.Warn(string.Format("push player {0} {1} {2}", batch[i].Username, siteName, domainName));
-
                     tasks[i] = PushPlayer(batch[i], siteName, domainName);
                 }
 
@@ -136,10 +135,11 @@
             updateProfile.PushTime = pushTime;
             updateProfile.ResponseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
-            var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(updateProfile);
-            fileLogger.Warn(jsonString);
-
-            await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
+            var result = await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
+            if (result.Error != 0)
+            {
+                fileLogger.Warn(string.Format("Exception update result players {0} {1} {2}", updateProfile.Username, result.Error, result.Message));
+            }
 
             return !updateProfile.IsError;
         }
