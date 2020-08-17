@@ -28,6 +28,10 @@
         private readonly IOpal88TicketBySupportApiService opal88TicketBySupportApiService;
         private readonly INova88TicketBySupportApiService nova88TicketBySupportApiService;
         private readonly IIvorybetTicketBySupportApiService ivorybetTicketBySupportApiService;
+        private readonly IPlayer12BService player12BService;
+        private readonly ITicket12BService ticket12BService;
+        private readonly ITicketBySupportApi12BService ticketBySupportApi12BService;
+
         private readonly ILogger logger;
         private readonly IUtil util;
         private readonly IMaintenanceService maintenanceService;
@@ -45,6 +49,11 @@
             opal88TicketBySupportApiService = Substitute.For<IOpal88TicketBySupportApiService>();
             nova88TicketBySupportApiService = Substitute.For<INova88TicketBySupportApiService>();
             ivorybetTicketBySupportApiService = Substitute.For<IIvorybetTicketBySupportApiService>();
+
+            player12BService = Substitute.For<IPlayer12BService>();
+            ticket12BService = Substitute.For<ITicket12BService>();
+            ticketBySupportApi12BService = Substitute.For<ITicketBySupportApi12BService>();
+
             logger = Substitute.For<ILogger>();
             util = Substitute.For<IUtil>();
             maintenanceService = Substitute.For<IMaintenanceService>();
@@ -87,6 +96,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             opal88PlayerService.PushPlayers().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
@@ -134,6 +146,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
             jobRunningChecker.IsRunning(Constant.Constants.SyncOpal88Player).Returns(true);
 
@@ -180,6 +195,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             // Act
@@ -225,6 +243,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             // Act
@@ -270,6 +291,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
             var errors = "";
             util.BuildLogMessage(Arg.Any<Exception>()).Returns(errors);
@@ -280,7 +304,7 @@
             {
                 await service.SyncOpal88Player();
             }
-            catch (Exception ex)
+            catch 
             {
                 await logger.Received().ErrorAsync(errors);
             }
@@ -322,6 +346,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             opal88TicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
@@ -369,6 +396,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             nova88PlayerService.PushPlayers().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
@@ -416,6 +446,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             nova88TicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
@@ -463,6 +496,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             ivorybetPlayerService.PushPlayers().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
@@ -510,6 +546,9 @@
                 opal88TicketBySupportApiService,
                 nova88TicketBySupportApiService,
                 ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
                 jobRunningChecker);
 
             ivorybetTicketService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });

@@ -1,19 +1,17 @@
-﻿using AutoFixture;
-using FluentAssertions;
-using NSubstitute;
-using Ploutos.AutoJobs.Criteria;
-using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Services;
-using Ploutos.Common.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Ploutos.AutoJobs.Tests.Services
+﻿namespace Ploutos.AutoJobs.Tests.Services
 {
+    using AutoFixture;
+    using FluentAssertions;
+    using NSubstitute;
+    using Ploutos.AutoJobs.Criteria;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Services;
+    using Ploutos.Common.Repository;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Xunit;
+
     public class DataServiceTest
     {
         private readonly Fixture fixture = new Fixture();
@@ -30,7 +28,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             baseRepository.FetchData<BetTicket>(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
 
             // Act
-            var result = await service.GetBetTickets(siteName, batchSize);
+            var result = await service.GetBetTickets(Arg.Any<GetBetTicketCriteria>());
 
             // Assert
             result.Should().BeEquivalentTo(betTickets);

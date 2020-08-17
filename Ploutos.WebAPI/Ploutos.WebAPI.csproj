@@ -227,6 +227,9 @@
     <Compile Include="Services\WriteLogToFile.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\ploutosservice\CSharp\SonarLint.xml">
+      <Link>SonarLint.xml</Link>
+    </AdditionalFiles>
     <Content Include="App_Data\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,6 +1,7 @@
 ﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
+using Ploutos.AutoJobs.Criteria;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services;
 using Ploutos.AutoJobs.Services.Interfaces;
@@ -54,7 +55,7 @@ namespace Ploutos.AutoJobs.Tests.Services
                 logger,
                 util);
 
-            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>())
+            dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>())
                 .Returns(new List<BetTicket>());
             util.SplitToBatches(Arg.Any<List<List<BetTicket>>>(), Arg.Any<int>())
                 .Returns(new List<List<List<BetTicket>>>());
@@ -63,7 +64,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             await service.PushTickets();
 
             // Assert
-            await dataService.Received().GetBetTickets(Arg.Any<string>(), Arg.Any<int>());
+            await dataService.Received().GetBetTickets(Arg.Any<GetBetTicketCriteria>());
         }
     }
 }

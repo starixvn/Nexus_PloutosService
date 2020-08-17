@@ -1,6 +1,7 @@
 ﻿using Fanex.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
+using Ploutos.AutoJobs.Criteria;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services;
 using Ploutos.AutoJobs.Services.Interfaces;
@@ -37,14 +38,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             // Arrange
             var configs = new ApiConfigs
             {
-                Opal88 = new BrandApiConfigs
-                {
-                    TicketConfigs = new TicketAPIConfig
-                    {
-                        QueryBatchSize = 1,
-                        SyncBatchSize = 1
-                    }
-                }
+                Opal88 = SyncTicketBaseTest.GetBrandConfigs()
             };
             apiConfigs.Value.Returns(configs);
             var service = new Opal88TicketService(
@@ -54,7 +48,7 @@ namespace Ploutos.AutoJobs.Tests.Services
                 logger,
                 util);
 
-            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>())
+            dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>())
                 .Returns(new List<BetTicket>());
             util.SplitToBatches(Arg.Any<List<List<BetTicket>>>(), Arg.Any<int>())
                 .Returns(new List<List<List<BetTicket>>>());
@@ -63,7 +57,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             await service.PushTickets();
 
             // Assert
-            await dataService.Received().GetBetTickets(Arg.Any<string>(), Arg.Any<int>());
+            await dataService.Received().GetBetTickets(Arg.Any<GetBetTicketCriteria>());
         }
     }
 }

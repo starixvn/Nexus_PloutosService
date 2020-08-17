@@ -1,20 +1,20 @@
-﻿using Fanex.Logging;
-using FluentAssertions;
-using NSubstitute;
-using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Services;
-using Ploutos.Common.Services;
-using Ploutos.Common.Utils;
-using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Ploutos.AutoJobs.Tests.Services
+﻿namespace Ploutos.AutoJobs.Tests.Services
 {
+    using Fanex.Logging;
+    using FluentAssertions;
+    using NSubstitute;
+    using Ploutos.AutoJobs.Criteria;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Services;
+    using Ploutos.Common.Services;
+    using Ploutos.Common.Utils;
+    using RestSharp;
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Xunit;
+
     public class SyncTicketBaseTest
     {
         private readonly IWebClientService webClientService;
@@ -34,14 +34,11 @@ namespace Ploutos.AutoJobs.Tests.Services
         public async Task PushTickets_WhenStatusCodeOK_UpdateTicketsSuccess()
         {
             // Arrange
-            var apiConfigs = new BrandApiConfigs
-            {
-                TicketConfigs = new TicketAPIConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
-            };
+            var apiConfigs = GetBrandConfigs();
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
             var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now } };
-            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
             util.SplitToBatches(Arg.Any<List<List<BetTicket>>>(), Arg.Any<int>())
                 .Returns(new List<List<List<BetTicket>>> { new List<List<BetTicket>> { betTickets } });
 
@@ -78,14 +75,11 @@ namespace Ploutos.AutoJobs.Tests.Services
         public async Task PushTickets_WhenStatusCodeBadRequest_UpdateTicketFailed()
         {
             // Arrange
-            var apiConfigs = new BrandApiConfigs
-            {
-                TicketConfigs = new TicketAPIConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
-            };
+            var apiConfigs = GetBrandConfigs();
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
             var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now } };
-            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
             util.SplitToBatches(Arg.Any<List<List<BetTicket>>>(), Arg.Any<int>())
                 .Returns(new List<List<List<BetTicket>>> { new List<List<BetTicket>> { betTickets } });
 
@@ -125,14 +119,11 @@ namespace Ploutos.AutoJobs.Tests.Services
         public async Task PushTickets_WhenStatusCodeOthers_UpdateTicketFailedAndWriteLog()
         {
             // Arrange
-            var apiConfigs = new BrandApiConfigs
-            {
-                TicketConfigs = new TicketAPIConfig { QueryBatchSize = 1, SyncBatchSize = 1, SyncParallelSize = 1 }
-            };
+            var apiConfigs = GetBrandConfigs();
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
             var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now } };
-            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
             util.SplitToBatches(Arg.Any<List<List<BetTicket>>>(), Arg.Any<int>())
                 .Returns(new List<List<List<BetTicket>>> { new List<List<BetTicket>> { betTickets } });
 
@@ -170,6 +161,24 @@ namespace Ploutos.AutoJobs.Tests.Services
             updateTickets[0].IsError.Should().Be(true);
             updateTickets[0].ResponseResult.Should().BeEmpty();
             await logger.Received().ErrorAsync(errorMsg);
+        }
+
+        public static BrandApiConfigs GetBrandConfigs()
+        {
+            var brandConfigs = new BrandApiConfigs
+            {
+                TicketConfigs = new TicketAPIConfig
+                {
+                    TotalRows = 1,
+                    TotalHistoricalRows = 1,
+                    FromNewlyCutoffDate = DateTime.Now,
+                    ToHistoricalDate = DateTime.Now,
+                    SyncBatchSize = 1,
+                    SyncParallelSize = 1
+                }
+            };
+
+            return brandConfigs;
         }
     }
 }

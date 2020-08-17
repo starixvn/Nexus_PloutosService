@@ -1,20 +1,20 @@
-﻿using Fanex.Logging;
-using FluentAssertions;
-using NSubstitute;
-using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Services;
-using Ploutos.Common.Services;
-using Ploutos.Common.Utils;
-using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Ploutos.AutoJobs.Tests.Services
+﻿namespace Ploutos.AutoJobs.Tests.Services
 {
+    using Fanex.Logging;
+    using FluentAssertions;
+    using NSubstitute;
+    using Ploutos.AutoJobs.Criteria;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Services;
+    using Ploutos.Common.Services;
+    using Ploutos.Common.Utils;
+    using RestSharp;
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Xunit;
+
     public class SyncTicketBySupportApiBaseTest
     {
         private readonly IWebClientService webClientService;
@@ -42,7 +42,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             var syncTicketBase = new SyncTicketBySupportApiBase(apiConfigs, webClientService, dataService, logger, util);
 
             var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now } };
-            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
             util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
                 .Returns(new List<List<BetTicket>> { betTickets });
 
@@ -88,7 +88,7 @@ namespace Ploutos.AutoJobs.Tests.Services
             var syncTicketBase = new SyncTicketBySupportApiBase(apiConfigs, webClientService, dataService, logger, util);
 
             var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now } };
-            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
             util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
                 .Returns(new List<List<BetTicket>> { betTickets });
 

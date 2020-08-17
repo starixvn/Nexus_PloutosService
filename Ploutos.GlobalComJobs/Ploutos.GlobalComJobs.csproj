@@ -22,6 +22,7 @@
   
   <PropertyGroup>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <CodeAnalysisRuleSet>..\.sonarlint\ploutosservicecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
@@ -48,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+	<AdditionalFiles Include="..\.sonarlint\ploutosservice\CSharp\SonarLint.xml" Link="SonarLint.xml" />
 	<Content Include="appsettings.UAT.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

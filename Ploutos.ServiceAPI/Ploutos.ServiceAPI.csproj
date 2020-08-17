@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\ploutosservice\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <Content Include="App_Data\SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -39,6 +39,7 @@
     <None Remove="Views\Auth\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\ploutosservice\CSharp\SonarLint.xml" Link="SonarLint.xml" />
     <Content Include="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
