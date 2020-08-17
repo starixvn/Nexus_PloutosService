@@ -1,20 +1,17 @@
-﻿using Fanex.Logging;
-using Microsoft.Extensions.Options;
-using NSubstitute;
-using Ploutos.AutoJobs.Criteria;
-using Ploutos.AutoJobs.Models;
-using Ploutos.AutoJobs.Services;
-using Ploutos.AutoJobs.Services.Interfaces;
-using Ploutos.Common.Services;
-using Ploutos.Common.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Ploutos.AutoJobs.Tests.Services
+﻿namespace Ploutos.AutoJobs.Tests.Services
 {
+    using Fanex.Logging;
+    using Microsoft.Extensions.Options;
+    using NSubstitute;
+    using Ploutos.AutoJobs.Criteria;
+    using Ploutos.AutoJobs.Models;
+    using Ploutos.AutoJobs.Services;
+    using Ploutos.Common.Services;
+    using Ploutos.Common.Utils;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Xunit;
+
     public class IvorybetTicketServiceTest
     {
         private readonly IOptionsSnapshot<ApiConfigs> apiConfigs;

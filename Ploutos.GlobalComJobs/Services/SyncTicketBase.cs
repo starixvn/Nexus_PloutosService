@@ -141,7 +141,7 @@
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
             var result = await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
-            if (result.Error != 0)
+            if (result!= null && result.Error != 0)
             {
                 fileLogger.Warn(string.Format("Exception UpdateBetTickets {0} {1}", result.Error, result.Message));
             }

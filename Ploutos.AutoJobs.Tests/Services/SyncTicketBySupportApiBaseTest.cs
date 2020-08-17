@@ -37,7 +37,7 @@
             var apiConfigs = new BrandApiConfigs
             {
                 SupportApiConfigs = new SupportApiConfigs { },
-                SupportTicketConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1 }
+                SupportTicketConfigs = new TicketAPIConfig { TotalRows = 1, SyncBatchSize = 1 }
             };
             var syncTicketBase = new SyncTicketBySupportApiBase(apiConfigs, webClientService, dataService, logger, util);
 
@@ -83,7 +83,7 @@
             var apiConfigs = new BrandApiConfigs
             {
                 SupportApiConfigs = new SupportApiConfigs { },
-                SupportTicketConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1 }
+                SupportTicketConfigs = new TicketAPIConfig { TotalRows = 1, SyncBatchSize = 1 }
             };
             var syncTicketBase = new SyncTicketBySupportApiBase(apiConfigs, webClientService, dataService, logger, util);
 

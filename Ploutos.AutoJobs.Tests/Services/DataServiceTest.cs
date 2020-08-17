@@ -27,8 +27,15 @@
             var batchSize = fixture.Create<int>();
             baseRepository.FetchData<BetTicket>(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
 
+            var criteria = new GetBetTicketCriteria
+            {
+                BrandCode = "A",
+                FromNewlyCutoffDate = DateTime.Now,
+                ToHistoricalDate = DateTime.Now.AddDays(-1)
+            };
+
             // Act
-            var result = await service.GetBetTickets(Arg.Any<GetBetTicketCriteria>());
+            var result = await service.GetBetTickets(criteria);
 
             // Assert
             result.Should().BeEquivalentTo(betTickets);

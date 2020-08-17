@@ -57,8 +57,8 @@
             return new GetBetTicketCriteria
             {
                 BrandCode = apiConfigs.BrandName,
-                TotalRows = apiConfigs.TicketConfigs.TotalRows,
-                TotalHistoricalRows = apiConfigs.TicketConfigs.TotalHistoricalRows,
+                TotalRows = apiConfigs.SupportTicketConfigs.TotalRows,
+                TotalHistoricalRows = apiConfigs.SupportTicketConfigs.TotalHistoricalRows,
                 //FromNewlyCutoffDate = apiConfigs.TicketConfigs.FromNewlyCutoffDate,
                 //ToHistoricalDate = apiConfigs.TicketConfigs.ToHistoricalDate
             };

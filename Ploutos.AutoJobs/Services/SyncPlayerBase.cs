@@ -136,7 +136,7 @@
             updateProfile.ResponseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
             var result = await this.dataService.UpdatePlayerProfiles(siteName, new List<UpdatePlayerProfile> { updateProfile });
-            if (result.Error != 0)
+            if (result != null && result.Error != 0)
             {
                 fileLogger.Warn(string.Format("Exception update result players {0} {1} {2}", updateProfile.Username, result.Error, result.Message));
             }

@@ -10,6 +10,6 @@
         public UrlApiConfig PlayerConfigs { get; set; }
         public TicketAPIConfig TicketConfigs { get; set; }
         public SupportApiConfigs SupportApiConfigs { get; set; }
-        public UrlApiConfig SupportTicketConfigs { get; set; }
+        public TicketAPIConfig SupportTicketConfigs { get; set; }
     }
 }
