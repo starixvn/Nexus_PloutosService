@@ -38,7 +38,7 @@
             }
             catch (Exception ex)
             {
-                logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception!" + ex.ToString());
+                logger.Log(NLog.LogLevel.Warn, "Stopped Service because of exception!" + ex);
                 throw;
             }
             finally

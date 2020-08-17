@@ -62,7 +62,6 @@
                 {
                     Username = x.Username,
                     Username2 = x.Username2,
-                    ErrorCode = 0,
                     ErrorMessage = string.Empty
                 }));
 
@@ -110,7 +109,7 @@
                     RowIndex = x.RowIndex,
                     Username = x.Username,
                     Username2 = x.Username2,
-                    ErrorCode = 102,
+                    ErrorCode = (int)ErrorCodes.DuplicateUsername,
                     ErrorMessage = "Duplicate Username."
                 }).ToList();
         }
@@ -125,7 +124,7 @@
                     RowIndex = x.RowIndex,
                     Username = x.Username,
                     Username2 = x.Username2,
-                    ErrorCode = 103,
+                    ErrorCode = (int)ErrorCodes.DuplicateUsername2,
                     ErrorMessage = "Duplicate Username2."
                 }).ToList();
         }
@@ -140,7 +139,7 @@
                     RowIndex = x.RowIndex,
                     Username = x.Username,
                     Username2 = x.Username2,
-                    ErrorCode = 104,
+                    ErrorCode = (int)ErrorCodes.DuplicateEmailAddress,
                     ErrorMessage = "Duplicate EmailAddress."
                 }).ToList();
         }
@@ -165,7 +164,7 @@
                         RowIndex = playerProfile.RowIndex,
                         Username = playerProfile.Username,
                         Username2 = playerProfile.Username2,
-                        ErrorCode = 101,
+                        ErrorCode = (int)ErrorCodes.BrandCodeInvalid,
                         ErrorMessage = "BrandCode is invalid."
                     });
                 }
@@ -180,7 +179,7 @@
             {
                 Username = x.Key.Username,
                 Username2 = x.FirstOrDefault()?.Username2,
-                ErrorCode = 1,
+                ErrorCode = (int)ErrorCodes.GeneralError,
                 ErrorMessage = string.Join(" ", x.Select(t => t.ErrorMessage))
             }).ToList();
 
@@ -200,7 +199,7 @@
                 playerResponse.RowIndex = playerProfile.RowIndex;
                 playerResponse.Username = playerProfile.Username;
                 playerResponse.Username2 = playerProfile.Username2;
-                playerResponse.ErrorCode = 1;
+                playerResponse.ErrorCode = (int)ErrorCodes.GeneralError;
                 playerResponse.ErrorMessage = string.Join(" ", failures);
             }
 

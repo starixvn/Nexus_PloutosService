@@ -1,18 +1,18 @@
-﻿using Fanex.Logging;
-using Ploutos.Common.Models;
-using Ploutos.Common.Services;
-using Ploutos.Common.Utils;
-using Ploutos.GlobalComJobs.Models;
-using Ploutos.GlobalComJobs.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace Ploutos.GlobalComJobs.Services
+﻿namespace Ploutos.GlobalComJobs.Services
 {
+    using Fanex.Logging;
+    using Ploutos.Common.Models;
+    using Ploutos.Common.Services;
+    using Ploutos.Common.Utils;
+    using Ploutos.GlobalComJobs.Models;
+    using Ploutos.GlobalComJobs.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+
     public class SyncTicketBase
     {
         private readonly NLog.Logger fileLogger = NLog.LogManager.GetCurrentClassLogger();
@@ -37,37 +37,37 @@ namespace Ploutos.GlobalComJobs.Services
 
         public virtual async Task<PushResult> PushTickets()
         {
-            //var betTickets = await dataService.GetBetTickets(apiConfigs.BrandName, apiConfigs.TicketConfigs.QueryBatchSize);
-            var betTickets = new List<BetTicket>
-            {
-                new BetTicket {
-                    transaction_date = DateTime.Now,
-                    settlement_date = DateTime.Now,
-                    player_no = "test pn1",
-                    player_name = "test p1",
-                    player_type = "Test",
-                    transaction_id = "test id",
-                    brand = "test brand",
-                    brand_url = "test brand url",
-                    game_code = 1,
-                    game_name = "test game name" ,
-                    game_type = "sb",
-                    currency_code = "THB",
-                    bet_type = "Handicap",
-                    bet_amount = 100,
-                    debit_amount = 100,
-                    credit_amount = 100,
-                    net_amount = 100
-                }
-            };
+            var betTickets = await dataService.GetBetTickets(apiConfigs.BrandName, apiConfigs.TicketConfigs.QueryBatchSize);
+            ////var betTickets = new List<BetTicket>
+            ////{
+            ////    new BetTicket {
+            ////        transaction_date = DateTime.Now,
+            ////        settlement_date = DateTime.Now,
+            ////        player_no = "test pn1",
+            ////        player_name = "test p1",
+            ////        player_type = "Test",
+            ////        transaction_id = "test id",
+            ////        brand = "test brand",
+            ////        brand_url = "test brand url",
+            ////        game_code = 1,
+            ////        game_name = "test game name" ,
+            ////        game_type = "sb",
+            ////        currency_code = "THB",
+            ////        bet_type = "Handicap",
+            ////        bet_amount = 100,
+            ////        debit_amount = 100,
+            ////        credit_amount = 100,
+            ////        net_amount = 100
+            ////    }
+            ////};
 
-            var newBetTickets = dataService.PreProcessTickets(betTickets);            
+            var newBetTickets = dataService.PreProcessTickets(betTickets);
             var betTicketBatches = util.SplitToBatches(newBetTickets, apiConfigs.TicketConfigs.SyncBatchSize);
 
             var successCount = 0;
             foreach (var batch in betTicketBatches)
             {
-                successCount += await PushTicketBatch(apiConfigs.BrandName, batch);                
+                successCount += await PushTicketBatch(apiConfigs.BrandName, batch);
             }
 
             return new PushResult { SuccessCount = successCount, FailedCount = betTickets.Count - successCount };
@@ -140,11 +140,15 @@ namespace Ploutos.GlobalComJobs.Services
             }
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
-            //await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
+            var result = await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
+            if (result.Error != 0)
+            {
+                fileLogger.Warn(string.Format("Exception UpdateBetTickets {0} {1}", result.Error, result.Message));
+            }
 
             return updateBetTickets.Count(t => !t.Is_Error);
-        }        
-        
+        }
+
         private async Task<string> GetAuthorizedToken(BrandApiConfigs brandApiConfigs)
         {
             var authParam = new AuthParam
@@ -160,10 +164,10 @@ namespace Ploutos.GlobalComJobs.Services
             if (authResponse.StatusCode == HttpStatusCode.OK)
             {
                 var authObj = this.util.ConvertJsonResponse<AuthData>(authResponse.Content);
-                return authObj.access_token;                
+                return authObj.access_token;
             }
 
             return null;
-        }       
+        }
     }
 }
