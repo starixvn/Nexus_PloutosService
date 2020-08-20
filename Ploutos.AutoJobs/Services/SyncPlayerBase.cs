@@ -92,7 +92,9 @@
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
-                var response = await webClientService.PostAsync<PlayerProfile>(
+                fileLogger.Warn(string.Format("Start sync for players {0}", profile.Username));
+
+               var response = await webClientService.PostAsync<PlayerProfile>(
                     domainName,
                     apiConfigs.PlayerConfigs.Url,
                     apiConfigs.PloutosToken,
@@ -113,6 +115,7 @@
                 }
                 else if (response.StatusCode == HttpStatusCode.InternalServerError)
                 {
+                    fileLogger.Warn("InternalServerError");
                     fileLogger.Info(response.Content);
                     var profileResponse = this.util.ConvertJsonResponse<ProfileResponse>(response.Content);
                     profileResponse = await this.supportApiService.UpdateResponse(profileResponse, updateProfile.Username, apiConfigs.SupportApiConfigs);
