@@ -53,7 +53,7 @@
                 for (int i = 0; i < batch.Count; i++)
                 {
                     domainName = GetDomainName(i);
-                    tasks[i] = PushTicketBatch(siteName, domainName, batch[i]);
+                    tasks[i] = PushTicketBatch(siteName, domainName, batch[i], i);
                 }
 
                 var results = await Task.WhenAll(tasks);
@@ -102,13 +102,15 @@
             return domainName;
         }
 
-        private async Task<int> PushTicketBatch(string siteName, string domainName, List<BetTicket> betTickets)
+        private async Task<int> PushTicketBatch(string siteName, string domainName, List<BetTicket> betTickets, int batchIndex)
         {
             List<UpdateBetTicket> updateBetTickets = betTickets.Select(t => new UpdateBetTicket(t)).ToList();
             var responseResult = string.Empty;
             var pushTime = this.util.GetCurrentTimeAtGMTMinus4();
             try
             {
+                fileLogger.Warn(string.Format("Push bettickets {0} - {1} - BatchIndex: {2} - Count: {3}", siteName, domainName, batchIndex, betTickets.Count));
+
                 var response = await webClientService.PostAsync<List<BetTicket>>(
                         domainName,
                         apiConfigs.TicketConfigs.Url,
