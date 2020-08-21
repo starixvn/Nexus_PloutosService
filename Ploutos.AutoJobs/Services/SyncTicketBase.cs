@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using Fanex.Logging;
     using Ploutos.AutoJobs.Criteria;
+    using Ploutos.AutoJobs.Enums;
     using Ploutos.AutoJobs.Models;
     using Ploutos.Common.Models;
     using Ploutos.Common.Services;
@@ -77,17 +78,25 @@
         private string GetDomainName(int indexOfBatch)
         {
             string domainName;
-            if (indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize == 0)
+            if (indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize == (int)BatchNumber.BatchZero)
             {
                 domainName = apiConfigs.PloutosBaseDomain1;
             }
-            else if (((indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize) - 1) == 0)
+            else if ((indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize) == (int)BatchNumber.BatchOne)
             {
                 domainName = apiConfigs.PloutosBaseDomain2;
             }
-            else
+            else if ((indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize) == (int)BatchNumber.BatchTwo)
             {
                 domainName = apiConfigs.PloutosBaseDomain3;
+            }
+            else if ((indexOfBatch % apiConfigs.TicketConfigs.SyncParallelSize) == (int)BatchNumber.BatchThree)
+            {
+                domainName = apiConfigs.PloutosBaseDomain4;
+            }
+            else
+            {
+                domainName = apiConfigs.PloutosBaseDomain5;
             }
 
             return domainName;
