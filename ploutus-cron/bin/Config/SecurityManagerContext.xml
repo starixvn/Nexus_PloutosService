@@ -17,6 +17,9 @@
   </object>
 
 
+  <object id="JWTManager" type="blueberry.security.manager.src.Implementations.JWTManager, blueberry.security.manager">    
+  </object>
+
   <object id="UserSecurityService" type="blueberry.security.manager.src.Implementations.UserSecurityService, blueberry.security.manager">
   </object>
 

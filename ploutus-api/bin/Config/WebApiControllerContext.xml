@@ -167,7 +167,7 @@
   <object id="BrandController" type="blueberry.Controllers.Api.BrandController" parent="AbstractApiController" singleton="false">
     <property name="BrandService" ref="BrandService"/>
     <property name="MerchantService" ref="MerchantService"/>
-    <!--<property name="UserManager" ref="UserManager"/>-->
+    <property name="JWTManager" ref="JWTManager"/>
   </object>
 
   <object id="BetController" type="blueberry.Controllers.Api.BetController" parent="AbstractApiController" singleton="false">
@@ -216,6 +216,10 @@
 
   <object id="GameOperatorController" type="blueberry.Controllers.Api.GameOperatorController" parent="AbstractApiController" singleton="false">
     <property name="GameOperatorManager" ref="GameOperatorManager"/>
+  </object>
+
+  <object id="TestController" type="blueberry.Controllers.Api.TestController" parent="AbstractApiController" singleton="false">
+    <property name="JWTManager" ref="JWTManager"/>
   </object>
 
 

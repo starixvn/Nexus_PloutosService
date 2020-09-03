@@ -209,6 +209,14 @@
     <property name="BetlogManager" ref="BetlogManager"/>
   </object>
 
+  <object name="ProcessBetLogs_SecondInstanceJob" type="blueberry.jobs.manager.src.Jobs.ProcessBetLogs_SecondInstanceJob, blueberry.jobs.manager" >
+    <property name="BetlogManager" ref="BetlogManager"/>
+  </object>
+
+  <object name="ProcessBetLogs_ThirdInstanceJob" type="blueberry.jobs.manager.src.Jobs.ProcessBetLogs_ThirdInstanceJob, blueberry.jobs.manager" >
+    <property name="BetlogManager" ref="BetlogManager"/>
+  </object>
+
   <object name="UpdateMessageStatusJob" type="blueberry.jobs.manager.src.Jobs.UpdateMessageStatusJob, blueberry.jobs.manager" >
     <property name="MessageManager" ref="MessageManager"/>
   </object>
@@ -221,6 +229,10 @@
     <property name="BetlogManager" ref="BetlogManager"/>
   </object>
 
+  <object name="ProcessAthenaGameTransaction_SecondInstanceJob" type="blueberry.jobs.manager.src.Jobs.ProcessAthenaGameTransaction_SecondInstanceJob, blueberry.jobs.manager" >
+    <property name="BetlogManager" ref="BetlogManager"/>
+  </object>
+  
   <object name="ProcessAthenaGameTransactionCreateTableJob" type="blueberry.jobs.manager.src.Jobs.ProcessAthenaGameTransactionCreateTableJob, blueberry.jobs.manager" >
     <property name="AthenaTableManager" ref="AthenaTableManager"/>
   </object>

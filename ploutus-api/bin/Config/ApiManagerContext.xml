@@ -216,6 +216,7 @@
     <property name="PlayerRegistrationService" ref="PlayerRegistrationService"/>
     <property name="HubConnectionService" ref="HubConnectionService"/>
     <property name="BrandService" ref="BrandService"/>
+    <property name="JWTManager" ref="JWTManager"/>
   </object>
 
 
@@ -303,7 +304,9 @@
     <property name="GamePlatformProductService" ref="GamePlatformProductService"/>
     <property name="WalletWinService" ref="WalletWinService"/>
     <property name="WalletLossService" ref="WalletLossService"/>
-    <property name="AthenaGameTransactionService" ref="AthenaGameTransactionService"/>    
+    <property name="AthenaGameTransactionService" ref="AthenaGameTransactionService"/>
+    <property name="JWTManager" ref="JWTManager"/>
+    <property name="BrandService" ref="BrandService"/>
   </object>
 
   <object name="MessageManager" type="blueberry.api.manager.src.Implementations.MessageManager, blueberry.api.manager">

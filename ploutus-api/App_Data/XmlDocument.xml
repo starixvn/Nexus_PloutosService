@@ -482,6 +482,24 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
+        <member name="M:blueberry.Controllers.Api.TestController.GenerateToken(blueberry.common.src.Criteria.BrandTokenCriteria)">
+            <summary>
+            <returns>
+            ProcessAthenaGameTransaction. Should be executed by CRON job - Ploutus
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.TestController.DecodeToken(System.String)">
+            <summary>
+            <returns>
+            ProcessAthenaGameTransaction. Should be executed by CRON job - Ploutus
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:blueberry.Controllers.Api.GameOperatorController.Create(blueberry.common.src.Criteria.GameOperatorCriteria)">
             <summary>
             <returns>
@@ -521,13 +539,13 @@
         <member name="M:blueberry.Controllers.Api.BetController.SendBets(System.Collections.Generic.IList{blueberry.common.src.Criteria.v1.BetlogCriteria})">
             <summary>
             <returns>
-            Receive Client's Bet Records. - Ploutus
+            Receive Client's Bet Records. - Ploutus Async
             </returns>       
             
             </summary>
             <returns></returns>
         </member>
-        <member name="M:blueberry.Controllers.Api.BetController.ProcessBets(System.Collections.Generic.IList{blueberry.core.src.Models.Betlog})">
+        <member name="M:blueberry.Controllers.Api.BetController.ProcessBets">
             <summary>
             <returns>
             Process Bet logs. Should be executed by CRON job - Ploutus
@@ -2737,6 +2755,24 @@
             <summary>
             <returns>
             Login a user to get authority token that will be used to authorized request from secured api.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.Validate">
+            <summary>
+            <returns>
+            check if user is still valid.
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.Controllers.UserController.Renew(blueberry.common.src.Criteria.BrandTokenRenewCriteria)">
+            <summary>
+            <returns>
+            renew.
             </returns>       
             
             </summary>
