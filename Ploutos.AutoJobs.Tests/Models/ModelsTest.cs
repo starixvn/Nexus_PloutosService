@@ -1,8 +1,5 @@
 ﻿using AutoFixture;
 using Ploutos.AutoJobs.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Ploutos.AutoJobs.Tests.Models
@@ -10,7 +7,6 @@ namespace Ploutos.AutoJobs.Tests.Models
     public class ModelsTest
     {
         private Fixture fixture;
-
 
         [Fact]
         public void Models_Create_WithoutError()
@@ -37,7 +33,7 @@ namespace Ploutos.AutoJobs.Tests.Models
             fixture.Create<TicketResponseData>();
             fixture.Create<UpdateBetTicket>();
             fixture.Create<UpdatePlayerProfile>();
-            fixture.Create<UrlApiConfig>();            
+            fixture.Create<UrlApiConfig>();
         }
     }
 }

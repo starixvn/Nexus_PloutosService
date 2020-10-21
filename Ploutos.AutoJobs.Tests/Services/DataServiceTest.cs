@@ -23,8 +23,6 @@
             var baseRepository = Substitute.For<IBaseRepository>();
             var service = new DataService(baseRepository);
             var betTickets = fixture.CreateMany<BetTicket>();
-            var siteName = fixture.Create<string>();
-            var batchSize = fixture.Create<int>();
             baseRepository.FetchData<BetTicket>(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
 
             var criteria = new GetBetTicketCriteria

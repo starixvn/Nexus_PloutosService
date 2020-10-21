@@ -35,7 +35,7 @@ namespace Ploutos.GlobalComJobs.Services
             };
             var betTickets = await this.baseRepository.FetchData<BetTicket>(criteria);
 
-            return betTickets.ToList();            
+            return betTickets.ToList();
         }
 
         public List<BetTicket> PreProcessTickets(List<BetTicket> betTickets)
@@ -61,6 +61,6 @@ namespace Ploutos.GlobalComJobs.Services
             };
 
             return this.baseRepository.ExecuteNonQueryAsync(criteria);
-        }       
+        }
     }
 }

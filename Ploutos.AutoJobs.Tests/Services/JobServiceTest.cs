@@ -559,5 +559,321 @@
             // Assert
             await ivorybetTicketService.Received().PushTickets();
         }
+
+        [Fact]
+        public async Task Sync12BPlayer_WhenCalled_Sync12BPlayer()
+        {
+            // Arrange
+            var configs = new ApiConfigs
+            {
+                Brand12B = new BrandApiConfigs
+                {
+                    PlayerConfigs = new UrlApiConfig
+                    {
+                        IsEnabled = true
+                    }
+                }
+            };
+
+            var maintenanceTime = new UnderMaintenanceTime()
+            {
+                IsUnderMaintenanceTime = false
+            };
+            maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
+
+            apiConfigs.Value.Returns(configs);
+            var service = new JobService(
+                apiConfigs,
+                logger,
+                util,
+                maintenanceService,
+                opal88PlayerService,
+                opal88TicketService,
+                nova88PlayerService,
+                nova88TicketService,
+                ivorybetPlayerService,
+                ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
+                jobRunningChecker);
+
+            player12BService.PushPlayers().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
+            // Act
+            await service.Sync12BPlayer();
+
+            // Assert
+            await player12BService.Received().PushPlayers();
+        }
+
+        [Fact]
+        public async Task Sync12BTicket_WhenCalled_Sync12BTicket()
+        {
+            // Arrange
+            var configs = new ApiConfigs
+            {
+                Brand12B = new BrandApiConfigs
+                {
+                    TicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = true
+                    }
+                }
+            };
+
+            var maintenanceTime = new UnderMaintenanceTime()
+            {
+                IsUnderMaintenanceTime = false
+            };
+            maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
+
+            apiConfigs.Value.Returns(configs);
+            var service = new JobService(
+                apiConfigs,
+                logger,
+                util,
+                maintenanceService,
+                opal88PlayerService,
+                opal88TicketService,
+                nova88PlayerService,
+                nova88TicketService,
+                ivorybetPlayerService,
+                ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
+                jobRunningChecker);
+
+            ticket12BService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
+            // Act
+            await service.Sync12BTicket();
+
+            // Assert
+            await ticket12BService.Received().PushTickets();
+        }
+
+        [Fact]
+        public async Task SyncOpal88TicketBySupportApi_WhenCalled_SyncOpal88TicketBySupportApi()
+        {
+            // Arrange
+            var configs = new ApiConfigs
+            {
+                Opal88 = new BrandApiConfigs
+                {
+                    TicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = false
+                    },
+                    SupportTicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = true
+                    }
+                }
+            };
+
+            var maintenanceTime = new UnderMaintenanceTime()
+            {
+                IsUnderMaintenanceTime = false
+            };
+            maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
+
+            apiConfigs.Value.Returns(configs);
+            var service = new JobService(
+                apiConfigs,
+                logger,
+                util,
+                maintenanceService,
+                opal88PlayerService,
+                opal88TicketService,
+                nova88PlayerService,
+                nova88TicketService,
+                ivorybetPlayerService,
+                ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
+                jobRunningChecker);
+
+            opal88TicketBySupportApiService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
+            // Act
+            await service.SyncOpal88TicketBySupportApi();
+
+            // Assert
+            await opal88TicketBySupportApiService.Received().PushTickets();
+        }
+
+        [Fact]
+        public async Task SyncNova88TicketBySupportApi_WhenCalled_SyncNova88TicketBySupportApi()
+        {
+            // Arrange
+            var configs = new ApiConfigs
+            {
+                Nova88 = new BrandApiConfigs
+                {
+                    TicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = false
+                    },
+                    SupportTicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = true
+                    }
+                }
+            };
+
+            var maintenanceTime = new UnderMaintenanceTime()
+            {
+                IsUnderMaintenanceTime = false
+            };
+            maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
+
+            apiConfigs.Value.Returns(configs);
+            var service = new JobService(
+                apiConfigs,
+                logger,
+                util,
+                maintenanceService,
+                opal88PlayerService,
+                opal88TicketService,
+                nova88PlayerService,
+                nova88TicketService,
+                ivorybetPlayerService,
+                ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
+                jobRunningChecker);
+
+            nova88TicketBySupportApiService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
+            // Act
+            await service.SyncNova88TicketBySupportApi();
+
+            // Assert
+            await nova88TicketBySupportApiService.Received().PushTickets();
+        }
+
+        [Fact]
+        public async Task SyncIvorybetTicketBySupportApi_WhenCalled_SyncIvorybetTicketBySupportApi()
+        {
+            // Arrange
+            var configs = new ApiConfigs
+            {
+                Ivorybet = new BrandApiConfigs
+                {
+                    TicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = false
+                    },
+                    SupportTicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = true
+                    }
+                }
+            };
+
+            var maintenanceTime = new UnderMaintenanceTime()
+            {
+                IsUnderMaintenanceTime = false
+            };
+            maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
+
+            apiConfigs.Value.Returns(configs);
+            var service = new JobService(
+                apiConfigs,
+                logger,
+                util,
+                maintenanceService,
+                opal88PlayerService,
+                opal88TicketService,
+                nova88PlayerService,
+                nova88TicketService,
+                ivorybetPlayerService,
+                ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
+                jobRunningChecker);
+
+            ivorybetTicketBySupportApiService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
+            // Act
+            await service.SyncIvorybetTicketBySupportApi();
+
+            // Assert
+            await ivorybetTicketBySupportApiService.Received().PushTickets();
+        }
+
+        [Fact]
+        public async Task Sync12BTicketBySupportApi_WhenCalled_Sync12BTicketBySupportApi()
+        {
+            // Arrange
+            var configs = new ApiConfigs
+            {
+                Brand12B = new BrandApiConfigs
+                {
+                    TicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = false
+                    },
+                    SupportTicketConfigs = new TicketAPIConfig
+                    {
+                        IsEnabled = true
+                    }
+                }
+            };
+
+            var maintenanceTime = new UnderMaintenanceTime()
+            {
+                IsUnderMaintenanceTime = false
+            };
+            maintenanceService.GetUnderMaintenanceTimeAsync().Returns(maintenanceTime);
+
+            apiConfigs.Value.Returns(configs);
+            var service = new JobService(
+                apiConfigs,
+                logger,
+                util,
+                maintenanceService,
+                opal88PlayerService,
+                opal88TicketService,
+                nova88PlayerService,
+                nova88TicketService,
+                ivorybetPlayerService,
+                ivorybetTicketService,
+                opal88TicketBySupportApiService,
+                nova88TicketBySupportApiService,
+                ivorybetTicketBySupportApiService,
+                player12BService,
+                ticket12BService,
+                ticketBySupportApi12BService,
+                jobRunningChecker);
+
+            ticketBySupportApi12BService.PushTickets().Returns(new PushResult { SuccessCount = 1, FailedCount = 1 });
+
+            // Act
+            await service.Sync12BTicketBySupportApi();
+
+            // Assert
+            await ticketBySupportApi12BService.Received().PushTickets();
+        }
     }
 }
