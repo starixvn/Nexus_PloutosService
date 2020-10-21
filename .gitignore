@@ -47,4 +47,5 @@ bower_components
 /results.xml
 /UnitTestCoverage*
 /CoverageReports/
+coverage.cobertura.xml
 
