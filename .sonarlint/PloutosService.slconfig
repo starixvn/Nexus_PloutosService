@@ -1,8 +1,8 @@
 {
   "ServerUri": "https://sonarqube.nexdev.net",
   "Organization": null,
-  "ProjectKey": "PLOUTOSSERVICE",
-  "ProjectName": "PLOUTOSSERVICE",
+  "ProjectKey": "PloutosService",
+  "ProjectName": "Nexus / PloutosService",
   "Profiles": {
     "CSharp": {
       "ProfileKey": "cs-sonar-way-80515",
