@@ -33,30 +33,7 @@
                 profileResponse.Messages.Errors[0].Code == "USER-ERROR-10002" &&
                 profileResponse.Messages.Errors[0].Description == "Username already in use.")
             {
-                try
-                {
-                    var token = await GetTokenFromSupportAPI(supportApiConfigs);
-                    var parameters = new List<Parameter> { new Parameter { Name = "username", Value = userName } };
-                    var dataResponse = await webClientService.GetAsync(
-                        supportApiConfigs.Domain, supportApiConfigs.GetUserAccountNoUrl, token, parameters);
-
-                    if (dataResponse.StatusCode == HttpStatusCode.OK)
-                    {
-                        UpdateProfileResponse(profileResponse, dataResponse.Content);
-                    }
-                    else if (dataResponse.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        throw new HttpRequestException("Unauthorized");
-                    }
-                    else
-                    {
-                        throw new HttpRequestException(dataResponse.ErrorMessage ?? dataResponse.Content);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await this.logger.ErrorAsync(this.util.BuildLogMessage(ex));
-                }
+                profileResponse = await UpdateResponse(profileResponse, userName, supportApiConfigs);
             }
 
             return profileResponse;
