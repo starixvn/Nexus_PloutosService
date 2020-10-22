@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -44,7 +43,7 @@ namespace Ploutos.AutoJobs.Tests.Services
                 PlayerConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1 }
             };
             var syncPlayerBase = new SyncPlayerBase(apiConfigs, webClientService, dataService, logger, util, supportApiService);
-            
+
             var playerProfiles = new List<PlayerProfile> {
                 new PlayerProfile { }
             };
@@ -52,7 +51,8 @@ namespace Ploutos.AutoJobs.Tests.Services
             util.SplitToBatches(Arg.Any<List<PlayerProfile>>(), Arg.Any<int>())
                 .Returns(new List<List<PlayerProfile>> { playerProfiles });
 
-            var restResponse = new RestResponse() {
+            var restResponse = new RestResponse()
+            {
                 StatusCode = HttpStatusCode.OK,
                 Content = "ac"
             };
@@ -123,6 +123,52 @@ namespace Ploutos.AutoJobs.Tests.Services
             // Assert
             updateProfiles[0].IsError.Should().Be(true);
             updateProfiles[0].ResponseResult.Should().Be(restResponse.Content);
+        }
+
+        [Fact]
+        public async Task PushPlayers_WhenStatusCodeInternalServerError_UpdateProfileSuccess()
+        {
+            // Arrange
+            var apiConfigs = new BrandApiConfigs
+            {
+                PlayerConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1 }
+            };
+            var syncPlayerBase = new SyncPlayerBase(apiConfigs, webClientService, dataService, logger, util, supportApiService);
+
+            var playerProfiles = new List<PlayerProfile> {
+                new PlayerProfile { }
+            };
+            dataService.GetPlayerProfiles(Arg.Any<string>(), Arg.Any<int>()).Returns(playerProfiles);
+            util.SplitToBatches(Arg.Any<List<PlayerProfile>>(), Arg.Any<int>())
+                .Returns(new List<List<PlayerProfile>> { playerProfiles });
+
+            var restResponse = new RestResponse()
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                Content = "ac"
+            };
+            webClientService.PostAsync<PlayerProfile>(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<PlayerProfile>())
+                .Returns(restResponse);
+
+            var profileResponse = new ProfileResponse
+            {
+                Status = Constant.Constants.StatusSuccess,
+                Data = new ProfileResponseData { PlayerAccountNumber = "xx" }
+            };
+            util.ConvertJsonResponse<ProfileResponse>(Arg.Any<string>()).Returns(profileResponse);
+            supportApiService.UpdateResponse(Arg.Any<ProfileResponse>(), Arg.Any<string>(), Arg.Any<SupportApiConfigs>())
+                .Returns(profileResponse);
+
+            List<UpdatePlayerProfile> updateProfiles = null;
+            await dataService.UpdatePlayerProfiles(Arg.Any<string>(), Arg.Do<List<UpdatePlayerProfile>>(x => updateProfiles = x));
+
+            // Act
+            await syncPlayerBase.PushPlayers();
+
+            // Assert
+            updateProfiles[0].IsError.Should().Be(!profileResponse.IsSuccess);
+            updateProfiles[0].PlayerCode.Should().Be(profileResponse.Data.PlayerAccountNumber);
+            updateProfiles[0].ResponseResult.Should().Be(JsonConvert.SerializeObject(profileResponse));
         }
 
         [Fact]

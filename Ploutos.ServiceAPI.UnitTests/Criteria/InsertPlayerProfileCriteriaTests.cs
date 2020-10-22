@@ -1,5 +1,6 @@
 ﻿namespace Ploutos.ServiceAPI.UnitTests.Criteria
 {
+    using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
     using Ploutos.ServiceAPI.Criteria;
     using Xunit;
 
@@ -29,6 +30,19 @@
 
             // Assert
             Assert.True(actual);
+        }
+
+        [Fact]
+        public void Properties_WhenSet_GetExpectedValue()
+        {
+            // Arrange
+            var criteria = new InsertPlayerProfileCriteria
+            {
+                Message = "A"
+            };
+
+            // Assert
+            Assert.Equal("A", criteria.Message);
         }
     }
 }
