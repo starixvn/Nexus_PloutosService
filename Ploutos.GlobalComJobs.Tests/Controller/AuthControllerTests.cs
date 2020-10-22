@@ -7,7 +7,7 @@
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.Options;
     using NSubstitute;
-    using Ploutos.AutoJobs.Controllers;
+    using Ploutos.GlobalComJobs.Controllers;
     using Ploutos.Common.Models;
     using System;
     using System.Threading.Tasks;

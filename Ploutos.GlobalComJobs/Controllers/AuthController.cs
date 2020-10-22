@@ -1,4 +1,4 @@
-﻿namespace Ploutos.AutoJobs.Controllers
+﻿namespace Ploutos.GlobalComJobs.Controllers
 {
     using System;
     using System.Collections.Generic;
