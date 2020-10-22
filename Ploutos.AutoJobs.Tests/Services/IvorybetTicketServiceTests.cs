@@ -12,7 +12,7 @@
     using System.Threading.Tasks;
     using Xunit;
 
-    public class Ticket12BServiceTest
+    public class IvorybetTicketServiceTests
     {
         private readonly IOptionsSnapshot<ApiConfigs> apiConfigs;
         private readonly IWebClientService webClientService;
@@ -20,7 +20,7 @@
         private readonly ILogger logger;
         private readonly IUtil util;
 
-        public Ticket12BServiceTest()
+        public IvorybetTicketServiceTests()
         {
             apiConfigs = Substitute.For<IOptionsSnapshot<ApiConfigs>>();
             webClientService = Substitute.For<IWebClientService>();
@@ -35,10 +35,17 @@
             // Arrange
             var configs = new ApiConfigs
             {
-                Brand12B = SyncTicketBaseTest.GetBrandConfigs()
+                Ivorybet = new BrandApiConfigs
+                {
+                    TicketConfigs = new TicketAPIConfig
+                    {
+                        TotalRows = 1,
+                        SyncBatchSize = 1
+                    }
+                }
             };
             apiConfigs.Value.Returns(configs);
-            var service = new Ticket12BService(
+            var service = new IvorybetTicketService(
                 apiConfigs,
                 webClientService,
                 dataService,

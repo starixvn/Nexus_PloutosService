@@ -1,18 +1,18 @@
-﻿namespace Ploutos.AutoJobs.Tests.Services
-{
-    using Fanex.Logging;
-    using Microsoft.Extensions.Options;
-    using NSubstitute;
-    using Ploutos.AutoJobs.Models;
-    using Ploutos.AutoJobs.Services;
-    using Ploutos.AutoJobs.Services.Interfaces;
-    using Ploutos.Common.Services;
-    using Ploutos.Common.Utils;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Xunit;
+﻿using Fanex.Logging;
+using Microsoft.Extensions.Options;
+using NSubstitute;
+using Ploutos.AutoJobs.Models;
+using Ploutos.AutoJobs.Services;
+using Ploutos.AutoJobs.Services.Interfaces;
+using Ploutos.Common.Services;
+using Ploutos.Common.Utils;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit;
 
-    public class Player12BServiceTest
+namespace Ploutos.AutoJobs.Tests.Services
+{
+    public class Nova88PlayerServiceTests
     {
         private readonly IOptionsSnapshot<ApiConfigs> apiConfigs;
         private readonly IWebClientService webClientService;
@@ -21,7 +21,7 @@
         private readonly IUtil util;
         private readonly ISupportApiService supportApiService;
 
-        public Player12BServiceTest()
+        public Nova88PlayerServiceTests()
         {
             apiConfigs = Substitute.For<IOptionsSnapshot<ApiConfigs>>();
             webClientService = Substitute.For<IWebClientService>();
@@ -37,7 +37,7 @@
             // Arrange
             var configs = new ApiConfigs
             {
-                Brand12B = new BrandApiConfigs
+                Nova88 = new BrandApiConfigs
                 {
                     PlayerConfigs = new UrlApiConfig
                     {
@@ -47,7 +47,7 @@
                 }
             };
             apiConfigs.Value.Returns(configs);
-            var service = new Player12BService(
+            var service = new Nova88PlayerService(
                 apiConfigs,
                 webClientService,
                 dataService,

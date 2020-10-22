@@ -42,7 +42,7 @@
             var betTickets = await dataService.GetBetTickets(criteria);
             var newBetTickets = dataService.PreProcessTickets(betTickets);
             var betTicketBatches = util.SplitToBatches<BetTicket>(newBetTickets, apiConfigs.SupportTicketConfigs.SyncBatchSize);
-            
+
             var successCount = 0;
             foreach (var batch in betTicketBatches)
             {
@@ -86,7 +86,7 @@
                         updateBetTickets[i].IsError = !string.IsNullOrEmpty(errorMsg);
                         updateBetTickets[i].ResponseResult = errorMsg;
                     }
-                }                
+                }
                 else
                 {
                     throw new HttpRequestException(response.ErrorMessage ?? response.Content);
