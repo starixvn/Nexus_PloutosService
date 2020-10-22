@@ -11,6 +11,7 @@
 
     public class IvorybetPlayerService : SyncPlayerBase, IIvorybetPlayerService
     {
+
         public IvorybetPlayerService(IOptionsSnapshot<ApiConfigs> apiConfigs,
          IWebClientService webClientService,
          IDataService dataService,

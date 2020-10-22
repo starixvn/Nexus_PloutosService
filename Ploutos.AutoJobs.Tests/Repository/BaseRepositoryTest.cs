@@ -90,7 +90,7 @@ namespace Ploutos.AutoJobs.Tests.Repository
         {
             // Arrange
             var repository = new BaseRepository();
-            var data = fixture.CreateMany<BetTicket>();            
+            var data = fixture.CreateMany<BetTicket>();
             var criteria = fixture.Create<GetPlayerProfileCriteria>();
             objectDb.QueryAsync<BetTicket>(criteria).Returns(data);
 
