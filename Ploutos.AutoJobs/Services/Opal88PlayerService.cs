@@ -19,11 +19,11 @@
            ISupportApiService supportApiService) 
             : base(apiConfigs.Value.Opal88, webClientService, dataService, logger, util, supportApiService)
         {
-        }      
+        }
 
-        Task<PushResult> IOpal88PlayerService.PushPlayers()
+        public override async Task<PushResult> PushPlayers()
         {
-            return base.PushPlayers();
+            return await base.PushPlayers();
         }
     }
 }

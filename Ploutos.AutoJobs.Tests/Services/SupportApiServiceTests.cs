@@ -86,7 +86,7 @@ namespace Ploutos.AutoJobs.Tests.Services
 
             var authResponse = new RestResponse
             {
-                StatusCode = HttpStatusCode.OK,
+                StatusCode = HttpStatusCode.Found,
                 Content = "token abc"
             };
             webClientService.PostAsync<SupportApiAuthObj>(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<SupportApiAuthObj>())

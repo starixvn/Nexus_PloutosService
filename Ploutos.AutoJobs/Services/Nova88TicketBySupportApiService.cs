@@ -19,9 +19,9 @@
         {
         }
 
-        Task<PushResult> INova88TicketBySupportApiService.PushTickets()
+        public override async Task<PushResult> PushTickets()
         {
-            return base.PushTickets();
+            return await base.PushTickets();
         }
     }
 }

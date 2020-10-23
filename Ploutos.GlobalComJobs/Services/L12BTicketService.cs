@@ -19,9 +19,9 @@ namespace Ploutos.GlobalComJobs.Services
         {
         }
 
-        Task<PushResult> I12BTicketService.PushTickets()
+        public override async Task<PushResult> PushTickets()
         {
-            return base.PushTickets();
+            return await base.PushTickets();
         }
     }
 }

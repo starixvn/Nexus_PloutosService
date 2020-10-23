@@ -21,9 +21,9 @@
         {
         }
 
-        Task<PushResult> INova88PlayerService.PushPlayers()
+        public override async Task<PushResult> PushPlayers()
         {
-            return base.PushPlayers();
+            return await base.PushPlayers();
         }
     }
 }
