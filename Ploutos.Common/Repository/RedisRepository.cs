@@ -1,17 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Ploutos.Common.Models;
-using StackExchange.Redis;
-using System.Threading.Tasks;
-
-namespace Ploutos.Common.Repository
+﻿namespace Ploutos.Common.Repository
 {
+    using Microsoft.Extensions.Options;
+    using Ploutos.Common.Models;
+    using StackExchange.Redis;
+    using System.Threading.Tasks;
+
     public class RedisRepository : IRedisRepository
     {
         private readonly IOptions<RedisConfig> redisConfig;
         private readonly ConnectionMultiplexer connectionMultiplexer;
 
-        public RedisRepository(IConfiguration configuration, IOptions<RedisConfig> redisConfig)
+        public RedisRepository(IOptions<RedisConfig> redisConfig)
         {
             this.redisConfig = redisConfig;
             connectionMultiplexer = ConnectionMultiplexer.Connect(this.redisConfig.Value.Host);

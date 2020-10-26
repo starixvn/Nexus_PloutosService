@@ -22,9 +22,9 @@
         {
         }
 
-        Task<PushResult> IIvorybetPlayerService.PushPlayers()
+        public override async Task<PushResult> PushPlayers()
         {
-            return base.PushPlayers();
+            return await base.PushPlayers();
         }
     }
 }
