@@ -37,7 +37,7 @@ namespace Ploutos.AutoJobs.Tests.Repository
 
 
             // Act
-            var result = await repository.ExecuteNonQueryAsync(command);
+            await repository.ExecuteNonQueryAsync(command);
 
             // Assert
             await objectDb.Received().ExecuteNonQueryAsync(command);
@@ -50,9 +50,11 @@ namespace Ploutos.AutoJobs.Tests.Repository
             var repository = new BaseRepository();
             var command = new UpdateBetTicketCriteria();
 
-            var hash = new Hashtable();
-            hash.Add("Error", DBNull.Value);
-            hash.Add("Message", DBNull.Value);
+            var hash = new Hashtable
+            {
+                { "Error", DBNull.Value },
+                { "Message", DBNull.Value }
+            };
             objectDb.GetOutputParams().Returns(hash);
 
             // Act
