@@ -1,6 +1,5 @@
 ﻿namespace Ploutos.ServiceAPI.UnitTests.Criteria
 {
-    using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
     using Ploutos.ServiceAPI.Criteria;
     using Xunit;
 

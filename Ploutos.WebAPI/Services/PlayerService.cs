@@ -15,7 +15,7 @@
 
         public async Task<string> GetUserAccountNoByUsername(string username)
         {
-            var criteria = new GetUserAccountNumberByUsername
+            var criteria = new GetUserAccountNumberByUsernameCriteria
             {
                 Username = username
             };

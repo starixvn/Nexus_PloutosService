@@ -196,7 +196,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PlayerController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
-    <Compile Include="Criteria\Player\GetUserAccountNumberByUsername.cs" />
+    <Compile Include="Criteria\Player\GetUserAccountNumberByUsernameCriteria.cs" />
     <Compile Include="Criteria\Ticket\GetDuplicateTicketDataCriteria.cs" />
     <Compile Include="Criteria\Ticket\GetTicketSettingCriteria.cs" />
     <Compile Include="Criteria\Ticket\InsertBetTicketsCriteria.cs" />

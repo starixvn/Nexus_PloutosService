@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetUserAccountNumberByUsername : CriteriaBase
+    public class GetUserAccountNumberByUsernameCriteria : CriteriaBase
     {
         public string Username { get; set; }
 
