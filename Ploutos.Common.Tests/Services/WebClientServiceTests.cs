@@ -77,5 +77,35 @@
             // Assert
             Assert.Equal(result.StatusCode, dataResponse.StatusCode);
         }
+
+        [Fact]
+        public async Task PostAsync_WhenCalled_ReturnResultExpect()
+        {
+            // Arrange
+            var dataResponse = new RestResponse
+            {
+                StatusCode = 0
+            };
+            var settings = new ProxySettings
+            {
+                IsUseProxy = true,
+                ProxyAddress = "1.1.1.1:8801",
+                BypassOnLocal = true
+            };
+
+            proxySettings.Value.Returns(settings);
+            var webClientService = new WebClientService(proxySettings);
+
+            string domain = "http://10.18.200.114:7555";
+            string url = null;
+            string token = "token abc";
+            var parameters = new List<Parameter> { new Parameter { Name = "username", Value = "" } };
+
+            // Act
+            var result = await webClientService.PostAsync(domain, url, token, parameters);
+
+            // Assert
+            Assert.Equal(result.StatusCode, dataResponse.StatusCode);
+        }
     }
 }
