@@ -1,19 +1,23 @@
 ﻿namespace Ploutos.WebAPI.UnitTests.Controller
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Ploutos.WebAPI.Controllers;
-    using Xunit;
+    using System.Web.Mvc;
 
+    [TestClass]
     public class HomeControllerTests
     {
-        [Fact]
-        public void Get_WhenCalled_ReturnAsExpected()
+        [TestMethod]
+        public void Index_WhenCalled_ReturnAsExpected()
         {
             // Arrange
             var controller = new HomeController();
 
             // Act
-            //var actual = controller.Index();
+            var actual = controller.Index() as ViewResult;
 
+            // Assert
+            Assert.IsTrue(string.IsNullOrEmpty(actual.ViewName));
         }
     }
 }

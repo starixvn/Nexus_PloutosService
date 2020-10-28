@@ -1,11 +1,12 @@
 ﻿namespace Ploutos.WebAPI.UnitTests.Criteria.Ticket
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Ploutos.WebAPI.Criteria.Ticket;
-    using Xunit;
 
+    [TestClass]
     public class GetDuplicateTicketDataCriteriaTests
     {
-        [Fact]
+        [TestMethod]
         public void GetSettingKey_ReturnCorrectSettingKey()
         {
             // Arrange
@@ -16,10 +17,10 @@
             var actual = criteria.GetSettingKey();
 
             // Assert
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
-        [Fact]
+        [TestMethod]
         public void IsValid_WhenCalled_ReturnExpectedSettingKey()
         {
             // Arrange
@@ -29,10 +30,10 @@
             var actual = criteria.IsValid();
 
             // Assert
-            Assert.True(actual);
+            Assert.IsTrue(actual);
         }
 
-        [Fact]
+        [TestMethod]
         public void Properties_WhenSet_GetExpectedValue()
         {
             // Arrange
@@ -42,7 +43,7 @@
             };
 
             // Assert
-            Assert.Equal("test", criteria.TransactionNoList);
+            Assert.AreEqual("test", criteria.TransactionNoList);
         }
     }
 }
