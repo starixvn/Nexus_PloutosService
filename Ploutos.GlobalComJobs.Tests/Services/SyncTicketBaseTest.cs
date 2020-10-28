@@ -65,7 +65,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
 
             var ticketResponse = new TicketResponse
             {
-                status = "posted"
+                Status = "posted"
             };
             util.ConvertJsonResponse<TicketResponse>(Arg.Any<string>()).Returns(ticketResponse);
 
@@ -121,7 +121,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
 
             var ticketResponse = new TicketResponse
             {
-                status = "posted"
+                Status = "posted"
             };
             util.ConvertJsonResponse<TicketResponse>(Arg.Any<string>()).Returns(ticketResponse);
 
@@ -242,7 +242,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
 
             var ticketResponse = new TicketResponse
             {
-                status = "posted"
+                Status = "posted"
             };
             util.ConvertJsonResponse<TicketResponse>(Arg.Any<string>()).Returns(ticketResponse);
 
