@@ -19,9 +19,13 @@
         }
 
         [Fact]
-        public async Task GetAsync_ParamAreInvalid_ReturnNull()
+        public async Task GetAsync_ParamAreInvalid_ReturnResultExpect()
         {
             // Arrange
+            var dataResponse = new RestResponse
+            {
+                StatusCode = 0
+            };
             var settings = new ProxySettings
             {
                 IsUseProxy = true,
@@ -41,13 +45,17 @@
             var result = await webClientService.GetAsync(domain, url, token, parameters);
 
             // Assert
-            Assert.Null(result);
+            Assert.Equal(result.StatusCode, dataResponse.StatusCode);
         }
 
         [Fact]
-        public async Task PostJsonAsync_ParamAreInvalid_ReturnNull()
+        public async Task PostJsonAsync_ParamAreInvalid_ReturnResultExpect()
         {
             // Arrange
+            var dataResponse = new RestResponse
+            {
+                StatusCode = 0
+            };
             var settings = new ProxySettings
             {
                 IsUseProxy = true,
@@ -67,13 +75,17 @@
             var result = await webClientService.PostJsonAsync(domain, url, token, parameters);
 
             // Assert
-            Assert.Null(result);
+            Assert.Equal(result.StatusCode, dataResponse.StatusCode);
         }
 
         [Fact]
-        public async Task PostAsync_ParamAreInvalid_ReturnNull()
+        public async Task PostAsync_ParamAreInvalid_ReturnResultExpect()
         {
             // Arrange
+            var dataResponse = new RestResponse
+            {
+                StatusCode = 0
+            };
             var settings = new ProxySettings
             {
                 IsUseProxy = true,
@@ -93,7 +105,7 @@
             var result = await webClientService.PostAsync(domain, url, token, parameters);
 
             // Assert
-            Assert.Null(result);
+            Assert.Equal(result.StatusCode, dataResponse.StatusCode);
         }
     }
 }
