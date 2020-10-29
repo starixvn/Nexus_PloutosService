@@ -21,7 +21,7 @@
             var result = await controller.GetUserAccountNo(username);
 
             //Assert
-            Assert.AreEqual("", result);
+            Assert.IsTrue(string.IsNullOrEmpty(result));
         }
     }
 }
