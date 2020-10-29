@@ -30,8 +30,6 @@
 
             // Assert
             Assert.IsFalse(string.IsNullOrEmpty(criteria.InsertCommand));
-
-
         }
 
         [TestMethod]
