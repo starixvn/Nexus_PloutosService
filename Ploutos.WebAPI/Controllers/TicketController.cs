@@ -1,18 +1,11 @@
-﻿using Ploutos.WebAPI.Filters;
-using Ploutos.WebAPI.Models;
-using Ploutos.WebAPI.Services;
-using Ploutos.WebAPI.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-
-namespace Ploutos.WebAPI.Controllers
+﻿namespace Ploutos.WebAPI.Controllers
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Web.Http;
+    using Ploutos.WebAPI.Models;
+    using Ploutos.WebAPI.Services;
+    using Ploutos.WebAPI.Services.Interfaces;
 
     public class TicketController : ApiController
     {

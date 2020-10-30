@@ -1,21 +1,20 @@
-﻿using Fanex.Logging;
-using FluentAssertions;
-using NSubstitute;
-using Ploutos.Common.Services;
-using Ploutos.Common.Utils;
-using Ploutos.GlobalComJobs.Models;
-using Ploutos.GlobalComJobs.Services;
-using Ploutos.GlobalComJobs.Services.Interfaces;
-using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace Ploutos.GlobalComJobs.Tests.Services
+﻿namespace Ploutos.GlobalComJobs.Tests.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Threading.Tasks;
+    using Fanex.Logging;
+    using FluentAssertions;
+    using NSubstitute;
+    using Ploutos.Common.Services;
+    using Ploutos.Common.Utils;
+    using Ploutos.GlobalComJobs.Models;
+    using Ploutos.GlobalComJobs.Services;
+    using Ploutos.GlobalComJobs.Services.Interfaces;
+    using RestSharp;
+    using Xunit;
+
     public class SyncTicketBaseTest
     {
         private readonly IWebClientService webClientService;
