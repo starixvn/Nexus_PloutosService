@@ -122,9 +122,10 @@
     <Compile Include="Controller\HomeControllerTests.cs" />
     <Compile Include="Controller\PlayerControllerTests.cs" />
     <Compile Include="Controller\TicketControllerTests.cs" />
-    <Compile Include="Criteria\GetDuplicateTicketDataCriteriaTests.cs" />
-    <Compile Include="Criteria\GetTicketSettingCriteriaTests.cs" />
-    <Compile Include="Criteria\InsertBetTicketsCriteriaTests.cs" />
+    <Compile Include="Criteria\Player\GetUserAccountNumberByUsernameCriteriaTests.cs" />
+    <Compile Include="Criteria\Ticket\GetDuplicateTicketDataCriteriaTests.cs" />
+    <Compile Include="Criteria\Ticket\GetTicketSettingCriteriaTests.cs" />
+    <Compile Include="Criteria\Ticket\InsertBetTicketsCriteriaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepositoryTests.cs" />
     <Compile Include="Repositories\TicketRepositoryTests.cs" />
