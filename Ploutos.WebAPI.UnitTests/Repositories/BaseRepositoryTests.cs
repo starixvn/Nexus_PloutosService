@@ -1,5 +1,6 @@
 ﻿namespace Ploutos.WebAPI.UnitTests.Repositories
 {
+    using Fanex.Data;
     using Fanex.Data.Repository;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NSubstitute;
@@ -14,8 +15,30 @@
     {
         private IDynamicRepository dynamicRepository;
 
+        private readonly IObjectDb objectDb;
+
         public BaseRepositoryTests()
         {
+            DbSettingProviderManager
+            .StartTestingSession()
+            .Run();
+
+            objectDb = Substitute.For<IObjectDb>();
+            ObjectDbFactory.Mock((key, time) => objectDb);
+        }
+
+        [TestMethod]
+        public async Task ExecuteNonQueryAsync_CriteriaNotNull_CallExecuteNonQueryAsync()
+        {
+            // Arrange
+            var criteria = FakeCriteria();
+            var repository = new BaseRepository();
+
+            // Action
+            await repository.ExecuteNonQueryAsync(criteria);
+
+            // Assert
+            await objectDb.Received().ExecuteNonQueryAsync(criteria);
         }
 
         [TestMethod]

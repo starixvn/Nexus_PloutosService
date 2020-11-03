@@ -7,6 +7,7 @@
     using Fanex.Logging;
     using FluentAssertions;
     using NSubstitute;
+    using Ploutos.Common.Models;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
     using Ploutos.GlobalComJobs.Models;
@@ -133,11 +134,84 @@
             util.ConvertJsonResponse<AuthData>(Arg.Any<string>()).Returns(authData);
 
             List<UpdateBetTicket> updateTickets = null;
-            await dataService.UpdateBetTickets(Arg.Any<string>(),
+            var result = new CommandResult
+            {
+                Error = 1,
+                Message = string.Empty
+            };
+
+            dataService.UpdateBetTickets(Arg.Any<string>(),
                 Arg.Any<DateTime>(),
                 Arg.Any<DateTime>(),
                 Arg.Any<string>(),
-                Arg.Do<List<UpdateBetTicket>>(x => updateTickets = x));
+                Arg.Do<List<UpdateBetTicket>>(x => updateTickets = x)).Returns(result);
+
+            // Act
+            await syncTicketBase.PushTickets();
+
+            // Assert
+            updateTickets[0].Is_Error.Should().Be(true);
+            updateTickets[0].Response_Result.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task PushTickets_WhenGetAuthFail_UpdateTicketFailed()
+        {
+            // Arrange
+            var apiConfigs = new BrandApiConfigs
+            {
+                TicketConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1 },
+                AuthConfigs = new UrlApiConfig { }
+            };
+            var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
+
+            var betTickets = new List<BetTicket> { new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now }
+            };
+            dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
+            util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
+                .Returns(new List<List<BetTicket>> { betTickets });
+
+            var restResponse = new RestResponse
+            {
+                StatusCode = HttpStatusCode.Unauthorized,
+                Content = "ac"
+            };
+            webClientService.PostJsonAsync<ApiParam>(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<ApiParam>())
+                .Returns(restResponse);
+
+            var tokenResponse = new RestResponse
+            {
+                StatusCode = HttpStatusCode.InternalServerError,
+                Content = string.Empty
+            };
+            webClientService.PostFormAsync<AuthParam>(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AuthParam>())
+                .Returns(tokenResponse);
+
+            var ticketResponse = new TicketResponse
+            {
+                Status = "posted"
+            };
+            util.ConvertJsonResponse<TicketResponse>(Arg.Any<string>()).Returns(ticketResponse);
+
+            var authData = new AuthData { access_token = "abc" };
+            util.ConvertJsonResponse<AuthData>(Arg.Any<string>()).Returns(authData);
+
+            List<UpdateBetTicket> updateTickets = null;
+            var result = new CommandResult
+            {
+                Error = 1,
+                Message = string.Empty
+            };
+
+            dataService.UpdateBetTickets(Arg.Any<string>(),
+                Arg.Any<DateTime>(),
+                Arg.Any<DateTime>(),
+                Arg.Any<string>(),
+                Arg.Do<List<UpdateBetTicket>>(x => updateTickets = x)).Returns(result);
 
             // Act
             await syncTicketBase.PushTickets();

@@ -20,7 +20,7 @@
         private readonly IWebClientService webClientService;
         private readonly IDataService dataService;
         private readonly ILogger logger;
-        private readonly IUtil util;        
+        private readonly IUtil util;
 
         public SyncTicketBase(BrandApiConfigs apiConfigs,
             IWebClientService webClientService,
