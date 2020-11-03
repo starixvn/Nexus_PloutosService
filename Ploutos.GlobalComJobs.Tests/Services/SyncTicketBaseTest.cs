@@ -97,7 +97,12 @@
             };
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
-            var betTickets = new List<BetTicket> { new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now } };
+            var betTickets = new List<BetTicket> { new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now },
+                new BetTicket { transaction_date = DateTime.Now, settlement_date = DateTime.Now }
+            };
             dataService.GetBetTickets(Arg.Any<string>(), Arg.Any<int>()).Returns(betTickets);
             util.SplitToBatches(Arg.Any<List<BetTicket>>(), Arg.Any<int>())
                 .Returns(new List<List<BetTicket>> { betTickets });

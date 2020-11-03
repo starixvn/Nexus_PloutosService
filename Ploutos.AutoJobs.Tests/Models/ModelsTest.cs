@@ -18,8 +18,6 @@ namespace Ploutos.AutoJobs.Tests.Models
             fixture.Create<ApiConfigs>();
             fixture.Create<BetTicket>();
             fixture.Create<BrandApiConfigs>();
-            fixture.Create<MailConfigs>();
-            fixture.Create<MailModel>();
             fixture.Create<PlayerProfile>();
             fixture.Create<ProfileResponse>();
             fixture.Create<ProfileResponseBadRequest>();

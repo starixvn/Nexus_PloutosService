@@ -37,10 +37,14 @@
             var apiConfigs = GetBrandConfigs();
             var syncTicketBase = new SyncTicketBase(apiConfigs, webClientService, dataService, logger, util);
 
-            var betTickets = new List<BetTicket> { new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now } };
+            var betTickets = new List<BetTicket> {
+                new BetTicket { TransactionDate = DateTime.Now, SettlementDate = DateTime.Now, TransactionNo = "1" }
+            };
             dataService.GetBetTickets(Arg.Any<GetBetTicketCriteria>()).Returns(betTickets);
             util.SplitToBatches(Arg.Any<List<List<BetTicket>>>(), Arg.Any<int>())
-                .Returns(new List<List<List<BetTicket>>> { new List<List<BetTicket>> { betTickets } });
+                .Returns(new List<List<List<BetTicket>>> { new List<List<BetTicket>>
+                    { betTickets, betTickets, betTickets, betTickets, betTickets }
+                });
 
             var restResponse = new RestResponse
             {
@@ -52,7 +56,13 @@
 
             var ticketResponse = new TicketResponse
             {
-                Data = new List<TicketResponseData>()
+                Data = new List<TicketResponseData>
+                {
+                    new TicketResponseData{
+                        ErroMessage = string.Empty,
+                        TransactionNo = "1"
+                    }
+                }
             };
             util.ConvertJsonResponse<TicketResponse>(Arg.Any<string>()).Returns(ticketResponse);
 
@@ -174,7 +184,7 @@
                     FromNewlyCutoffDate = DateTime.Now,
                     ToHistoricalDate = DateTime.Now,
                     SyncBatchSize = 1,
-                    SyncParallelSize = 1
+                    SyncParallelSize = 5
                 }
             };
 

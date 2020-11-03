@@ -6,6 +6,5 @@
         public string Url { get; set; }
         public int QueryBatchSize { get; set; }
         public int SyncBatchSize { get; set; }
-        public int SyncParallelSize { get; set; }
     }
 }

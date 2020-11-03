@@ -15,9 +15,10 @@ namespace Ploutos.Common.Services
     {
         private readonly IRestClient webClient;
 
-        public WebClientService(IOptionsSnapshot<ProxySettings> proxySettings)
+        public WebClientService(IRestClient webClient, IOptionsSnapshot<ProxySettings> proxySettings)
         {
-            this.webClient = new RestClient { Encoding = Encoding.UTF8 };
+            this.webClient = webClient;
+
             if (proxySettings.Value.IsUseProxy)
             {
                 this.webClient.Proxy = new WebProxy(proxySettings.Value.ProxyAddress, proxySettings.Value.BypassOnLocal);
@@ -80,7 +81,7 @@ namespace Ploutos.Common.Services
                              where p.GetValue(obj, null) != null
                              select p.Name + "=" + HttpUtility.UrlEncode(p.GetValue(obj, null).ToString());
 
-            return String.Join("&", properties.ToArray());
+            return properties == null ? string.Empty : String.Join("&", properties.ToArray());
         }
     }
 }

@@ -11,7 +11,9 @@
 
     public class WebClientServiceTests
     {
-        private readonly IOptionsSnapshot<ProxySettings> proxySettings;
+        private IOptionsSnapshot<ProxySettings> proxySettings;
+        private IWebClientService webClientService;
+        private IRestClient webClient;
 
         public WebClientServiceTests()
         {
@@ -26,21 +28,15 @@
             {
                 StatusCode = 0
             };
-            var settings = new ProxySettings
-            {
-                IsUseProxy = true,
-                ProxyAddress = "1.1.1.1:8801",
-                BypassOnLocal = true
-            };
 
-            proxySettings.Value.Returns(settings);
-            var webClientService = new WebClientService(proxySettings);
-
-            string domain = "http://10.18.200.114:7555";
+            string domain = "http://localhost";
             string url = null;
-            string token = null;
+            string token = "token abc";
             var parameters = new List<Parameter> { new Parameter { Name = "username", Value = "" } };
 
+            webClientService = GetWebClientService();
+            webClient.ExecuteGetTaskAsync(Arg.Any<RestRequest>()).Returns(dataResponse);
+            
             // Act
             var result = await webClientService.GetAsync(domain, url, token, parameters);
 
@@ -49,27 +45,67 @@
         }
 
         [Fact]
-        public async Task PostJsonAsync_ParamAreInvalid_ReturnResultExpect()
+        public async Task PostAsync_ParamAreInvalid_ReturnExpectedResponseStatus()
+        {
+            // Arrange
+            var dataResponse = new RestResponse
+            {
+                ResponseStatus = ResponseStatus.Error
+            };
+
+            string domain = "http://localhost";
+            string url = null;
+            string token = "token abc";
+            var parameters = new { test = "test" };
+
+            webClientService = GetWebClientService();
+            webClient.ExecutePostTaskAsync(Arg.Any<RestRequest>()).Returns(dataResponse);
+
+            // Act
+            var result = await webClientService.PostAsync(domain, url, token, parameters);
+
+            // Assert
+            Assert.Equal(result.ResponseStatus, dataResponse.ResponseStatus);
+        }
+
+        [Fact]
+        public async Task PostFormAsync_ParamAreInvalid_ReturnExpectedResponseStatus()
+        {
+            // Arrange
+            var dataResponse = new RestResponse
+            {
+                ResponseStatus =  ResponseStatus.Completed
+            };
+
+            string domain = "http://localhost";
+            string url = null;
+            string token = "token abc";
+            var parameters = new { test = "test" };
+
+            webClientService = GetWebClientService();
+            webClient.ExecutePostTaskAsync(Arg.Any<RestRequest>()).Returns(dataResponse);
+
+            // Act
+            var result = await webClientService.PostFormAsync(domain, url, token, parameters);
+
+            // Assert
+            Assert.Equal(result.ResponseStatus, dataResponse.ResponseStatus);
+        }
+
+        [Fact]
+        public async Task PostJsonAsync_ParamAreInvalid_ReturnExpectedStatusCode()
         {
             // Arrange
             var dataResponse = new RestResponse
             {
                 StatusCode = 0
             };
-            var settings = new ProxySettings
-            {
-                IsUseProxy = true,
-                ProxyAddress = "1.1.1.1:8801",
-                BypassOnLocal = true
-            };
+            webClientService = GetWebClientService();
 
-            proxySettings.Value.Returns(settings);
-            var webClientService = new WebClientService(proxySettings);
-
-            string domain = "http://10.18.200.114:7555";
+            string domain = "http://localhost";
             string url = null;
-            string token = null;
-            var parameters = new List<Parameter> { new Parameter { Name = "username", Value = "" } };
+            string token = "token abc";
+            var parameters = new { test = "test" };
 
             // Act
             var result = await webClientService.PostJsonAsync(domain, url, token, parameters);
@@ -78,14 +114,10 @@
             Assert.Equal(result.StatusCode, dataResponse.StatusCode);
         }
 
-        [Fact]
-        public async Task PostAsync_ParamAreInvalid_ReturnResultExpect()
+        private WebClientService GetWebClientService()
         {
-            // Arrange
-            var dataResponse = new RestResponse
-            {
-                StatusCode = 0
-            };
+            proxySettings = Substitute.For<IOptionsSnapshot<ProxySettings>>();
+
             var settings = new ProxySettings
             {
                 IsUseProxy = true,
@@ -93,19 +125,17 @@
                 BypassOnLocal = true
             };
 
+            webClient = Substitute.For<IRestClient>();
             proxySettings.Value.Returns(settings);
-            var webClientService = new WebClientService(proxySettings);
 
-            string domain = "http://10.18.200.114:7555";
-            string url = null;
-            string token = "token abc";
-            var parameters = new List<Parameter> { new Parameter { Name = "username", Value = "" } };
-
-            // Act
-            var result = await webClientService.PostAsync(domain, url, token, parameters);
-
-            // Assert
-            Assert.Equal(result.StatusCode, dataResponse.StatusCode);
+            return new WebClientService(webClient, proxySettings);
         }
+    }
+
+    public class AuthParam
+    {
+        public string response_type { set; get; }
+        public string client_id { set; get; }
+        public string client_secret { set; get; }
     }
 }

@@ -5,6 +5,7 @@ using NSubstitute;
 using Ploutos.AutoJobs.Models;
 using Ploutos.AutoJobs.Services;
 using Ploutos.AutoJobs.Services.Interfaces;
+using Ploutos.Common.Models;
 using Ploutos.Common.Services;
 using Ploutos.Common.Utils;
 using RestSharp;
@@ -40,16 +41,18 @@ namespace Ploutos.AutoJobs.Tests.Services
             // Arrange
             var apiConfigs = new BrandApiConfigs
             {
-                PlayerConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 1 }
+                PlayerConfigs = new UrlApiConfig { QueryBatchSize = 1, SyncBatchSize = 3 }
             };
             var syncPlayerBase = new SyncPlayerBase(apiConfigs, webClientService, dataService, logger, util, supportApiService);
 
             var playerProfiles = new List<PlayerProfile> {
-                new PlayerProfile { }
+                new PlayerProfile(),
+                new PlayerProfile(),
+                new PlayerProfile()
             };
             dataService.GetPlayerProfiles(Arg.Any<string>(), Arg.Any<int>()).Returns(playerProfiles);
             util.SplitToBatches(Arg.Any<List<PlayerProfile>>(), Arg.Any<int>())
-                .Returns(new List<List<PlayerProfile>> { playerProfiles });
+                .Returns(new List<List<PlayerProfile>> { playerProfiles, playerProfiles, playerProfiles });
 
             var restResponse = new RestResponse()
             {
@@ -114,8 +117,16 @@ namespace Ploutos.AutoJobs.Tests.Services
             supportApiService.UpdateResponseFromSupportAPI(Arg.Any<ProfileResponse>(), Arg.Any<string>(), Arg.Any<SupportApiConfigs>())
                 .Returns(profileResponse);
 
+            var result = new CommandResult
+            {
+                Error = 1,
+                Message = string.Empty
+            };
             List<UpdatePlayerProfile> updateProfiles = null;
-            await dataService.UpdatePlayerProfiles(Arg.Any<string>(), Arg.Do<List<UpdatePlayerProfile>>(x => updateProfiles = x));
+            dataService.UpdatePlayerProfiles(Arg.Any<string>(), Arg.Do<List<UpdatePlayerProfile>>(x => updateProfiles = x)).Returns(result);
+            
+
+            //dataService.UpdatePlayerProfiles.
 
             // Act
             await syncPlayerBase.PushPlayers();

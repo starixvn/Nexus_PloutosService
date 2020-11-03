@@ -22,7 +22,7 @@
             {
                 if (item.Key.Contains(string.Format("{0}", index)))
                 {
-                    errors.AddRange(item.Value.ToList());                    
+                    errors.AddRange(item.Value.ToList());
                 }
             }
 
