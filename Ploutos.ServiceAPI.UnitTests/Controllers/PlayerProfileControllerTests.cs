@@ -8,6 +8,7 @@
     using Microsoft.Extensions.Options;
     using NSubstitute;
     using Ploutos.ServiceAPI.Controllers;
+    using Ploutos.ServiceAPI.Enums;
     using Ploutos.ServiceAPI.Models;
     using Ploutos.ServiceAPI.Services;
     using Ploutos.ServiceAPI.ViewModels;
@@ -19,6 +20,64 @@
 
         [Fact]
         public async Task Post_DuplicateUsername_ReturnAsExpected()
+        {
+            // Arrange
+            var model = new List<PlayerProfileViewModel>
+            {
+                new PlayerProfileViewModel { Username = "timxxxtrinh", Username2 = "timtrinh1" },
+                new PlayerProfileViewModel { Username = "timxxxtrinh", Username2 = "timtrinh2" },
+                new PlayerProfileViewModel { Username = "test", Username2 = "test1" }
+            };
+
+            var playerResponseResults = new List<PlayerResponseResult>()
+            {
+                new PlayerResponseResult
+                {
+                    Username = "test",
+                    Username2 = "test1",
+                    ErrorCode = (short)ErrorCodes.DuplicateSyncParallelUsername,
+                }
+            };
+
+            var controller = GetPlayerProfileController();
+            var objectValidator = Substitute.For<IObjectModelValidator>();
+            objectValidator.When(o => o.Validate(Arg.Any<ActionContext>(),
+                Arg.Any<ValidationStateDictionary>(),
+                Arg.Any<string>(),
+                Arg.Any<Object>()));
+            controller.ObjectValidator = objectValidator;
+            playerProfileService.InsertPlayerProfileAsync(Arg.Any<IList<PlayerProfile>>()).Returns(playerResponseResults);
+
+            // Act
+            var result = await controller.Post(model);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IList<PlayerResponseResult>>(jsonResult.Value);
+            Assert.Equal(model.Count, actual.Count);
+            Assert.Collection(actual,
+                x =>
+                {
+                    Assert.Equal("test", x.Username);
+                    Assert.Equal("test1", x.Username2);
+                    Assert.Equal("The username (test) already exists.", x.ErrorMessage);
+                },
+                x =>
+                {
+                    Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh1", x.Username2);
+                    Assert.Equal("Duplicate Username.", x.ErrorMessage);
+                },
+                x =>
+                {
+                    Assert.Equal("timxxxtrinh", x.Username);
+                    Assert.Equal("timtrinh2", x.Username2);
+                    Assert.Equal("Duplicate Username.", x.ErrorMessage);
+                });
+        }
+
+        [Fact]
+        public async Task Post_DuplicateUsername_C()
         {
             // Arrange
             var model = new List<PlayerProfileViewModel>

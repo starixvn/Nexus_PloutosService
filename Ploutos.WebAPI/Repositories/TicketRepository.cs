@@ -54,7 +54,7 @@ namespace Ploutos.WebAPI.Repositories
             };
             var result = await this.baseRepository.GetDataAsync<string>(criteria);
             return result.ToList();
-        }        
+        }
 
         public async Task<TicketSettingData> GetTicketSettings()
         {

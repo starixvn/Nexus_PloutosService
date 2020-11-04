@@ -25,17 +25,8 @@
         [HttpGet]
         public async Task<string> GetUserAccountNo(string username)
         {
-            string result = string.Empty;
-            try
-            {
-                result = await playerService.GetUserAccountNoByUsername(username);
-            }
-            catch (Exception ex)
-            {
-                WriteLogToFile.Writelog(ex.Message);
-            }
-
-            return result ?? string.Empty;
+            string result = await playerService.GetUserAccountNoByUsername(username);
+            return result;
         }
     }
 }
