@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>     
   <Function Name="Sync Data">
-    <Setting Key="Athena_API_BetTicket_SelPush" SpName="Athena_API_BetTicket_SelPush" DbName="Ploutos" Plain="0"></Setting>
-    <Setting Key="Athena_API_BetTicket_Update" SpName="Athena_API_BetTicket_Update" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="Athena_API_BetTicket_SelPush" SpName="Athena_API_BetTicket_SelPush_UAT1" DbName="Ploutos" Plain="0"></Setting>
+    <Setting Key="Athena_API_BetTicket_Update" SpName="Athena_API_BetTicket_Update_UAT1" DbName="Ploutos" Plain="0"></Setting>
   </Function>
 </Functions>
