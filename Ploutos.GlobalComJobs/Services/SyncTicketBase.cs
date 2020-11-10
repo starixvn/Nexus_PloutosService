@@ -85,7 +85,7 @@
                     , betTicket.credit_amount
                     , betTicket.net_amount
                     );
-                fileLogger.Info(logInfo);
+                fileLogger.Warn(logInfo);
             }
 
             var newBetTickets = dataService.PreProcessTickets(betTickets);
