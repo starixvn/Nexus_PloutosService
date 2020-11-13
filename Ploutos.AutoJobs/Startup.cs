@@ -37,6 +37,7 @@
     using Ploutos.Common.Repository;
     using Ploutos.Common.Services;
     using Ploutos.Common.Utils;
+    using RestSharp;
     using Sentry;
 
     public class Startup
@@ -192,6 +193,7 @@
             services.AddScoped<ITicket12BService, Ticket12BService>();
             services.AddScoped<ITicketBySupportApi12BService, TicketBySupportApi12BService>();
             services.AddScoped<IJobService, JobService>();
+            services.AddSingleton<IRestClient, RestClient>();
             services.AddScoped<IWebClientService, WebClientService>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IUtil, Util>();

@@ -33,6 +33,7 @@
     using Ploutos.GlobalComJobs.Models;
     using Ploutos.GlobalComJobs.Services;
     using Ploutos.GlobalComJobs.Services.Interfaces;
+    using RestSharp;
     using Sentry;
     using System;
     using System.Collections.Generic;
@@ -182,6 +183,7 @@
             services.AddScoped<INova88TicketService, Nova88TicketService>();
             services.AddScoped<IIvorybetTicketService, IvorybetTicketService>();
             services.AddScoped<IJobService, JobService>();
+            services.AddSingleton<IRestClient, RestClient>();
             services.AddScoped<IWebClientService, WebClientService>();
             services.AddScoped<IDataService, DataService>();
             services.AddScoped<IUtil, Util>();

@@ -1,5 +1,7 @@
-﻿namespace Ploutos.GlobalComJobs.Tests.Controller
+﻿namespace Ploutos.Common.Tests.Controllers
 {
+    using System;
+    using System.Threading.Tasks;
     using Fanex.Data;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Http;
@@ -7,10 +9,8 @@
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.Extensions.Options;
     using NSubstitute;
-    using Ploutos.GlobalComJobs.Controllers;
+    using Ploutos.Common.Controllers;
     using Ploutos.Common.Models;
-    using System;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class AuthControllerTests

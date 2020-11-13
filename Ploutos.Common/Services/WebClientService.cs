@@ -1,16 +1,15 @@
-﻿using Microsoft.Extensions.Options;
-using Ploutos.Common.Models;
-using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-
-namespace Ploutos.Common.Services
+﻿namespace Ploutos.Common.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Threading.Tasks;
+    using System.Web;
+    using Microsoft.Extensions.Options;
+    using Ploutos.Common.Models;
+    using RestSharp;
+
     public class WebClientService : IWebClientService
     {
         private readonly IRestClient webClient;
