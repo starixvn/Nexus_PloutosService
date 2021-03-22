@@ -581,6 +581,24 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:blueberry.Controllers.Api.BrandController.RenewAuthorization(blueberry.common.src.Criteria.BrandTokenCriteria)">
+            <summary>
+            <returns>
+            renew client/brand authorization
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:blueberry.Controllers.Api.BrandController.RevokeAuthorization">
+            <summary>
+            <returns>
+            renew client/brand authorization
+            </returns>       
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:blueberry.Controllers.Api.PlayerMessageController.UpdateStatus(blueberry.common.src.Criteria.PlayerMessageUpdateStatusCriteria)">
             <summary>
             <returns>
