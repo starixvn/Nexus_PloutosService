@@ -61,33 +61,6 @@
             ////    }
             ////};
 
-            foreach (var betTicket in betTickets)
-            {
-                var logInfo = string.Format("transaction_date:{0}, settlement_date:{1}, player_no:{2}, " +
-                    "player_name:{3}, player_type:{4}, transaction_id:{5}, brand:{6}, brand_url:{7}, game_code:{8}," +
-                    "game_name:{9}, game_type:{10}, currency_code:{11}, bet_type:{12}, bet_amount:{13}, " +
-                    "debit_amount:{14}, credit_amount:{15}, net_amount:{16}"
-                    , betTicket.transaction_date
-                    , betTicket.settlement_date
-                    , betTicket.player_no
-                    , betTicket.player_name
-                    , betTicket.player_type
-                    , betTicket.transaction_id
-                    , betTicket.brand
-                    , betTicket.brand_url
-                    , betTicket.game_code
-                    , betTicket.game_name
-                    , betTicket.game_type
-                    , betTicket.currency_code
-                    , betTicket.bet_type
-                    , betTicket.bet_amount
-                    , betTicket.debit_amount
-                    , betTicket.credit_amount
-                    , betTicket.net_amount
-                    );
-                fileLogger.Warn(logInfo);
-            }
-
             var newBetTickets = dataService.PreProcessTickets(betTickets);
             var betTicketBatches = util.SplitToBatches(newBetTickets, apiConfigs.TicketConfigs.SyncBatchSize);
 
