@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Ploutos.Common.Utils
+﻿namespace Ploutos.Common.Utils
 {
+    using System;
+    using System.Collections.Generic;
+
     public interface IUtil
     {
         string BuildLogMessage(Exception exception);
@@ -10,8 +10,6 @@ namespace Ploutos.Common.Utils
         T ConvertJsonResponse<T>(string json);
 
         DateTime GetCurrentTimeAtGMTMinus4();
-
-        string SerializeList<T>(IEnumerable<T> list);
 
         List<List<T>> SplitToBatches<T>(List<T> data, int batchSize);
     }

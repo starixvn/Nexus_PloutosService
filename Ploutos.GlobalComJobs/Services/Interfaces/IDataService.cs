@@ -1,11 +1,10 @@
-﻿using Ploutos.Common.Models;
-using Ploutos.GlobalComJobs.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Ploutos.GlobalComJobs.Services.Interfaces
+﻿namespace Ploutos.GlobalComJobs.Services.Interfaces
 {
+    using Ploutos.Common.Models;
+    using Ploutos.GlobalComJobs.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     public interface IDataService
     {
         Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize);

@@ -1,29 +1,24 @@
-﻿using Ploutos.Common.Const;
-using Ploutos.Common.Models;
-using Ploutos.Common.Repository;
-using Ploutos.Common.Utils;
-using Ploutos.GlobalComJobs.Criteria;
-using Ploutos.GlobalComJobs.Models;
-using Ploutos.GlobalComJobs.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-
-namespace Ploutos.GlobalComJobs.Services
+﻿namespace Ploutos.GlobalComJobs.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Ploutos.Common.Const;
+    using Ploutos.Common.Models;
+    using Ploutos.Common.Repository;
+    using Ploutos.GlobalComJobs.Criteria;
+    using Ploutos.GlobalComJobs.Extensions;
+    using Ploutos.GlobalComJobs.Models;
+    using Ploutos.GlobalComJobs.Services.Interfaces;
+
     public class DataService : IDataService
     {
         private readonly IBaseRepository baseRepository;
-        private readonly IUtil util;
 
-        public DataService(IBaseRepository baseRepository, IUtil util)
+        public DataService(IBaseRepository baseRepository)
         {
             this.baseRepository = baseRepository;
-            this.util = util;
         }
 
         public async Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize)
@@ -57,7 +52,7 @@ namespace Ploutos.GlobalComJobs.Services
                 PushTime = pushTime,
                 ResponseTime = responseTime,
                 ResponseResult = responseResult,
-                BetTicket = this.util.SerializeList<UpdateBetTicket>(betTickets)
+                BetTicket = XmlHelper.Serialize(betTickets)
             };
 
             return this.baseRepository.ExecuteNonQueryAsync(criteria);
