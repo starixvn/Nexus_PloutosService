@@ -6,6 +6,7 @@
     using Ploutos.Common.Utils;
     using Ploutos.GlobalComJobs.Models;
     using Ploutos.GlobalComJobs.Services.Interfaces;
+    using RestSharp;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -98,7 +99,9 @@
 
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
+                    fileLogger.Warn(string.Format("ticketResponse {0}", response.Content));
                     var ticketResponse = this.util.ConvertJsonResponse<TicketResponse>(response.Content);
+                    
                     for (var i = 0; i < updateBetTickets.Count; i++)
                     {
                         var errorMsg = ticketResponse.GetErrorMessage();
@@ -117,7 +120,7 @@
                         updateBetTickets[i].Response_Result = errorMsg;
                     }
                 }
-                else if(response.StatusCode == HttpStatusCode.Unauthorized)
+                else if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     throw new HttpRequestException(response.StatusCode.ToString());
                 }
@@ -141,7 +144,7 @@
             var responseTime = this.util.GetCurrentTimeAtGMTMinus4();
 
             var result = await this.dataService.UpdateBetTickets(siteName, pushTime, responseTime, responseResult, updateBetTickets);
-            if (result!= null && result.Error != 0)
+            if (result != null && result.Error != 0)
             {
                 fileLogger.Warn(string.Format("Exception UpdateBetTickets {0} {1}", result.Error, result.Message));
             }
@@ -151,19 +154,20 @@
 
         private async Task<string> GetAuthorizedToken(BrandApiConfigs brandApiConfigs)
         {
-            var authParam = new AuthParam
-            {
-                response_type = "code",
-                client_id = brandApiConfigs.ClientId,
-                client_secret = brandApiConfigs.ClientSecret
+            var parameters = new List<Parameter> 
+            { 
+                new Parameter { Name = "response_type", Value = "code" },
+                new Parameter { Name = "client_id", Value = brandApiConfigs.ClientId },
+                new Parameter { Name = "client_secret", Value = brandApiConfigs.ClientSecret },
             };
 
-            var authResponse = await webClientService.PostFormAsync<AuthParam>(
-                brandApiConfigs.AuthDomain, brandApiConfigs.AuthConfigs.Url, string.Empty, authParam);
-            
+            var authResponse = await webClientService.GetAsync(
+                brandApiConfigs.AuthDomain, brandApiConfigs.AuthConfigs.Url, parameters);
+
             if (authResponse.StatusCode == HttpStatusCode.OK)
             {
                 var authObj = this.util.ConvertJsonResponse<AuthData>(authResponse.Content);
+                fileLogger.Warn(string.Format("access_token {0}", authObj.access_token));
                 return authObj.access_token;
             }
 

@@ -38,6 +38,21 @@
             return result;
         }
 
+        public async Task<IRestResponse> GetAsync(string domain, string url, List<Parameter> parameters)
+        {
+            webClient.BaseUrl = new Uri(domain);
+            var request = new RestRequest(url, Method.GET);
+            foreach (var param in parameters)
+            {
+                request.AddQueryParameter(param.Name, param.Value.ToString());
+            }
+
+            var result = await webClient.ExecuteGetTaskAsync(request);
+            return result;
+        }
+
+        
+
         public async Task<IRestResponse> PostAsync<T>(string domain, string url, string token, T parameters)
         {
             webClient.BaseUrl = new Uri(domain);
