@@ -22,8 +22,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
         {
             // Arrange
             var baseRepository = Substitute.For<IBaseRepository>();
-            var util = Substitute.For<IUtil>();
-            var service = new DataService(baseRepository, util);
+            var service = new DataService(baseRepository);
             
             var betTickets = fixture.CreateMany<BetTicket>();
             var siteName = fixture.Create<string>();
@@ -42,8 +41,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
         {
             // Arrange
             var baseRepository = Substitute.For<IBaseRepository>();
-            var util = Substitute.For<IUtil>();
-            var service = new DataService(baseRepository, util);
+            var service = new DataService(baseRepository);
             var siteName = fixture.Create<string>();
             var pushTime = fixture.Create<DateTime>();
             var responseTime = fixture.Create<DateTime>();
@@ -61,7 +59,6 @@ namespace Ploutos.GlobalComJobs.Tests.Services
             criteria.PushTime.Should().Be(pushTime);
             criteria.ResponseTime.Should().Be(responseTime);
             criteria.ResponseResult.Should().Be(responseResult);
-            criteria.BetTicket.Should().Be(util.SerializeList<UpdateBetTicket>(betTickets));
         }
 
         [Fact]
@@ -69,8 +66,7 @@ namespace Ploutos.GlobalComJobs.Tests.Services
         {
             // Arrange
             var baseRepository = Substitute.For<IBaseRepository>();
-            var util = Substitute.For<IUtil>();
-            var service = new DataService(baseRepository, util);
+            var service = new DataService(baseRepository);
             var betTickets = fixture.CreateMany<BetTicket>().ToList();
 
             var expectedTranDate = betTickets[0].transaction_date.AddHours(-4);
