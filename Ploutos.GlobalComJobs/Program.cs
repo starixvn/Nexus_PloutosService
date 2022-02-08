@@ -12,7 +12,6 @@
     using Fanex.Logging.Extensions.AspNetCore;
     using Fanex.Logging.Extensions.Database;
     using Fanex.Logging.Sentry;
-    using Microsoft.AspNetCore;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -145,6 +144,7 @@
             services.AddScoped<IUtil, Util>();
 
             services.AddScoped<IBaseRepository, BaseRepository>();
+            services.AddScoped<Fanex.Logging.ILogger, Logger>(); 
 
             services.AddScoped<IIvorybetTicketService, IvorybetTicketService>();
         }

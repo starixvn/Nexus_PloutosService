@@ -39,7 +39,9 @@
         public virtual async Task<PushResult> PushTickets()
         {
             var betTickets = await dataService.GetBetTickets(apiConfigs.BrandName, apiConfigs.TicketConfigs.QueryBatchSize);
-            
+
+            fileLogger.Warn(string.Format("betTickets {0}", betTickets.Count));
+
             ////var betTickets = new List<BetTicket>
             ////{
             ////    new BetTicket {
