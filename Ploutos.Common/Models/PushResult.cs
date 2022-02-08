@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ploutos.Common.Models
+﻿namespace Ploutos.Common.Models
 {
     public class PushResult
     {
