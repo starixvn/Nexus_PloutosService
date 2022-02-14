@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     public interface IDataService
     {
-        Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize);
+        Task<List<BetTicket>> GetBetTickets(string siteName, int batchSize, bool isTest);
 
         Task<CommandResult> UpdateBetTickets(string siteName, DateTime pushTime, DateTime responseTime,
             string responseResult, List<UpdateBetTicket> betTickets);

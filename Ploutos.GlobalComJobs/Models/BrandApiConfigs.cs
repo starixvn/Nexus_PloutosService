@@ -9,6 +9,7 @@
         public string ClientSecret { get; set; }
         public string OperatorCode { get; set; }
         public string ProviderCode { get; set; }
+        public bool IsTest { get; set; }
         public UrlApiConfig TicketConfigs { get; set; }
         public UrlApiConfig AuthConfigs { get; set; }
     }
